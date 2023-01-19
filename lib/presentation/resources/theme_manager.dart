@@ -24,6 +24,7 @@ class ThemeManager {
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: ColorManager.primary,
       ),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
 }
