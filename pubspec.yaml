@@ -56,6 +56,8 @@ dependencies:
   csv: ^5.0.1
   path_provider: ^2.0.11
   syncfusion_flutter_charts: ^20.4.44
+  realm: ^0.9.0+rc
+  realm_dart: ^0.9.0+rc
 
 dev_dependencies:
   flutter_test:
