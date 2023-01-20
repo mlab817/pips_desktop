@@ -1,15 +1,15 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'forgot_password_request.freezed.dart';
 part 'forgot_password_request.g.dart';
 
-@JsonSerializable()
-class ForgotPasswordRequest {
-  @JsonKey(name: "email")
-  String email;
+@freezed
+class ForgotPasswordRequest with _$ForgotPasswordRequest {
+  factory ForgotPasswordRequest({
+    required String email,
+  }) = _ForgotPasswordRequest;
 
-  ForgotPasswordRequest({
-    required this.email,
-  });
+  ForgotPasswordRequest._();
 
   factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
       _$ForgotPasswordRequestFromJson(json);

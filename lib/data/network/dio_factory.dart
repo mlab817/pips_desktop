@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:pips_desktop/app/app_preferences.dart';
+import 'package:pips/data/data_source/local_data_source.dart';
 
 import '../../app/config.dart';
 
@@ -12,16 +12,17 @@ const String defaultLanguage = 'language';
 const String bearer = 'Bearer';
 
 class DioFactory {
-  final AppPreferences _appPreferences;
+  // final AppPreferences _appPreferences;
+  final LocalDataSource _localDataSource;
 
   // initialize with sharedPrefs, sharedPrefs is inserted in di
-  DioFactory(this._appPreferences);
+  DioFactory(this._localDataSource);
 
   Future<Dio> getDio() async {
     Dio dio = Dio();
 
     // retrieve token from shared prefs
-    String token = await _appPreferences.getBearerToken();
+    String token = await _localDataSource.getBearerToken();
 
     //
     Map<String, String> headers = {

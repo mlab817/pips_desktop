@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pips_desktop/presentation/resources/color_manager.dart';
-import 'package:pips_desktop/presentation/resources/font_manager.dart';
-import 'package:pips_desktop/presentation/resources/sizes_manager.dart';
-import 'package:pips_desktop/presentation/resources/strings_manager.dart';
+import 'package:pips/app/routes.dart';
+import 'package:pips/presentation/resources/color_manager.dart';
+import 'package:pips/presentation/resources/font_manager.dart';
+import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:pips/presentation/resources/strings_manager.dart';
 
 import '../../resources/assets_manager.dart';
 
@@ -53,6 +54,7 @@ class _LoginViewState extends State<LoginView> {
                     color: ColorManager.primary,
                     fontFamily: FontFamily.bebasNeue,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: AppSize.s20,
@@ -69,23 +71,25 @@ class _LoginViewState extends State<LoginView> {
                 TextField(
                   controller: _usernameController,
                   decoration: const InputDecoration(
+                    labelText: AppStrings.username,
                     prefixIcon: Icon(Icons.person),
                     hintText: AppStrings.username,
                   ),
                 ),
                 const SizedBox(
-                  height: AppSize.s10,
+                  height: AppSize.s20,
                 ),
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
+                    labelText: AppStrings.password,
                     prefixIcon: Icon(Icons.key),
                     hintText: AppStrings.password,
                   ),
                 ),
                 const SizedBox(
-                  height: AppSize.s10,
+                  height: AppSize.s20,
                 ),
                 SizedBox(
                   height: AppSize.s36,
@@ -95,8 +99,7 @@ class _LoginViewState extends State<LoginView> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: ColorManager.primary),
                     child: const Text(
-                      AppStrings.submit,
-                      style: TextStyle(fontSize: AppSize.s14),
+                      AppStrings.login,
                     ),
                   ),
                 ),
@@ -104,9 +107,7 @@ class _LoginViewState extends State<LoginView> {
                   height: AppSize.s40,
                 ),
                 TextButton(
-                  onPressed: () {
-                    // debugPrint('forgot password');
-                  },
+                  onPressed: _goToForgotPassword,
                   child: const Text(AppStrings.forgotPassword),
                 ),
               ],
@@ -118,6 +119,11 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _login() {
-    debugPrint('login clicked');
+    // TODO: implement login flow
+    Navigator.pushNamed(context, Routes.mainRoute);
+  }
+
+  void _goToForgotPassword() {
+    Navigator.pushNamed(context, Routes.forgotPasswordRoute);
   }
 }

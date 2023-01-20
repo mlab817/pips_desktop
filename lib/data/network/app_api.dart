@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:pips_desktop/app/config.dart';
-import 'package:pips_desktop/data/responses/forgot_password/forgot_password.dart';
-import 'package:pips_desktop/data/responses/login/login_response.dart';
+import 'package:pips/app/config.dart';
+import 'package:pips/data/responses/forgot_password/forgot_password.dart';
+import 'package:pips/data/responses/login/login_response.dart';
 import 'package:retrofit/http.dart';
 
 part 'app_api.g.dart';

@@ -1,7 +1,7 @@
-import 'package:pips_desktop/data/network/app_api.dart';
-import 'package:pips_desktop/data/requests/forgot_password/forgot_password_request.dart';
-import 'package:pips_desktop/data/requests/login/login_request.dart';
-import 'package:pips_desktop/data/responses/login/login_response.dart';
+import 'package:pips/data/network/app_api.dart';
+import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
+import 'package:pips/data/requests/login/login_request.dart';
+import 'package:pips/data/responses/login/login_response.dart';
 
 import '../responses/forgot_password/forgot_password.dart';
 

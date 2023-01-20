@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pips_desktop/domain/models/user.dart';
+import 'package:pips/domain/models/user.dart';
 
 part 'login_response.g.dart';
 

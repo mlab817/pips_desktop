@@ -1,7 +1,7 @@
-import 'package:pips_desktop/data/requests/login/login_request.dart';
-import 'package:pips_desktop/data/responses/login/login_response.dart';
-import 'package:pips_desktop/domain/repository/repository.dart';
-import 'package:pips_desktop/domain/usecase/base_usecase.dart';
+import 'package:pips/data/requests/login/login_request.dart';
+import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/domain/usecase/base_usecase.dart';
 
 class LoginUseCase extends BaseUseCase<LoginRequest, Result<LoginResponse>> {
   final Repository _repository;
