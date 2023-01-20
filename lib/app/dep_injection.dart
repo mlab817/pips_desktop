@@ -6,7 +6,10 @@ import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/network/dio_factory.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
+import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/schemas/population.dart';
 
 /// dependency injection for the app
 final GetIt instance = GetIt.instance;
@@ -23,8 +26,16 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImplementer(instance()));
 
+  var config = Configuration.local([
+    Population.schema,
+  ]);
+
+  final realm = Realm(config);
+
+  instance.registerLazySingleton<Realm>(() => realm);
+
   instance.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImplementer(instance()));
+      () => LocalDataSourceImplementer(instance(), instance()));
 
   instance.registerLazySingleton<Repository>(
       () => RepositoryImplementer(instance(), instance()));
