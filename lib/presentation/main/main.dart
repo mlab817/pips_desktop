@@ -53,7 +53,6 @@ class _MainViewState extends State<MainView> {
       body: Row(
         children: [
           _getNavigationRail(),
-          SizedBox(),
           const HomeView(),
         ],
       ),

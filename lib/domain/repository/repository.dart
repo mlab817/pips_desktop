@@ -19,4 +19,10 @@ abstract class Repository {
       ForgotPasswordRequest input);
 
   Future<String> getBearerToken();
+
+  Future<bool> getDatabaseLoaded();
+
+  Future<void> setDatabaseLoaded();
+
+  Future<void> resetDatabaseLoaded();
 }

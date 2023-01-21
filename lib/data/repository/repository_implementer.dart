@@ -43,4 +43,19 @@ class RepositoryImplementer implements Repository {
   Future<String> getBearerToken() async {
     return _localDataSource.getBearerToken();
   }
+
+  @override
+  Future<bool> getDatabaseLoaded() async {
+    return _localDataSource.getDatabaseLoaded();
+  }
+
+  @override
+  Future<void> setDatabaseLoaded() async {
+    return _localDataSource.setDatabaseLoaded();
+  }
+
+  @override
+  Future<void> resetDatabaseLoaded() {
+    return _localDataSource.resetDatabaseLoaded();
+  }
 }

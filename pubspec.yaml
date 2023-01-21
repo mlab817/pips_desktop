@@ -57,8 +57,7 @@ dependencies:
   path_provider: ^2.0.11
   syncfusion_flutter_charts: ^20.4.44
   realm: ^0.9.0+rc
-  args: ^2.3.2
-  sqflite: ^2.2.3
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
