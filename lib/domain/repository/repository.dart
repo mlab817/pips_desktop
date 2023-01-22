@@ -1,6 +1,9 @@
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/schemas/population.dart';
+import 'package:pips/data/schemas/poverty_incidence.dart';
+import 'package:realm/realm.dart';
 
 import '../../data/responses/forgot_password/forgot_password.dart';
 import '../usecase/base_usecase.dart';
@@ -25,4 +28,8 @@ abstract class Repository {
   Future<void> setDatabaseLoaded();
 
   Future<void> resetDatabaseLoaded();
+
+  RealmResults<Population> getPopulation();
+
+  RealmResults<PovertyIncidence> getPovertyIncidence();
 }

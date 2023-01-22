@@ -58,6 +58,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.4.44
   realm: ^0.9.0+rc
   uuid: ^3.0.7
+  liquid_progress_indicator: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +85,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/logo.svg
-    - assets/data/home.csv
+    - assets/data/
     #   - images/a_dot_burr.jpeg
     #   - images/a_dot_ham.jpeg
 
@@ -142,17 +143,17 @@ flutter:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/images/logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "path/to/image.png"
-    background_color: "#hexcode"
-    theme_color: "#hexcode"
+    image_path: "assets/images/logo.png"
+    background_color: "#FFFFFF"
+    theme_color: "#FFFFFF"
   windows:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/images/logo.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/images/logo.png"

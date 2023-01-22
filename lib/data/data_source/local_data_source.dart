@@ -1,3 +1,5 @@
+import 'package:pips/data/schemas/population.dart';
+import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +14,10 @@ abstract class LocalDataSource {
   Future<void> setDatabaseLoaded();
 
   Future<void> resetDatabaseLoaded();
+
+  RealmResults<Population> getPopulation();
+
+  RealmResults<PovertyIncidence> getPovertyIncidence();
 }
 
 class LocalDataSourceImplementer implements LocalDataSource {
@@ -39,5 +45,15 @@ class LocalDataSourceImplementer implements LocalDataSource {
   Future<void> resetDatabaseLoaded() async {
     _sharedPreferences.remove(
         sharedPrefsDatabaseLoaded); //setBool(sharedPrefsDatabaseLoaded, false);
+  }
+
+  @override
+  RealmResults<Population> getPopulation() {
+    return _realm.all<Population>();
+  }
+
+  @override
+  RealmResults<PovertyIncidence> getPovertyIncidence() {
+    return _realm.all<PovertyIncidence>();
   }
 }

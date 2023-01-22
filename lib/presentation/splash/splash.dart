@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
@@ -66,31 +67,21 @@ class _SplashViewState extends State<SplashView> {
                 child: SizedBox(
                   height: AppSize.s100,
                   width: AppSize.s100,
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        height: AppSize.s100,
-                        width: AppSize.s100,
-                        child: CircularProgressIndicator(
-                          value: snapshot.data,
-                          color: ColorManager.primary,
-                        ),
+                  child: LiquidCircularProgressIndicator(
+                    value: snapshot.data ?? 0,
+                    backgroundColor: ColorManager.white,
+                    direction: Axis.vertical,
+                    center: Text(
+                      '${(snapshot.data! * 100).toStringAsFixed(0)}%',
+                      style: TextStyle(
+                        color: ColorManager.gray,
+                        fontSize: AppSize.s20,
                       ),
-                      Center(
-                        child: Text(
-                          '${(snapshot.data! * 100).toStringAsFixed(0)}%',
-                          style: const TextStyle(
-                            fontSize: AppSize.s20,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                    valueColor: AlwaysStoppedAnimation(ColorManager.primary),
                   ),
                 ),
               );
-              // return Center(
-              //   child: Text(snapshot.data.toString()),
-              // );
             }
             return Center(
               child: Column(
