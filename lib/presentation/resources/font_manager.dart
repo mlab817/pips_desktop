@@ -1,6 +1,6 @@
 ///
 class FontFamily {
-  static const String primary = "Source Code Pro";
+  static const String primary = "Inter";
   static const String bebasNeue = "Bebas Neue";
 }
 

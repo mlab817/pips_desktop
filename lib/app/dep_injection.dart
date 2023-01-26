@@ -29,7 +29,7 @@ Future<void> initAppModule() async {
   var config = Configuration.local([
     PovertyIncidence.schema,
     Population.schema,
-  ], path: 'db');
+  ]);
 
   final realm = Realm(config);
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
-import 'package:pips/presentation/resources/font_manager.dart';
+import 'package:pips/presentation/resources/font_manager.dart' show FontFamily;
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class ThemeManager {
@@ -25,6 +25,7 @@ class ThemeManager {
               BorderSide(style: BorderStyle.solid, color: ColorManager.primary),
         ),
         prefixIconColor: ColorManager.primary,
+        suffixStyle: const TextStyle(fontSize: AppSize.s10),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: ColorManager.primary,
@@ -65,9 +66,10 @@ class ThemeManager {
         selectedIconTheme: IconThemeData(
           color: ColorManager.black,
         ),
-        unselectedLabelTextStyle: TextStyle(color: ColorManager.gray),
+        unselectedLabelTextStyle: TextStyle(color: ColorManager.black),
         selectedLabelTextStyle: TextStyle(
-          color: ColorManager.gray,
+          color: ColorManager.black,
+          fontWeight: FontWeight.bold,
         ),
         useIndicator: true,
         indicatorColor: ColorManager.darkGray,
