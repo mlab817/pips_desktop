@@ -1,6 +1,7 @@
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/schemas/population.dart';
 import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:realm/realm.dart';
@@ -21,7 +22,15 @@ abstract class Repository {
   Future<Result<ForgotPasswordResponse>> forgotPassword(
       ForgotPasswordRequest input);
 
+  Future<Result<ProjectsResponse>> getProjects();
+
   Future<String> getBearerToken();
+
+  Future<void> setBearerToken(String value);
+
+  Future<void> setIsUserLoggedIn();
+
+  Future<bool> getIsUserLoggedIn();
 
   Future<bool> getDatabaseLoaded();
 

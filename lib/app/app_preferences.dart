@@ -1,3 +1,4 @@
+import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String bearerToken = 'SHARED_PREFS_BEARER_TOKEN';
@@ -6,6 +7,8 @@ abstract class AppPreferences {
   void setBearerToken(String value);
 
   Future<String> getBearerToken();
+
+  Future<bool> getIsUserLoggedIn();
 
   Future<bool> clear();
 }
@@ -28,5 +31,10 @@ class AppPreferencesImplementer implements AppPreferences {
   @override
   Future<bool> clear() async {
     return _sharedPreferences.clear();
+  }
+
+  @override
+  Future<bool> getIsUserLoggedIn() async {
+    return _sharedPreferences.getBool(sharedPrefsIsUserLoggedIn) ?? false;
   }
 }

@@ -4,6 +4,8 @@ import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:retrofit/http.dart';
 
+import '../responses/projects/projects_response.dart';
+
 part 'app_api.g.dart';
 
 // note: annotation requires retrofit_generator
@@ -18,4 +20,7 @@ abstract class AppServiceClient {
 
   @POST("/auth/forgot-password")
   Future<ForgotPasswordResponse> forgotPassword(@Field("email") String email);
+
+  @GET("/projects")
+  Future<ProjectsResponse> getProjects();
 }

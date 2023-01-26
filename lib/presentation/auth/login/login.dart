@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pips/app/routes.dart';
+import 'package:pips/data/requests/login/login_request.dart';
+import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/domain/usecase/base_usecase.dart';
+import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 
+import '../../../app/dep_injection.dart';
 import '../../resources/assets_manager.dart';
 
 class LoginView extends StatefulWidget {
@@ -16,6 +22,9 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final Repository _repository = instance<Repository>();
+  final LoginUseCase _loginUseCase = instance<LoginUseCase>();
+
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -118,9 +127,20 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void _login() {
-    // TODO: implement login flow
-    Navigator.pushNamed(context, Routes.mainRoute);
+  void _login() async {
+    _loginUseCase
+        .execute(LoginRequest(
+            username: _usernameController.text,
+            password: _passwordController.text))
+        .then((Result<LoginResponse> value) => {
+              if (value.success)
+                {
+                  Navigator.pushNamed(context, Routes.mainRoute),
+                  _repository.setIsUserLoggedIn(),
+                  _repository.setBearerToken(value.data?.accessToken ?? ""),
+                  resetModules(),
+                }
+            });
   }
 
   void _goToForgotPassword() {

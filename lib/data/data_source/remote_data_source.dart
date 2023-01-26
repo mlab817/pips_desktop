@@ -2,6 +2,7 @@ import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/projects/projects_response.dart';
 
 import '../responses/forgot_password/forgot_password.dart';
 
@@ -10,6 +11,8 @@ abstract class RemoteDataSource {
   Future<LoginResponse> login(LoginRequest input);
 
   Future<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest input);
+
+  Future<ProjectsResponse> getProjects();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -27,6 +30,11 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   Future<ForgotPasswordResponse> forgotPassword(
       ForgotPasswordRequest input) async {
     return _appServiceClient.forgotPassword(input.email);
+  }
+
+  @override
+  Future<ProjectsResponse> getProjects() async {
+    return _appServiceClient.getProjects();
   }
 
 // methods to call _appServiceClient methods

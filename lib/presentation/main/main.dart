@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pips/presentation/main/home/home.dart';
+import 'package:pips/presentation/main/dashboard/dashboard.dart';
+import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
@@ -18,15 +19,15 @@ class _MainViewState extends State<MainView> {
   final List<NavigationRailDestination> _destinations = [
     const NavigationRailDestination(
       icon: Icon(
-        Icons.home,
+        Icons.dashboard,
       ),
-      label: Text('Home'),
+      label: Text('Dashboard'),
     ),
     const NavigationRailDestination(
       icon: Icon(
-        Icons.person,
+        Icons.view_column,
       ),
-      label: Text('Profile'),
+      label: Text('Projects'),
     ),
     const NavigationRailDestination(
       icon: Icon(
@@ -48,6 +49,14 @@ class _MainViewState extends State<MainView> {
     ),
   ];
 
+  final List<Widget> _views = [
+    const DashboardView(),
+    const ProjectsView(),
+    const DashboardView(),
+    const DashboardView(),
+    const DashboardView(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -56,7 +65,7 @@ class _MainViewState extends State<MainView> {
       body: Row(
         children: [
           if (Platform.isMacOS) _getNavigationRail(),
-          const HomeView(),
+          Expanded(child: _views[_selectedIndex]),
         ],
       ),
       bottomNavigationBar: (Platform.isIOS || Platform.isAndroid)
@@ -65,12 +74,12 @@ class _MainViewState extends State<MainView> {
               type: BottomNavigationBarType.fixed,
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
+                  icon: Icon(Icons.dashboard),
+                  label: 'Dashboard',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Profile',
+                  icon: Icon(Icons.view_column),
+                  label: 'Projects',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.info_outline),

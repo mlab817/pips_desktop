@@ -5,11 +5,14 @@ import 'package:pips/data/data_source/remote_data_source.dart';
 import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/network/dio_factory.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
-import 'package:pips/data/schemas/population.dart';
-import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/domain/usecase/login_usecase.dart';
+import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/schemas/population.dart';
+import '../data/schemas/poverty_incidence.dart';
 
 /// dependency injection for the app
 final GetIt instance = GetIt.instance;
@@ -47,4 +50,24 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));
   // add dio to client
+
+  instance.registerFactory<LoginUseCase>(() => LoginUseCase(instance()));
+}
+
+initLoginModule() {
+  // if (!GetIt.I.isRegistered<LoginUseCase>()) {
+  //   instance.registerFactory<LoginUseCase>(() => LoginUseCase(instance()));
+  // }
+}
+
+initProjectsModule() {
+  if (!GetIt.I.isRegistered<ProjectsUseCase>()) {
+    instance
+        .registerFactory<ProjectsUseCase>(() => ProjectsUseCase(instance()));
+  }
+}
+
+resetModules() {
+  instance.reset(dispose: false);
+  initAppModule();
 }

@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/schemas/population.dart';
 import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/repository/repository.dart';
@@ -71,5 +73,33 @@ class RepositoryImplementer implements Repository {
   @override
   RealmResults<PovertyIncidence> getPovertyIncidence() {
     return _localDataSource.getPovertyIncidence();
+  }
+
+  @override
+  Future<Result<ProjectsResponse>> getProjects() async {
+    try {
+      final ProjectsResponse response = await _remoteDataSource.getProjects();
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<void> setBearerToken(String value) async {
+    await _localDataSource.setBearerToken(value);
+  }
+
+  @override
+  Future<void> setIsUserLoggedIn() async {
+    await _localDataSource.setIsUserLoggedIn();
+  }
+
+  @override
+  Future<bool> getIsUserLoggedIn() async {
+    return _localDataSource.getIsUserLoggedIn();
   }
 }

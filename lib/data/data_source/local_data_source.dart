@@ -5,9 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String sharedPrefsBearerToken = "BEARER_TOKEN";
 const String sharedPrefsDatabaseLoaded = "DATABASE_LOADED";
+const String sharedPrefsIsUserLoggedIn = "IS_USER_LOGGED_IN";
 
 abstract class LocalDataSource {
   Future<String> getBearerToken();
+
+  Future<void> setBearerToken(String value);
+
+  Future<void> setIsUserLoggedIn();
+
+  Future<bool> getIsUserLoggedIn();
 
   Future<bool> getDatabaseLoaded();
 
@@ -55,5 +62,20 @@ class LocalDataSourceImplementer implements LocalDataSource {
   @override
   RealmResults<PovertyIncidence> getPovertyIncidence() {
     return _realm.all<PovertyIncidence>();
+  }
+
+  @override
+  Future<void> setBearerToken(String value) async {
+    _sharedPreferences.setString(sharedPrefsBearerToken, value);
+  }
+
+  @override
+  Future<void> setIsUserLoggedIn() async {
+    _sharedPreferences.setBool(sharedPrefsIsUserLoggedIn, true);
+  }
+
+  @override
+  Future<bool> getIsUserLoggedIn() async {
+    return _sharedPreferences.getBool(sharedPrefsIsUserLoggedIn) ?? false;
   }
 }

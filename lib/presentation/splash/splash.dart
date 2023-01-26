@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:pips/app/app_preferences.dart';
+import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
@@ -29,10 +31,24 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  final AppPreferences _appPreferences = instance<AppPreferences>();
   final _streamController = StreamController<double>();
 
   void _startProgress() {
     progressCounter().pipe(_streamController.sink);
+
+    _appPreferences.getIsUserLoggedIn().then((isUserLoggedIn) => {
+          if (isUserLoggedIn)
+            {
+              // handle logged in
+              Navigator.pushReplacementNamed(context, Routes.mainRoute),
+            }
+          else
+            {
+              // handle not logged in
+              Navigator.pushReplacementNamed(context, Routes.mainRoute),
+            }
+        });
   }
 
   @override
@@ -58,7 +74,7 @@ class _SplashViewState extends State<SplashView> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               Future.delayed(Duration.zero, () {
-                Navigator.pushNamed(context, Routes.mainRoute);
+                Navigator.pushNamed(context, Routes.loginRoute);
               });
 
               // return Text(snapshot.data?.toString() ?? "");

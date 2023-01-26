@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../app/config.dart';
 
@@ -35,6 +37,21 @@ class DioFactory {
       baseUrl: Config.baseUrl,
       headers: headers,
     );
+
+    if (kReleaseMode) {
+      print("release mode no logs");
+    } else {
+      dio.interceptors.add(PrettyDioLogger(
+        request: true,
+        // requestHeader: true,
+        // requestBody: true,
+        responseBody: false,
+        // responseHeader: true,
+        // responseBody: true,
+        compact: true,
+        error: true,
+      ));
+    }
 
     return dio;
   }

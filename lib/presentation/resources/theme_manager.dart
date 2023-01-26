@@ -48,7 +48,7 @@ class ThemeManager {
           fontSize: AppSize.s12,
         ),
         bodyText2: TextStyle(
-          fontSize: AppSize.s10,
+          fontSize: AppSize.s11,
         ),
         overline: TextStyle(
           fontSize: AppSize.s10,

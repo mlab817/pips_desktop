@@ -59,6 +59,7 @@ dependencies:
   realm: ^0.9.0+rc
   uuid: ^3.0.7
   liquid_progress_indicator: ^0.4.0
+  pretty_dio_logger: ^1.2.0-beta-1
 
 dev_dependencies:
   flutter_test:
