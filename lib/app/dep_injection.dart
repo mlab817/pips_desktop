@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
@@ -7,6 +8,9 @@ import 'package:pips/data/network/dio_factory.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
+import 'package:pips/domain/usecase/office_usecase.dart';
+import 'package:pips/domain/usecase/offices_usecase.dart';
+import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +32,10 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImplementer(instance()));
+
+  final db = FirebaseFirestore.instance;
+
+  instance.registerLazySingleton<FirebaseFirestore>(() => db);
 
   var config = Configuration.local([
     PovertyIncidence.schema,
@@ -64,6 +72,22 @@ initProjectsModule() {
   if (!GetIt.I.isRegistered<ProjectsUseCase>()) {
     instance
         .registerFactory<ProjectsUseCase>(() => ProjectsUseCase(instance()));
+  }
+}
+
+initOfficesModule() {
+  if (!GetIt.I.isRegistered<OfficesUseCase>()) {
+    instance.registerFactory<OfficesUseCase>(() => OfficesUseCase(instance()));
+  }
+
+  if (!GetIt.I.isRegistered<OfficeUseCase>()) {
+    instance.registerFactory<OfficeUseCase>(() => OfficeUseCase(instance()));
+  }
+}
+
+initProjectModule() {
+  if (!GetIt.I.isRegistered<ProjectUseCase>()) {
+    instance.registerFactory<ProjectUseCase>(() => ProjectUseCase(instance()));
   }
 }
 

@@ -4,6 +4,7 @@ import 'package:pips/presentation/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/main.dart';
+import 'package:pips/presentation/project/project.dart';
 import 'package:pips/presentation/splash/splash.dart';
 
 import '../presentation/auth/forgot_password/forgot_password.dart';
@@ -16,6 +17,7 @@ class Routes {
   static const String loginRoute = "/login";
   static const String forgotPasswordRoute = "/forgot-password";
   static const String mainRoute = "/main";
+  static const String projectRoute = "/project";
   static const String aboutRoute = "/about";
 }
 
@@ -35,7 +37,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ForgotPasswordView());
       case Routes.mainRoute:
         initProjectsModule();
+        initOfficesModule();
         return MaterialPageRoute(builder: (_) => const MainView());
+      case Routes.projectRoute:
+        initProjectModule();
+        String uuid = routeSettings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => ProjectView(
+                  uuid: uuid,
+                ));
       case Routes.aboutRoute:
         return MaterialPageRoute(builder: (_) => const AboutView());
       default:

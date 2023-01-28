@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pips/presentation/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
+import 'package:pips/presentation/main/messages/messages.dart';
+import 'package:pips/presentation/main/offices/offices.dart';
 import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
@@ -25,9 +28,21 @@ class _MainViewState extends State<MainView> {
     ),
     const NavigationRailDestination(
       icon: Icon(
+        Icons.build_circle,
+      ),
+      label: Text('Offices'),
+    ),
+    const NavigationRailDestination(
+      icon: Icon(
         Icons.view_column,
       ),
       label: Text('Projects'),
+    ),
+    const NavigationRailDestination(
+      icon: Icon(
+        Icons.chat_bubble,
+      ),
+      label: Text('Chat'),
     ),
     const NavigationRailDestination(
       icon: Icon(
@@ -51,9 +66,11 @@ class _MainViewState extends State<MainView> {
 
   final List<Widget> _views = [
     const DashboardView(),
+    const OfficesView(),
     const ProjectsView(),
+    const MessagesView(),
     const DashboardView(),
-    const DashboardView(),
+    const AboutView(),
     const DashboardView(),
   ];
 
@@ -123,16 +140,17 @@ class _MainViewState extends State<MainView> {
     return const Padding(
       padding: EdgeInsets.all(AppSize.s12),
       child: SizedBox(
-          // height: AppSize.s36,
-          width: AppSize.s220,
-          child: TextField(
-            decoration: InputDecoration(
-              label: Text('Search'),
-              suffix: Icon(Icons.search_outlined),
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: AppSize.s2, horizontal: AppSize.s4),
-            ),
-          )),
+        // height: AppSize.s36,
+        width: AppSize.s220,
+        child: TextField(
+          decoration: InputDecoration(
+            label: Text('Search'),
+            suffix: Icon(Icons.search_outlined),
+            contentPadding: EdgeInsets.symmetric(
+                vertical: AppSize.s2, horizontal: AppSize.s4),
+          ),
+        ),
+      ),
     );
   }
 

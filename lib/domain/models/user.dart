@@ -8,7 +8,7 @@ class UserModel {
   final int id;
 
   @JsonKey(name: "uuid")
-  final String uuid;
+  final String? uuid;
 
   @JsonKey(name: "username")
   final String username;
@@ -18,7 +18,7 @@ class UserModel {
 
   UserModel({
     required this.id,
-    required this.uuid,
+    this.uuid,
     required this.username,
     required this.email,
   });

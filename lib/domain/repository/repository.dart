@@ -1,6 +1,11 @@
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
+import 'package:pips/data/requests/offices/get_offices_request.dart';
+import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/office_response/office_response.dart';
+import 'package:pips/data/responses/offices_response/offices_response.dart';
+import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/schemas/population.dart';
 import 'package:pips/data/schemas/poverty_incidence.dart';
@@ -22,7 +27,13 @@ abstract class Repository {
   Future<Result<ForgotPasswordResponse>> forgotPassword(
       ForgotPasswordRequest input);
 
-  Future<Result<ProjectsResponse>> getProjects();
+  Future<Result<ProjectsResponse>> getProjects(GetProjectsRequest input);
+
+  Future<Result<OfficesResponse>> getOffices(GetOfficesRequest input);
+
+  Future<Result<OfficeResponse>> getOffice(String input); // uuid
+
+  Future<Result<ProjectResponse>> getProject(String input);
 
   Future<String> getBearerToken();
 

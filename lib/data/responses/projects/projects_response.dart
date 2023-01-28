@@ -14,7 +14,7 @@ class ProjectsResponse {
   MetaResponse meta;
 
   ProjectsResponse({
-    this.data,
+    required this.data,
     required this.meta,
   });
 

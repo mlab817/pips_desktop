@@ -10,7 +10,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       uuid: json['uuid'] as String,
       title: json['title'] as String,
       totalCost: (json['total_cost'] as num).toDouble(),
-      passesValidation: json['passes_validation'] as bool,
+      passesValidation: json['passes_validation'] as int,
       isLocked: json['is_locked'] as bool,
       updatedAt: json['updated_at'] as String,
     );

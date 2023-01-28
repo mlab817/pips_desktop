@@ -14,7 +14,7 @@ class Project {
   double totalCost;
 
   @JsonKey(name: "passes_validation")
-  bool passesValidation;
+  int passesValidation;
 
   @JsonKey(name: "is_locked")
   bool isLocked;

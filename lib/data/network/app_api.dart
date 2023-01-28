@@ -4,6 +4,9 @@ import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:retrofit/http.dart';
 
+import '../responses/office_response/office_response.dart';
+import '../responses/offices_response/offices_response.dart';
+import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
 
 part 'app_api.g.dart';
@@ -22,5 +25,16 @@ abstract class AppServiceClient {
   Future<ForgotPasswordResponse> forgotPassword(@Field("email") String email);
 
   @GET("/projects")
-  Future<ProjectsResponse> getProjects();
+  Future<ProjectsResponse> getProjects(
+      @Query('per_page') int perPage, @Query('page') int page);
+
+  @GET("/offices")
+  Future<OfficesResponse> getOffices(
+      @Query('per_page') int perPage, @Query('page') int page);
+
+  @GET("/offices/{uuid}")
+  Future<OfficeResponse> getOffice(@Path('uuid') String uuid);
+
+  @GET("/projects/{uuid}")
+  Future<ProjectResponse> getProject(@Path('uuid') String uuid);
 }
