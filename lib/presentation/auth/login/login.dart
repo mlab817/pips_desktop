@@ -137,6 +137,7 @@ class _LoginViewState extends State<LoginView> {
                 {
                   Navigator.pushNamed(context, Routes.mainRoute),
                   _repository.setIsUserLoggedIn(),
+                  _repository.setLoggedInUser(value.data.user),
                   _repository.setBearerToken(value.data?.accessToken ?? ""),
                   resetModules(),
                 }

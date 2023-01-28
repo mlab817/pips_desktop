@@ -124,7 +124,7 @@ class _MainViewState extends State<MainView> {
           // _getSearchField(),
           Expanded(
             child: NavigationRail(
-              extended: true,
+              // extended: true,
               destinations: _destinations,
               onDestinationSelected: _onDestinationSelected,
               selectedIndex: _selectedIndex,
@@ -132,24 +132,6 @@ class _MainViewState extends State<MainView> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _getSearchField() {
-    return const Padding(
-      padding: EdgeInsets.all(AppSize.s12),
-      child: SizedBox(
-        // height: AppSize.s36,
-        width: AppSize.s220,
-        child: TextField(
-          decoration: InputDecoration(
-            label: Text('Search'),
-            suffix: Icon(Icons.search_outlined),
-            contentPadding: EdgeInsets.symmetric(
-                vertical: AppSize.s2, horizontal: AppSize.s4),
-          ),
-        ),
       ),
     );
   }

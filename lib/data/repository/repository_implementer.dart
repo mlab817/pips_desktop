@@ -11,6 +11,7 @@ import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/schemas/population.dart';
 import 'package:pips/data/schemas/poverty_incidence.dart';
+import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/base_usecase.dart';
 import 'package:realm/realm.dart';
@@ -152,5 +153,10 @@ class RepositoryImplementer implements Repository {
       debugPrint("from rep imp: ${e.toString()}");
       return Result(error: e.toString());
     }
+  }
+
+  @override
+  Future<void> setLoggedInUser(UserModel value) async {
+    await _localDataSource.setLoggedInUser(value);
   }
 }

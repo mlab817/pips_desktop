@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:pips/data/data_source/local_data_source.dart';
+import 'package:pips/domain/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String bearerToken = 'SHARED_PREFS_BEARER_TOKEN';
+const String loggedInUser = 'SHARED_PREFS_LOGGED_IN_USER';
 
 abstract class AppPreferences {
   void setBearerToken(String value);
@@ -9,6 +13,8 @@ abstract class AppPreferences {
   Future<String> getBearerToken();
 
   Future<bool> getIsUserLoggedIn();
+
+  Future<UserModel?> getLoggedInUser();
 
   Future<bool> clear();
 }
@@ -36,5 +42,15 @@ class AppPreferencesImplementer implements AppPreferences {
   @override
   Future<bool> getIsUserLoggedIn() async {
     return _sharedPreferences.getBool(sharedPrefsIsUserLoggedIn) ?? false;
+  }
+
+  @override
+  Future<UserModel?> getLoggedInUser() async {
+    var userJson = _sharedPreferences.getString(loggedInUser);
+    if (userJson == null) {
+      return null;
+    }
+    var userMap = jsonDecode(userJson);
+    return UserModel.fromJson(userMap);
   }
 }

@@ -109,7 +109,7 @@ class _OfficesViewState extends State<OfficesView> {
 
   Widget _getProjectsWidget() {
     return Expanded(
-      flex: 4,
+      flex: 3,
       child: _selectedOffice != null
           ? Center(
               child: Column(

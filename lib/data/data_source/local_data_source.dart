@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/schemas/population.dart';
 import 'package:pips/data/schemas/poverty_incidence.dart';
+import 'package:pips/domain/models/user.dart';
 import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +29,8 @@ abstract class LocalDataSource {
   RealmResults<Population> getPopulation();
 
   RealmResults<PovertyIncidence> getPovertyIncidence();
+
+  Future<void> setLoggedInUser(UserModel value);
 }
 
 class LocalDataSourceImplementer implements LocalDataSource {
@@ -77,5 +83,10 @@ class LocalDataSourceImplementer implements LocalDataSource {
   @override
   Future<bool> getIsUserLoggedIn() async {
     return _sharedPreferences.getBool(sharedPrefsIsUserLoggedIn) ?? false;
+  }
+
+  @override
+  Future<void> setLoggedInUser(UserModel value) async {
+    _sharedPreferences.setString(loggedInUser, jsonEncode(value));
   }
 }
