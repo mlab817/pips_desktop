@@ -6,8 +6,8 @@ import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/messages/messages.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
 import 'package:pips/presentation/main/projects/projects.dart';
+import 'package:pips/presentation/main/users/users.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
-import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -46,6 +46,12 @@ class _MainViewState extends State<MainView> {
     ),
     const NavigationRailDestination(
       icon: Icon(
+        Icons.person,
+      ),
+      label: Text('Users'),
+    ),
+    const NavigationRailDestination(
+      icon: Icon(
         Icons.settings,
       ),
       label: Text('Settings'),
@@ -69,6 +75,7 @@ class _MainViewState extends State<MainView> {
     const OfficesView(),
     const ProjectsView(),
     const MessagesView(),
+    const UsersView(),
     const DashboardView(),
     const AboutView(),
     const DashboardView(),

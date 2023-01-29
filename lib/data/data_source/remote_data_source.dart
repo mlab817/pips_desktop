@@ -3,6 +3,7 @@ import 'package:pips/data/requests/forgot_password/forgot_password_request.dart'
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
@@ -10,6 +11,7 @@ import 'package:pips/data/responses/projects/projects_response.dart';
 import '../responses/forgot_password/forgot_password.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
+import '../responses/users/users_response.dart';
 
 // declare methods to get data from remote data source
 abstract class RemoteDataSource {
@@ -24,6 +26,8 @@ abstract class RemoteDataSource {
   Future<OfficeResponse> getOffice(String input);
 
   Future<ProjectResponse> getProject(String input);
+
+  Future<UsersResponse> getUsers(GetUsersRequest input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -61,5 +65,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<ProjectResponse> getProject(String input) async {
     return await _appServiceClient.getProject(input);
+  }
+
+  @override
+  Future<UsersResponse> getUsers(GetUsersRequest input) async {
+    return await _appServiceClient.getUsers(input.perPage, input.page);
   }
 }

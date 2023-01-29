@@ -12,6 +12,7 @@ import 'package:pips/domain/usecase/office_usecase.dart';
 import 'package:pips/domain/usecase/offices_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
+import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,6 +89,12 @@ initOfficesModule() {
 initProjectModule() {
   if (!GetIt.I.isRegistered<ProjectUseCase>()) {
     instance.registerFactory<ProjectUseCase>(() => ProjectUseCase(instance()));
+  }
+}
+
+initUsersModule() {
+  if (!GetIt.I.isRegistered<UsersUseCase>()) {
+    instance.registerFactory<UsersUseCase>(() => UsersUseCase(instance()));
   }
 }
 

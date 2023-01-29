@@ -16,11 +16,19 @@ class UserModel {
   @JsonKey(name: "email")
   final String email;
 
+  @JsonKey(name: "first_name")
+  final String firstName;
+
+  @JsonKey(name: "last_name")
+  final String lastName;
+
   UserModel({
     required this.id,
     this.uuid,
     required this.username,
     required this.email,
+    required this.firstName,
+    required this.lastName,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

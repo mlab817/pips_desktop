@@ -8,6 +8,7 @@ import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
 import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
+import '../responses/users/users_response.dart';
 
 part 'app_api.g.dart';
 
@@ -37,4 +38,8 @@ abstract class AppServiceClient {
 
   @GET("/projects/{uuid}")
   Future<ProjectResponse> getProject(@Path('uuid') String uuid);
+
+  @GET("/users")
+  Future<UsersResponse> getUsers(
+      @Query('per_page') int perPage, @Query('page') int page);
 }

@@ -3,12 +3,14 @@ import 'package:pips/data/requests/forgot_password/forgot_password_request.dart'
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
+import 'package:pips/data/responses/users/users_response.dart';
 import 'package:pips/data/schemas/population.dart';
 import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/models/user.dart';
@@ -158,5 +160,19 @@ class RepositoryImplementer implements Repository {
   @override
   Future<void> setLoggedInUser(UserModel value) async {
     await _localDataSource.setLoggedInUser(value);
+  }
+
+  @override
+  Future<Result<UsersResponse>> getUsers(GetUsersRequest input) async {
+    try {
+      final UsersResponse response = await _remoteDataSource.getUsers(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
   }
 }

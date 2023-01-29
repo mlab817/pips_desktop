@@ -38,6 +38,7 @@ class RouteGenerator {
       case Routes.mainRoute:
         initProjectsModule();
         initOfficesModule();
+        initUsersModule();
         return MaterialPageRoute(builder: (_) => const MainView());
       case Routes.projectRoute:
         initProjectModule();

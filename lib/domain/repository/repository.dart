@@ -12,7 +12,9 @@ import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:realm/realm.dart';
 
+import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
+import '../../data/responses/users/users_response.dart';
 import '../usecase/base_usecase.dart';
 
 /// The repository is responsible for abstracting the data access logic and providing a consistent interface for the domain layer to interact with the data.
@@ -35,6 +37,8 @@ abstract class Repository {
   Future<Result<OfficeResponse>> getOffice(String input); // uuid
 
   Future<Result<ProjectResponse>> getProject(String input);
+
+  Future<Result<UsersResponse>> getUsers(GetUsersRequest input);
 
   Future<String> getBearerToken();
 
