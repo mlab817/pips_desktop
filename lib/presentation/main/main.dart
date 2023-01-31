@@ -20,53 +20,61 @@ class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
 
   final List<NavigationRailDestination> _destinations = [
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.dashboard,
+        color: ColorManager.blue,
       ),
-      label: Text('Dashboard'),
+      label: const Text('Dashboard'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.build_circle,
+        color: ColorManager.blue,
       ),
-      label: Text('Offices'),
+      label: const Text('Offices'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.view_column,
+        color: ColorManager.blue,
       ),
-      label: Text('Projects'),
+      label: const Text('Projects'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.chat_bubble,
+        color: ColorManager.blue,
       ),
-      label: Text('Chat'),
+      label: const Text('Chat'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.person,
+        color: ColorManager.blue,
       ),
-      label: Text('Users'),
+      label: const Text('Users'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.settings,
+        color: ColorManager.blue,
       ),
-      label: Text('Settings'),
+      label: const Text('Settings'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.info,
+        color: ColorManager.blue,
       ),
-      label: Text('About'),
+      label: const Text('About'),
     ),
-    const NavigationRailDestination(
+    NavigationRailDestination(
       icon: Icon(
         Icons.exit_to_app,
+        color: ColorManager.blue,
       ),
-      label: Text('Logout'),
+      label: const Text('Logout'),
     ),
   ];
 
@@ -122,10 +130,12 @@ class _MainViewState extends State<MainView> {
   Widget _getNavigationRail() {
     return Container(
       decoration: BoxDecoration(
-          border: Border(
-              right: BorderSide(
-        color: ColorManager.lightGray,
-      ))),
+        border: Border(
+          right: BorderSide(
+            color: ColorManager.lightGray,
+          ),
+        ),
+      ),
       child: Column(
         children: [
           // _getSearchField(),

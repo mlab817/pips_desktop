@@ -41,7 +41,7 @@ class _SplashViewState extends State<SplashView> {
           if (isUserLoggedIn)
             {
               // handle logged in
-              Navigator.pushReplacementNamed(context, Routes.mainRoute),
+              Navigator.pushReplacementNamed(context, Routes.onboardingRoute),
             }
           else
             {
@@ -53,15 +53,15 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     _startProgress();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
+
     _streamController.close();
   }
 

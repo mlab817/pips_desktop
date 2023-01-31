@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/routes.dart';
+import 'package:pips/data/providers/logout_notifier.dart';
 import 'package:pips/presentation/auth/login/login.dart';
+import 'package:pips/presentation/logout_listener/logout_listener.dart';
+import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:realm/realm.dart';
 
 import '../presentation/resources/theme_manager.dart';
@@ -45,7 +49,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       theme: ThemeManager.getApplicationTheme(),
       onGenerateRoute: RouteGenerator.onGenerateRoute,
       initialRoute: Routes.splashRoute,
-      home: const LoginView(),
+      home: const MainView(),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:pips/presentation/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/main.dart';
+import 'package:pips/presentation/onboarding/onboarding.dart';
 import 'package:pips/presentation/project/project.dart';
 import 'package:pips/presentation/splash/splash.dart';
 
@@ -19,6 +20,7 @@ class Routes {
   static const String mainRoute = "/main";
   static const String projectRoute = "/project";
   static const String aboutRoute = "/about";
+  static const String onboardingRoute = "/onboarding";
 }
 
 class RouteGenerator {
@@ -26,6 +28,8 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.splashRoute:
         return MaterialPageRoute(builder: (_) => const SplashView());
+      case Routes.onboardingRoute:
+        return MaterialPageRoute(builder: (_) => const OnboardingView());
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const HomeView());
       case Routes.dashboardRoute:

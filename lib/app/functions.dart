@@ -41,8 +41,8 @@ Future<void> loadDataFromCsv() async {
         var incidence = PovertyIncidence(
           uuid,
           item['region'],
-          incidence2015 ?? 0.0,
-          incidence2018 ?? 0.0,
+          incidence2015 != '' ? double.parse(incidence2015) : 0.0,
+          incidence2018 != '' ? double.parse(incidence2018) : 0.0,
         );
 
         realm.add(incidence);

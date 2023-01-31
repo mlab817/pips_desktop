@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
@@ -55,6 +56,7 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<DioFactory>(() => DioFactory(instance()));
 
+  // need to pass context in getDio
   final dio = await instance<DioFactory>().getDio();
 
   instance.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));

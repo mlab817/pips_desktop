@@ -59,7 +59,7 @@ class ThemeManager {
       ),
       navigationRailTheme: NavigationRailThemeData(
         elevation: AppSize.s4,
-        backgroundColor: ColorManager.gray,
+        backgroundColor: ColorManager.lightGray,
         unselectedIconTheme: IconThemeData(
           color: ColorManager.darkGray,
         ),
@@ -72,7 +72,7 @@ class ThemeManager {
           fontWeight: FontWeight.bold,
         ),
         useIndicator: true,
-        indicatorColor: ColorManager.darkGray,
+        indicatorColor: ColorManager.gray,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );

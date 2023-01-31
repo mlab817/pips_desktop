@@ -114,46 +114,55 @@ class _OfficesViewState extends State<OfficesView> {
           ? Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: AppSize.s20),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          AssetsManager.svgLogoAsset,
-                          height: AppSize.s80,
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(
+                          AppSize.s20,
                         ),
-                        const SizedBox(
-                          height: AppSize.s20,
+                        decoration: BoxDecoration(
+                          color: ColorManager.gray,
                         ),
-                        SelectableText(
-                          _selectedOffice?.name ?? "",
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(
-                          height: AppSize.s20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
                           children: [
-                            Icon(
-                              Icons.email,
-                              color: ColorManager.darkGray,
+                            SvgPicture.asset(
+                              AssetsManager.svgLogoAsset,
+                              height: AppSize.s80,
                             ),
-                            Text(_selectedOffice?.email ?? ""),
                             const SizedBox(
-                              width: AppSize.s10,
+                              height: AppSize.s20,
                             ),
-                            Icon(
-                              Icons.phone,
-                              color: ColorManager.darkGray,
+                            SelectableText(
+                              _selectedOffice?.name ?? "",
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
-                            Text(_selectedOffice?.phoneNumber ?? ""),
+                            const SizedBox(
+                              height: AppSize.s20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.email,
+                                  color: ColorManager.black,
+                                ),
+                                Text(_selectedOffice?.email ?? ""),
+                                const SizedBox(
+                                  width: AppSize.s10,
+                                ),
+                                Icon(
+                                  Icons.phone,
+                                  color: ColorManager.black,
+                                ),
+                                Text(_selectedOffice?.phoneNumber ?? ""),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const Divider(),
+                  // const Divider(),
                   _projects != null
                       ? _getProjectsList()
                       : const Expanded(
@@ -194,9 +203,10 @@ class _OfficesViewState extends State<OfficesView> {
           )
         : Expanded(
             child: Center(
-                child: Lottie.asset(
-              AssetsManager.animEmptyJson,
-            )),
+              child: Lottie.asset(
+                AssetsManager.animEmptyJson,
+              ),
+            ),
           );
   }
 }

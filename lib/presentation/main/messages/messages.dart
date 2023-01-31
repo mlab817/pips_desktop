@@ -26,6 +26,8 @@ class _MessagesViewState extends State<MessagesView> {
 
   final List<UserModel> _users = <UserModel>[];
 
+  UserModel? _currentUser;
+
   late PaginationResponse _paginationResponse;
 
   int _page = 1;
@@ -34,7 +36,7 @@ class _MessagesViewState extends State<MessagesView> {
 
   Future<void> _getUsers() async {
     final usersReponse =
-    await _usersUseCase.execute(GetUsersRequest(perPage: 25, page: _page));
+        await _usersUseCase.execute(GetUsersRequest(perPage: 25, page: _page));
 
     if (usersReponse.success) {
       setState(() {
@@ -46,7 +48,6 @@ class _MessagesViewState extends State<MessagesView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _getUsers();
@@ -56,7 +57,6 @@ class _MessagesViewState extends State<MessagesView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     _contentController.dispose();
@@ -83,12 +83,11 @@ class _MessagesViewState extends State<MessagesView> {
         // _viewModel.getNextPage();
         _getNextUsersPage();
 
-        Future<void>.delayed(const Duration(seconds: 1)).then((_) =>
-        {
-          setState(() {
-            _loading = false;
-          })
-        });
+        Future<void>.delayed(const Duration(seconds: 1)).then((_) => {
+              setState(() {
+                _loading = false;
+              })
+            });
       }
     });
 
@@ -106,9 +105,9 @@ class _MessagesViewState extends State<MessagesView> {
             ),
             child: ListView.builder(
               controller: _scrollController,
-              itemCount: _users?.length ?? 0,
+              itemCount: _users.length,
               itemBuilder: (context, index) {
-                final user = _users![index];
+                final user = _users[index];
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSize.s8),
@@ -145,6 +144,14 @@ class _MessagesViewState extends State<MessagesView> {
           flex: 3,
           child: Column(
             children: <Widget>[
+              Container(
+                height: AppSize.s60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: ColorManager.primary,
+                ),
+                child: const Text('User Info'),
+              ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -236,6 +243,12 @@ class _MessagesViewState extends State<MessagesView> {
     _page++;
 
     _getUsers();
+  }
+
+  void _setUser(UserModel user) {
+    setState(() {
+      _currentUser = user;
+    });
   }
 }
 
