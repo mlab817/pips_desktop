@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:pips/app/app_preferences.dart';
-import 'package:pips/data/schemas/population.dart';
-import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/models/user.dart';
-import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String sharedPrefsBearerToken = "BEARER_TOKEN";
@@ -26,18 +23,13 @@ abstract class LocalDataSource {
 
   Future<void> resetDatabaseLoaded();
 
-  RealmResults<Population> getPopulation();
-
-  RealmResults<PovertyIncidence> getPovertyIncidence();
-
   Future<void> setLoggedInUser(UserModel value);
 }
 
 class LocalDataSourceImplementer implements LocalDataSource {
   final SharedPreferences _sharedPreferences;
-  final Realm _realm;
 
-  LocalDataSourceImplementer(this._sharedPreferences, this._realm);
+  LocalDataSourceImplementer(this._sharedPreferences);
 
   @override
   Future<String> getBearerToken() async {
@@ -58,16 +50,6 @@ class LocalDataSourceImplementer implements LocalDataSource {
   Future<void> resetDatabaseLoaded() async {
     _sharedPreferences.remove(
         sharedPrefsDatabaseLoaded); //setBool(sharedPrefsDatabaseLoaded, false);
-  }
-
-  @override
-  RealmResults<Population> getPopulation() {
-    return _realm.all<Population>();
-  }
-
-  @override
-  RealmResults<PovertyIncidence> getPovertyIncidence() {
-    return _realm.all<PovertyIncidence>();
   }
 
   @override

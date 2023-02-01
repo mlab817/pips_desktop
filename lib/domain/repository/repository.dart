@@ -7,10 +7,7 @@ import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
-import 'package:pips/data/schemas/population.dart';
-import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/models/user.dart';
-import 'package:realm/realm.dart';
 
 import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
@@ -55,8 +52,4 @@ abstract class Repository {
   Future<void> setDatabaseLoaded();
 
   Future<void> resetDatabaseLoaded();
-
-  RealmResults<Population> getPopulation();
-
-  RealmResults<PovertyIncidence> getPovertyIncidence();
 }

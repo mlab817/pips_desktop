@@ -31,29 +31,35 @@ class ThemeManager {
         cursorColor: ColorManager.primary,
       ),
       textTheme: const TextTheme(
-        headline1: TextStyle(
+        headlineLarge: TextStyle(
           fontSize: AppSize.s20,
         ),
-        headline2: TextStyle(
+        headlineMedium: TextStyle(
+          fontSize: AppSize.s18,
+        ),
+        headlineSmall: TextStyle(
           fontSize: AppSize.s18,
         ),
         // placeholder for text input
-        subtitle1: TextStyle(
+        titleMedium: TextStyle(
           fontSize: AppSize.s14,
         ),
-        subtitle2: TextStyle(
+        titleSmall: TextStyle(
           fontSize: AppSize.s10,
         ),
-        bodyText1: TextStyle(
+        bodyLarge: TextStyle(
+          fontSize: AppSize.s14,
+        ),
+        bodyMedium: TextStyle(
           fontSize: AppSize.s12,
         ),
-        bodyText2: TextStyle(
-          fontSize: AppSize.s11,
-        ),
-        overline: TextStyle(
+        bodySmall: TextStyle(
           fontSize: AppSize.s10,
         ),
-        button: TextStyle(
+        labelSmall: TextStyle(
+          fontSize: AppSize.s10,
+        ),
+        labelLarge: TextStyle(
           fontSize: AppSize.s14,
         ),
       ),

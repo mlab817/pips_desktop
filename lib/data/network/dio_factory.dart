@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
-import 'package:pips/data/providers/logout_notifier.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:provider/provider.dart';
+import 'package:event_bus/event_bus.dart';
 
 import '../../app/config.dart';
+import '../../app/dep_injection.dart';
 
 const String applicationJson = 'application/json';
 const String applicationXml = 'application/xml';
@@ -58,29 +58,34 @@ class DioFactory {
       ));
     }
 
-    // dio.interceptors.add(LogoutInterceptor);
+    dio.interceptors.add(LogoutInterceptor());
 
     return dio;
   }
 }
 
-class LogoutEvent {}
+class LogoutEvent {
+  bool loggedOut = false;
 
-final logoutEventController = StreamController<LogoutEvent>();
-final logoutEventStream = logoutEventController.stream;
+  LogoutEvent({required this.loggedOut});
+}
+
+EventBus eventBus = EventBus(sync: true);
 
 class LogoutInterceptor extends InterceptorsWrapper {
-  BuildContext context;
-
-  LogoutInterceptor(this.context);
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
   @override
   Future<dynamic> onError(DioError err, ErrorInterceptorHandler handler) async {
     print("error ${err.message}");
 
     if (err.response?.statusCode == 401) {
-      logoutEventController.add(LogoutEvent());
-      Provider.of<LogoutNotifier>(context, listen: false).logout();
+      // clear shared prefs
+      _appPreferences.clear();
+
+      print("encountered error 401: event bus should fire soon");
+
+      eventBus.fire(LogoutEvent(loggedOut: true));
     }
 
     handler.next(err);

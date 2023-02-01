@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
@@ -14,11 +13,7 @@ import 'package:pips/domain/usecase/offices_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
-import 'package:realm/realm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../data/schemas/population.dart';
-import '../data/schemas/poverty_incidence.dart';
 
 /// dependency injection for the app
 final GetIt instance = GetIt.instance;
@@ -39,17 +34,8 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<FirebaseFirestore>(() => db);
 
-  var config = Configuration.local([
-    PovertyIncidence.schema,
-    Population.schema,
-  ]);
-
-  final realm = Realm(config);
-
-  instance.registerLazySingleton<Realm>(() => realm);
-
   instance.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImplementer(instance(), instance()));
+      () => LocalDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<Repository>(
       () => RepositoryImplementer(instance(), instance()));
@@ -103,4 +89,8 @@ initUsersModule() {
 resetModules() {
   instance.reset(dispose: false);
   initAppModule();
+  initOfficesModule();
+  initProjectsModule();
+  initUsersModule();
+  initProjectModule();
 }

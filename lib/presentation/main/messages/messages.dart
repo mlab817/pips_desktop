@@ -133,6 +133,7 @@ class _MessagesViewState extends State<MessagesView> {
                     ),
                     onTap: () {
                       // tapped user handler
+                      _setUser(user);
                     },
                   ),
                 );
@@ -140,102 +141,130 @@ class _MessagesViewState extends State<MessagesView> {
             ),
           ),
         ),
-        Expanded(
-          flex: 3,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: AppSize.s60,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: ColorManager.primary,
-                ),
-                child: const Text('User Info'),
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ListView.builder(
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      // change alignment if user is sender or not
-                      return Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: AppSize.s10, top: AppSize.s10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.lightBlue,
-                              borderRadius: BorderRadius.circular(AppSize.s50),
-                            ),
-                            // width: double.infinity,
-                            constraints: const BoxConstraints(
-                              maxWidth: AppSize.s400,
-                              // minWidth: AppSize.s100,
-                            ),
-                            padding: const EdgeInsets.all(AppSize.s10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  _messages[index].content,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                    top: BorderSide(color: Colors.grey, width: 0.5),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSize.s10),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          controller: _contentController,
-                          decoration: const InputDecoration(
-                            hintText: 'Type your message',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: AppSize.s10),
-                      TextButton(
-                        onPressed: () {
-                          if (_contentController.text.isEmpty) return;
-                          // send message code
-                          setState(() {
-                            _messages.add(Message(
-                                senderId: 'randomId',
-                                content: _contentController.text));
-                          });
-
-                          _contentController.clear();
-                        },
-                        child: const Text('Send'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        )
+        _getMessagePanel(),
       ],
+    );
+  }
+
+  Widget _getMessagePanel() {
+    return Expanded(
+      flex: 3,
+      child: _currentUser == null
+          ? const Center(
+              child: Text('No user selected'),
+            )
+          : Column(
+              children: <Widget>[
+                AppBar(
+                  automaticallyImplyLeading: false,
+                  title: Text(
+                      "${_currentUser?.firstName} ${_currentUser?.lastName}"),
+                  centerTitle: false,
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          // do nothing
+                          debugPrint('do nothing');
+                        },
+                        icon: const Icon(Icons.info))
+                  ],
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ListView.builder(
+                      itemCount: _messages.length,
+                      itemBuilder: (context, index) {
+                        // change alignment if user is sender or not
+                        return Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: AppSize.s10, top: AppSize.s10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                borderRadius:
+                                    BorderRadius.circular(AppSize.s50),
+                              ),
+                              // width: double.infinity,
+                              constraints: const BoxConstraints(
+                                maxWidth: AppSize.s400,
+                                // minWidth: AppSize.s100,
+                              ),
+                              padding: const EdgeInsets.all(AppSize.s10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    _messages[index].content,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                _getChatBox(),
+              ],
+            ),
+    );
+  }
+
+  Widget _getChatBox() {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          top: BorderSide(color: Colors.grey, width: 0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSize.s10),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                controller: _contentController,
+                decoration: const InputDecoration(
+                  hintText: 'Type your message and enter to send',
+                  border: InputBorder.none,
+                ),
+                onSubmitted: (value) {
+                  if (value.isEmpty) return;
+
+                  setState(() {
+                    _messages
+                        .add(Message(senderId: 'randomId', content: value));
+                  });
+
+                  _contentController.clear();
+                },
+              ),
+            ),
+            const SizedBox(width: AppSize.s10),
+            TextButton(
+              onPressed: () {
+                if (_contentController.text.isEmpty) return;
+                // send message code
+                setState(() {
+                  _messages.add(Message(
+                      senderId: 'randomId', content: _contentController.text));
+                });
+
+                _contentController.clear();
+              },
+              child: const Text('Send'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

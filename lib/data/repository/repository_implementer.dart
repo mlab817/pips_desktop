@@ -11,12 +11,9 @@ import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/users/users_response.dart';
-import 'package:pips/data/schemas/population.dart';
-import 'package:pips/data/schemas/poverty_incidence.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/base_usecase.dart';
-import 'package:realm/realm.dart';
 
 import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
@@ -70,17 +67,6 @@ class RepositoryImplementer implements Repository {
   @override
   Future<void> resetDatabaseLoaded() {
     return _localDataSource.resetDatabaseLoaded();
-  }
-
-  @override
-  RealmResults<Population> getPopulation() {
-    // parse the data to return list
-    return _localDataSource.getPopulation();
-  }
-
-  @override
-  RealmResults<PovertyIncidence> getPovertyIncidence() {
-    return _localDataSource.getPovertyIncidence();
   }
 
   @override

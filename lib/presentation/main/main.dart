@@ -6,6 +6,7 @@ import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/messages/messages.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
 import 'package:pips/presentation/main/projects/projects.dart';
+import 'package:pips/presentation/main/settings/settings.dart';
 import 'package:pips/presentation/main/users/users.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 
@@ -22,56 +23,49 @@ class _MainViewState extends State<MainView> {
   final List<NavigationRailDestination> _destinations = [
     NavigationRailDestination(
       icon: Icon(
-        Icons.dashboard,
+        Icons.dashboard_outlined,
         color: ColorManager.blue,
       ),
       label: const Text('Dashboard'),
     ),
     NavigationRailDestination(
       icon: Icon(
-        Icons.build_circle,
+        Icons.build_circle_outlined,
         color: ColorManager.blue,
       ),
       label: const Text('Offices'),
     ),
     NavigationRailDestination(
       icon: Icon(
-        Icons.view_column,
+        Icons.view_column_outlined,
         color: ColorManager.blue,
       ),
       label: const Text('Projects'),
     ),
     NavigationRailDestination(
       icon: Icon(
-        Icons.chat_bubble,
+        Icons.chat_bubble_outline,
         color: ColorManager.blue,
       ),
       label: const Text('Chat'),
     ),
     NavigationRailDestination(
       icon: Icon(
-        Icons.person,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Users'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.settings,
+        Icons.settings_outlined,
         color: ColorManager.blue,
       ),
       label: const Text('Settings'),
     ),
     NavigationRailDestination(
       icon: Icon(
-        Icons.info,
+        Icons.info_outline,
         color: ColorManager.blue,
       ),
       label: const Text('About'),
     ),
     NavigationRailDestination(
       icon: Icon(
-        Icons.exit_to_app,
+        Icons.exit_to_app_outlined,
         color: ColorManager.blue,
       ),
       label: const Text('Logout'),
@@ -83,7 +77,7 @@ class _MainViewState extends State<MainView> {
     const OfficesView(),
     const ProjectsView(),
     const MessagesView(),
-    const UsersView(),
+    const SettingsView(),
     const DashboardView(),
     const AboutView(),
     const DashboardView(),

@@ -35,6 +35,7 @@ class _OfficesViewState extends State<OfficesView> {
     _projects = null;
 
     final officesResponse = await _officesUseCase.execute(GetOfficesRequest());
+
     if (officesResponse.success) {
       setState(() {
         _offices = officesResponse.data?.data;
