@@ -17,6 +17,7 @@ import 'package:pips/domain/usecase/base_usecase.dart';
 
 import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
+import '../responses/options/options_response.dart';
 
 // repository implementer returns result class
 class RepositoryImplementer implements Repository {
@@ -152,6 +153,20 @@ class RepositoryImplementer implements Repository {
   Future<Result<UsersResponse>> getUsers(GetUsersRequest input) async {
     try {
       final UsersResponse response = await _remoteDataSource.getUsers(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<OptionsResponse>> getOptions() async {
+    try {
+      final OptionsResponse response = await _remoteDataSource.getOptions();
 
       debugPrint("from rep imp: ${response.toString()}");
 

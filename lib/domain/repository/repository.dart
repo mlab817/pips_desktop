@@ -11,6 +11,7 @@ import 'package:pips/domain/models/user.dart';
 
 import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
+import '../../data/responses/options/options_response.dart';
 import '../../data/responses/users/users_response.dart';
 import '../usecase/base_usecase.dart';
 
@@ -36,6 +37,8 @@ abstract class Repository {
   Future<Result<ProjectResponse>> getProject(String input);
 
   Future<Result<UsersResponse>> getUsers(GetUsersRequest input);
+
+  Future<Result<OptionsResponse>> getOptions();
 
   Future<String> getBearerToken();
 

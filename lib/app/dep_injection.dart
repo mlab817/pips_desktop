@@ -10,6 +10,7 @@ import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/domain/usecase/office_usecase.dart';
 import 'package:pips/domain/usecase/offices_usecase.dart';
+import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
@@ -49,6 +50,8 @@ Future<void> initAppModule() async {
   // add dio to client
 
   instance.registerFactory<LoginUseCase>(() => LoginUseCase(instance()));
+
+  instance.registerFactory<OptionsUseCase>(() => OptionsUseCase(instance()));
 }
 
 initLoginModule() {

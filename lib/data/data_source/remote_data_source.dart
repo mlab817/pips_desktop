@@ -5,6 +5,7 @@ import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/options/options_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 
@@ -28,6 +29,8 @@ abstract class RemoteDataSource {
   Future<ProjectResponse> getProject(String input);
 
   Future<UsersResponse> getUsers(GetUsersRequest input);
+
+  Future<OptionsResponse> getOptions();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -70,5 +73,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<UsersResponse> getUsers(GetUsersRequest input) async {
     return await _appServiceClient.getUsers(input.perPage, input.page);
+  }
+
+  @override
+  Future<OptionsResponse> getOptions() async {
+    return await _appServiceClient.getOptions();
   }
 }
