@@ -241,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dart_pusher_channels:
+    dependency: "direct main"
+    description:
+      name: dart_pusher_channels
+      sha256: ca80eab3e4406655ed421ad6a5e8c64fa0592b300b5ea49970549f3376615d03
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+6"
   dart_style:
     dependency: transitive
     description:
@@ -326,6 +334,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_laravel_echo:
+    dependency: "direct main"
+    description:
+      name: flutter_laravel_echo
+      sha256: "1233615815803964ed5276f0f2ccb2f2a16232e20a43633300aed9cc41281ca2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -488,6 +504,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.0"
+  laravel_echo:
+    dependency: "direct main"
+    description:
+      name: laravel_echo
+      sha256: "7b56f72f885f5c0274745a9267265557e47ab3e8107232ce823260037e95b405"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.9"
   lints:
     dependency: transitive
     description:
@@ -728,6 +752,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  pusher_channels_flutter:
+    dependency: "direct main"
+    description:
+      name: pusher_channels_flutter
+      sha256: "17d02ad7392720e1e16bfcc5e101d18ee3d9b077b61c21e19f734dcf40c82def"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+  pusher_client:
+    dependency: "direct main"
+    description:
+      name: pusher_client
+      sha256: "0dce30a1b4b0dca2a9af2f680eec495b9cdc2b0281491426f3af9718776dc14a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   realm:
     dependency: "direct main"
     description:
@@ -768,6 +808,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.0"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   sane_uuid:
     dependency: transitive
     description:
@@ -853,6 +901,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  socket_io_client:
+    dependency: "direct main"
+    description:
+      name: socket_io_client
+      sha256: a9c589d3fe2658506be38ddb36f23348daab73a00ff1645533669d07a5111cfc
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  socket_io_common:
+    dependency: transitive
+    description:
+      name: socket_io_common
+      sha256: "5a218a784df4d1927ae713e17af619caa736cb2ebac287c59e4e24228b22da29"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   source_gen:
     dependency: transitive
     description:
@@ -1047,5 +1111,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.6 <4.0.0"
+  dart: ">=2.18.6 <3.0.0"
   flutter: ">=3.3.0"

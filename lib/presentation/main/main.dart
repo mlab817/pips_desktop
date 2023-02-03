@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
@@ -9,6 +10,9 @@ import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
 import 'package:pips/presentation/main/users/users.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
+import 'package:pusher_client/pusher_client.dart';
+
+import '../../app/dep_injection.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -18,6 +22,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  final PusherChannelsClient _client = instance<PusherChannelsClient>();
+
   int _selectedIndex = 0;
 
   final List<NavigationRailDestination> _destinations = [
@@ -82,6 +88,14 @@ class _MainViewState extends State<MainView> {
     const AboutView(),
     const DashboardView(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _client.connect();
+  }
 
   @override
   Widget build(BuildContext context) {
