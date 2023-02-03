@@ -275,7 +275,7 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<void> storeChatMessage(
+  Future<Message> createMessage(
     id,
     content,
   ) async {
@@ -283,29 +283,31 @@ class _AppServiceClient implements AppServiceClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {'content': content};
-    await _dio.fetch<void>(_setStreamType<void>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Message>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/chat-rooms/${id}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+            .compose(
+              _dio.options,
+              '/chat-rooms/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Message.fromJson(_result.data!);
+    return value;
   }
 
   @override
-  Future<ChatRoomResponse> createChatRoom(id) async {
+  Future<ChatRoom> createChatRoom(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {'recipient_id': id};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ChatRoomResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<ChatRoom>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -317,7 +319,7 @@ class _AppServiceClient implements AppServiceClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ChatRoomResponse.fromJson(_result.data!);
+    final value = ChatRoom.fromJson(_result.data!);
     return value;
   }
 

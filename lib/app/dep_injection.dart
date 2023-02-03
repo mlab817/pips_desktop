@@ -11,6 +11,7 @@ import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
+import 'package:pips/domain/usecase/createmessage_usecase.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/domain/usecase/office_usecase.dart';
 import 'package:pips/domain/usecase/offices_usecase.dart';
@@ -70,6 +71,9 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<CreateChatRoomUseCase>(
       () => CreateChatRoomUseCase(instance()));
+
+  instance.registerFactory<CreateMessageUseCase>(
+      () => CreateMessageUseCase(instance()));
 }
 
 initLoginModule() {

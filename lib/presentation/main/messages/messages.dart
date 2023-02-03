@@ -5,9 +5,11 @@ import 'package:pips/data/responses/pagination/pagination_response.dart';
 import 'package:pips/domain/models/chat_room.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
+import 'package:pips/domain/usecase/createmessage_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
+import '../../../domain/models/message.dart';
 import '../../../domain/models/user.dart';
 import '../../resources/color_manager.dart';
 
@@ -23,6 +25,9 @@ class _MessagesViewState extends State<MessagesView> {
   final ChatRoomsUseCase _chatRoomsUseCase = instance<ChatRoomsUseCase>();
   final CreateChatRoomUseCase _createChatRoomUseCase =
       instance<CreateChatRoomUseCase>();
+
+  final CreateMessageUseCase _createMessageUseCase =
+      instance<CreateMessageUseCase>();
 
   final TextEditingController _contentController = TextEditingController();
 
@@ -45,13 +50,13 @@ class _MessagesViewState extends State<MessagesView> {
   bool _loading = false;
 
   Future<void> _getUsers() async {
-    final usersReponse =
+    final usersResponse =
         await _usersUseCase.execute(GetUsersRequest(perPage: 25, page: _page));
 
-    if (usersReponse.success) {
+    if (usersResponse.success) {
       setState(() {
-        _users.addAll(usersReponse.data?.data as List<UserModel>);
-        _paginationResponse = usersReponse.data!.meta.pagination;
+        _users.addAll(usersResponse.data?.data as List<UserModel>);
+        _paginationResponse = usersResponse.data!.meta.pagination;
       });
     }
   }
@@ -154,15 +159,19 @@ class _MessagesViewState extends State<MessagesView> {
                             //
                             final chatRoom = _chatRooms[index];
 
-                            return SizedBox(
-                              height: AppSize.s60,
-                              child: ListTile(
-                                title: Text(chatRoom.name),
-                                trailing: const Icon(Icons.chevron_right),
-                                onTap: () {
-                                  _setChatRoom(chatRoom);
-                                },
-                              ),
+                            String chatName = chatRoom.users
+                                    ?.map((item) => item.firstName)
+                                    .toList()
+                                    .join(', ') ??
+                                "No name.";
+
+                            return ListTile(
+                              title: Text(chatName),
+                              trailing: const Icon(Icons.chevron_right),
+                              onTap: () {
+                                _setChatRoom(chatRoom);
+                              },
+                              dense: false,
                             );
                           },
                         )
@@ -197,9 +206,13 @@ class _MessagesViewState extends State<MessagesView> {
 
   // get chat bar
   Widget _getChatBar() {
+    String chatName =
+        _chatRoom?.users?.map((item) => item.firstName).toList().join(', ') ??
+            "No name.";
+
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Text("${_currentUser?.firstName} ${_currentUser?.lastName}"),
+      title: Text(chatName),
       centerTitle: false,
       actions: [
         IconButton(
@@ -213,11 +226,13 @@ class _MessagesViewState extends State<MessagesView> {
   }
 
   Widget _getChatMessages() {
+    List<Message> messages = _chatRoom?.messages ?? [];
+
     return Expanded(
       child: Align(
         alignment: Alignment.bottomCenter,
         child: ListView.builder(
-          itemCount: _messages.length,
+          itemCount: messages.length,
           itemBuilder: (context, index) {
             // TODO: change alignment if user is sender or not
             return Align(
@@ -252,7 +267,7 @@ class _MessagesViewState extends State<MessagesView> {
                         ),
                       ),
                       Text(
-                        _messages[index].createdAt.toIso8601String(),
+                        messages[index].createdAt.toIso8601String(),
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
@@ -399,25 +414,15 @@ class _MessagesViewState extends State<MessagesView> {
                   hintText: 'Type your message and enter to send',
                   border: InputBorder.none,
                 ),
-                onSubmitted: (value) {
-                  if (value.isEmpty) return;
-
-                  setState(() {
-                    _messages.add(Message(content: value));
-                  });
-
-                  _contentController.clear();
-                },
+                onSubmitted: _sendMessage,
               ),
             ),
             const SizedBox(width: AppSize.s10),
             TextButton(
               onPressed: () {
                 if (_contentController.text.isEmpty) return;
-                // send message code
-                setState(() {
-                  _messages.add(Message(content: _contentController.text));
-                });
+
+                _sendMessage(_contentController.text);
 
                 _contentController.clear();
               },
@@ -440,14 +445,24 @@ class _MessagesViewState extends State<MessagesView> {
       _currentUser = user;
     });
 
+    setState(() {
+      _loading = true;
+    });
+
     final createChatRoomResponse =
         await _createChatRoomUseCase.execute(user.id);
 
     if (createChatRoomResponse.success) {
-      debugPrint(createChatRoomResponse.data?.data.name.toString());
-      _setChatRoom(createChatRoomResponse.data?.data as ChatRoom);
-      _chatRooms.add(createChatRoomResponse.data?.data as ChatRoom);
+      debugPrint(createChatRoomResponse.data?.name.toString());
+      _setChatRoom(createChatRoomResponse.data as ChatRoom);
+      setState(() {
+        _chatRooms.add(createChatRoomResponse.data as ChatRoom);
+      });
     }
+
+    setState(() {
+      _loading = false;
+    });
   }
 
   void _setChatRoom(chatRoom) {
@@ -455,14 +470,19 @@ class _MessagesViewState extends State<MessagesView> {
       _chatRoom = chatRoom;
     });
   }
-}
 
-class Message {
-  String content;
+  Future<void> _sendMessage(value) async {
+    if (value.isEmpty) {
+      debugPrint('no message');
+    }
 
-  DateTime createdAt;
+    final createMessageResponse = await _createMessageUseCase
+        .execute(CreateMessageUseCaseInput(id: _chatRoom!.id, content: value));
 
-  Message({
-    required this.content,
-  }) : createdAt = DateTime.now();
+    if (createMessageResponse.success) {
+      debugPrint('Successfully sent message');
+    }
+
+    _contentController.clear();
+  }
 }

@@ -11,7 +11,7 @@ class ChatRoom {
   int id;
 
   @JsonKey(name: "name")
-  String name;
+  String? name;
 
   @JsonKey(name: "created_at")
   String createdAt;
@@ -20,18 +20,18 @@ class ChatRoom {
   String updatedAt;
 
   @JsonKey(name: "users")
-  List<UserModel> users;
+  List<UserModel>? users;
 
   @JsonKey(name: "messages")
-  List<Message> messages;
+  List<Message>? messages;
 
   ChatRoom({
     required this.id,
-    required this.name,
+    this.name,
     required this.createdAt,
     required this.updatedAt,
-    required this.users,
-    required this.messages,
+    this.users,
+    this.messages,
   });
 
   factory ChatRoom.fromJson(Map<String, dynamic> json) =>

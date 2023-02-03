@@ -12,10 +12,13 @@ import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/users/users_response.dart';
+import 'package:pips/domain/models/message.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/base_usecase.dart';
+import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
+import '../../domain/models/chat_room.dart';
 import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
 import '../responses/chat_rooms/chat_rooms.dart';
@@ -209,10 +212,23 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<ChatRoomResponse>> createChatRoom(int input) async {
+  Future<Result<ChatRoom>> createChatRoom(int input) async {
     try {
-      final ChatRoomResponse response =
-          await _remoteDataSource.createChatRoom(input);
+      final ChatRoom response = await _remoteDataSource.createChatRoom(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<Message>> createMessage(CreateMessageUseCaseInput input) async {
+    try {
+      final Message response = await _remoteDataSource.createMessage(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 

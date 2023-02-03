@@ -334,14 +334,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_laravel_echo:
-    dependency: "direct main"
-    description:
-      name: flutter_laravel_echo
-      sha256: "1233615815803964ed5276f0f2ccb2f2a16232e20a43633300aed9cc41281ca2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -464,14 +456,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-  intl:
-    dependency: transitive
-    description:
-      name: intl
-      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.18.0"
   io:
     dependency: transitive
     description:
@@ -504,14 +488,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.0"
-  laravel_echo:
-    dependency: "direct main"
-    description:
-      name: laravel_echo
-      sha256: "7b56f72f885f5c0274745a9267265557e47ab3e8107232ce823260037e95b405"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.9"
   lints:
     dependency: transitive
     description:
@@ -752,22 +728,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-  pusher_channels_flutter:
-    dependency: "direct main"
-    description:
-      name: pusher_channels_flutter
-      sha256: "17d02ad7392720e1e16bfcc5e101d18ee3d9b077b61c21e19f734dcf40c82def"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
-  pusher_client:
-    dependency: "direct main"
-    description:
-      name: pusher_client
-      sha256: "0dce30a1b4b0dca2a9af2f680eec495b9cdc2b0281491426f3af9718776dc14a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   realm:
     dependency: "direct main"
     description:
@@ -901,22 +861,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  socket_io_client:
-    dependency: "direct main"
-    description:
-      name: socket_io_client
-      sha256: a9c589d3fe2658506be38ddb36f23348daab73a00ff1645533669d07a5111cfc
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
-  socket_io_common:
-    dependency: transitive
-    description:
-      name: socket_io_common
-      sha256: "5a218a784df4d1927ae713e17af619caa736cb2ebac287c59e4e24228b22da29"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   source_gen:
     dependency: transitive
     description:
@@ -973,22 +917,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  syncfusion_flutter_charts:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_charts
-      sha256: fb76374625e5cfa485ed1d2b080f2b5a6722d95b36d8355a4a9bd0567567d769
-      url: "https://pub.dev"
-    source: hosted
-    version: "20.4.44"
-  syncfusion_flutter_core:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_core
-      sha256: "66529f3f102c6501a75811e8d931a1908ad9865ea4d3416c40ac05cf62fdcd44"
-      url: "https://pub.dev"
-    source: hosted
-    version: "20.4.44"
   tar:
     dependency: transitive
     description:
@@ -1111,5 +1039,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.6 <3.0.0"
+  dart: ">=2.18.6 <4.0.0"
   flutter: ">=3.3.0"
