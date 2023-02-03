@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:flutter/material.dart';
+import 'package:pips/app/app_preferences.dart';
+import 'package:pips/app/routes.dart';
 import 'package:pips/presentation/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/messages/messages.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
 import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
-import 'package:pips/presentation/main/users/users.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
-import 'package:pusher_client/pusher_client.dart';
 
 import '../../app/dep_injection.dart';
 
@@ -22,7 +21,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  final PusherChannelsClient _client = instance<PusherChannelsClient>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
   int _selectedIndex = 0;
 
@@ -90,16 +89,10 @@ class _MainViewState extends State<MainView> {
   ];
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    _client.connect();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
       body: Row(
@@ -110,27 +103,27 @@ class _MainViewState extends State<MainView> {
       ),
       bottomNavigationBar: (Platform.isIOS || Platform.isAndroid)
           ? BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              type: BottomNavigationBarType.fixed,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.dashboard),
-                  label: 'Dashboard',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.view_column),
-                  label: 'Projects',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.info_outline),
-                  label: 'About',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Settings',
-                ),
-              ],
-            )
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.view_column),
+            label: 'Projects',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info_outline),
+            label: 'About',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      )
           : null,
     );
   }
@@ -162,6 +155,13 @@ class _MainViewState extends State<MainView> {
   }
 
   void _onDestinationSelected(int index) {
+    if (index == _destinations.length - 1) {
+      _appPreferences.clear();
+      resetModules();
+
+      Navigator.pushReplacementNamed(context, Routes.loginRoute);
+    }
+
     setState(() {
       _selectedIndex = index;
     });

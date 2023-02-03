@@ -4,11 +4,13 @@ import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
+import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/options/options_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 
+import '../responses/chat_room/chat_room.dart';
 import '../responses/forgot_password/forgot_password.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
@@ -31,6 +33,12 @@ abstract class RemoteDataSource {
   Future<UsersResponse> getUsers(GetUsersRequest input);
 
   Future<OptionsResponse> getOptions();
+
+  Future<ChatRoomsResponse> getChatRooms();
+
+  Future<ChatRoomResponse> getChatRoom(int input);
+
+  Future<ChatRoomResponse> createChatRoom(int input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -78,5 +86,20 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<OptionsResponse> getOptions() async {
     return await _appServiceClient.getOptions();
+  }
+
+  @override
+  Future<ChatRoomsResponse> getChatRooms() async {
+    return await _appServiceClient.getChatRooms();
+  }
+
+  @override
+  Future<ChatRoomResponse> getChatRoom(int input) async {
+    return await _appServiceClient.getChatRoom(input);
+  }
+
+  @override
+  Future<ChatRoomResponse> createChatRoom(int input) async {
+    return await _appServiceClient.createChatRoom(input);
   }
 }

@@ -10,6 +10,8 @@ import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/domain/models/user.dart';
 
 import '../../data/requests/users/get_users_request.dart';
+import '../../data/responses/chat_room/chat_room.dart';
+import '../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
 import '../../data/responses/options/options_response.dart';
 import '../../data/responses/users/users_response.dart';
@@ -39,6 +41,12 @@ abstract class Repository {
   Future<Result<UsersResponse>> getUsers(GetUsersRequest input);
 
   Future<Result<OptionsResponse>> getOptions();
+
+  Future<Result<ChatRoomsResponse>> getChatRooms();
+
+  Future<Result<ChatRoomResponse>> getChatRoom(int input);
+
+  Future<Result<ChatRoomResponse>> createChatRoom(int input);
 
   Future<String> getBearerToken();
 

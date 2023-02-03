@@ -22,6 +22,8 @@ class UserModel {
   @JsonKey(name: "last_name")
   final String? lastName;
 
+  String avatar;
+
   UserModel({
     required this.id,
     this.uuid,
@@ -29,7 +31,8 @@ class UserModel {
     required this.email,
     required this.firstName,
     required this.lastName,
-  });
+    avatar,
+  }) : avatar = "${firstName?.substring(0, 1)}${lastName?.substring(0, 1)}";
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

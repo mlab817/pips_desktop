@@ -4,6 +4,7 @@ import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
+import 'package:pips/data/responses/chat_room/chat_room.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
@@ -17,6 +18,7 @@ import 'package:pips/domain/usecase/base_usecase.dart';
 
 import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
+import '../responses/chat_rooms/chat_rooms.dart';
 import '../responses/options/options_response.dart';
 
 // repository implementer returns result class
@@ -167,6 +169,50 @@ class RepositoryImplementer implements Repository {
   Future<Result<OptionsResponse>> getOptions() async {
     try {
       final OptionsResponse response = await _remoteDataSource.getOptions();
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<ChatRoomsResponse>> getChatRooms() async {
+    try {
+      final ChatRoomsResponse response = await _remoteDataSource.getChatRooms();
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<ChatRoomResponse>> getChatRoom(int input) async {
+    try {
+      final ChatRoomResponse response =
+          await _remoteDataSource.getChatRoom(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<ChatRoomResponse>> createChatRoom(int input) async {
+    try {
+      final ChatRoomResponse response =
+          await _remoteDataSource.createChatRoom(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 

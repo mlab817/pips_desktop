@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/pagination/pagination_response.dart';
+import 'package:pips/domain/models/chat_room.dart';
+import 'package:pips/domain/usecase/chatrooms_usecase.dart';
+import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
@@ -17,6 +20,9 @@ class MessagesView extends StatefulWidget {
 
 class _MessagesViewState extends State<MessagesView> {
   final UsersUseCase _usersUseCase = instance<UsersUseCase>();
+  final ChatRoomsUseCase _chatRoomsUseCase = instance<ChatRoomsUseCase>();
+  final CreateChatRoomUseCase _createChatRoomUseCase =
+      instance<CreateChatRoomUseCase>();
 
   final TextEditingController _contentController = TextEditingController();
 
@@ -26,7 +32,11 @@ class _MessagesViewState extends State<MessagesView> {
 
   final List<UserModel> _users = <UserModel>[];
 
+  final List<ChatRoom> _chatRooms = <ChatRoom>[];
+
   UserModel? _currentUser;
+
+  ChatRoom? _chatRoom; // selected chatRoom
 
   late PaginationResponse _paginationResponse;
 
@@ -46,11 +56,23 @@ class _MessagesViewState extends State<MessagesView> {
     }
   }
 
+  Future<void> _getChatRooms() async {
+    final chatRoomsResponse = await _chatRoomsUseCase.execute(Void());
+
+    if (chatRoomsResponse.success) {
+      setState(() {
+        _chatRooms.addAll(chatRoomsResponse.data?.data as List<ChatRoom>);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
     _getUsers();
+
+    _getChatRooms();
 
     _scrollController = ScrollController();
   }
@@ -103,41 +125,52 @@ class _MessagesViewState extends State<MessagesView> {
                 ),
               ),
             ),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: _users.length,
-              itemBuilder: (context, index) {
-                final user = _users[index];
-
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s8),
-                  child: ListTile(
-                    key: Key(index.toString()),
-                    hoverColor: ColorManager.lightGray,
-                    leading: Icon(
-                      Icons.person,
-                      color: ColorManager.darkGray,
-                    ),
-                    title: Text(
-                      "${user.firstName} ${user.lastName}",
-                      style: TextStyle(
-                        color: ColorManager.black,
-                        fontWeight: FontWeight.w500,
+            child: Column(
+              children: [
+                AppBar(
+                  title: const Text('Chats'),
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        _setChatRoom(null);
+                      },
+                      icon: const Icon(
+                        Icons.add_comment_outlined,
                       ),
                     ),
-                    subtitle: Text(user.email),
-                    trailing: Icon(
-                      Icons.circle_rounded,
-                      size: AppSize.s10,
-                      color: ColorManager.primary,
-                    ),
-                    onTap: () {
-                      // tapped user handler
-                      _setUser(user);
-                    },
-                  ),
-                );
-              },
+                    const SizedBox(
+                      width: AppSize.s4,
+                    )
+                  ],
+                  elevation: AppSize.s4,
+                ),
+                Expanded(
+                  child: _chatRooms.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _chatRooms.length,
+                          itemBuilder: (context, index) {
+                            //
+                            final chatRoom = _chatRooms[index];
+
+                            return SizedBox(
+                              height: AppSize.s60,
+                              child: ListTile(
+                                title: Text(chatRoom.name),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () {
+                                  _setChatRoom(chatRoom);
+                                },
+                              ),
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: Text('No rooms.'),
+                        ),
+                ),
+              ],
             ),
           ),
         ),
@@ -146,74 +179,204 @@ class _MessagesViewState extends State<MessagesView> {
     );
   }
 
+  // create left panel for messages
   Widget _getMessagePanel() {
     return Expanded(
       flex: 3,
-      child: _currentUser == null
-          ? const Center(
-              child: Text('No user selected'),
-            )
+      child: _chatRoom == null
+          ? _getNewChatRoom()
           : Column(
               children: <Widget>[
-                AppBar(
-                  automaticallyImplyLeading: false,
-                  title: Text(
-                      "${_currentUser?.firstName} ${_currentUser?.lastName}"),
-                  centerTitle: false,
-                  actions: [
-                    IconButton(
-                        onPressed: () {
-                          // do nothing
-                          debugPrint('do nothing');
-                        },
-                        icon: const Icon(Icons.info))
-                  ],
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ListView.builder(
-                      itemCount: _messages.length,
-                      itemBuilder: (context, index) {
-                        // change alignment if user is sender or not
-                        return Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                right: AppSize.s10, top: AppSize.s10),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.lightBlue,
-                                borderRadius:
-                                    BorderRadius.circular(AppSize.s50),
-                              ),
-                              // width: double.infinity,
-                              constraints: const BoxConstraints(
-                                maxWidth: AppSize.s400,
-                                // minWidth: AppSize.s100,
-                              ),
-                              padding: const EdgeInsets.all(AppSize.s10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    _messages[index].content,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                _getChatBar(),
+                _getChatMessages(),
                 _getChatBox(),
               ],
             ),
+    );
+  }
+
+  // get chat bar
+  Widget _getChatBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      title: Text("${_currentUser?.firstName} ${_currentUser?.lastName}"),
+      centerTitle: false,
+      actions: [
+        IconButton(
+            onPressed: () {
+              // do nothing
+              debugPrint('do nothing');
+            },
+            icon: const Icon(Icons.info))
+      ],
+    );
+  }
+
+  Widget _getChatMessages() {
+    return Expanded(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: ListView.builder(
+          itemCount: _messages.length,
+          itemBuilder: (context, index) {
+            // TODO: change alignment if user is sender or not
+            return Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(right: AppSize.s0, top: AppSize.s0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(AppSize.s50),
+                  ),
+                  // width: double.infinity,
+                  constraints: const BoxConstraints(
+                    maxWidth: AppSize.s200,
+                    // minWidth: AppSize.s100,
+                    maxHeight: AppSize.s200,
+                  ),
+                  padding: const EdgeInsets.all(AppSize.s10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding:
+                            const EdgeInsets.symmetric(vertical: AppSize.s8),
+                        child: Text(
+                          _messages[index].content,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _messages[index].createdAt.toIso8601String(),
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _getNewChatRoom() {
+    return Column(
+      children: [
+        Container(
+          height: AppSize.s60,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                width: AppSize.s0_5,
+                color: ColorManager.darkGray,
+              ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSize.s10),
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: AppSize.s20,
+                ),
+                const Text('To: '),
+                const SizedBox(
+                  width: AppSize.s20,
+                ),
+                Expanded(
+                  child: Autocomplete<UserModel>(
+                    fieldViewBuilder: (BuildContext context,
+                        TextEditingController fieldTextEditingController,
+                        FocusNode fieldFocusNode,
+                        VoidCallback onFieldSubmitted) {
+                      return TextField(
+                        controller: fieldTextEditingController,
+                        focusNode: fieldFocusNode,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: ColorManager.black,
+                        ),
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          isCollapsed: true,
+                        ),
+                      );
+                    },
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text == '') {
+                        return const Iterable<UserModel>.empty();
+                      }
+                      return _users.where((UserModel userModel) {
+                        return userModel.firstName?.toLowerCase().startsWith(
+                                textEditingValue.text.toLowerCase()) ??
+                            false;
+                      });
+                    },
+                    optionsViewBuilder: (
+                      BuildContext context,
+                      AutocompleteOnSelected<UserModel> onSelected,
+                      Iterable<UserModel> options,
+                    ) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: AppSize.s8),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Material(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: ColorManager.darkGray,
+                                ),
+                                borderRadius: BorderRadius.circular(AppSize.s8),
+                              ),
+                              width: 300,
+                              height: 400,
+                              child: ListView.builder(
+                                padding: const EdgeInsets.all(AppSize.s0),
+                                itemCount: options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final UserModel userModel =
+                                      options.elementAt(index);
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _setUser(userModel);
+                                    },
+                                    child: ListTile(
+                                      title: Text(
+                                        "${userModel.firstName} ${userModel.lastName}",
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    onSelected: (UserModel userModel) {
+                      _setUser(userModel);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -240,8 +403,7 @@ class _MessagesViewState extends State<MessagesView> {
                   if (value.isEmpty) return;
 
                   setState(() {
-                    _messages
-                        .add(Message(senderId: 'randomId', content: value));
+                    _messages.add(Message(content: value));
                   });
 
                   _contentController.clear();
@@ -254,8 +416,7 @@ class _MessagesViewState extends State<MessagesView> {
                 if (_contentController.text.isEmpty) return;
                 // send message code
                 setState(() {
-                  _messages.add(Message(
-                      senderId: 'randomId', content: _contentController.text));
+                  _messages.add(Message(content: _contentController.text));
                 });
 
                 _contentController.clear();
@@ -274,20 +435,34 @@ class _MessagesViewState extends State<MessagesView> {
     _getUsers();
   }
 
-  void _setUser(UserModel user) {
+  Future<void> _setUser(UserModel user) async {
     setState(() {
       _currentUser = user;
+    });
+
+    final createChatRoomResponse =
+        await _createChatRoomUseCase.execute(user.id);
+
+    if (createChatRoomResponse.success) {
+      debugPrint(createChatRoomResponse.data?.data.name.toString());
+      _setChatRoom(createChatRoomResponse.data?.data as ChatRoom);
+      _chatRooms.add(createChatRoomResponse.data?.data as ChatRoom);
+    }
+  }
+
+  void _setChatRoom(chatRoom) {
+    setState(() {
+      _chatRoom = chatRoom;
     });
   }
 }
 
 class Message {
-  String senderId;
-
   String content;
 
+  DateTime createdAt;
+
   Message({
-    required this.senderId,
     required this.content,
-  });
+  }) : createdAt = DateTime.now();
 }

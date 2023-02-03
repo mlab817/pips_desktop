@@ -9,6 +9,11 @@ class ThemeManager {
       useMaterial3: true,
       fontFamily: FontFamily.primary,
       scaffoldBackgroundColor: ColorManager.white,
+      appBarTheme: AppBarTheme(
+        toolbarHeight: AppSize.s60,
+        backgroundColor: ColorManager.blue,
+        foregroundColor: ColorManager.white,
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorManager.primary,
@@ -63,6 +68,12 @@ class ThemeManager {
           fontSize: AppSize.s14,
         ),
       ),
+      // TODO: update text button style
+      textButtonTheme: TextButtonThemeData(style: ButtonStyle(
+        textStyle: MaterialStateProperty.resolveWith((states) {
+          return TextStyle(color: ColorManager.primary);
+        }),
+      )),
       navigationRailTheme: NavigationRailThemeData(
         elevation: AppSize.s4,
         backgroundColor: ColorManager.lightGray,
