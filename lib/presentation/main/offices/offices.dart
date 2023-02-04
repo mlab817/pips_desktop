@@ -41,9 +41,11 @@ class _OfficesViewState extends State<OfficesView> {
     final officesResponse = await _officesUseCase.execute(GetOfficesRequest());
 
     if (officesResponse.success) {
-      setState(() {
-        _offices = officesResponse.data?.data;
-      });
+      if (mounted) {
+        setState(() {
+          _offices = officesResponse.data?.data;
+        });
+      }
     }
   }
 
@@ -57,9 +59,11 @@ class _OfficesViewState extends State<OfficesView> {
     final officeResponse =
         await _officeUseCase.execute(_selectedOffice?.uuid ?? "");
     if (officeResponse.success) {
-      setState(() {
-        _projects = officeResponse.data?.data.projects ?? <Project>[];
-      });
+      if (mounted) {
+        setState(() {
+          _projects = officeResponse.data?.data.projects ?? <Project>[];
+        });
+      }
     } else {
       debugPrint(officeResponse.error);
     }
