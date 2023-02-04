@@ -5,6 +5,8 @@ class ColorManager {
   static Color white = HexColor.fromHex("#FFFFFF");
   static Color lightPrimary = HexColor.fromHex("#99c3af");
   static Color primary = HexColor.fromHex("#FFD700"); // gold
+  static Color darkWhite = HexColor.fromHex("#F5F5F5");
+  static Color veryLightGray = HexColor.fromHex("#e0e3e8");
   static Color lightGray = HexColor.fromHex("#E6E6E7");
   static Color gray = HexColor.fromHex("#d3cdcd");
   static Color darkGray = HexColor.fromHex("#CFCECF");

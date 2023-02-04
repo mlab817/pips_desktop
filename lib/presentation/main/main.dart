@@ -25,58 +25,6 @@ class _MainViewState extends State<MainView> {
 
   int _selectedIndex = 0;
 
-  final List<NavigationRailDestination> _destinations = [
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.dashboard_outlined,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Dashboard'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.build_circle_outlined,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Offices'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.view_column_outlined,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Projects'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.chat_bubble_outline,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Chat'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.settings_outlined,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Settings'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.info_outline,
-        color: ColorManager.blue,
-      ),
-      label: const Text('About'),
-    ),
-    NavigationRailDestination(
-      icon: Icon(
-        Icons.exit_to_app_outlined,
-        color: ColorManager.blue,
-      ),
-      label: const Text('Logout'),
-    ),
-  ];
-
   final List<Widget> _views = [
     const DashboardView(),
     const OfficesView(),
@@ -90,9 +38,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Row(
@@ -103,27 +49,27 @@ class _MainViewState extends State<MainView> {
       ),
       bottomNavigationBar: (Platform.isIOS || Platform.isAndroid)
           ? BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.view_column),
-            label: 'Projects',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline),
-            label: 'About',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-      )
+              currentIndex: _selectedIndex,
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.dashboard),
+                  label: 'Dashboard',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.view_column),
+                  label: 'Projects',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.info_outline),
+                  label: 'About',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+            )
           : null,
     );
   }
@@ -143,7 +89,67 @@ class _MainViewState extends State<MainView> {
           Expanded(
             child: NavigationRail(
               // extended: true,
-              destinations: _destinations,
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(
+                    _selectedIndex == 0
+                        ? Icons.dashboard
+                        : Icons.dashboard_outlined,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Dashboard'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    _selectedIndex == 1
+                        ? Icons.build_circle
+                        : Icons.build_circle_outlined,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Offices'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    _selectedIndex == 2
+                        ? Icons.view_column
+                        : Icons.view_column_outlined,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Projects'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    _selectedIndex == 3
+                        ? Icons.chat_bubble
+                        : Icons.chat_bubble_outline,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Chat'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    _selectedIndex == 4
+                        ? Icons.settings
+                        : Icons.settings_outlined,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Settings'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    _selectedIndex == 5 ? Icons.info : Icons.info_outline,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('About'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    Icons.exit_to_app_outlined,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Logout'),
+                ),
+              ],
               onDestinationSelected: _onDestinationSelected,
               selectedIndex: _selectedIndex,
               // labelType: NavigationRailLabelType.all,
@@ -155,7 +161,7 @@ class _MainViewState extends State<MainView> {
   }
 
   void _onDestinationSelected(int index) {
-    if (index == _destinations.length - 1) {
+    if (index == 6) {
       _appPreferences.clear();
       resetModules();
 

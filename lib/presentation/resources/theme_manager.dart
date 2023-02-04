@@ -11,8 +11,16 @@ class ThemeManager {
       scaffoldBackgroundColor: ColorManager.white,
       appBarTheme: AppBarTheme(
         toolbarHeight: AppSize.s60,
-        backgroundColor: ColorManager.blue,
-        foregroundColor: ColorManager.white,
+        backgroundColor: ColorManager.white,
+        foregroundColor: ColorManager.black,
+        titleTextStyle: TextStyle(
+          fontWeight: FontWeight.w700,
+          color: ColorManager.black,
+          fontSize: AppSize.s20,
+        ),
+        elevation: AppSize.s1,
+        shadowColor: ColorManager.white,
+        surfaceTintColor: ColorManager.white,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

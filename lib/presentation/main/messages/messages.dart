@@ -137,43 +137,125 @@ class _MessagesViewState extends State<MessagesView> {
                   centerTitle: false,
                   automaticallyImplyLeading: false,
                   actions: [
-                    IconButton(
-                      onPressed: () {
-                        _setChatRoom(null);
-                      },
-                      icon: const Icon(
-                        Icons.add_comment_outlined,
+                    CircleAvatar(
+                      backgroundColor: ColorManager.darkWhite,
+                      child: IconButton(
+                        onPressed: () {
+                          _setChatRoom(null);
+                        },
+                        icon: const Icon(
+                          Icons.mode,
+                          size: AppSize.s20,
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: AppSize.s4,
                     )
                   ],
-                  elevation: AppSize.s4,
                 ),
                 Expanded(
                   child: _chatRooms.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: _chatRooms.length,
-                          itemBuilder: (context, index) {
-                            //
-                            final chatRoom = _chatRooms[index];
+                      ? Padding(
+                          padding: const EdgeInsets.all(AppSize.s8),
+                          child: ListView.builder(
+                              itemCount: _chatRooms.length,
+                              itemBuilder: (context, index) {
+                                //
+                                final chatRoom = _chatRooms[index];
 
-                            String chatName = chatRoom.users
-                                    ?.map((item) => item.firstName)
-                                    .toList()
-                                    .join(', ') ??
-                                "No name.";
+                                String chatName = chatRoom.users
+                                        ?.map((item) => item.firstName)
+                                        .toList()
+                                        .join(', ') ??
+                                    "No name.";
 
-                            return ListTile(
-                              title: Text(chatName),
-                              trailing: const Icon(Icons.chevron_right),
-                              onTap: () {
-                                _setChatRoom(chatRoom);
-                              },
-                              dense: false,
-                            );
-                          },
+                                return InkWell(
+                                  onTap: () {
+                                    _setChatRoom(chatRoom);
+                                  },
+                                  borderRadius:
+                                      BorderRadius.circular(AppSize.s8),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(AppSize.s8),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(AppSize.s8),
+                                      // add background color if the item is selected
+                                      color: _chatRoom?.id == chatRoom.id
+                                          ? ColorManager.darkWhite
+                                          : ColorManager.white,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: Stack(
+                                            children: <Widget>[
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color:
+                                                            ColorManager.white,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50.0)),
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        ColorManager.blue,
+                                                    radius: 18.0,
+                                                    child: const Text(
+                                                      '2',
+                                                      style: TextStyle(
+                                                        fontSize: 10.0,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.bottomLeft,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: ColorManager.white,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                  ),
+                                                  child: const CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.blue,
+                                                    radius: 18.0,
+                                                    child: Text(
+                                                      '1',
+                                                      style: TextStyle(
+                                                        fontSize: 10.0,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: AppSize.s10),
+                                        Expanded(child: Text(chatName)),
+                                        const Icon(Icons.chevron_right),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
                         )
                       : const Center(
                           child: Text('No rooms.'),
@@ -229,55 +311,65 @@ class _MessagesViewState extends State<MessagesView> {
     List<Message> messages = _chatRoom?.messages ?? [];
 
     return Expanded(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: ListView.builder(
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            // TODO: change alignment if user is sender or not
-            return Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(right: AppSize.s0, top: AppSize.s0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(AppSize.s50),
-                  ),
-                  // width: double.infinity,
-                  constraints: const BoxConstraints(
-                    maxWidth: AppSize.s200,
-                    // minWidth: AppSize.s100,
-                    maxHeight: AppSize.s200,
-                  ),
-                  padding: const EdgeInsets.all(AppSize.s10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
+      child: _loading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(AppSize.s8),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    // TODO: change alignment if user is sender or not
+                    return Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
                         padding:
-                            const EdgeInsets.symmetric(vertical: AppSize.s8),
-                        child: Text(
-                          _messages[index].content,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                            const EdgeInsets.symmetric(horizontal: AppSize.s4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: ColorManager.blue,
+                                borderRadius:
+                                    BorderRadius.circular(AppSize.s20),
+                              ),
+                              // width: double.infinity,
+                              constraints: const BoxConstraints(
+                                maxWidth: AppSize.s600,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: AppSize.s8,
+                                  horizontal: AppSize.s10),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: AppSize.s0),
+                                child: Text(
+                                  messages[index].content,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: AppSize.s2),
+                            Text(
+                              messages[index].createdAt,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                            const SizedBox(height: AppSize.s10),
+                          ],
                         ),
                       ),
-                      Text(
-                        messages[index].createdAt.toIso8601String(),
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
-            );
-          },
-        ),
-      ),
+            ),
     );
   }
 
@@ -295,14 +387,14 @@ class _MessagesViewState extends State<MessagesView> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(AppSize.s10),
+            padding: const EdgeInsets.all(AppSize.s20),
             child: Row(
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(
-                  width: AppSize.s20,
+                const Text(
+                  'To: ',
+                  style: TextStyle(fontSize: AppSize.s14),
                 ),
-                const Text('To: '),
                 const SizedBox(
                   width: AppSize.s20,
                 ),
@@ -411,7 +503,7 @@ class _MessagesViewState extends State<MessagesView> {
               child: TextField(
                 controller: _contentController,
                 decoration: const InputDecoration(
-                  hintText: 'Type your message and enter to send',
+                  hintText: 'Type your message and press enter to send',
                   border: InputBorder.none,
                 ),
                 onSubmitted: _sendMessage,
@@ -443,26 +535,20 @@ class _MessagesViewState extends State<MessagesView> {
   Future<void> _setUser(UserModel user) async {
     setState(() {
       _currentUser = user;
-    });
-
-    setState(() {
       _loading = true;
     });
 
-    final createChatRoomResponse =
-        await _createChatRoomUseCase.execute(user.id);
-
-    if (createChatRoomResponse.success) {
-      debugPrint(createChatRoomResponse.data?.name.toString());
-      _setChatRoom(createChatRoomResponse.data as ChatRoom);
-      setState(() {
-        _chatRooms.add(createChatRoomResponse.data as ChatRoom);
-      });
-    }
-
-    setState(() {
-      _loading = false;
-    });
+    _createChatRoomUseCase.execute(user.id).then((createChatRoomResponse) => {
+          if (createChatRoomResponse.success)
+            {
+              debugPrint(createChatRoomResponse.data?.name.toString()),
+              _setChatRoom(createChatRoomResponse.data as ChatRoom),
+              setState(() {
+                _chatRooms.add(createChatRoomResponse.data as ChatRoom);
+                _loading = false;
+              }),
+            }
+        });
   }
 
   void _setChatRoom(chatRoom) {
@@ -479,8 +565,11 @@ class _MessagesViewState extends State<MessagesView> {
     final createMessageResponse = await _createMessageUseCase
         .execute(CreateMessageUseCaseInput(id: _chatRoom!.id, content: value));
 
-    if (createMessageResponse.success) {
+    if (createMessageResponse.success && createMessageResponse.data != null) {
       debugPrint('Successfully sent message');
+      setState(() {
+        _chatRoom?.messages?.add(createMessageResponse.data as Message);
+      });
     }
 
     _contentController.clear();
