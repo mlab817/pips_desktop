@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/routes.dart';
-import 'package:pips/presentation/about/about.dart';
+import 'package:pips/presentation/main/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/messages/messages.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
@@ -31,9 +31,7 @@ class _MainViewState extends State<MainView> {
     const ProjectsView(),
     const MessagesView(),
     const SettingsView(),
-    const DashboardView(),
     const AboutView(),
-    const DashboardView(),
   ];
 
   @override

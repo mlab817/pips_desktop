@@ -66,6 +66,9 @@ dependencies:
   provider: ^6.0.5
   dart_pusher_channels: ^1.0.0+6
   intl: ^0.18.0
+  flutter_inappwebview: ^6.0.0-beta.11
+  url_launcher: ^6.1.8
+  flutter_macos_webview: ^0.0.6
 
 dev_dependencies:
   flutter_test:

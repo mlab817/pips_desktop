@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_macos_webview/flutter_macos_webview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pips/app/routes.dart';
+import 'package:lottie/lottie.dart';
+import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/domain/models/project.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../app/dep_injection.dart';
+import '../../../app/routes.dart';
 import '../../../domain/models/office.dart';
 import '../../../domain/usecase/office_usecase.dart';
 import '../../../domain/usecase/offices_usecase.dart';
@@ -62,6 +66,31 @@ class _OfficesViewState extends State<OfficesView> {
     // load selected office info
   }
 
+  Future<void> _onOpenPressed(String uuid) async {
+    final webview = FlutterMacOSWebView(
+      onOpen: () => print('Opened'),
+      onClose: () => print('Closed'),
+      onPageStarted: (url) => print('Page started: $url'),
+      onPageFinished: (url) => print('Page finished: $url'),
+      onWebResourceError: (err) {
+        print(
+          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
+        );
+      },
+    );
+
+    await webview.open(
+      url: "${Config.baseUrl}/generate-pdf/$uuid",
+      presentationStyle: PresentationStyle.sheet,
+      // size: Size(400.0, 400.0),
+      userAgent:
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+    );
+
+    // await Future.delayed(Duration(seconds: 5));
+    // await webview.close();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -75,33 +104,54 @@ class _OfficesViewState extends State<OfficesView> {
       direction: Axis.horizontal,
       children: [
         Expanded(
-          child: _offices != null
-              ? ListView.builder(
-                  itemCount: _offices?.length ?? 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    final office = _offices![index];
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: ColorManager.darkGray),
-                        ),
-                      ),
-                      child: ListTile(
-                        title: Text(office.acronym),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () {
-                          setState(() {
-                            _selectedOffice = office;
-                          });
-                          _getOffice();
-                        },
-                      ),
-                    );
-                  },
-                )
-              : const Center(
-                  child: Text('No items to show'),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: ColorManager.darkGray,
                 ),
+              ),
+            ),
+            child: Column(
+              children: [
+                AppBar(
+                  title: const Text('Offices'),
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
+                ),
+                Expanded(
+                  child: _offices != null
+                      ? ListView.builder(
+                          itemCount: _offices?.length ?? 0,
+                          itemBuilder: (BuildContext context, int index) {
+                            final office = _offices![index];
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom:
+                                      BorderSide(color: ColorManager.darkGray),
+                                ),
+                              ),
+                              child: ListTile(
+                                title: Text(office.acronym),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedOffice = office;
+                                  });
+                                  _getOffice();
+                                },
+                              ),
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: Text('No items to show'),
+                        ),
+                ),
+              ],
+            ),
+          ),
         ),
         _getProjectsWidget()
       ],
@@ -117,48 +167,57 @@ class _OfficesViewState extends State<OfficesView> {
                 children: [
                   Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(
-                          AppSize.s20,
-                        ),
-                        decoration: BoxDecoration(
-                          color: ColorManager.gray,
-                        ),
-                        child: Column(
-                          children: [
-                            SvgPicture.asset(
-                              AssetsManager.svgLogoAsset,
-                              height: AppSize.s80,
+                      // office card
+                      Padding(
+                        padding: const EdgeInsets.all(AppSize.s8),
+                        child: Card(
+                          elevation: AppSize.s4,
+                          child: Container(
+                            padding: const EdgeInsets.all(
+                              AppSize.s20,
                             ),
-                            const SizedBox(
-                              height: AppSize.s20,
+                            decoration: BoxDecoration(
+                              color: ColorManager.darkWhite,
+                              borderRadius: BorderRadius.circular(AppSize.s8),
                             ),
-                            SelectableText(
-                              _selectedOffice?.name ?? "",
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            const SizedBox(
-                              height: AppSize.s20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            child: Column(
                               children: [
-                                Icon(
-                                  Icons.email,
-                                  color: ColorManager.black,
+                                SvgPicture.asset(
+                                  AssetsManager.svgLogoAsset,
+                                  height: AppSize.s80,
                                 ),
-                                Text(_selectedOffice?.email ?? ""),
                                 const SizedBox(
-                                  width: AppSize.s10,
+                                  height: AppSize.s20,
                                 ),
-                                Icon(
-                                  Icons.phone,
-                                  color: ColorManager.black,
+                                SelectableText(
+                                  _selectedOffice?.name ?? "",
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                Text(_selectedOffice?.phoneNumber ?? ""),
+                                const SizedBox(
+                                  height: AppSize.s20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.email,
+                                      color: ColorManager.black,
+                                    ),
+                                    Text(_selectedOffice?.email ?? ""),
+                                    const SizedBox(
+                                      width: AppSize.s10,
+                                    ),
+                                    Icon(
+                                      Icons.phone,
+                                      color: ColorManager.black,
+                                    ),
+                                    Text(_selectedOffice?.phoneNumber ?? ""),
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
@@ -194,9 +253,13 @@ class _OfficesViewState extends State<OfficesView> {
                   title: Text(project.title),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // navigate to project view
-                    Navigator.pushNamed(context, Routes.projectRoute,
-                        arguments: project.uuid);
+                    if (Platform.isMacOS) {
+                      _onOpenPressed(project.uuid);
+                    } else {
+                      Navigator.pushNamed(context, Routes.viewProjectRoute,
+                          arguments: project.uuid);
+                    }
+                    // navigate to project vie
                   },
                 );
               },

@@ -10,8 +10,14 @@ class AboutView extends StatefulWidget {
 class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('About'),
+    return Column(
+      children: [
+        AppBar(
+          title: const Text('About'),
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+        ),
+      ],
     );
   }
 }

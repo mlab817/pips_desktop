@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
-import 'package:pips/presentation/about/about.dart';
+import 'package:pips/presentation/main/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/onboarding/onboarding.dart';
 import 'package:pips/presentation/project/project.dart';
 import 'package:pips/presentation/splash/splash.dart';
+import 'package:pips/presentation/view_project/view_project.dart';
 
 import '../presentation/auth/forgot_password/forgot_password.dart';
 import '../presentation/auth/login/login.dart';
@@ -21,6 +22,7 @@ class Routes {
   static const String projectRoute = "/project";
   static const String aboutRoute = "/about";
   static const String onboardingRoute = "/onboarding";
+  static const String viewProjectRoute = "/view-project";
 }
 
 class RouteGenerator {
@@ -53,6 +55,9 @@ class RouteGenerator {
                 ));
       case Routes.aboutRoute:
         return MaterialPageRoute(builder: (_) => const AboutView());
+      case Routes.viewProjectRoute:
+        String uuid = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
       default:
         // return null
         return MaterialPageRoute(builder: (_) => const HomeView());
