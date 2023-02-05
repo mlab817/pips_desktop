@@ -28,22 +28,44 @@ class _OfficesViewState extends State<OfficesView> {
   final OfficesUseCase _officesUseCase = instance<OfficesUseCase>();
   final OfficeUseCase _officeUseCase = instance<OfficeUseCase>();
 
+  late ScrollController _scrollController;
+
   Office? _selectedOffice;
 
-  List<Office>? _offices;
+  final List<Office> _offices = <Office>[];
 
   List<Project>? _projects;
 
+  bool _loading = false;
+
+  int _currentPage = 1;
+
+  int _lastPage = 1;
+
   Future<void> _getOffices() async {
+    // set loading to true so that this won't trigger when a request is already happening
+    _loading = true;
+
     // remove projects
     _projects = null;
 
-    final officesResponse = await _officesUseCase.execute(GetOfficesRequest());
+    final officesResponse =
+        await _officesUseCase.execute(GetOfficesRequest(page: _currentPage));
 
     if (officesResponse.success) {
       if (mounted) {
         setState(() {
-          _offices = officesResponse.data?.data;
+          // set offices to the data
+          _offices.addAll(officesResponse.data?.data ?? <Office>[]);
+
+          // set the last page so we can check if we already reached the end
+          _lastPage = officesResponse.data?.meta.pagination.last ?? 1;
+
+          // increment current page so the next call would include the next page
+          _currentPage++;
+
+          // lastly, stop loading
+          _loading = false;
         });
       }
     }
@@ -99,11 +121,34 @@ class _OfficesViewState extends State<OfficesView> {
   void initState() {
     super.initState();
 
+    _scrollController = ScrollController();
+
     _getOffices();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // add listener to scrollController to load next page
+    _scrollController.addListener(() {
+      // set the next page trigger to 80% of the list size based on maxScrollExtent
+      var nextPageTrigger = 0.8 * _scrollController.position.maxScrollExtent;
+
+      // if the position of scroll controller exceeds nextPageTrigger, load next page
+      if (_scrollController.position.pixels > nextPageTrigger) {
+        // if we are not yet on the last page, load the next one
+        if (!_loading && _currentPage < _lastPage) {
+          _getOffices();
+        }
+      }
+    });
+
     return Flex(
       direction: Axis.horizontal,
       children: [
@@ -124,11 +169,12 @@ class _OfficesViewState extends State<OfficesView> {
                   automaticallyImplyLeading: false,
                 ),
                 Expanded(
-                  child: _offices != null
+                  child: _offices.isNotEmpty
                       ? ListView.builder(
-                          itemCount: _offices?.length ?? 0,
+                          controller: _scrollController,
+                          itemCount: _offices.length ?? 0,
                           itemBuilder: (BuildContext context, int index) {
-                            final office = _offices![index];
+                            final office = _offices[index];
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border(

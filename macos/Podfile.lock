@@ -1,24 +1,4 @@
 PODS:
-  - cloud_firestore (4.3.1):
-    - Firebase/CoreOnly (~> 10.3.0)
-    - Firebase/Firestore (~> 10.3.0)
-    - firebase_core
-    - FlutterMacOS
-    - nanopb (< 2.30910.0, >= 2.30908.0)
-  - Firebase/CoreOnly (10.3.0):
-    - FirebaseCore (= 10.3.0)
-  - Firebase/Firestore (10.3.0):
-    - Firebase/CoreOnly
-    - FirebaseFirestore (~> 10.3.0)
-  - firebase_core (2.4.1):
-    - Firebase/CoreOnly (~> 10.3.0)
-    - FlutterMacOS
-  - FirebaseCore (10.3.0):
-    - FirebaseCoreInternal (~> 10.0)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/Logger (~> 7.8)
-  - FirebaseCoreInternal (10.3.0):
-    - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - FirebaseFirestore (10.3.0):
     - FirebaseFirestore/AutodetectLeveldb (= 10.3.0)
   - FirebaseFirestore/AutodetectLeveldb (10.3.0):
@@ -27,27 +7,12 @@ PODS:
   - FirebaseFirestore/Base (10.3.0)
   - FirebaseFirestore/WithLeveldb (10.3.0):
     - FirebaseFirestore/Base
-  - flutter_inappwebview (0.0.1):
-    - FlutterMacOS
-    - OrderedSet (~> 5.0)
   - flutter_macos_webview (0.0.4):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - GoogleUtilities/Environment (7.10.0):
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.10.0):
-    - GoogleUtilities/Environment
-  - "GoogleUtilities/NSData+zlib (7.10.0)"
-  - nanopb (2.30909.0):
-    - nanopb/decode (= 2.30909.0)
-    - nanopb/encode (= 2.30909.0)
-  - nanopb/decode (2.30909.0)
-  - nanopb/encode (2.30909.0)
-  - OrderedSet (5.0.0)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - PromisesObjC (2.1.1)
   - "realm (0.9.0+rc)":
     - FlutterMacOS
   - shared_preferences_foundation (0.0.1):
@@ -59,10 +24,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
-  - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
-  - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.3.0`)
-  - flutter_inappwebview (from `Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview/macos`)
   - flutter_macos_webview (from `Flutter/ephemeral/.symlinks/plugins/flutter_macos_webview/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
@@ -71,26 +33,10 @@ DEPENDENCIES:
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - window_size (from `Flutter/ephemeral/.symlinks/plugins/window_size/macos`)
 
-SPEC REPOS:
-  trunk:
-    - Firebase
-    - FirebaseCore
-    - FirebaseCoreInternal
-    - GoogleUtilities
-    - nanopb
-    - OrderedSet
-    - PromisesObjC
-
 EXTERNAL SOURCES:
-  cloud_firestore:
-    :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
-  firebase_core:
-    :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 10.3.0
-  flutter_inappwebview:
-    :path: Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview/macos
   flutter_macos_webview:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_macos_webview/macos
   FlutterMacOS:
@@ -112,20 +58,10 @@ CHECKOUT OPTIONS:
     :tag: 10.3.0
 
 SPEC CHECKSUMS:
-  cloud_firestore: 3e5af176ee7502d00c95e031a06d6728ac0dc39b
-  Firebase: f92fc551ead69c94168d36c2b26188263860acd9
-  firebase_core: 651a84636254f758b9b9367f27bef0801a3855a2
-  FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
-  FirebaseCoreInternal: 29b76f784d607df8b2a1259d73c3f04f1210137b
   FirebaseFirestore: f16ed5e8e5b024eff4928bc33605df9526bda650
-  flutter_inappwebview: 62e949df616a9f6e1b0366326381f208c7fcad37
   flutter_macos_webview: a17978522d9014b5ebc0279d76a332b9531c4a95
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
-  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
-  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
-  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   realm: bdc33ea175f0d567932124e7a33748768b86b3e3
   shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
   url_launcher_macos: c04e4fa86382d4f94f6b38f14625708be3ae52e2

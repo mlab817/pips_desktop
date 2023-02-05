@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pips/app/app_preferences.dart';
@@ -37,10 +36,6 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImplementer(instance()));
-
-  final db = FirebaseFirestore.instance;
-
-  instance.registerLazySingleton<FirebaseFirestore>(() => db);
 
   instance.registerLazySingleton<LocalDataSource>(
       () => LocalDataSourceImplementer(instance()));

@@ -29,6 +29,8 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _passwordIsObscured = true;
+
   @override
   void dispose() {
     super.dispose();
@@ -38,89 +40,87 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: SizedBox(
-            width: screenSize.width / 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  AssetsManager.svgLogoAsset,
-                  height: AppSize.s80,
-                ),
-                const SizedBox(
-                  height: AppSize.s20,
-                ),
-                Text(
-                  AppStrings.publicInvestmentProgramSystem,
-                  style: TextStyle(
-                    fontSize: AppSize.s32,
-                    color: ColorManager.primary,
-                    fontFamily: FontFamily.bebasNeue,
+      body: Center(
+        child: Card(
+          color: ColorManager.white,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSize.s10),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: AppSize.s400,
+                maxHeight: AppSize.s360,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AssetsManager.svgLogoAsset,
+                    height: AppSize.s60,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: AppSize.s20,
-                ),
-                const Text(
-                  AppStrings.loginToYourAccount,
-                  style: TextStyle(
-                    fontSize: AppSize.s18,
+                  const SizedBox(
+                    height: AppSize.s12,
                   ),
-                ),
-                const SizedBox(
-                  height: AppSize.s40,
-                ),
-                TextField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(
-                    labelText: AppStrings.username,
-                    prefixIcon: Icon(Icons.person),
-                    hintText: AppStrings.username,
+                  Text(
+                    AppStrings.publicInvestmentProgramSystem,
+                    style: TextStyle(
+                      fontSize: AppSize.s20,
+                      color: ColorManager.primary,
+                      fontFamily: FontFamily.bebasNeue,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                const SizedBox(
-                  height: AppSize.s20,
-                ),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: AppStrings.password,
-                    prefixIcon: Icon(Icons.key),
-                    hintText: AppStrings.password,
+                  const SizedBox(
+                    height: AppSize.s12,
                   ),
-                ),
-                const SizedBox(
-                  height: AppSize.s20,
-                ),
-                SizedBox(
-                  height: AppSize.s36,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _login,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.primary),
-                    child: const Text(
-                      AppStrings.login,
+                  TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      // labelText: AppStrings.username,
+                      prefixIcon: Icon(Icons.person),
+                      hintText: AppStrings.username,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: AppSize.s40,
-                ),
-                TextButton(
-                  onPressed: _goToForgotPassword,
-                  child: const Text(AppStrings.forgotPassword),
-                ),
-              ],
+                  const SizedBox(
+                    height: AppSize.s12,
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: _passwordIsObscured,
+                    decoration: InputDecoration(
+                      // labelText: AppStrings.password,
+                      prefixIcon: const Icon(Icons.key),
+                      hintText: AppStrings.password,
+                      suffixIcon: _passwordIsObscured
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s12,
+                  ),
+                  SizedBox(
+                    height: AppSize.s36,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _login,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorManager.primary),
+                      child: const Text(
+                        AppStrings.login,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s20,
+                  ),
+                  TextButton(
+                    onPressed: _goToForgotPassword,
+                    child: const Text(AppStrings.forgotPassword),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -148,5 +148,11 @@ class _LoginViewState extends State<LoginView> {
 
   void _goToForgotPassword() {
     Navigator.pushNamed(context, Routes.forgotPasswordRoute);
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _passwordIsObscured = !_passwordIsObscured;
+    });
   }
 }

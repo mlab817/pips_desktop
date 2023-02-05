@@ -87,9 +87,11 @@ class ThemeManager {
         backgroundColor: ColorManager.lightGray,
         unselectedIconTheme: IconThemeData(
           color: ColorManager.darkGray,
+          size: AppSize.s18,
         ),
         selectedIconTheme: IconThemeData(
           color: ColorManager.black,
+          size: AppSize.s18,
         ),
         unselectedLabelTextStyle: TextStyle(color: ColorManager.black),
         selectedLabelTextStyle: TextStyle(
@@ -98,6 +100,9 @@ class ThemeManager {
         ),
         useIndicator: true,
         indicatorColor: ColorManager.gray,
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: ColorManager.primary,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
