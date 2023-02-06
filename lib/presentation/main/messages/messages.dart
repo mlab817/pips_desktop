@@ -53,6 +53,8 @@ class _MessagesViewState extends State<MessagesView> {
     final usersResponse =
         await _usersUseCase.execute(GetUsersRequest(perPage: 25, page: _page));
 
+    if (!mounted) return;
+
     if (usersResponse.success) {
       setState(() {
         _users.addAll(usersResponse.data?.data as List<UserModel>);
@@ -63,6 +65,8 @@ class _MessagesViewState extends State<MessagesView> {
 
   Future<void> _getChatRooms() async {
     final chatRoomsResponse = await _chatRoomsUseCase.execute(Void());
+
+    if (!mounted) return;
 
     if (chatRoomsResponse.success) {
       setState(() {
@@ -102,6 +106,8 @@ class _MessagesViewState extends State<MessagesView> {
         // if page is greater than last item in pagination
         // do not request for next page
         if (_page > _paginationResponse.last) return;
+
+        if (!mounted) return;
 
         setState(() {
           _loading = true;
@@ -502,11 +508,11 @@ class _MessagesViewState extends State<MessagesView> {
             Expanded(
               child: TextField(
                 controller: _contentController,
-                decoration: const InputDecoration(
-                  hintText: 'Type your message and press enter to send',
-                  border: InputBorder.none,
-                ),
                 onSubmitted: _sendMessage,
+                decoration: InputDecoration(
+                  hintText: 'Type message and press enter to send',
+                  fillColor: ColorManager.lightGray,
+                ),
               ),
             ),
             const SizedBox(width: AppSize.s10),

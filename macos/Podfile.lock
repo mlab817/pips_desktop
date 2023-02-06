@@ -1,19 +1,9 @@
 PODS:
-  - FirebaseFirestore (10.3.0):
-    - FirebaseFirestore/AutodetectLeveldb (= 10.3.0)
-  - FirebaseFirestore/AutodetectLeveldb (10.3.0):
-    - FirebaseFirestore/Base
-    - FirebaseFirestore/WithLeveldb
-  - FirebaseFirestore/Base (10.3.0)
-  - FirebaseFirestore/WithLeveldb (10.3.0):
-    - FirebaseFirestore/Base
   - flutter_macos_webview (0.0.4):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - path_provider_foundation (0.0.1):
     - Flutter
-    - FlutterMacOS
-  - "realm (0.9.0+rc)":
     - FlutterMacOS
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -24,27 +14,20 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
-  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.3.0`)
   - flutter_macos_webview (from `Flutter/ephemeral/.symlinks/plugins/flutter_macos_webview/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
-  - realm (from `Flutter/ephemeral/.symlinks/plugins/realm/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - window_size (from `Flutter/ephemeral/.symlinks/plugins/window_size/macos`)
 
 EXTERNAL SOURCES:
-  FirebaseFirestore:
-    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
-    :tag: 10.3.0
   flutter_macos_webview:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_macos_webview/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
-  realm:
-    :path: Flutter/ephemeral/.symlinks/plugins/realm/macos
   shared_preferences_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos
   url_launcher_macos:
@@ -52,21 +35,14 @@ EXTERNAL SOURCES:
   window_size:
     :path: Flutter/ephemeral/.symlinks/plugins/window_size/macos
 
-CHECKOUT OPTIONS:
-  FirebaseFirestore:
-    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
-    :tag: 10.3.0
-
 SPEC CHECKSUMS:
-  FirebaseFirestore: f16ed5e8e5b024eff4928bc33605df9526bda650
   flutter_macos_webview: a17978522d9014b5ebc0279d76a332b9531c4a95
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
-  realm: bdc33ea175f0d567932124e7a33748768b86b3e3
   shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
   url_launcher_macos: c04e4fa86382d4f94f6b38f14625708be3ae52e2
   window_size: 339dafa0b27a95a62a843042038fa6c3c48de195
 
-PODFILE CHECKSUM: f732c6252b342a6cfccd72c467fff535c431a5d1
+PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
 COCOAPODS: 1.11.3

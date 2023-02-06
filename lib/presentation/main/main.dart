@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/routes.dart';
-import 'package:pips/presentation/main/about/about.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/messages/messages.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
-import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:universal_io/io.dart';
@@ -27,10 +25,8 @@ class _MainViewState extends State<MainView> {
   final List<Widget> _views = [
     const DashboardView(),
     const OfficesView(),
-    const ProjectsView(),
     const MessagesView(),
     const SettingsView(),
-    const AboutView(),
   ];
 
   @override
@@ -47,6 +43,11 @@ class _MainViewState extends State<MainView> {
       bottomNavigationBar: (Platform.isIOS || Platform.isAndroid)
           ? BottomNavigationBar(
               currentIndex: _selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
               type: BottomNavigationBarType.fixed,
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
@@ -108,15 +109,6 @@ class _MainViewState extends State<MainView> {
                 NavigationRailDestination(
                   icon: Icon(
                     _selectedIndex == 2
-                        ? Icons.view_column
-                        : Icons.view_column_outlined,
-                    color: ColorManager.blue,
-                  ),
-                  label: const Text('Projects'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(
-                    _selectedIndex == 3
                         ? Icons.chat_bubble
                         : Icons.chat_bubble_outline,
                     color: ColorManager.blue,
@@ -125,19 +117,12 @@ class _MainViewState extends State<MainView> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(
-                    _selectedIndex == 4
+                    _selectedIndex == 3
                         ? Icons.settings
                         : Icons.settings_outlined,
                     color: ColorManager.blue,
                   ),
                   label: const Text('Settings'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(
-                    _selectedIndex == 5 ? Icons.info : Icons.info_outline,
-                    color: ColorManager.blue,
-                  ),
-                  label: const Text('About'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(
@@ -158,7 +143,7 @@ class _MainViewState extends State<MainView> {
   }
 
   void _onDestinationSelected(int index) {
-    if (index == 6) {
+    if (index == 4) {
       _appPreferences.clear();
       resetModules();
 

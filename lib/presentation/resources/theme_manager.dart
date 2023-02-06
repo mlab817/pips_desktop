@@ -12,33 +12,60 @@ class ThemeManager {
       appBarTheme: AppBarTheme(
         toolbarHeight: AppSize.s60,
         backgroundColor: ColorManager.white,
-        foregroundColor: ColorManager.black,
+        foregroundColor: ColorManager.darkGray,
         titleTextStyle: TextStyle(
           fontWeight: FontWeight.w700,
-          color: ColorManager.black,
-          fontSize: AppSize.s20,
+          color: ColorManager.darkGray,
+          fontSize: AppSize.s14,
         ),
         elevation: AppSize.s1,
         shadowColor: ColorManager.white,
         surfaceTintColor: ColorManager.white,
+        actionsIconTheme: IconThemeData(
+          color: ColorManager.blue,
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSize.s8),
+          ),
           backgroundColor: ColorManager.primary,
           foregroundColor: ColorManager.white,
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSize.s16,
+            horizontal: AppSize.s16,
+          ),
+          minimumSize: const Size(double.infinity, AppSize.s24),
+          textStyle: const TextStyle(
+            fontSize: AppSize.s12,
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            style: BorderStyle.solid,
+            color: ColorManager.black,
+          ),
+          borderRadius: BorderRadius.circular(AppSize.s8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            style: BorderStyle.solid,
+            color: ColorManager.primary,
+            width: AppSize.s2,
+          ),
+          borderRadius: BorderRadius.circular(AppSize.s8),
+        ),
         focusColor: ColorManager.primary,
+        isDense: true,
         floatingLabelStyle: TextStyle(
           color: ColorManager.primary,
         ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(style: BorderStyle.solid, color: ColorManager.primary),
-        ),
         prefixIconColor: ColorManager.primary,
         suffixStyle: const TextStyle(fontSize: AppSize.s10),
+        isCollapsed: true,
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: ColorManager.primary,
@@ -55,7 +82,7 @@ class ThemeManager {
         ),
         // placeholder for text input
         titleMedium: TextStyle(
-          fontSize: AppSize.s14,
+          fontSize: AppSize.s12,
         ),
         titleSmall: TextStyle(
           fontSize: AppSize.s10,
@@ -78,8 +105,8 @@ class ThemeManager {
       ),
       // TODO: update text button style
       textButtonTheme: TextButtonThemeData(style: ButtonStyle(
-        textStyle: MaterialStateProperty.resolveWith((states) {
-          return TextStyle(color: ColorManager.primary);
+        foregroundColor: MaterialStateProperty.resolveWith<Color?>((states) {
+          return ColorManager.primary;
         }),
       )),
       navigationRailTheme: NavigationRailThemeData(
@@ -103,6 +130,13 @@ class ThemeManager {
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: ColorManager.primary,
+      ),
+      listTileTheme: ListTileThemeData(
+        style: ListTileStyle.drawer,
+        minLeadingWidth: AppSize.s20,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSize.s8),
+        ),
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );

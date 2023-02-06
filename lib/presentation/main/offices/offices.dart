@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pips/app/config.dart';
@@ -30,21 +32,42 @@ class _OfficesViewState extends State<OfficesView> {
 
   late ScrollController _scrollController;
 
+  final TextEditingController _searchTextEditingController =
+      TextEditingController();
+
+  final TextEditingController _searchOfficeController = TextEditingController();
+
   Office? _selectedOffice;
 
   final List<Office> _offices = <Office>[];
 
+  List<Office> _filteredOffices = <Office>[];
+
   List<Project>? _projects;
 
-  bool _loading = false;
+  bool _loadingOffice = false;
 
   int _currentPage = 1;
 
   int _lastPage = 1;
 
+  void _filterList() {
+    setState(() {
+      if (_searchOfficeController.text.isNotEmpty) {
+        _filteredOffices = _offices
+            .where((item) => item.acronym
+                .toLowerCase()
+                .contains(_searchOfficeController.text.toLowerCase()))
+            .toList();
+      } else {
+        _filteredOffices = _offices;
+      }
+    });
+  }
+
   Future<void> _getOffices() async {
     // set loading to true so that this won't trigger when a request is already happening
-    _loading = true;
+    _loadingOffice = true;
 
     // remove projects
     _projects = null;
@@ -65,7 +88,7 @@ class _OfficesViewState extends State<OfficesView> {
           _currentPage++;
 
           // lastly, stop loading
-          _loading = false;
+          _loadingOffice = false;
         });
       }
     }
@@ -106,7 +129,7 @@ class _OfficesViewState extends State<OfficesView> {
     );
 
     await webview.open(
-      url: "${Config.baseUrl}/generate-pdf/$uuid",
+      url: "${Config.baseUrl}/generate-pdf/$uuid?access_key=something+nice",
       presentationStyle: PresentationStyle.sheet,
       // size: Size(400.0, 400.0),
       userAgent:
@@ -124,6 +147,10 @@ class _OfficesViewState extends State<OfficesView> {
     _scrollController = ScrollController();
 
     _getOffices();
+
+    _searchOfficeController.addListener(_filterList);
+
+    _filteredOffices = _offices;
   }
 
   @override
@@ -131,6 +158,10 @@ class _OfficesViewState extends State<OfficesView> {
     super.dispose();
 
     _scrollController.dispose();
+
+    _searchTextEditingController.dispose();
+
+    _searchOfficeController.dispose();
   }
 
   @override
@@ -143,7 +174,7 @@ class _OfficesViewState extends State<OfficesView> {
       // if the position of scroll controller exceeds nextPageTrigger, load next page
       if (_scrollController.position.pixels > nextPageTrigger) {
         // if we are not yet on the last page, load the next one
-        if (!_loading && _currentPage < _lastPage) {
+        if (!_loadingOffice && _currentPage < _lastPage) {
           _getOffices();
         }
       }
@@ -168,35 +199,51 @@ class _OfficesViewState extends State<OfficesView> {
                   centerTitle: false,
                   automaticallyImplyLeading: false,
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(AppSize.s8),
+                  child: TextField(
+                    controller: _searchOfficeController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search...',
+                      prefixIcon: Icon(
+                        Icons.search,
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
-                  child: _offices.isNotEmpty
-                      ? ListView.builder(
-                          controller: _scrollController,
-                          itemCount: _offices.length ?? 0,
-                          itemBuilder: (BuildContext context, int index) {
-                            final office = _offices[index];
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom:
-                                      BorderSide(color: ColorManager.darkGray),
-                                ),
-                              ),
-                              child: ListTile(
-                                title: Text(office.acronym),
-                                trailing: const Icon(Icons.chevron_right),
+                  child: _filteredOffices.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.all(
+                            AppSize.s8,
+                          ),
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: _filteredOffices.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final office = _filteredOffices[index];
+
+                              return InkWell(
                                 onTap: () {
                                   setState(() {
                                     _selectedOffice = office;
                                   });
                                   _getOffice();
                                 },
-                              ),
-                            );
-                          },
+                                borderRadius: BorderRadius.circular(AppSize.s8),
+                                child: ListTile(
+                                  dense: true,
+                                  title: Text(office.acronym),
+                                  selected: _selectedOffice == office,
+                                  selectedTileColor: ColorManager.blue,
+                                  selectedColor: ColorManager.white,
+                                ),
+                              );
+                            },
+                          ),
                         )
                       : const Center(
-                          child: Text('No items to show'),
+                          child: CircularProgressIndicator(),
                         ),
                 ),
               ],
@@ -229,6 +276,16 @@ class _OfficesViewState extends State<OfficesView> {
                             decoration: BoxDecoration(
                               color: ColorManager.darkWhite,
                               borderRadius: BorderRadius.circular(AppSize.s8),
+                              // TODO: update this ugly thing
+                              gradient: LinearGradient(
+                                colors: [
+                                  ColorManager.veryLightGray,
+                                  ColorManager.darkWhite,
+                                  ColorManager.white,
+                                ],
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                              ),
                             ),
                             child: Column(
                               children: [
@@ -252,7 +309,10 @@ class _OfficesViewState extends State<OfficesView> {
                                   children: [
                                     Icon(
                                       Icons.email,
-                                      color: ColorManager.black,
+                                      color: ColorManager.darkGray,
+                                    ),
+                                    const SizedBox(
+                                      width: AppSize.s2,
                                     ),
                                     Text(_selectedOffice?.email ?? ""),
                                     const SizedBox(
@@ -260,7 +320,10 @@ class _OfficesViewState extends State<OfficesView> {
                                     ),
                                     Icon(
                                       Icons.phone,
-                                      color: ColorManager.black,
+                                      color: ColorManager.darkGray,
+                                    ),
+                                    const SizedBox(
+                                      width: AppSize.s2,
                                     ),
                                     Text(_selectedOffice?.phoneNumber ?? ""),
                                   ],
@@ -284,7 +347,7 @@ class _OfficesViewState extends State<OfficesView> {
               ),
             )
           : const Center(
-              child: Text('No office selected.'),
+              child: Text('Select office from the left panel to begin.'),
             ),
     );
   }
@@ -294,25 +357,114 @@ class _OfficesViewState extends State<OfficesView> {
 
     return projects.isNotEmpty
         ? Expanded(
-            child: ListView.builder(
-              itemCount: projects.length,
-              itemBuilder: (context, index) {
-                final project = projects[index];
+            child: Padding(
+              padding: const EdgeInsets.all(AppSize.s8),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _searchTextEditingController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search...',
+                      prefixIcon: Icon(
+                        Icons.search,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s8,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: projects.length,
+                      itemBuilder: (context, index) {
+                        final project = projects[index];
 
-                return ListTile(
-                  title: Text(project.title),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    if (Platform.isMacOS) {
-                      _onOpenPressed(project.uuid);
-                    } else {
-                      Navigator.pushNamed(context, Routes.viewProjectRoute,
-                          arguments: project.uuid);
-                    }
-                    // navigate to project vie
-                  },
-                );
-              },
+                        return ClipRect(
+                          child: Slidable(
+                            key: Key(index.toString()),
+                            startActionPane: ActionPane(
+                              motion: const BehindMotion(),
+                              extentRatio: 0.08,
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) async {
+                                    String urlToShare =
+                                        "${Config.baseUrl}/generate-pdf/${project.uuid}";
+                                    // generate url
+                                    await Clipboard.setData(
+                                        ClipboardData(text: urlToShare));
+
+                                    _showSuccessSnackbar();
+                                  },
+                                  backgroundColor: const Color(0xFF0000FF),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.share,
+                                  label: 'Share',
+                                ),
+                              ],
+                            ),
+                            endActionPane: ActionPane(
+                              extentRatio: 0.2,
+                              // A motion is a widget used to control how the pane animates.
+                              motion: const BehindMotion(),
+
+                              // A pane can dismiss the Slidable.
+                              // dismissible: DismissiblePane(onDismissed: () {}),
+
+                              // All actions are defined in the children parameter.
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    // do nothing
+                                  },
+                                  backgroundColor: const Color(0xFF00FF00),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.visibility,
+                                  label: 'View',
+                                ),
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    // do nothing
+                                  },
+                                  backgroundColor: const Color(0xFF21B7CA),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.edit,
+                                  label: 'Edit',
+                                ),
+                                // A SlidableAction can have an icon and/or a label.
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    // do nothing
+                                  },
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Delete',
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              title: Text(project.title),
+                              trailing: Text(
+                                  "Php ${(project.totalCost / 1000000).toStringAsFixed(2)} M"),
+                              onTap: () {
+                                if (Platform.isMacOS) {
+                                  _onOpenPressed(project.uuid);
+                                } else {
+                                  Navigator.pushNamed(
+                                      context, Routes.viewProjectRoute,
+                                      arguments: project.uuid);
+                                }
+                                // navigate to project vie
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         : Expanded(
@@ -322,5 +474,10 @@ class _OfficesViewState extends State<OfficesView> {
               ),
             ),
           );
+  }
+
+  void _showSuccessSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Successfully copied to clipboard.')));
   }
 }
