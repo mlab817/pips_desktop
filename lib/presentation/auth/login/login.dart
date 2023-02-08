@@ -63,7 +63,7 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSize.s12,
                   ),
                   Text(
-                    AppStrings.publicInvestmentProgramSystem,
+                    AppStrings.publicInvestmentProgrammingSystem,
                     style: TextStyle(
                       fontSize: AppSize.s20,
                       color: ColorManager.primary,

@@ -11,6 +11,9 @@ class PusherServiceImplementer {
   PusherServiceImplementer._internal();
 
   PusherChannelsClient init() {
+    // enable logs for pusher channels
+    PusherChannelsPackageLogger.enableLogs();
+
     const hostOptions = PusherChannelsOptions.fromHost(
       scheme: 'ws',
       // host: 'pips.da.gov.ph',
@@ -19,8 +22,6 @@ class PusherServiceImplementer {
       port: 6001,
       key: '1b421e8d437e47b9eee3',
     );
-
-    print(hostOptions.uri.toString());
 
     final client = PusherChannelsClient.websocket(
       options: hostOptions,

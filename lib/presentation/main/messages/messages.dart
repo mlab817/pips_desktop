@@ -12,6 +12,7 @@ import 'package:pips/presentation/resources/sizes_manager.dart';
 import '../../../domain/models/message.dart';
 import '../../../domain/models/user.dart';
 import '../../resources/color_manager.dart';
+import '../../resources/strings_manager.dart';
 
 class MessagesView extends StatefulWidget {
   const MessagesView({super.key});
@@ -510,8 +511,14 @@ class _MessagesViewState extends State<MessagesView> {
                 controller: _contentController,
                 onSubmitted: _sendMessage,
                 decoration: InputDecoration(
-                  hintText: 'Type message and press enter to send',
+                  hintText: AppStrings.typeMessageAndPressEnter,
                   fillColor: ColorManager.lightGray,
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),

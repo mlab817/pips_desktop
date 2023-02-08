@@ -111,7 +111,7 @@ class _SplashViewState extends State<SplashView> {
                     height: AppSize.s36,
                   ),
                   Text(
-                    AppStrings.publicInvestmentProgramSystem,
+                    AppStrings.publicInvestmentProgrammingSystem,
                     style: Theme.of(context).textTheme.headline1?.copyWith(
                           color: ColorManager.primary,
                           fontFamily: FontFamily.bebasNeue,

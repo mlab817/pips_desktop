@@ -4,6 +4,7 @@ import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
+import 'package:pips/presentation/new_project/new_project.dart';
 import 'package:pips/presentation/onboarding/onboarding.dart';
 import 'package:pips/presentation/project/project.dart';
 import 'package:pips/presentation/splash/splash.dart';
@@ -23,6 +24,7 @@ class Routes {
   static const String aboutRoute = "/about";
   static const String onboardingRoute = "/onboarding";
   static const String viewProjectRoute = "/view-project";
+  static const String newProjectRoute = "/new-project";
 }
 
 class RouteGenerator {
@@ -58,6 +60,8 @@ class RouteGenerator {
       case Routes.viewProjectRoute:
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
+      case Routes.newProjectRoute:
+        return MaterialPageRoute(builder: (_) => NewProjectView());
       default:
         // return null
         return MaterialPageRoute(builder: (_) => const HomeView());

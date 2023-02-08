@@ -80,18 +80,26 @@ class ThemeManager {
         headlineSmall: TextStyle(
           fontSize: AppSize.s18,
         ),
-        // placeholder for text input
+        titleLarge: TextStyle(
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.w300,
+        ),
+        // placeholder for text input,
+        // works also with list title
         titleMedium: TextStyle(
-          fontSize: AppSize.s12,
+          fontSize: AppSize.s11,
+          fontWeight: FontWeight.w300,
         ),
         titleSmall: TextStyle(
-          fontSize: AppSize.s10,
+          fontSize: AppSize.s8,
+          fontWeight: FontWeight.w300,
         ),
         bodyLarge: TextStyle(
-          fontSize: AppSize.s14,
+          fontSize: AppSize.s12,
         ),
         bodyMedium: TextStyle(
-          fontSize: AppSize.s12,
+          fontSize: AppSize.s11,
+          fontWeight: FontWeight.w300,
         ),
         bodySmall: TextStyle(
           fontSize: AppSize.s10,
@@ -100,7 +108,7 @@ class ThemeManager {
           fontSize: AppSize.s10,
         ),
         labelLarge: TextStyle(
-          fontSize: AppSize.s14,
+          fontSize: AppSize.s12,
         ),
       ),
       // TODO: update text button style
@@ -132,12 +140,28 @@ class ThemeManager {
         color: ColorManager.primary,
       ),
       listTileTheme: ListTileThemeData(
-        style: ListTileStyle.drawer,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        dense: true,
+        style: ListTileStyle.list,
         minLeadingWidth: AppSize.s20,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
+        selectedColor: ColorManager.white,
+        selectedTileColor: ColorManager.blue,
       ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        foregroundColor: ColorManager.primary,
+        backgroundColor: ColorManager.darkWhite,
+      ),
+      // checkboxTheme: CheckboxThemeData(
+      //   checkColor: MaterialStateProperty.resolveWith<Color>((states) {
+      //     if (states.contains(MaterialState.selected)) {
+      //       return ColorManager.primary;
+      //     }
+      //     return ColorManager.primary;
+      //   }),
+      // ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }

@@ -83,12 +83,14 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             },
           ),
         ),
-        Container(
+        Padding(
           padding: const EdgeInsets.all(AppSize.s8),
-          alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Change Password'),
+          child: SizedBox(
+            height: AppSize.s36,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text('Change Password'),
+            ),
           ),
         ),
       ],

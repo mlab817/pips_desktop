@@ -6,6 +6,7 @@ import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:pips/presentation/resources/strings_manager.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -26,12 +27,15 @@ class _SettingsViewState extends State<SettingsView> {
   ];
 
   final _listMenu = <SettingsMenu>[
-    SettingsMenu(title: 'Update Profile', icon: const Icon(Icons.person)),
-    SettingsMenu(title: 'Update Password', icon: const Icon(Icons.key)),
-    SettingsMenu(title: 'Notifications', icon: const Icon(Icons.notifications)),
     SettingsMenu(
-        title: 'Developer Notice', icon: const Icon(Icons.document_scanner)),
-    SettingsMenu(title: 'About', icon: const Icon(Icons.info_outline)),
+        title: AppStrings.updateProfile, icon: const Icon(Icons.person)),
+    SettingsMenu(title: AppStrings.updatePassword, icon: const Icon(Icons.key)),
+    SettingsMenu(
+        title: AppStrings.notifications, icon: const Icon(Icons.notifications)),
+    SettingsMenu(
+        title: AppStrings.developerNotice,
+        icon: const Icon(Icons.document_scanner)),
+    SettingsMenu(title: AppStrings.about, icon: const Icon(Icons.info_outline)),
   ];
 
   @override
@@ -52,7 +56,7 @@ class _SettingsViewState extends State<SettingsView> {
             child: Column(
               children: [
                 AppBar(
-                  title: const Text('Settings'),
+                  title: const Text(AppStrings.settings),
                   centerTitle: false,
                   automaticallyImplyLeading: false,
                 ),

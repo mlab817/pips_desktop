@@ -17,6 +17,11 @@ class _DeveloperNoticeState extends State<DeveloperNotice> {
           automaticallyImplyLeading: false,
           centerTitle: false,
         ),
+        const Expanded(
+          child: Center(
+            child: Text('For any ...'),
+          ),
+        )
       ],
     );
   }
