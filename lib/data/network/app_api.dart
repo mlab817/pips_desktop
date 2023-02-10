@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
-import 'package:pips/data/responses/create_message/create_message.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/messages/messages_response.dart';
 import 'package:retrofit/http.dart';
 
 import '../../domain/models/chat_room.dart';
@@ -64,4 +64,7 @@ abstract class AppServiceClient {
 
   @POST("/chat-rooms")
   Future<ChatRoom> createChatRoom(@Field('recipient_id') int id);
+
+  @GET("/chat-rooms/{id}/messages")
+  Future<MessagesResponse> listMessages(@Path('id') int id);
 }

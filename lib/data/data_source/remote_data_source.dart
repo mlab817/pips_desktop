@@ -15,6 +15,7 @@ import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/forgot_password/forgot_password.dart';
+import '../responses/messages/messages_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
 import '../responses/users/users_response.dart';
@@ -44,6 +45,8 @@ abstract class RemoteDataSource {
   Future<ChatRoom> createChatRoom(int input);
 
   Future<Message> createMessage(CreateMessageUseCaseInput input);
+
+  Future<MessagesResponse> listMessages(int input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -111,5 +114,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<Message> createMessage(CreateMessageUseCaseInput input) async {
     return await _appServiceClient.createMessage(input.id, input.content);
+  }
+
+  @override
+  Future<MessagesResponse> listMessages(int input) async {
+    return await _appServiceClient.listMessages(input);
   }
 }

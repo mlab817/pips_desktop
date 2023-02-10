@@ -6,6 +6,16 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
+    MessageResponse(
+      message: Message.fromJson(json['message'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };
+
 Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       id: json['id'] as int,
       content: json['content'] as String,

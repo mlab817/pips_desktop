@@ -12,6 +12,7 @@ import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
+import 'package:pips/domain/usecase/messages_usecase.dart';
 import 'package:pips/domain/usecase/office_usecase.dart';
 import 'package:pips/domain/usecase/offices_usecase.dart';
 import 'package:pips/domain/usecase/options_usecase.dart';
@@ -22,26 +23,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/usecase/chatroom_usecase.dart';
 
+const hostOptions = PusherChannelsOptions.fromHost(
+  scheme: 'ws',
+  // host: 'pips.da.gov.ph',
+  // TODO: update settings
+  host: '127.0.0.1',
+  port: 6001,
+  key: '1b421e8d437e47b9eee3',
+);
+
+final client = PusherChannelsClient.websocket(
+  options: hostOptions,
+  connectionErrorHandler: (exception, trace, refresh) {
+    refresh();
+  },
+);
+
 /// dependency injection for the app
 final GetIt instance = GetIt.instance;
 
 Future<void> initAppModule() async {
   final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+  await SharedPreferences.getInstance();
 
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   instance.registerLazySingleton<AppPreferences>(
-      () => AppPreferencesImplementer(instance()));
+          () => AppPreferencesImplementer(instance()));
 
   instance.registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImplementer(instance()));
+          () => RemoteDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImplementer(instance()));
+          () => LocalDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<Repository>(
-      () => RepositoryImplementer(instance(), instance()));
+          () => RepositoryImplementer(instance(), instance()));
 
   instance.registerLazySingleton<DioFactory>(() => DioFactory(instance()));
 
@@ -55,9 +72,12 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<OptionsUseCase>(() => OptionsUseCase(instance()));
 
-  final PusherChannelsClient _pusherClient = PusherServiceImplementer().init();
+  final PusherChannelsClient wsClient = PusherWebsocketClient().init();
 
-  instance.registerLazySingleton<PusherChannelsClient>(() => _pusherClient);
+  // connect the client
+  wsClient.connect();
+
+  instance.registerLazySingleton<PusherChannelsClient>(() => wsClient);
 
   instance
       .registerFactory<ChatRoomsUseCase>(() => ChatRoomsUseCase(instance()));
@@ -65,10 +85,12 @@ Future<void> initAppModule() async {
   instance.registerFactory<ChatRoomUseCase>(() => ChatRoomUseCase(instance()));
 
   instance.registerFactory<CreateChatRoomUseCase>(
-      () => CreateChatRoomUseCase(instance()));
+          () => CreateChatRoomUseCase(instance()));
 
   instance.registerFactory<CreateMessageUseCase>(
-      () => CreateMessageUseCase(instance()));
+          () => CreateMessageUseCase(instance()));
+
+  instance.registerFactory<MessagesUseCase>(() => MessagesUseCase(instance()));
 }
 
 initLoginModule() {

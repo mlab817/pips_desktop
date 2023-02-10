@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 
 import '../../domain/models/options.dart';
@@ -12,74 +13,90 @@ class NewProjectView extends StatefulWidget {
 }
 
 class _NewProjectViewState extends State<NewProjectView> {
+  final PageController _pageController = PageController();
+
   final List<Section> _profileSection = [
     Section(
       icon: const Icon(Icons.info_outline),
       title: 'General Information',
+      pageNumber: 1,
     ),
     Section(
       icon: const Icon(Icons.account_balance),
       title: 'Implementing Units',
+      pageNumber: 2,
     ),
     Section(
       icon: const Icon(Icons.location_on_outlined),
       title: 'Spatial Coverage',
+      pageNumber: 3,
     ),
     Section(
       icon: const Icon(Icons.approval),
       title: 'Level of Approval',
+      pageNumber: 4,
     ),
     Section(
       icon: const Icon(Icons.document_scanner),
       title: 'Programming Document',
+      pageNumber: 5,
     ),
     Section(
       icon: const Icon(Icons.align_horizontal_left),
       title: 'PDP Chapters',
+      pageNumber: 6,
     ),
     Section(
       icon: const Icon(Icons.business_sharp),
       title: 'TRIP Requirements',
+      pageNumber: 7,
     ),
     Section(
       icon: const Icon(Icons.delivery_dining),
       title: 'Expected Outputs/Deliverables',
+      pageNumber: 8,
     ),
     Section(
       icon: const Icon(Icons.checklist),
       title: 'Socioeconomic Agenda',
+      pageNumber: 9,
     ),
     Section(
       icon: const Icon(Icons.checklist),
       title: 'Sustainable Development Goals',
+      pageNumber: 10,
     ),
     Section(
       icon: const Icon(Icons.precision_manufacturing),
       title: 'Pre-Construction Costs',
+      pageNumber: 11,
     ),
     Section(
       icon: const Icon(Icons.details),
       title: 'Preparation Details',
+      pageNumber: 12,
     ),
     Section(
       icon: const Icon(Icons.money),
       title: 'Funding Source and Mode of Implementation',
+      pageNumber: 13,
     ),
     Section(
       icon: const Icon(Icons.account_tree),
       title: 'Physical and Financial Status',
+      pageNumber: 14,
     ),
     Section(
       icon: const Icon(Icons.attachment),
       title: 'Attachments',
+      pageNumber: 15,
     ),
     Section(
       icon: const Icon(Icons.send),
       title: 'Submit',
+      pageNumber: 16,
     ),
   ];
-
-  late List<Widget> _pages;
 
   late List<String> _list;
 
@@ -95,33 +112,33 @@ class _NewProjectViewState extends State<NewProjectView> {
     Option(value: 7, label: 'Option 7'),
   ];
 
+  final List<Sdg> sdgs = [
+    Sdg(image: AssetsManager.sdg1, value: 1),
+    Sdg(image: AssetsManager.sdg2, value: 2),
+    Sdg(image: AssetsManager.sdg3, value: 3),
+    Sdg(image: AssetsManager.sdg4, value: 4),
+    Sdg(image: AssetsManager.sdg5, value: 5),
+    Sdg(image: AssetsManager.sdg6, value: 6),
+    Sdg(image: AssetsManager.sdg7, value: 7),
+    Sdg(image: AssetsManager.sdg8, value: 8),
+    Sdg(image: AssetsManager.sdg9, value: 9),
+    Sdg(image: AssetsManager.sdg10, value: 10),
+    Sdg(image: AssetsManager.sdg11, value: 11),
+    Sdg(image: AssetsManager.sdg12, value: 12),
+    Sdg(image: AssetsManager.sdg13, value: 13),
+    Sdg(image: AssetsManager.sdg14, value: 14),
+    Sdg(image: AssetsManager.sdg15, value: 15),
+    Sdg(image: AssetsManager.sdg16, value: 16),
+    Sdg(image: AssetsManager.sdg17, value: 17),
+  ];
+
   final List _selectedOptions = [];
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void dispose() {
+    super.dispose();
 
-    _list = List.generate(10, (index) => "Item ${index.toString()}");
-
-    _pages = [
-      _getOne(),
-      _getTwo(),
-      _getThree(),
-      _getFour(),
-      _getFive(),
-      _getSix(),
-      _getSeven(),
-      _getOne(),
-      _getOne(),
-      _getOne(),
-      _getOne(),
-      _getOne(),
-      _getOne(),
-      _getOne(),
-      _getOne(),
-      _getSixteen(),
-    ];
+    _pageController.dispose();
   }
 
   @override
@@ -151,6 +168,11 @@ class _NewProjectViewState extends State<NewProjectView> {
                       setState(() {
                         _selectedIndex = index;
                       });
+                      _pageController.animateToPage(
+                        _profileSection[index].pageNumber,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
                     },
                   );
                 },
@@ -163,7 +185,31 @@ class _NewProjectViewState extends State<NewProjectView> {
               padding: const EdgeInsets.all(AppPadding.md),
               child: Column(
                 children: [
-                  Expanded(child: _pages[_selectedIndex]),
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        _getOne(),
+                        _getTwo(),
+                        _getThree(),
+                        _getFour(),
+                        _getFive(),
+                        _getSix(),
+                        _getSeven(),
+                        _getEight(),
+                        _getTen(),
+                        _getTen(),
+                        _getOne(),
+                        _getOne(),
+                        _getOne(),
+                        _getOne(),
+                        _getOne(),
+                        _getOne(),
+                        _getSixteen(),
+                      ],
+                    ),
+                  ),
                   Container(
                     decoration: const BoxDecoration(
                       border: Border(
@@ -171,33 +217,39 @@ class _NewProjectViewState extends State<NewProjectView> {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.chevron_left),
-                          onPressed: () {
-                            setState(() {
-                              if (_selectedIndex == 0) {
-                                _selectedIndex = _pages.length;
-                              }
+                        // IconButton(
+                        //   icon: const Icon(Icons.chevron_left),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       if (_selectedIndex == 0) {
+                        //         //
+                        //       }
 
-                              _selectedIndex--;
-                            });
-                          },
-                        ),
-                        Text("${_selectedIndex + 1} of ${_pages.length}"),
+                        //       _selectedIndex--;
+                        //     });
+                        //   },
+                        // ),
+                        // Text("${_selectedIndex + 1} of ${_pages.length}"),
                         IconButton(
                           icon: const Icon(Icons.chevron_right),
                           onPressed: () {
-                            if (_selectedIndex == _pages.length - 1) {
-                              setState(() {
-                                _selectedIndex = 0;
-                              });
-                              return;
-                            }
+                            // if (_selectedIndex == _pages.length - 1) {
+                            //   setState(() {
+                            //     _selectedIndex = 0;
+                            //   });
+                            //   return;
+                            // }
 
                             setState(() {
-                              _selectedIndex++;
+                              _pageController.animateToPage(
+                                16,
+                                duration: const Duration(
+                                  milliseconds: 400,
+                                ),
+                                curve: Curves.easeInOut,
+                              );
                             });
                           },
                         ),
@@ -377,6 +429,59 @@ class _NewProjectViewState extends State<NewProjectView> {
     );
   }
 
+  final List<int> _selectedSdgs = [];
+
+  Widget _getEight() {
+    return Container();
+  }
+
+  Widget _getTen() {
+    return Column(
+      children: [
+        Text(_selectedSdgs.length.toString()),
+        GridView.builder(
+          shrinkWrap: true,
+          itemCount: sdgs.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 8,
+            crossAxisSpacing: AppSize.s8,
+            mainAxisSpacing: AppSize.s8,
+          ),
+          itemBuilder: (context, index) {
+            final sdg = sdgs[index];
+
+            return Stack(children: [
+              Image.asset(
+                sdg.image,
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Checkbox(
+                      value: _selectedSdgs.contains(sdg.value),
+                      onChanged: (_) {
+                        debugPrint(
+                            _selectedSdgs.contains(sdg.value).toString());
+                        debugPrint(sdg.value.toString());
+                        debugPrint(
+                            "selected sdgs: ${_selectedSdgs.length.toString()}");
+
+                        setState(() {
+                          if (!_selectedSdgs.contains(sdg.value)) {
+                            _selectedSdgs.add(sdg.value);
+                          } else {
+                            _selectedSdgs.remove(sdg.value);
+                          }
+                        });
+                      })),
+            ]);
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _getSixteen() {
     return const Center(
       child: Text('Confirm submission'),
@@ -399,9 +504,23 @@ class Section {
   Section({
     required this.icon,
     required this.title,
+    required this.pageNumber,
   });
 
   Icon icon;
 
   String title;
+
+  int pageNumber;
+}
+
+class Sdg {
+  String image;
+
+  int value;
+
+  Sdg({
+    required this.image,
+    required this.value,
+  });
 }

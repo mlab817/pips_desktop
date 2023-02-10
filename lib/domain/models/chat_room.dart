@@ -27,9 +27,9 @@ class ChatRoom {
 
   ChatRoom({
     required this.id,
-    this.name,
     required this.createdAt,
     required this.updatedAt,
+    this.name,
     this.users,
     this.messages,
   });

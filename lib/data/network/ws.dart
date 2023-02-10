@@ -1,15 +1,33 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 
-class PusherServiceImplementer {
-  static final PusherServiceImplementer _instance =
-      PusherServiceImplementer._internal();
+enum ChannelType { presenceChannel, publicChannel, privateChannel }
 
-  factory PusherServiceImplementer() {
+abstract class WebsocketClient {
+  void init();
+
+  void connect();
+
+  void disconnect();
+
+  void dispose();
+}
+
+class PusherWebsocketClient implements WebsocketClient {
+  static final PusherWebsocketClient _instance =
+  PusherWebsocketClient._internal();
+
+  factory PusherWebsocketClient() {
     return _instance;
   }
 
-  PusherServiceImplementer._internal();
+  late PusherChannelsClient _client;
 
+  PusherWebsocketClient._internal();
+
+  static Uri get authEndPoint =>
+      Uri.parse('http://localhost:8000/api/broadcasting/auth');
+
+  @override
   PusherChannelsClient init() {
     // enable logs for pusher channels
     PusherChannelsPackageLogger.enableLogs();
@@ -26,12 +44,25 @@ class PusherServiceImplementer {
     final client = PusherChannelsClient.websocket(
       options: hostOptions,
       connectionErrorHandler: (exception, trace, refresh) {
-// here you can handle connection errors.
-// refresh callback enables to reconnect the client
         refresh();
       },
     );
 
     return client;
+  }
+
+  @override
+  void connect() {
+    _client.connect();
+  }
+
+  @override
+  void dispose() {
+    _client.dispose();
+  }
+
+  @override
+  void disconnect() {
+    _client.disconnect();
   }
 }

@@ -1,25 +1,17 @@
 import 'dart:async';
 
-import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/routes.dart';
-import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/presentation/main/chat/chat.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
-import 'package:pips/presentation/main/messages/messages.dart';
+import 'package:pips/presentation/main/notifications/notifications.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:universal_io/io.dart';
 
 import '../../app/dep_injection.dart';
-
-var pusherOptions = const PusherChannelsOptions.fromHost(
-  host: '127.0.0.1',
-  port: 6001,
-  key: '1b421e8d437e47b9eee3',
-  scheme: 'ws',
-);
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -30,57 +22,53 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   final AppPreferences _appPreferences = instance<AppPreferences>();
-  final Repository _repository = instance<Repository>();
-  final PusherChannelsClient _client = instance<PusherChannelsClient>();
+  // final Repository _repository = instance<Repository>();
+  // final PusherChannelsClient _client = instance<PusherChannelsClient>();
 
-  late PresenceChannel _presenceChannel;
+  // late PresenceChannel _presenceChannel;
 
-  late StreamSubscription<ChannelReadEvent> _streamSubscription;
+  // late StreamSubscription<ChannelReadEvent> _streamSubscription;
+
+  // late StreamSubscription<ChannelReadEvent> _allEventsSubs;
 
   int _selectedIndex = 0;
 
   final List<Widget> _views = [
     const DashboardView(),
     const OfficesView(),
-    const MessagesView(),
+    const ChatView(),
     const SettingsView(),
+    const NotificationsView(),
   ];
 
   Future<void> _subscribeToChannel() async {
-    debugPrint(pusherOptions.uri.toString());
+    // String token = await _repository.getBearerToken();
 
-    String token = await _repository.getBearerToken();
+    // _presenceChannel = _client.presenceChannel(
+    //   'online-users',
+    //   authorizationDelegate:
+    //       EndpointAuthorizableChannelTokenAuthorizationDelegate
+    //           .forPresenceChannel(
+    //     authorizationEndpoint: Uri.parse(Config.authEndpoint),
+    //     headers: {"Authorization": "Bearer $token"},
+    //   ),
+    // );
 
-    debugPrint(token);
+    // _presenceChannel.subscribeIfNotUnsubscribed();
 
-    _presenceChannel = _client.presenceChannel(
-      'online-users',
-      authorizationDelegate:
-          EndpointAuthorizableChannelTokenAuthorizationDelegate
-              .forPresenceChannel(
-        authorizationEndpoint:
-            Uri.parse('http://localhost:8000/api/broadcasting/auth'),
-        headers: {'Authorization': 'Bearer $token'},
-      ),
-    );
+    // _allEventsSubs = _presenceChannel.bindToAll().listen((event) {
+    //   debugPrint(event.toString());
+    // });
 
-    _client.onConnectionEstablished.listen((event) {
-      _presenceChannel.subscribeIfNotUnsubscribed();
-
-      _presenceChannel
-          .trigger(eventName: 'Hello', data: {'message': 'Im here mofos!'});
-
-      _streamSubscription = _presenceChannel.whenMemberAdded().listen((event) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                "Member added, now members count is ${_presenceChannel.state?.members?.membersCount}")));
-      });
-    });
+    // if (_presenceChannel.state?.status == ChannelStatus.subscribed) {
+    //   _presenceChannel.trigger(eventName: 'login', data: {
+    //     'message': 'hello world!',
+    //   });
+    // }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _subscribeToChannel();
@@ -88,15 +76,12 @@ class _MainViewState extends State<MainView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
-    _presenceChannel.unsubscribe();
+    // _presenceChannel.unsubscribe();
 
-    // cancel subscription
-    _streamSubscription.cancel();
-
-    _client.dispose();
+    // // cancel subscription
+    // _streamSubscription.cancel();
   }
 
   @override
@@ -200,6 +185,15 @@ class _MainViewState extends State<MainView> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(
+                    _selectedIndex == 4
+                        ? Icons.notifications
+                        : Icons.notifications_outlined,
+                    color: ColorManager.blue,
+                  ),
+                  label: const Text('Notifications'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
                     Icons.exit_to_app_outlined,
                     color: ColorManager.blue,
                   ),
@@ -217,11 +211,12 @@ class _MainViewState extends State<MainView> {
   }
 
   void _onDestinationSelected(int index) {
-    if (index == 4) {
+    if (index == 5) {
       _appPreferences.clear();
       resetModules();
 
       Navigator.pushReplacementNamed(context, Routes.loginRoute);
+      return;
     }
 
     setState(() {

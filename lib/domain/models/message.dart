@@ -3,6 +3,21 @@ import 'package:json_annotation/json_annotation.dart';
 part 'message.g.dart';
 
 @JsonSerializable()
+class MessageResponse {
+  @JsonKey(name: 'message')
+  Message message;
+
+  MessageResponse({
+    required this.message,
+  });
+
+  factory MessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$MessageResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
+}
+
+@JsonSerializable()
 class Message {
   @JsonKey(name: "id")
   final int id;
