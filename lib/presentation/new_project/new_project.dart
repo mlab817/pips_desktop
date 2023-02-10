@@ -198,15 +198,15 @@ class _NewProjectViewState extends State<NewProjectView> {
                         _getSix(),
                         _getSeven(),
                         _getEight(),
+                        _getNine(),
                         _getTen(),
-                        _getTen(),
-                        _getOne(),
-                        _getOne(),
-                        _getOne(),
-                        _getOne(),
-                        _getOne(),
-                        _getOne(),
+                        _getEleven(),
+                        _getTwelve(),
+                        _getThirteen(),
+                        _getFourteen(),
+                        _getFifteen(),
                         _getSixteen(),
+                        _getSeventeen(),
                       ],
                     ),
                   ),
@@ -244,7 +244,7 @@ class _NewProjectViewState extends State<NewProjectView> {
 
                             setState(() {
                               _pageController.animateToPage(
-                                16,
+                                17,
                                 duration: const Duration(
                                   milliseconds: 400,
                                 ),
@@ -450,39 +450,80 @@ class _NewProjectViewState extends State<NewProjectView> {
           itemBuilder: (context, index) {
             final sdg = sdgs[index];
 
-            return Stack(children: [
-              Image.asset(
-                sdg.image,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Checkbox(
-                      value: _selectedSdgs.contains(sdg.value),
-                      onChanged: (_) {
-                        debugPrint(
-                            _selectedSdgs.contains(sdg.value).toString());
-                        debugPrint(sdg.value.toString());
-                        debugPrint(
-                            "selected sdgs: ${_selectedSdgs.length.toString()}");
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  if (!_selectedSdgs.contains(sdg.value)) {
+                    _selectedSdgs.add(sdg.value);
+                  } else {
+                    _selectedSdgs.remove(sdg.value);
+                  }
+                });
+              },
+              child: Stack(children: [
+                Image.asset(
+                  sdg.image,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Checkbox(
+                        value: _selectedSdgs.contains(sdg.value),
+                        onChanged: (_) {
+                          debugPrint(
+                              _selectedSdgs.contains(sdg.value).toString());
+                          debugPrint(sdg.value.toString());
+                          debugPrint(
+                              "selected sdgs: ${_selectedSdgs.length.toString()}");
 
-                        setState(() {
-                          if (!_selectedSdgs.contains(sdg.value)) {
-                            _selectedSdgs.add(sdg.value);
-                          } else {
-                            _selectedSdgs.remove(sdg.value);
-                          }
-                        });
-                      })),
-            ]);
+                          setState(() {
+                            if (!_selectedSdgs.contains(sdg.value)) {
+                              _selectedSdgs.add(sdg.value);
+                            } else {
+                              _selectedSdgs.remove(sdg.value);
+                            }
+                          });
+                        })),
+              ]),
+            );
           },
         ),
       ],
     );
   }
 
+  Widget _getNine() {
+    return Container();
+  }
+
+  Widget _getEleven() {
+    return Container();
+  }
+
+  Widget _getTwelve() {
+    return Container();
+  }
+
+  Widget _getThirteen() {
+    return Container();
+  }
+
+  Widget _getFourteen() {
+    return Container();
+  }
+
+  Widget _getFifteen() {
+    return Container();
+  }
+
   Widget _getSixteen() {
+    return const Center(
+      child: Text('Attachments'),
+    );
+  }
+
+  Widget _getSeventeen() {
     return const Center(
       child: Text('Confirm submission'),
     );
