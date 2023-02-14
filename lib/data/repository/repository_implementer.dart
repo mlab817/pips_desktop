@@ -8,6 +8,7 @@ import 'package:pips/data/responses/chat_room/chat_room.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
+import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
@@ -245,6 +246,21 @@ class RepositoryImplementer implements Repository {
     try {
       final MessagesResponse response =
           await _remoteDataSource.listMessages(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("error from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<NotificationsResponse>> listNotifications() async {
+    try {
+      final NotificationsResponse response =
+          await _remoteDataSource.listNotifications();
 
       debugPrint("from rep imp: ${response.toString()}");
 

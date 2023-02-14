@@ -17,6 +17,12 @@ class _DashboardViewState extends State<DashboardView> {
       appBar: AppBar(
         title: const Text(AppStrings.dashboard),
         automaticallyImplyLeading: false,
+        actions: const [
+          IconButton(
+            onPressed: null,
+            icon: Icon(Icons.search),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -262,6 +262,30 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_dropzone:
+    dependency: "direct main"
+    description:
+      name: flutter_dropzone
+      sha256: "3ae0e79a9a44ca75005d0be196e5ad04042c5c7a85855c306167a0c93ff17d6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.5"
+  flutter_dropzone_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_dropzone_platform_interface
+      sha256: "3d153344397dd5c9d5323472ff5bad20779f56206fa6f97fcce294bb1cea6987"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
+  flutter_dropzone_web:
+    dependency: transitive
+    description:
+      name: flutter_dropzone_web
+      sha256: "41c7350a9fbf38b5009a0f0d50069856184189430b1ed79ea4c1efb7ed2cd4ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.8"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -312,6 +336,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  forme:
+    dependency: transitive
+    description:
+      name: forme
+      sha256: "8ee954d6fb15b45c0fe79078130dc7b3c40dd99d66510bee448cf904710045b7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.1"
+  forme_file_picker:
+    dependency: "direct main"
+    description:
+      name: forme_file_picker
+      sha256: fefe61eb6c880d1f4ae4283a0d2dd62fda678f6c5fda34fe723cfe2e10bb30e8
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2+1"
   freezed:
     dependency: "direct main"
     description:

@@ -4,6 +4,7 @@ import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
+import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
@@ -55,6 +56,8 @@ abstract class Repository {
   Future<Result<Message>> createMessage(CreateMessageUseCaseInput input);
 
   Future<Result<MessagesResponse>> listMessages(int input);
+
+  Future<Result<NotificationsResponse>> listNotifications();
 
   Future<String> getBearerToken();
 

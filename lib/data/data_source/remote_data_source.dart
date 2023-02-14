@@ -6,6 +6,7 @@ import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/options/options_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
@@ -47,6 +48,8 @@ abstract class RemoteDataSource {
   Future<Message> createMessage(CreateMessageUseCaseInput input);
 
   Future<MessagesResponse> listMessages(int input);
+
+  Future<NotificationsResponse> listNotifications();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -119,5 +122,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<MessagesResponse> listMessages(int input) async {
     return await _appServiceClient.listMessages(input);
+  }
+
+  @override
+  Future<NotificationsResponse> listNotifications() async {
+    return await _appServiceClient.listNotifications();
   }
 }

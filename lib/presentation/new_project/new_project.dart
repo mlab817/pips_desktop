@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:forme_file_picker/forme_file_picker.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 
@@ -100,7 +102,7 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   late List<String> _list;
 
-  int _selectedIndex = 0;
+  int _currentPage = 0;
 
   final List<Option> _options = [
     Option(value: 1, label: 'Option 1'),
@@ -158,18 +160,20 @@ class _NewProjectViewState extends State<NewProjectView> {
               child: ListView.builder(
                 itemCount: _profileSection.length,
                 itemBuilder: (context, index) {
+                  final section = _profileSection[index];
+
                   return ListTile(
                     dense: true,
-                    leading: _profileSection[index].icon,
+                    leading: section.icon,
                     trailing: const Icon(Icons.check),
                     title: Text(_profileSection[index].title),
-                    selected: _selectedIndex == index,
+                    selected: _currentPage == section.pageNumber,
                     onTap: () {
                       setState(() {
-                        _selectedIndex = index;
+                        _currentPage = section.pageNumber;
                       });
                       _pageController.animateToPage(
-                        _profileSection[index].pageNumber,
+                        section.pageNumber - 1,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
@@ -203,7 +207,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                         _getEleven(),
                         _getTwelve(),
                         _getThirteen(),
-                        _getFourteen(),
+                        // _getFourteen(),
                         _getFifteen(),
                         _getSixteen(),
                         _getSeventeen(),
@@ -223,21 +227,21 @@ class _NewProjectViewState extends State<NewProjectView> {
                         //   icon: const Icon(Icons.chevron_left),
                         //   onPressed: () {
                         //     setState(() {
-                        //       if (_selectedIndex == 0) {
+                        //       if (_currentPage == 0) {
                         //         //
                         //       }
 
-                        //       _selectedIndex--;
+                        //       _currentPage--;
                         //     });
                         //   },
                         // ),
-                        // Text("${_selectedIndex + 1} of ${_pages.length}"),
+                        // Text("${_currentPage + 1} of ${_pages.length}"),
                         IconButton(
                           icon: const Icon(Icons.chevron_right),
                           onPressed: () {
-                            // if (_selectedIndex == _pages.length - 1) {
+                            // if (_currentPage == _pages.length - 1) {
                             //   setState(() {
-                            //     _selectedIndex = 0;
+                            //     _currentPage = 0;
                             //   });
                             //   return;
                             // }
@@ -460,32 +464,36 @@ class _NewProjectViewState extends State<NewProjectView> {
                   }
                 });
               },
-              child: Stack(children: [
-                Image.asset(
-                  sdg.image,
-                  fit: BoxFit.cover,
-                ),
-                Positioned(
+              child: Stack(
+                children: [
+                  Image.asset(
+                    sdg.image,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
                     top: 0,
                     right: 0,
                     child: Checkbox(
-                        value: _selectedSdgs.contains(sdg.value),
-                        onChanged: (_) {
-                          debugPrint(
-                              _selectedSdgs.contains(sdg.value).toString());
-                          debugPrint(sdg.value.toString());
-                          debugPrint(
-                              "selected sdgs: ${_selectedSdgs.length.toString()}");
+                      value: _selectedSdgs.contains(sdg.value),
+                      onChanged: (_) {
+                        debugPrint(
+                            _selectedSdgs.contains(sdg.value).toString());
+                        debugPrint(sdg.value.toString());
+                        debugPrint(
+                            "selected sdgs: ${_selectedSdgs.length.toString()}");
 
-                          setState(() {
-                            if (!_selectedSdgs.contains(sdg.value)) {
-                              _selectedSdgs.add(sdg.value);
-                            } else {
-                              _selectedSdgs.remove(sdg.value);
-                            }
-                          });
-                        })),
-              ]),
+                        setState(() {
+                          if (!_selectedSdgs.contains(sdg.value)) {
+                            _selectedSdgs.add(sdg.value);
+                          } else {
+                            _selectedSdgs.remove(sdg.value);
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -518,8 +526,22 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getSixteen() {
-    return const Center(
-      child: Text('Attachments'),
+    return Center(
+      child: Column(
+        children: [
+          const Text('Attachments'),
+          FormeFileGrid(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 4.0,
+            ),
+            pickFiles: (FormeFileGridState state, int? maximum) {},
+            name: '',
+          )
+        ],
+      ),
     );
   }
 

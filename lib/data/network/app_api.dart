@@ -9,6 +9,7 @@ import 'package:retrofit/http.dart';
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
 import '../responses/chat_room/chat_room.dart';
+import '../responses/notifications/notifications_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
 import '../responses/options/options_response.dart';
@@ -67,4 +68,7 @@ abstract class AppServiceClient {
 
   @GET("/chat-rooms/{id}/messages")
   Future<MessagesResponse> listMessages(@Path('id') int id);
+
+  @GET("/auth/notifications")
+  Future<NotificationsResponse> listNotifications();
 }

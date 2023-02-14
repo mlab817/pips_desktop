@@ -45,6 +45,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             obscureText: _passwordIsObscured,
             decoration: const InputDecoration(
               hintText: 'Current Password',
+              prefixIcon: Icon(Icons.key),
             ),
           ),
         ),
@@ -55,6 +56,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             obscureText: _passwordIsObscured,
             decoration: const InputDecoration(
               hintText: 'New Password',
+              prefixIcon: Icon(Icons.key),
             ),
           ),
         ),
@@ -65,6 +67,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             obscureText: _passwordIsObscured,
             decoration: const InputDecoration(
               hintText: 'Re-type Password',
+              prefixIcon: Icon(Icons.key),
             ),
           ),
         ),

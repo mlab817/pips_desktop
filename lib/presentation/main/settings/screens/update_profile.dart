@@ -27,214 +27,108 @@ class _UpdateProfileState extends State<UpdateProfile> {
           automaticallyImplyLeading: false,
           centerTitle: false,
         ),
-        Padding(
-          padding: const EdgeInsets.all(AppSize.s8),
-          child: Container(
-            padding: const EdgeInsets.all(AppSize.s8),
-            decoration: BoxDecoration(
-              color: ColorManager.white,
-              borderRadius: BorderRadius.circular(AppSize.s8),
-              border: Border.all(color: ColorManager.borderGray),
-            ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.md),
             child: ListView(
               shrinkWrap: true,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Flex(
+                  direction: Axis.horizontal,
                   children: [
-                    const Text('First Name'),
-                    SizedBox(
-                        width: AppSize.s300,
-                        child: TextField(
-                          textAlign: TextAlign.end,
-                          decoration: InputDecoration(
-                            isCollapsed: true,
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide.none,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                        )),
-                  ],
-                ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Last Name'),
-                    SizedBox(
-                      width: AppSize.s300,
+                    Flexible(
                       child: TextField(
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
+                        controller: _firstNameController,
+                        decoration: const InputDecoration(
+                          hintText: 'First Name',
+                          prefixIcon: Icon(Icons.abc),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: AppSize.s12,
+                    ),
+                    Flexible(
+                      child: TextField(
+                        controller: _lastNameController,
+                        decoration: const InputDecoration(
+                          hintText: 'Last Name',
+                          prefixIcon: Icon(Icons.abc),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                const SizedBox(
+                  height: AppSize.s12,
+                ),
+                Flex(
+                  direction: Axis.horizontal,
                   children: [
-                    const Text('Last Name'),
-                    SizedBox(
-                      width: AppSize.s300,
+                    Flexible(
                       child: TextField(
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
+                        controller: _positionController,
+                        decoration: const InputDecoration(
+                          hintText: 'Username',
+                          prefixIcon: Icon(Icons.alternate_email),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: AppSize.s12,
+                    ),
+                    Flexible(
+                      child: TextField(
+                        controller: _positionController,
+                        decoration: const InputDecoration(
+                          hintText: 'Position',
+                          prefixIcon: Icon(Icons.person_2),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Last Name'),
-                    SizedBox(
-                      width: AppSize.s300,
-                      child: TextField(
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
+                const SizedBox(
+                  height: AppSize.s12,
+                ),
+                Flex(direction: Axis.horizontal, children: [
+                  Flexible(
+                    child: TextField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        hintText: 'Email',
+                        prefixIcon: Icon(Icons.email),
                       ),
                     ),
-                  ],
-                ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Last Name'),
-                    SizedBox(
-                      width: AppSize.s300,
-                      child: TextField(
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
+                  ),
+                  const SizedBox(
+                    width: AppSize.s12,
+                  ),
+                  Flexible(
+                    child: TextField(
+                      controller: _contactNumberController,
+                      decoration: const InputDecoration(
+                        hintText: 'Phone No.',
+                        prefixIcon: Icon(Icons.phone),
                       ),
                     ),
-                  ],
+                  ),
+                ]),
+                const SizedBox(
+                  height: AppSize.s12,
                 ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Flex(
+                  direction: Axis.horizontal,
                   children: [
-                    const Text('Last Name'),
-                    SizedBox(
-                      width: AppSize.s300,
-                      child: TextField(
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Last Name'),
-                    SizedBox(
-                      width: AppSize.s300,
-                      child: TextField(
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(0),
-                          ),
+                    Flexible(
+                      child: SizedBox(
+                        height: AppSize.s36,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Submitted')));
+                          },
+                          child: const Text('Submit'),
                         ),
                       ),
                     ),
