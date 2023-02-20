@@ -17,9 +17,11 @@ class AppStrings {
   static const String settings = "Settings";
   static const String updateProfile = "Update Profile";
   static const String updatePassword = "Update Password";
+  static const String activityLogs = "Activity Logs";
   static const String developerNotice = "Developer Notice";
   static const String about = "About";
 
   // messages pages
-  static const String typeMessageAndPressEnter = "Type message and press enter to send";
+  static const String typeMessageAndPressEnter =
+      "Type message and press enter to send";
 }

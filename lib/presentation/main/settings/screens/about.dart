@@ -35,7 +35,9 @@ class _AboutViewState extends State<AboutView> {
                 Text(AppStrings.publicInvestmentProgrammingSystem,
                     style: Theme.of(context).textTheme.headlineLarge),
                 const SizedBox(height: AppSize.s18),
-                const Text('Developed by Mark Lester Bolotaolo'),
+                const Text(
+                  'Developed by Mark Lester Bolotaolo for the Investment Programming Division',
+                ),
                 const SizedBox(height: AppSize.s50),
                 const Text(
                   'About the IPD',

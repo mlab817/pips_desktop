@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:forme_file_picker/forme_file_picker.dart';
+import 'package:pips/domain/models/full_project.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 
@@ -15,6 +15,8 @@ class NewProjectView extends StatefulWidget {
 }
 
 class _NewProjectViewState extends State<NewProjectView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final PageController _pageController = PageController();
 
   final List<Section> _profileSection = [
@@ -102,6 +104,12 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   late List<String> _list;
 
+  late FullProject _project;
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _totalCostController = TextEditingController();
+
   int _currentPage = 0;
 
   final List<Option> _options = [
@@ -136,11 +144,63 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   final List _selectedOptions = [];
 
+  Map<int, bool> _stepCompleted = {
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
+    7: false,
+    8: false,
+    9: false,
+    10: false,
+    11: false,
+    12: false,
+    13: false,
+    14: false,
+    15: false,
+    16: false,
+  };
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _project = FullProject(
+      id: null,
+      uuid: null,
+      title: '',
+      typeId: null,
+      regularProgram: false,
+      description: '',
+      totalCost: 0,
+      expectedOutputs: '',
+      spatialCoverageId: null,
+      approvalLevelId: null,
+      approvalLevelDate: '',
+      pip: false,
+      pipTypologyId: null,
+      cip: false,
+      cipTypeId: null,
+      trip: false,
+      rdip: false,
+      covid: false,
+      research: false,
+      rdcEndorsementRequired: false,
+    );
+  }
+
   @override
   void dispose() {
-    super.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _totalCostController.dispose();
 
     _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -165,18 +225,23 @@ class _NewProjectViewState extends State<NewProjectView> {
                   return ListTile(
                     dense: true,
                     leading: section.icon,
-                    trailing: const Icon(Icons.check),
+                    trailing: _stepCompleted[index] ?? false
+                        ? Icon(
+                            Icons.check,
+                            color: ColorManager.blue,
+                          )
+                        : const Icon(Icons.check),
                     title: Text(_profileSection[index].title),
-                    selected: _currentPage == section.pageNumber,
+                    selected: _currentPage == index,
                     onTap: () {
-                      setState(() {
-                        _currentPage = section.pageNumber;
-                      });
                       _pageController.animateToPage(
-                        section.pageNumber - 1,
+                        index,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
+                      setState(() {
+                        _currentPage = index;
+                      });
                     },
                   );
                 },
@@ -212,8 +277,15 @@ class _NewProjectViewState extends State<NewProjectView> {
                         _getSixteen(),
                         _getSeventeen(),
                       ],
+                      onPageChanged: (index) {
+                        //
+                        setState(() {
+                          _currentPage = index;
+                        });
+                      },
                     ),
                   ),
+                  // Bottom Arrow Controls
                   Container(
                     decoration: const BoxDecoration(
                       border: Border(
@@ -273,47 +345,55 @@ class _NewProjectViewState extends State<NewProjectView> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: _titleController,
+            decoration: const InputDecoration(
               labelText: 'Program/Project Title',
             ),
+            onChanged: (String? value) {
+              setState(() {
+                _project = _project.copyWith(title: value ?? '');
+              });
+            },
           ),
           const Spacer(),
           Row(
             children: [
               Expanded(
-                flex: 1,
                 child: RadioListTile(
                     value: 1,
-                    groupValue: null,
+                    groupValue: _project.typeId,
                     title: const Text('Program'),
                     onChanged: (value) {
                       setState(() {
-                        // do something
+                        _project = _project.copyWith(typeId: value);
                       });
                     }),
               ),
               Expanded(
-                flex: 3,
                 child: RadioListTile(
                     value: 2,
-                    groupValue: null,
+                    groupValue: _project.typeId,
                     title: const Text('Project'),
                     onChanged: (value) {
                       setState(() {
-                        // do something
+                        _project = _project.copyWith(typeId: value);
                       });
                     }),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(),
               ),
             ],
           ),
           const Spacer(),
           CheckboxListTile(
             dense: true,
-            value: true,
-            onChanged: (value) {
+            value: _project.regularProgram,
+            onChanged: (bool? value) {
               setState(() {
-                //
+                _project = _project.copyWith(regularProgram: value ?? false);
               });
             },
             title: const Text('Regular Program'),
@@ -339,19 +419,32 @@ class _NewProjectViewState extends State<NewProjectView> {
             },
           ),
           const Spacer(),
-          const TextField(
+          TextField(
+            controller: _descriptionController,
             minLines: 5,
             maxLines: 10,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Description',
             ),
+            onChanged: (String? value) {
+              setState(() {
+                _project = _project.copyWith(description: value ?? '');
+              });
+            },
           ),
           const Spacer(),
-          const TextField(
+          TextField(
+            controller: _totalCostController,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Total Cost in absolute PhP',
             ),
+            onChanged: (String? value) {
+              setState(() {
+                _project = _project.copyWith(
+                    totalCost: double.tryParse(value ?? '') ?? 0);
+              });
+            },
           ),
         ],
       ),
@@ -380,11 +473,20 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   Widget _getThree() {
     return Column(
-      children: const <Widget>[
+      children: <Widget>[
         // spatial coverage,
-        Text('Spatial Coverage'),
+        const Text('Spatial Coverage'),
+        DropdownButton(
+            items: const [
+              DropdownMenuItem(value: 1, child: Text('Item 1')),
+              DropdownMenuItem(value: 2, child: Text('Item 2')),
+              DropdownMenuItem(value: 3, child: Text('Item 3')),
+            ],
+            onChanged: (int? newValue) {
+              //
+            }),
         // regions and provinces
-        Text('Locations')
+        const Text('Locations')
       ],
     );
   }
@@ -546,8 +648,20 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getSeventeen() {
-    return const Center(
-      child: Text('Confirm submission'),
+    return Expanded(
+      child: ListView(
+        children: [
+          const Text('Confirm submission'),
+          ListTile(
+            title: const Text('Title'),
+            trailing: Text(_project.title),
+          ),
+          ListTile(
+            title: const Text('Description'),
+            trailing: Text(_project.description),
+          ),
+        ],
+      ),
     );
   }
 }

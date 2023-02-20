@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
+import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
@@ -22,6 +23,7 @@ class _SettingsViewState extends State<SettingsView> {
     const UpdateProfile(),
     const UpdatePassword(),
     const Notifications(),
+    const ActivityLogView(),
     const DeveloperNotice(),
     const AboutView(),
   ];
@@ -32,6 +34,9 @@ class _SettingsViewState extends State<SettingsView> {
     SettingsMenu(title: AppStrings.updatePassword, icon: const Icon(Icons.key)),
     SettingsMenu(
         title: AppStrings.notifications, icon: const Icon(Icons.notifications)),
+    SettingsMenu(
+        title: AppStrings.activityLogs,
+        icon: const Icon(Icons.format_list_numbered)),
     SettingsMenu(
         title: AppStrings.developerNotice,
         icon: const Icon(Icons.document_scanner)),
@@ -62,7 +67,7 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(AppSize.s8),
+                    padding: const EdgeInsets.all(AppPadding.md),
                     child: ListView.builder(
                       itemCount: _listMenu.length,
                       itemBuilder: (context, index) {
@@ -74,9 +79,11 @@ class _SettingsViewState extends State<SettingsView> {
                           leading: _listMenu[index].icon,
                           title: Text(_listMenu[index].title),
                           onTap: () {
-                            setState(() {
-                              _selectedIndex = index;
-                            });
+                            setState(
+                              () {
+                                _selectedIndex = index;
+                              },
+                            );
                           },
                         );
                       },
@@ -106,72 +113,3 @@ class SettingsMenu {
     required this.icon,
   });
 }
-//
-// children: [
-// ListTile(
-// dense: true,
-// leading: const Icon(Icons.person),
-// title: const Text('Update Profile'),
-// selected: _selectedIndex == 0,
-// selectedColor: ColorManager.white,
-// selectedTileColor: ColorManager.blue,
-// onTap: () {
-// setState(() {
-// _selectedIndex = 0;
-// });
-// },
-// ),
-// ListTile(
-// dense: true,
-// leading: const Icon(Icons.key),
-// title: const Text('Update Password'),
-// onTap: () {
-// setState(() {
-// _selectedIndex = 1;
-// });
-// },
-// ),
-// ListTile(
-// dense: true,
-// leading: const Icon(Icons.notifications),
-// title: const Text('Notifications'),
-// onTap: () {
-// setState(() {
-// _selectedIndex = 2;
-// });
-// },
-// ),
-// const Divider(),
-// ListTile(
-// dense: true,
-// leading: const Icon(Icons.document_scanner),
-// title: const Text('Developer Notice'),
-// onTap: () {
-// setState(() {
-// _selectedIndex = 3;
-// });
-// },
-// ),
-// ListTile(
-// dense: true,
-// leading: const Icon(Icons.info_outline),
-// title: const Text('About'),
-// onTap: () {
-// setState(() {
-// _selectedIndex = 4;
-// });
-// },
-// ),
-// const Divider(),
-// Padding(
-// padding: const EdgeInsets.all(AppSize.s8),
-// child: Text(
-// 'PIPS v.1.0.0+6',
-// textAlign: TextAlign.center,
-// style: TextStyle(
-// color: ColorManager.darkGray,
-// fontSize: AppSize.s10,
-// ),
-// ),
-// ),
-// ],

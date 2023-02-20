@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/domain/usecase/notifications_usecase.dart';
-import 'package:intl/intl.dart';
 
-import '../../../domain/usecase/base_usecase.dart';
 import '../../../domain/models/notification.dart' as notificationModel;
+import '../../../domain/usecase/base_usecase.dart';
 
 class NotificationsView extends StatefulWidget {
   const NotificationsView({super.key});
@@ -154,6 +154,9 @@ class _MySearchDelegate extends SearchDelegate<String> {
                 .toLowerCase()
                 .contains(query.toLowerCase()) ||
             notification.data.sender
+                .toLowerCase()
+                .contains(query.toLowerCase()) ||
+            notification.data.message
                 .toLowerCase()
                 .contains(query.toLowerCase()))
         .toList();

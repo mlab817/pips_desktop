@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
-import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
 import 'package:pips/presentation/new_project/new_project.dart';
@@ -35,7 +34,7 @@ class RouteGenerator {
       case Routes.onboardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingView());
       case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => const HomeView());
+        return MaterialPageRoute(builder: (_) => const DashboardView());
       case Routes.dashboardRoute:
         return MaterialPageRoute(builder: (_) => const DashboardView());
       case Routes.loginRoute:
@@ -61,10 +60,10 @@ class RouteGenerator {
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
       case Routes.newProjectRoute:
-        return MaterialPageRoute(builder: (_) => NewProjectView());
+        return MaterialPageRoute(builder: (_) => const NewProjectView());
       default:
         // return null
-        return MaterialPageRoute(builder: (_) => const HomeView());
+        return MaterialPageRoute(builder: (_) => const DashboardView());
     }
   }
 }

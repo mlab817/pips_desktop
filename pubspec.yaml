@@ -68,6 +68,9 @@ dependencies:
   universal_io: ^2.0.4
   flutter_dropzone: ^3.0.5
   forme_file_picker: ^3.0.2+1
+  firebase_messaging: ^14.2.2
+  firebase_core: ^2.5.0
+  printing: ^5.9.3
 
 dev_dependencies:
   flutter_test:

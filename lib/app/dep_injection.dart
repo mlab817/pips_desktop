@@ -5,6 +5,7 @@ import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pips/data/data_source/remote_data_source.dart';
 import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/network/dio_factory.dart';
+import 'package:pips/data/network/fcm.dart';
 import 'package:pips/data/network/ws.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
@@ -95,6 +96,8 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<NotificationsUseCase>(
       () => NotificationsUseCase(instance()));
+
+  // await FbMessaging.init();
 }
 
 initLoginModule() {
