@@ -626,7 +626,78 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getFifteen() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: const [
+          SizedBox(
+              height: AppSize.s200,
+              width: double.infinity,
+              child: Placeholder(
+                child: Text('Project Status'),
+              )),
+          SizedBox(
+            height: AppSize.s20,
+          ),
+          SizedBox(
+              height: AppSize.s200,
+              width: double.infinity,
+              child: Placeholder(
+                child: Text('Category'),
+              )),
+          SizedBox(
+            height: AppSize.s20,
+          ),
+          SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Start Year'),
+            ),
+          ),
+          SizedBox(
+            height: AppSize.s20,
+          ),
+          SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('End Year'),
+            ),
+          ),
+          SizedBox(
+            height: AppSize.s20,
+          ),
+          SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Level of Readiness'),
+            ),
+          ),
+          SizedBox(
+            height: AppSize.s20,
+          ),
+          SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Updates'),
+            ),
+          ),
+          SizedBox(
+            height: AppSize.s20,
+          ),
+          SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('As of'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getSixteen() {

@@ -21,11 +21,8 @@ class _ActivityLogViewState extends State<ActivityLogView> {
           centerTitle: false,
         ),
         Expanded(
-          child: ListView.separated(
+          child: ListView.builder(
               itemCount: 2,
-              separatorBuilder: (context, index) {
-                return const Divider();
-              },
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: const Icon(Icons.format_list_numbered),
