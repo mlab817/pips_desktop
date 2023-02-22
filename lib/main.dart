@@ -20,38 +20,36 @@ void main() async {
     setWindowMinSize(const Size(960, 600));
   }
 
-  if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      name: 'my-app',
-      options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp(
+    name: 'my-app',
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  if (Platform.isAndroid) {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    print("is messaging supported: ${await messaging.isSupported()}");
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
     );
 
-    if (Platform.isAndroid) {
-      FirebaseMessaging messaging = FirebaseMessaging.instance;
+    final fcmToken = await messaging.getToken().onError((error, stackTrace) {
+      print(error.toString());
+      return null;
+    });
 
-      print("is messaging supported: ${await messaging.isSupported()}");
+    print("fcmToken $fcmToken");
 
-      NotificationSettings settings = await messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
-
-      final fcmToken = await messaging.getToken().onError((error, stackTrace) {
-        print(error.toString());
-        return null;
-      });
-
-      print("fcmToken $fcmToken");
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print(message.toString());
-      });
-    }
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(message.toString());
+    });
   }
 
   // initialize dependency injection

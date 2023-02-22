@@ -20,6 +20,8 @@ class AppStrings {
   static const String activityLogs = "Activity Logs";
   static const String developerNotice = "Developer Notice";
   static const String about = "About";
+  static const String newProgramProject = "New Program/Project";
+  static const String enableNotifications = "Enable notifications";
 
   // messages pages
   static const String typeMessageAndPressEnter =

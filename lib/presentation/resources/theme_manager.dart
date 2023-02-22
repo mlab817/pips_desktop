@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
-import 'package:pips/presentation/resources/font_manager.dart' show FontFamily;
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class ThemeManager {
   static ThemeData getApplicationTheme() {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: FontFamily.primary,
+      // fontFamily: FontFamily.primary,
       scaffoldBackgroundColor: ColorManager.white,
       appBarTheme: AppBarTheme(
         toolbarHeight: AppSize.s60,
         backgroundColor: ColorManager.white,
         foregroundColor: ColorManager.darkGray,
-        titleTextStyle: TextStyle(
+        titleTextStyle: GoogleFonts.raleway(
           fontWeight: FontWeight.w700,
           color: ColorManager.darkGray,
           fontSize: AppSize.s14,

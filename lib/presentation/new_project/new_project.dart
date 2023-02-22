@@ -6,6 +6,7 @@ import 'package:pips/presentation/resources/color_manager.dart';
 
 import '../../domain/models/options.dart';
 import '../resources/sizes_manager.dart';
+import '../resources/strings_manager.dart';
 
 class NewProjectView extends StatefulWidget {
   const NewProjectView({Key? key}) : super(key: key);
@@ -144,7 +145,7 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   final List _selectedOptions = [];
 
-  Map<int, bool> _stepCompleted = {
+  final Map<int, bool> _stepCompleted = {
     0: false,
     1: false,
     2: false,
@@ -166,7 +167,6 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _project = FullProject(
@@ -206,7 +206,9 @@ class _NewProjectViewState extends State<NewProjectView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New Program/Project')),
+      appBar: AppBar(
+        title: const Text(AppStrings.newProgramProject),
+      ),
       body: Row(
         children: <Widget>[
           Expanded(

@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+
+import '../../../resources/strings_manager.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -16,7 +19,7 @@ class _NotificationsState extends State<Notifications> {
     return Column(
       children: [
         AppBar(
-          title: const Text('Notifications'),
+          title: const Text(AppStrings.notifications),
           automaticallyImplyLeading: false,
           centerTitle: false,
         ),
@@ -32,8 +35,8 @@ class _NotificationsState extends State<Notifications> {
                       _notificationsEnabled = !_notificationsEnabled;
                     });
                   },
-                  title: const Text('Enable notifications'),
-                  trailing: Switch(
+                  title: const Text(AppStrings.enableNotifications),
+                  trailing: CupertinoSwitch(
                     value: _notificationsEnabled,
                     onChanged: (bool? value) {
                       setState(() {

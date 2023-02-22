@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/presentation/logout_listener/logout_listener.dart';
@@ -19,6 +21,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.unknown
+        },
+      ),
       theme: ThemeManager.getApplicationTheme(),
       onGenerateRoute: RouteGenerator.onGenerateRoute,
       initialRoute: Routes.splashRoute,
