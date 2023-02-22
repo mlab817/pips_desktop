@@ -274,7 +274,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                         _getEleven(),
                         _getTwelve(),
                         _getThirteen(),
-                        // _getFourteen(),
+                        _getFourteen(),
                         _getFifteen(),
                         _getSixteen(),
                         _getSeventeen(),
@@ -610,19 +610,201 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getEleven() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(mainAxisSize: MainAxisSize.max, children: const [
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Has Right of Way and Resettlement Action Plan'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Right of Way'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Right of Way Total Cost (in absolute PhP terms)'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('No. of Households Affected'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Resettlement Action Plan'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text(
+                  'Resettlement Action Plan Total Cost (in absolute PhP terms)'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('No. of Households Affected'),
+            )),
+      ]),
+    );
   }
 
   Widget _getTwelve() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(mainAxisSize: MainAxisSize.max, children: const [
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Preparation Document'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Details of F/S'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text(
+                  'Will require assistance for the conduct of F/S (from NEDA)?'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('F/S Completion Date'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Status of FS'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Total Cost of F/S (in absolute PhP terms)'),
+            )),
+      ]),
+    );
   }
 
   Widget _getThirteen() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(mainAxisSize: MainAxisSize.max, children: const [
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Total'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Male'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Female'),
+            )),
+      ]),
+    );
   }
 
   Widget _getFourteen() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(mainAxisSize: MainAxisSize.max, children: const [
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Funding Source'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Other Funding Source'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Funding Institutions'),
+            )),
+        SizedBox(
+          height: AppSize.s20,
+        ),
+        SizedBox(
+            height: AppSize.s200,
+            width: double.infinity,
+            child: Placeholder(
+              child: Text('Mode of Implementation'),
+            )),
+      ]),
+    );
   }
 
   Widget _getFifteen() {
