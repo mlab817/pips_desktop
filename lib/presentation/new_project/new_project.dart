@@ -82,24 +82,29 @@ class _NewProjectViewState extends State<NewProjectView> {
       pageNumber: 12,
     ),
     Section(
+      icon: const Icon(Icons.person),
+      title: 'Employment Generated',
+      pageNumber: 13,
+    ),
+    Section(
       icon: const Icon(Icons.money),
       title: 'Funding Source and Mode of Implementation',
-      pageNumber: 13,
+      pageNumber: 14,
     ),
     Section(
       icon: const Icon(Icons.account_tree),
       title: 'Physical and Financial Status',
-      pageNumber: 14,
+      pageNumber: 15,
     ),
     Section(
       icon: const Icon(Icons.attachment),
       title: 'Attachments',
-      pageNumber: 15,
+      pageNumber: 16,
     ),
     Section(
       icon: const Icon(Icons.send),
       title: 'Submit',
-      pageNumber: 16,
+      pageNumber: 17,
     ),
   ];
 
@@ -540,7 +545,19 @@ class _NewProjectViewState extends State<NewProjectView> {
   final List<int> _selectedSdgs = [];
 
   Widget _getEight() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(
+        children: const [
+          Placeholder(
+            child: SizedBox(
+              width: double.infinity,
+              height: AppSize.s200,
+              child: Text('Expected Outputs/Deliverables'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getTen() {
@@ -606,7 +623,19 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getNine() {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(
+        children: const [
+          Placeholder(
+            child: SizedBox(
+              width: double.infinity,
+              height: AppSize.s200,
+              child: Text('Socioeconomic Agenda'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getEleven() {
@@ -905,16 +934,16 @@ class _NewProjectViewState extends State<NewProjectView> {
   Widget _getSeventeen() {
     return Expanded(
       child: ListView(
-        children: [
-          const Text('Confirm submission'),
-          ListTile(
-            title: const Text('Title'),
-            trailing: Text(_project.title),
+        children: const [
+          Text('Confirm submission'),
+          SizedBox(
+            height: AppSize.s20,
           ),
-          ListTile(
-            title: const Text('Description'),
-            trailing: Text(_project.description),
-          ),
+          Expanded(
+            child: Placeholder(
+              child: Text('PDF Preview'),
+            ),
+          )
         ],
       ),
     );

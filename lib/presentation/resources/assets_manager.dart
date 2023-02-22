@@ -2,6 +2,8 @@ class AssetsManager {
   static const String svgLogoAsset = "assets/images/logo.svg";
   static const String animEmptyJson = "assets/json/empty.json";
 
+  static const String loadingJson = "assets/json/loading.json";
+
   static const String sdg1 = "assets/images/sdgs/E-WEB-Goal-01.png";
   static const String sdg2 = "assets/images/sdgs/E-WEB-Goal-02.png";
   static const String sdg3 = "assets/images/sdgs/E-WEB-Goal-03.png";
