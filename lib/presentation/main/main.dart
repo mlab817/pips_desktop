@@ -89,7 +89,8 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       body: Row(
         children: [
-          if (Platform.isMacOS) _getNavigationRail(),
+          if (Platform.isMacOS || Platform.isLinux || Platform.isWindows)
+            _getNavigationRail(),
           Expanded(child: _views[_selectedIndex]),
         ],
       ),

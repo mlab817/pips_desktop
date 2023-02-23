@@ -12,11 +12,13 @@ import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
+import '../../data/requests/sign_up/sign_up_request.dart';
 import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/chat_room/chat_room.dart';
 import '../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
 import '../../data/responses/options/options_response.dart';
+import '../../data/responses/register/register_response.dart';
 import '../../data/responses/users/users_response.dart';
 import '../models/chat_room.dart';
 import '../models/message.dart';
@@ -58,6 +60,8 @@ abstract class Repository {
   Future<Result<MessagesResponse>> listMessages(int input);
 
   Future<Result<NotificationsResponse>> listNotifications();
+
+  Future<Result<RegisterResponse>> register(SignUpRequest input);
 
   Future<String> getBearerToken();
 

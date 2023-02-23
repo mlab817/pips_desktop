@@ -14,7 +14,7 @@ abstract class WebsocketClient {
 
 class PusherWebsocketClient implements WebsocketClient {
   static final PusherWebsocketClient _instance =
-  PusherWebsocketClient._internal();
+      PusherWebsocketClient._internal();
 
   factory PusherWebsocketClient() {
     return _instance;
@@ -25,7 +25,7 @@ class PusherWebsocketClient implements WebsocketClient {
   PusherWebsocketClient._internal();
 
   static Uri get authEndPoint =>
-      Uri.parse('http://localhost:8000/api/broadcasting/auth');
+      Uri.parse('https://beta.pips.da.gov.ph/api/broadcasting/auth');
 
   @override
   PusherChannelsClient init() {
@@ -33,11 +33,11 @@ class PusherWebsocketClient implements WebsocketClient {
     PusherChannelsPackageLogger.enableLogs();
 
     const hostOptions = PusherChannelsOptions.fromHost(
-      scheme: 'ws',
+      scheme: 'wss',
       // host: 'pips.da.gov.ph',
       // TODO: update settings
-      host: '127.0.0.1',
-      port: 6001,
+      host: 'pips.da.gov.ph',
+      port: 443,
       key: '1b421e8d437e47b9eee3',
     );
 

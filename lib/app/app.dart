@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
       theme: ThemeManager.getApplicationTheme(),
       onGenerateRoute: RouteGenerator.onGenerateRoute,
-      initialRoute: Routes.splashRoute,
+      initialRoute: Routes.signUpRoute, // Routes.splashRoute
       home: const LogoutListener(
         child: MainView(),
       ),

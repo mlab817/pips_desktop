@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
+import 'package:pips/presentation/auth/sign_up/sign_up.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
@@ -17,6 +18,7 @@ class Routes {
   static const String homeRoute = "/home";
   static const String dashboardRoute = "/dashboard";
   static const String loginRoute = "/login";
+  static const String signUpRoute = "/sign-up";
   static const String forgotPasswordRoute = "/forgot-password";
   static const String mainRoute = "/main";
   static const String projectRoute = "/project";
@@ -40,6 +42,9 @@ class RouteGenerator {
       case Routes.loginRoute:
         initLoginModule();
         return MaterialPageRoute(builder: (_) => const LoginView());
+      case Routes.signUpRoute:
+        initLoginModule();
+        return MaterialPageRoute(builder: (_) => const SignUpView());
       case Routes.forgotPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordView());
       case Routes.mainRoute:

@@ -50,14 +50,23 @@ class _LoginViewState extends State<LoginView> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: AppSize.s400,
-                maxHeight: AppSize.s360,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    AssetsManager.svgLogoAsset,
-                    height: AppSize.s60,
+                  Container(
+                    padding: const EdgeInsets.all(AppPadding.xs),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: AppSize.s2,
+                        color: ColorManager.primary,
+                      ),
+                      borderRadius: BorderRadius.circular(AppSize.s50),
+                    ),
+                    child: SvgPicture.asset(
+                      AssetsManager.svgLogoAsset,
+                      height: AppSize.s60,
+                    ),
                   ),
                   const SizedBox(
                     height: AppSize.s12,
@@ -72,7 +81,7 @@ class _LoginViewState extends State<LoginView> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
-                    height: AppSize.s12,
+                    height: AppSize.s40,
                   ),
                   TextField(
                     controller: _usernameController,
@@ -92,9 +101,16 @@ class _LoginViewState extends State<LoginView> {
                       // labelText: AppStrings.password,
                       prefixIcon: const Icon(Icons.key),
                       hintText: AppStrings.password,
-                      suffixIcon: _passwordIsObscured
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _passwordIsObscured = !_passwordIsObscured;
+                          });
+                        },
+                        icon: Icon(_passwordIsObscured
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -118,6 +134,11 @@ class _LoginViewState extends State<LoginView> {
                   TextButton(
                     onPressed: _goToForgotPassword,
                     child: const Text(AppStrings.forgotPassword),
+                  ),
+                  const Divider(),
+                  TextButton(
+                    onPressed: _goToSignUp,
+                    child: const Text(AppStrings.signUp),
                   ),
                 ],
               ),
@@ -148,6 +169,10 @@ class _LoginViewState extends State<LoginView> {
 
   void _goToForgotPassword() {
     Navigator.pushNamed(context, Routes.forgotPasswordRoute);
+  }
+
+  void _goToSignUp() {
+    Navigator.pushNamed(context, Routes.signUpRoute);
   }
 
   void _togglePasswordVisibility() {

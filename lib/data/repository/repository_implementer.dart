@@ -3,6 +3,7 @@ import 'package:pips/data/requests/forgot_password/forgot_password_request.dart'
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/data/requests/sign_up/sign_up_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/chat_room/chat_room.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
@@ -25,6 +26,7 @@ import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
 import '../responses/chat_rooms/chat_rooms.dart';
 import '../responses/options/options_response.dart';
+import '../responses/register/register_response.dart';
 
 // repository implementer returns result class
 class RepositoryImplementer implements Repository {
@@ -261,6 +263,20 @@ class RepositoryImplementer implements Repository {
     try {
       final NotificationsResponse response =
           await _remoteDataSource.listNotifications();
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("error from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<RegisterResponse>> register(SignUpRequest input) async {
+    try {
+      final RegisterResponse response = await _remoteDataSource.register(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
