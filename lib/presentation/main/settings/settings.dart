@@ -41,6 +41,7 @@ class _SettingsViewState extends State<SettingsView> {
         title: AppStrings.developerNotice,
         icon: const Icon(Icons.document_scanner)),
     SettingsMenu(title: AppStrings.about, icon: const Icon(Icons.info_outline)),
+    SettingsMenu(title: AppStrings.logout, icon: const Icon(Icons.exit_to_app)),
   ];
 
   @override

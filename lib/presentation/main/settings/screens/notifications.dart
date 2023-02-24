@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
@@ -36,7 +35,7 @@ class _NotificationsState extends State<Notifications> {
                     });
                   },
                   title: const Text(AppStrings.enableNotifications),
-                  trailing: CupertinoSwitch(
+                  trailing: Switch(
                     value: _notificationsEnabled,
                     onChanged: (bool? value) {
                       setState(() {

@@ -10,6 +10,7 @@ class AppStrings {
   static const String forgotPassword = "Forgot Password";
   static const String login = "Login";
   static const String signUp = "Sign up";
+  static const String logout = "Logout";
 
   static const String dashboard = "Dashboard";
   static const String offices = "Offices";

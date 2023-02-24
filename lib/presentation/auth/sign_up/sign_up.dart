@@ -16,6 +16,10 @@ class SignUpView extends StatefulWidget {
 class _SignUpViewState extends State<SignUpView> {
   final SignUpUseCase _signUpUseCase = instance<SignUpUseCase>();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _fileNameController = TextEditingController();
+
   SignUpRequest _signUpRequest = SignUpRequest(
     officeId: null,
     username: '',
@@ -28,6 +32,14 @@ class _SignUpViewState extends State<SignUpView> {
   );
 
   PlatformFile? _selectedFile;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    _fileNameController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,128 +55,181 @@ class _SignUpViewState extends State<SignUpView> {
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480.0),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                const TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: 'Office',
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  TextFormField(
+                    autofocus: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Office is required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Office',
+                      prefixIcon: Icon(Icons.home_work),
+                    ),
                   ),
-                ),
-                const SizedBox(height: AppSize.s20),
-                Flex(
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          hintText: 'First Name',
+                  const SizedBox(height: AppSize.s20),
+                  Flex(
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'First name is required';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'First Name',
+                            prefixIcon: Icon(Icons.badge),
+                          ),
+                          onChanged: (String? value) {
+                            setState(() {
+                              _signUpRequest = _signUpRequest.copyWith(
+                                  firstName: value ?? '');
+                            });
+                          },
                         ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _signUpRequest =
-                                _signUpRequest.copyWith(firstName: value ?? '');
-                          });
-                        },
                       ),
-                    ),
-                    const SizedBox(
-                      width: AppSize.s20,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          hintText: 'Last Name',
+                      const SizedBox(
+                        width: AppSize.s20,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Last name is required';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Last Name',
+                            prefixIcon: Icon(Icons.badge),
+                          ),
+                          onChanged: (String? value) {
+                            setState(() {
+                              _signUpRequest = _signUpRequest.copyWith(
+                                  lastName: value ?? '');
+                            });
+                          },
                         ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _signUpRequest =
-                                _signUpRequest.copyWith(lastName: value ?? '');
-                          });
-                        },
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSize.s20),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Position is required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'Position',
+                        prefixIcon: Icon(Icons.settings_accessibility)),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _signUpRequest =
+                            _signUpRequest.copyWith(position: value ?? '');
+                      });
+                    },
+                  ),
+                  const SizedBox(height: AppSize.s20),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email is required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Email Address',
+                      prefixIcon: Icon(Icons.email),
                     ),
-                  ],
-                ),
-                const SizedBox(height: AppSize.s20),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Position',
+                    onChanged: (String? value) {
+                      setState(() {
+                        _signUpRequest =
+                            _signUpRequest.copyWith(email: value ?? '');
+                      });
+                    },
                   ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _signUpRequest =
-                          _signUpRequest.copyWith(position: value ?? '');
-                    });
-                  },
-                ),
-                const SizedBox(height: AppSize.s20),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Email Address',
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _signUpRequest =
-                          _signUpRequest.copyWith(email: value ?? '');
-                    });
-                  },
-                ),
-                const SizedBox(height: AppSize.s20),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Username',
-                    prefixIcon: Icon(Icons.alternate_email),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _signUpRequest =
-                          _signUpRequest.copyWith(username: value ?? '');
-                    });
-                  },
-                ),
-                const SizedBox(height: AppSize.s20),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Contact No.',
-                    prefixIcon: Icon(Icons.phone),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _signUpRequest =
-                          _signUpRequest.copyWith(lastName: value ?? '');
-                    });
-                  },
-                ),
-                const SizedBox(height: AppSize.s20),
-                //
-                GestureDetector(
-                  onTap: () {
-                    _pickFile();
-                  },
-                  child: Container(
-                    height: AppSize.s40,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 0.5,
-                      ),
-                      borderRadius: BorderRadius.circular(AppPadding.md),
+                  const SizedBox(height: AppSize.s20),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Username is required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Username',
+                      prefixIcon: Icon(Icons.alternate_email),
                     ),
-                    child: Row(children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('Select File'),
-                      ),
-                      Text(_selectedFile?.name ?? '')
-                    ]),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _signUpRequest =
+                            _signUpRequest.copyWith(username: value ?? '');
+                      });
+                    },
                   ),
-                ),
-                const SizedBox(height: AppSize.s40),
-                ElevatedButton(
-                    onPressed: _signup, child: const Text('Sign Up')),
-              ],
+                  const SizedBox(height: AppSize.s20),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Contact No. is required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Contact No.',
+                      prefixIcon: Icon(Icons.phone),
+                    ),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _signUpRequest =
+                            _signUpRequest.copyWith(lastName: value ?? '');
+                      });
+                    },
+                  ),
+                  const SizedBox(height: AppSize.s20),
+                  //
+                  Flex(
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: _pickFile,
+                        child: const Text('Select File'),
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: _fileNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'File is required.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSize.s40),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _signup();
+                        }
+                      },
+                      child: const Text('Sign Up')),
+                ],
+              ),
             ),
           ),
         ),
@@ -185,6 +250,7 @@ class _SignUpViewState extends State<SignUpView> {
 
       setState(() {
         _selectedFile = file;
+        _fileNameController.text = file.name;
         _signUpRequest =
             _signUpRequest.copyWith(authorizationPath: file.path ?? '');
       });

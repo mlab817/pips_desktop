@@ -46,7 +46,7 @@ class ThemeManager {
         border: OutlineInputBorder(
           borderSide: BorderSide(
             style: BorderStyle.solid,
-            color: ColorManager.black,
+            color: ColorManager.lightGray,
           ),
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
@@ -162,6 +162,26 @@ class ThemeManager {
       //     return ColorManager.primary;
       //   }),
       // ),
+      switchTheme: SwitchThemeData(
+        overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+          if (states.contains(MaterialState.selected)) {
+            return ColorManager.primary;
+          }
+          return ColorManager.gray;
+        }),
+        thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
+          if (states.contains(MaterialState.selected)) {
+            return ColorManager.primary;
+          }
+          return ColorManager.darkGray;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color>((states) {
+          if (states.contains(MaterialState.selected)) {
+            return ColorManager.gray;
+          }
+          return ColorManager.gray;
+        }),
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class UpdateProfile extends StatefulWidget {
@@ -19,6 +18,18 @@ class _UpdateProfileState extends State<UpdateProfile> {
       TextEditingController();
 
   @override
+  void dispose() {
+    _usernameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _positionController.dispose();
+    _contactNumberController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -29,71 +40,68 @@ class _UpdateProfileState extends State<UpdateProfile> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(AppPadding.md),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Flexible(
-                      child: TextField(
-                        controller: _firstNameController,
-                        decoration: const InputDecoration(
-                          hintText: 'First Name',
-                          prefixIcon: Icon(Icons.abc),
-                        ),
+            padding: const EdgeInsets.all(AppPadding.lg),
+            child: Padding(
+              padding: const EdgeInsets.all(AppPadding.lg),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  ListTile(
+                    leading: const Text('First Name: '),
+                    minLeadingWidth: AppSize.s100,
+                    title: TextField(
+                      controller: _firstNameController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.abc),
                       ),
                     ),
-                    const SizedBox(
-                      width: AppSize.s12,
-                    ),
-                    Flexible(
-                      child: TextField(
-                        controller: _lastNameController,
-                        decoration: const InputDecoration(
-                          hintText: 'Last Name',
-                          prefixIcon: Icon(Icons.abc),
-                        ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s20,
+                  ),
+                  ListTile(
+                    leading: const Text('Last Name: '),
+                    minLeadingWidth: AppSize.s100,
+                    title: TextField(
+                      controller: _lastNameController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.abc),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: AppSize.s12,
-                ),
-                Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Flexible(
-                      child: TextField(
-                        controller: _positionController,
-                        decoration: const InputDecoration(
-                          hintText: 'Username',
-                          prefixIcon: Icon(Icons.alternate_email),
-                        ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s20,
+                  ),
+                  ListTile(
+                    leading: const Text('Username'),
+                    minLeadingWidth: AppSize.s100,
+                    title: TextField(
+                      controller: _usernameController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.alternate_email),
                       ),
                     ),
-                    const SizedBox(
-                      width: AppSize.s12,
-                    ),
-                    Flexible(
-                      child: TextField(
-                        controller: _positionController,
-                        decoration: const InputDecoration(
-                          hintText: 'Position',
-                          prefixIcon: Icon(Icons.person_2),
-                        ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s20,
+                  ),
+                  ListTile(
+                    leading: const Text('Position'),
+                    minLeadingWidth: AppSize.s100,
+                    title: TextField(
+                      controller: _positionController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.person_2),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: AppSize.s12,
-                ),
-                Flex(direction: Axis.horizontal, children: [
-                  Flexible(
-                    child: TextField(
+                  ),
+                  const SizedBox(
+                    height: AppSize.s12,
+                  ),
+                  ListTile(
+                    leading: const Text('Email: '),
+                    minLeadingWidth: AppSize.s100,
+                    title: TextField(
                       controller: _emailController,
                       decoration: const InputDecoration(
                         hintText: 'Email',
@@ -102,39 +110,40 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     ),
                   ),
                   const SizedBox(
-                    width: AppSize.s12,
+                    height: AppSize.s20,
                   ),
-                  Flexible(
-                    child: TextField(
+                  ListTile(
+                    leading: const Text('Contact No.: '),
+                    minLeadingWidth: AppSize.s100,
+                    title: TextFormField(
                       controller: _contactNumberController,
                       decoration: const InputDecoration(
-                        hintText: 'Phone No.',
                         prefixIcon: Icon(Icons.phone),
                       ),
                     ),
                   ),
-                ]),
-                const SizedBox(
-                  height: AppSize.s12,
-                ),
-                Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Flexible(
-                      child: SizedBox(
-                        height: AppSize.s36,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Submitted')));
-                          },
-                          child: const Text('Submit'),
+                  const SizedBox(
+                    height: AppSize.s20,
+                  ),
+                  Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      Flexible(
+                        child: SizedBox(
+                          height: AppSize.s36,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Submitted')));
+                            },
+                            child: const Text('Submit'),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

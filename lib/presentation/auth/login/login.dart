@@ -85,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                     },
                     decoration: const InputDecoration(
                       // labelText: AppStrings.username,
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.alternate_email),
                       hintText: AppStrings.username,
                     ),
                   ),
@@ -178,6 +178,7 @@ class _LoginViewState extends State<LoginView> {
                 AssetsManager.fingerprintJson,
                 width: AppSize.s100,
                 height: AppSize.s100,
+                repeat: false,
               ),
             ),
           );
