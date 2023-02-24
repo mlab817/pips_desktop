@@ -5,7 +5,6 @@ import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pips/data/data_source/remote_data_source.dart';
 import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/network/dio_factory.dart';
-import 'package:pips/data/network/fcm.dart';
 import 'package:pips/data/network/ws.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
@@ -20,6 +19,7 @@ import 'package:pips/domain/usecase/offices_usecase.dart';
 import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
+import 'package:pips/domain/usecase/signup_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,6 +132,12 @@ initProjectModule() {
 initUsersModule() {
   if (!GetIt.I.isRegistered<UsersUseCase>()) {
     instance.registerFactory<UsersUseCase>(() => UsersUseCase(instance()));
+  }
+}
+
+initSignUpModule() {
+  if (!GetIt.I.isRegistered<SignUpUseCase>()) {
+    instance.registerFactory<SignUpUseCase>(() => SignUpUseCase(instance()));
   }
 }
 

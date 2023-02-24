@@ -370,26 +370,26 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<RegisterResponse> register(formData) async {
+  Future<SignUpResponse> register(formData) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(formData.toJson());
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<RegisterResponse>(Options(
-      method: 'GET',
+        .fetch<Map<String, dynamic>>(_setStreamType<SignUpResponse>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/register',
+              '/signup',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RegisterResponse.fromJson(_result.data!);
+    final value = SignUpResponse.fromJson(_result.data!);
     return value;
   }
 

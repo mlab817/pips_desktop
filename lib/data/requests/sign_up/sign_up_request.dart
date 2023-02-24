@@ -1,6 +1,6 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_up_request.freezed.dart';
@@ -10,38 +10,41 @@ part 'sign_up_request.g.dart';
 class SignUpRequest with _$SignUpRequest {
   factory SignUpRequest({
     @JsonKey(name: "office_id") int? officeId,
+    @JsonKey(name: "username") required String username,
     @JsonKey(name: "first_name") required String firstName,
     @JsonKey(name: "last_name") required String lastName,
     @JsonKey(name: "position") required String position,
     @JsonKey(name: "email") required String email,
     @JsonKey(name: "contact_number") required String contactNumber,
-    @JsonKey(name: "endorsement") required String endorsementPath,
+    @JsonKey(name: "authorization") required String authorizationPath,
   }) = _SignUpRequest;
 
   factory SignUpRequest.fromJson(Map<String, dynamic> json) =>
       _$SignUpRequestFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() {
     final formData = FormData.fromMap({
       'office_id': officeId,
+      'username': username,
       'first_name': firstName,
       'last_name': lastName,
       'position': position,
       'email': email,
       'contact_number': contactNumber,
-      'endorsement': endorsementPath != null
-          ? MultipartFile.fromFileSync(endorsementPath)
+      'authorization': authorizationPath != null
+          ? MultipartFile.fromFileSync(authorizationPath)
           : null,
     });
 
     final map = <String, dynamic>{};
 
     formData.fields.forEach((field) {
-      map[field.name] = field.value;
+      map[field.key] = field.value;
     });
 
     formData.files.forEach((file) {
-      map[file.field] = file.value;
+      map[file.key] = file.value;
     });
 
     return map;

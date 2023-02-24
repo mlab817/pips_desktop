@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
@@ -18,7 +16,7 @@ import '../responses/offices_response/offices_response.dart';
 import '../responses/options/options_response.dart';
 import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
-import '../responses/register/register_response.dart';
+import '../responses/register/signup_response.dart';
 import '../responses/users/users_response.dart';
 
 part 'app_api.g.dart';
@@ -76,6 +74,6 @@ abstract class AppServiceClient {
   @GET("/auth/notifications")
   Future<NotificationsResponse> listNotifications();
 
-  @GET("/register")
-  Future<RegisterResponse> register(@Body() SignUpRequest formData);
+  @POST("/signup")
+  Future<SignUpResponse> register(@Body() SignUpRequest formData);
 }

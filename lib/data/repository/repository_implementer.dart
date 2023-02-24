@@ -26,7 +26,7 @@ import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
 import '../responses/chat_rooms/chat_rooms.dart';
 import '../responses/options/options_response.dart';
-import '../responses/register/register_response.dart';
+import '../responses/register/signup_response.dart';
 
 // repository implementer returns result class
 class RepositoryImplementer implements Repository {
@@ -274,9 +274,9 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<RegisterResponse>> register(SignUpRequest input) async {
+  Future<Result<SignUpResponse>> register(SignUpRequest input) async {
     try {
-      final RegisterResponse response = await _remoteDataSource.register(input);
+      final SignUpResponse response = await _remoteDataSource.register(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 

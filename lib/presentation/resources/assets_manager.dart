@@ -3,6 +3,7 @@ class AssetsManager {
   static const String animEmptyJson = "assets/json/empty.json";
 
   static const String loadingJson = "assets/json/loading.json";
+  static const String fingerprintJson = "assets/json/fingerprint.json";
 
   static const String sdg1 = "assets/images/sdgs/E-WEB-Goal-01.png";
   static const String sdg2 = "assets/images/sdgs/E-WEB-Goal-02.png";

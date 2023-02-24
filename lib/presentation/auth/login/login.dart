@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pips/app/routes.dart';
-import 'package:pips/data/requests/login/login_request.dart';
-import 'package:pips/data/responses/login/login_response.dart';
-import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
-import 'package:pips/domain/usecase/base_usecase.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
@@ -13,6 +10,10 @@ import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 
 import '../../../app/dep_injection.dart';
+import '../../../data/requests/login/login_request.dart';
+import '../../../data/responses/login/login_response.dart';
+import '../../../domain/models/user.dart';
+import '../../../domain/usecase/base_usecase.dart';
 import '../../resources/assets_manager.dart';
 
 class LoginView extends StatefulWidget {
@@ -25,6 +26,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final Repository _repository = instance<Repository>();
   final LoginUseCase _loginUseCase = instance<LoginUseCase>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -43,30 +45,20 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Card(
-          color: ColorManager.white,
-          child: Padding(
-            padding: const EdgeInsets.all(AppSize.s10),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: AppSize.s400,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSize.s10),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: AppSize.s400,
+            ),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                shrinkWrap: true,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppPadding.xs),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: AppSize.s2,
-                        color: ColorManager.primary,
-                      ),
-                      borderRadius: BorderRadius.circular(AppSize.s50),
-                    ),
-                    child: SvgPicture.asset(
-                      AssetsManager.svgLogoAsset,
-                      height: AppSize.s60,
-                    ),
+                  SvgPicture.asset(
+                    AssetsManager.svgLogoAsset,
+                    height: AppSize.s50,
                   ),
                   const SizedBox(
                     height: AppSize.s12,
@@ -83,8 +75,14 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(
                     height: AppSize.s40,
                   ),
-                  TextField(
+                  TextFormField(
                     controller: _usernameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Username is required';
+                      }
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       // labelText: AppStrings.username,
                       prefixIcon: Icon(Icons.person),
@@ -92,11 +90,17 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(
-                    height: AppSize.s12,
+                    height: AppSize.s20,
                   ),
-                  TextField(
+                  TextFormField(
                     controller: _passwordController,
                     obscureText: _passwordIsObscured,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       // labelText: AppStrings.password,
                       prefixIcon: const Icon(Icons.key),
@@ -114,22 +118,31 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(
-                    height: AppSize.s12,
+                    height: AppSize.s20,
                   ),
                   SizedBox(
                     height: AppSize.s36,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _login,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _login();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Please check your inputs!')));
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorManager.primary),
+                        backgroundColor: ColorManager.primary,
+                      ),
                       child: const Text(
                         AppStrings.login,
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: AppSize.s20,
+                    height: AppSize.s40,
                   ),
                   TextButton(
                     onPressed: _goToForgotPassword,
@@ -150,6 +163,25 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _login() async {
+    showDialog(
+        barrierColor: Colors.transparent,
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            clipBehavior: Clip.hardEdge,
+            elevation: AppSize.s0,
+            insetPadding: EdgeInsets.zero,
+            child: Center(
+              child: Lottie.asset(
+                AssetsManager.fingerprintJson,
+                width: AppSize.s100,
+                height: AppSize.s100,
+              ),
+            ),
+          );
+        });
     _loginUseCase
         .execute(LoginRequest(
             username: _usernameController.text,
@@ -163,7 +195,10 @@ class _LoginViewState extends State<LoginView> {
                       .setLoggedInUser(value.data?.user ?? "" as UserModel),
                   _repository.setBearerToken(value.data?.accessToken ?? ""),
                   resetModules(),
+                  Navigator.of(context).pop(),
                 }
+              else
+                {debugPrint('Failed')}
             });
   }
 

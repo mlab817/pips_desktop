@@ -18,7 +18,7 @@ import '../../data/responses/chat_room/chat_room.dart';
 import '../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
 import '../../data/responses/options/options_response.dart';
-import '../../data/responses/register/register_response.dart';
+import '../../data/responses/register/signup_response.dart';
 import '../../data/responses/users/users_response.dart';
 import '../models/chat_room.dart';
 import '../models/message.dart';
@@ -61,7 +61,7 @@ abstract class Repository {
 
   Future<Result<NotificationsResponse>> listNotifications();
 
-  Future<Result<RegisterResponse>> register(SignUpRequest input);
+  Future<Result<SignUpResponse>> register(SignUpRequest input);
 
   Future<String> getBearerToken();
 

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
@@ -12,7 +11,7 @@ import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/options/options_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
-import 'package:pips/data/responses/register/register_response.dart';
+import 'package:pips/data/responses/register/signup_response.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../domain/models/chat_room.dart';
@@ -54,7 +53,7 @@ abstract class RemoteDataSource {
 
   Future<NotificationsResponse> listNotifications();
 
-  Future<RegisterResponse> register(SignUpRequest input);
+  Future<SignUpResponse> register(SignUpRequest input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -135,7 +134,7 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   }
 
   @override
-  Future<RegisterResponse> register(SignUpRequest input) async {
+  Future<SignUpResponse> register(SignUpRequest input) async {
     return await _appServiceClient.register(input);
   }
 }

@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/domain/usecase/signup_usecase.dart';
 
 import '../../resources/sizes_manager.dart';
 
@@ -14,14 +14,17 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  final SignUpUseCase _signUpUseCase = instance<SignUpUseCase>();
+
   SignUpRequest _signUpRequest = SignUpRequest(
     officeId: null,
+    username: '',
     firstName: '',
     lastName: '',
     position: '',
     email: '',
     contactNumber: '',
-    endorsement: null,
+    authorizationPath: '',
   );
 
   PlatformFile? _selectedFile;
@@ -112,6 +115,19 @@ class _SignUpViewState extends State<SignUpView> {
                 const SizedBox(height: AppSize.s20),
                 TextField(
                   decoration: const InputDecoration(
+                    hintText: 'Username',
+                    prefixIcon: Icon(Icons.alternate_email),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _signUpRequest =
+                          _signUpRequest.copyWith(username: value ?? '');
+                    });
+                  },
+                ),
+                const SizedBox(height: AppSize.s20),
+                TextField(
+                  decoration: const InputDecoration(
                     hintText: 'Contact No.',
                     prefixIcon: Icon(Icons.phone),
                   ),
@@ -145,8 +161,9 @@ class _SignUpViewState extends State<SignUpView> {
                     ]),
                   ),
                 ),
-                const SizedBox(height: AppSize.s20),
-                ElevatedButton(onPressed: () {}, child: const Text('Sign Up')),
+                const SizedBox(height: AppSize.s40),
+                ElevatedButton(
+                    onPressed: _signup, child: const Text('Sign Up')),
               ],
             ),
           ),
@@ -168,8 +185,18 @@ class _SignUpViewState extends State<SignUpView> {
 
       setState(() {
         _selectedFile = file;
-        _signUpRequest = _signUpRequest.copyWith(endorsement: file);
+        _signUpRequest =
+            _signUpRequest.copyWith(authorizationPath: file.path ?? '');
       });
     }
+  }
+
+  void _signup() async {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Sign up!')));
+
+    await _signUpUseCase
+        .execute(_signUpRequest)
+        .then((value) => debugPrint(value.toString()));
   }
 }

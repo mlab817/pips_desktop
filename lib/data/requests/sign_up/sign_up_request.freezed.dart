@@ -22,6 +22,8 @@ SignUpRequest _$SignUpRequestFromJson(Map<String, dynamic> json) {
 mixin _$SignUpRequest {
   @JsonKey(name: "office_id")
   int? get officeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "username")
+  String get username => throw _privateConstructorUsedError;
   @JsonKey(name: "first_name")
   String get firstName => throw _privateConstructorUsedError;
   @JsonKey(name: "last_name")
@@ -32,8 +34,8 @@ mixin _$SignUpRequest {
   String get email => throw _privateConstructorUsedError;
   @JsonKey(name: "contact_number")
   String get contactNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: "endorsement")
-  String get endorsementPath => throw _privateConstructorUsedError;
+  @JsonKey(name: "authorization")
+  String get authorizationPath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,12 +51,13 @@ abstract class $SignUpRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "office_id") int? officeId,
+      @JsonKey(name: "username") String username,
       @JsonKey(name: "first_name") String firstName,
       @JsonKey(name: "last_name") String lastName,
       @JsonKey(name: "position") String position,
       @JsonKey(name: "email") String email,
       @JsonKey(name: "contact_number") String contactNumber,
-      @JsonKey(name: "endorsement") String endorsementPath});
+      @JsonKey(name: "authorization") String authorizationPath});
 }
 
 /// @nodoc
@@ -71,18 +74,23 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
   @override
   $Res call({
     Object? officeId = freezed,
+    Object? username = null,
     Object? firstName = null,
     Object? lastName = null,
     Object? position = null,
     Object? email = null,
     Object? contactNumber = null,
-    Object? endorsementPath = null,
+    Object? authorizationPath = null,
   }) {
     return _then(_value.copyWith(
       officeId: freezed == officeId
           ? _value.officeId
           : officeId // ignore: cast_nullable_to_non_nullable
               as int?,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
       firstName: null == firstName
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
@@ -103,9 +111,9 @@ class _$SignUpRequestCopyWithImpl<$Res, $Val extends SignUpRequest>
           ? _value.contactNumber
           : contactNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      endorsementPath: null == endorsementPath
-          ? _value.endorsementPath
-          : endorsementPath // ignore: cast_nullable_to_non_nullable
+      authorizationPath: null == authorizationPath
+          ? _value.authorizationPath
+          : authorizationPath // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -121,12 +129,13 @@ abstract class _$$_SignUpRequestCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "office_id") int? officeId,
+      @JsonKey(name: "username") String username,
       @JsonKey(name: "first_name") String firstName,
       @JsonKey(name: "last_name") String lastName,
       @JsonKey(name: "position") String position,
       @JsonKey(name: "email") String email,
       @JsonKey(name: "contact_number") String contactNumber,
-      @JsonKey(name: "endorsement") String endorsementPath});
+      @JsonKey(name: "authorization") String authorizationPath});
 }
 
 /// @nodoc
@@ -141,18 +150,23 @@ class __$$_SignUpRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? officeId = freezed,
+    Object? username = null,
     Object? firstName = null,
     Object? lastName = null,
     Object? position = null,
     Object? email = null,
     Object? contactNumber = null,
-    Object? endorsementPath = null,
+    Object? authorizationPath = null,
   }) {
     return _then(_$_SignUpRequest(
       officeId: freezed == officeId
           ? _value.officeId
           : officeId // ignore: cast_nullable_to_non_nullable
               as int?,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
       firstName: null == firstName
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
@@ -173,9 +187,9 @@ class __$$_SignUpRequestCopyWithImpl<$Res>
           ? _value.contactNumber
           : contactNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      endorsementPath: null == endorsementPath
-          ? _value.endorsementPath
-          : endorsementPath // ignore: cast_nullable_to_non_nullable
+      authorizationPath: null == authorizationPath
+          ? _value.authorizationPath
+          : authorizationPath // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -186,12 +200,13 @@ class __$$_SignUpRequestCopyWithImpl<$Res>
 class _$_SignUpRequest implements _SignUpRequest {
   _$_SignUpRequest(
       {@JsonKey(name: "office_id") this.officeId,
+      @JsonKey(name: "username") required this.username,
       @JsonKey(name: "first_name") required this.firstName,
       @JsonKey(name: "last_name") required this.lastName,
       @JsonKey(name: "position") required this.position,
       @JsonKey(name: "email") required this.email,
       @JsonKey(name: "contact_number") required this.contactNumber,
-      @JsonKey(name: "endorsement") required this.endorsementPath});
+      @JsonKey(name: "authorization") required this.authorizationPath});
 
   factory _$_SignUpRequest.fromJson(Map<String, dynamic> json) =>
       _$$_SignUpRequestFromJson(json);
@@ -199,6 +214,9 @@ class _$_SignUpRequest implements _SignUpRequest {
   @override
   @JsonKey(name: "office_id")
   final int? officeId;
+  @override
+  @JsonKey(name: "username")
+  final String username;
   @override
   @JsonKey(name: "first_name")
   final String firstName;
@@ -215,12 +233,12 @@ class _$_SignUpRequest implements _SignUpRequest {
   @JsonKey(name: "contact_number")
   final String contactNumber;
   @override
-  @JsonKey(name: "endorsement")
-  final String endorsementPath;
+  @JsonKey(name: "authorization")
+  final String authorizationPath;
 
   @override
   String toString() {
-    return 'SignUpRequest(officeId: $officeId, firstName: $firstName, lastName: $lastName, position: $position, email: $email, contactNumber: $contactNumber, endorsementPath: $endorsementPath)';
+    return 'SignUpRequest(officeId: $officeId, username: $username, firstName: $firstName, lastName: $lastName, position: $position, email: $email, contactNumber: $contactNumber, authorizationPath: $authorizationPath)';
   }
 
   @override
@@ -230,6 +248,8 @@ class _$_SignUpRequest implements _SignUpRequest {
             other is _$_SignUpRequest &&
             (identical(other.officeId, officeId) ||
                 other.officeId == officeId) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
@@ -239,14 +259,14 @@ class _$_SignUpRequest implements _SignUpRequest {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.contactNumber, contactNumber) ||
                 other.contactNumber == contactNumber) &&
-            (identical(other.endorsementPath, endorsementPath) ||
-                other.endorsementPath == endorsementPath));
+            (identical(other.authorizationPath, authorizationPath) ||
+                other.authorizationPath == authorizationPath));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, officeId, firstName, lastName,
-      position, email, contactNumber, endorsementPath);
+  int get hashCode => Object.hash(runtimeType, officeId, username, firstName,
+      lastName, position, email, contactNumber, authorizationPath);
 
   @JsonKey(ignore: true)
   @override
@@ -266,6 +286,8 @@ abstract class _SignUpRequest implements SignUpRequest {
   factory _SignUpRequest(
       {@JsonKey(name: "office_id")
           final int? officeId,
+      @JsonKey(name: "username")
+          required final String username,
       @JsonKey(name: "first_name")
           required final String firstName,
       @JsonKey(name: "last_name")
@@ -276,8 +298,8 @@ abstract class _SignUpRequest implements SignUpRequest {
           required final String email,
       @JsonKey(name: "contact_number")
           required final String contactNumber,
-      @JsonKey(name: "endorsement")
-          required final String endorsementPath}) = _$_SignUpRequest;
+      @JsonKey(name: "authorization")
+          required final String authorizationPath}) = _$_SignUpRequest;
 
   factory _SignUpRequest.fromJson(Map<String, dynamic> json) =
       _$_SignUpRequest.fromJson;
@@ -285,6 +307,9 @@ abstract class _SignUpRequest implements SignUpRequest {
   @override
   @JsonKey(name: "office_id")
   int? get officeId;
+  @override
+  @JsonKey(name: "username")
+  String get username;
   @override
   @JsonKey(name: "first_name")
   String get firstName;
@@ -301,8 +326,8 @@ abstract class _SignUpRequest implements SignUpRequest {
   @JsonKey(name: "contact_number")
   String get contactNumber;
   @override
-  @JsonKey(name: "endorsement")
-  String get endorsementPath;
+  @JsonKey(name: "authorization")
+  String get authorizationPath;
   @override
   @JsonKey(ignore: true)
   _$$_SignUpRequestCopyWith<_$_SignUpRequest> get copyWith =>
