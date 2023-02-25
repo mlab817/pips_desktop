@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pips/app/app_preferences.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
 import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
-import 'package:pips/presentation/resources/color_manager.dart';
+import 'package:pips/presentation/resources/color_schemes.g.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
+
+import '../../../app/dep_injection.dart';
+import '../../../app/routes.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -17,6 +21,8 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  final AppPreferences _appPreferences = instance<AppPreferences>();
+
   int _selectedIndex = 0;
 
   final List<Widget> _children = <Widget>[
@@ -51,10 +57,10 @@ class _SettingsViewState extends State<SettingsView> {
       children: [
         Expanded(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 right: BorderSide(
-                  color: ColorManager.darkGray,
+                  // color: ColorManager.darkGray,
                   width: AppSize.s0_5,
                 ),
               ),
@@ -75,11 +81,21 @@ class _SettingsViewState extends State<SettingsView> {
                         return ListTile(
                           dense: true,
                           selected: _selectedIndex == index,
-                          selectedColor: ColorManager.white,
-                          selectedTileColor: ColorManager.blue,
+                          selectedColor: lightColorScheme.onPrimary,
+                          selectedTileColor: lightColorScheme.primary,
                           leading: _listMenu[index].icon,
                           title: Text(_listMenu[index].title),
                           onTap: () {
+                            if (index == 6) {
+                              // handle logout
+                              _appPreferences.clear();
+                              resetModules();
+
+                              Navigator.pushReplacementNamed(
+                                  context, Routes.loginRoute);
+                              return;
+                            }
+
                             setState(
                               () {
                                 _selectedIndex = index;

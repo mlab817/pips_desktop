@@ -41,8 +41,6 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         Padding(
           padding: const EdgeInsets.all(AppPadding.lg),
           child: Card(
-            surfaceTintColor: ColorManager.gray,
-            color: ColorManager.white,
             elevation: AppSize.s8,
             child: Column(
               children: [

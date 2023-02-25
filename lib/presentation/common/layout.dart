@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:pips/presentation/resources/strings_manager.dart';
 
+import '../../app/app.dart';
 import '../../app/routes.dart';
 import '../resources/color_manager.dart';
 
@@ -24,7 +27,26 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
+    debugPrint(MyApp.themeNotifier.value.toString());
+
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(AppStrings.appName),
+        elevation: AppSize.s4,
+        actions: [
+          IconButton(
+              icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode),
+              onPressed: () {
+                MyApp.themeNotifier.value =
+                    MyApp.themeNotifier.value == ThemeMode.light
+                        ? ThemeMode.dark
+                        : ThemeMode.light;
+              })
+        ],
+      ),
       body: Row(
         children: [
           if (Platform.isMacOS || Platform.isLinux || Platform.isWindows)
@@ -64,7 +86,6 @@ class _MainLayoutState extends State<MainLayout> {
                     selectedIndex == 0
                         ? Icons.dashboard
                         : Icons.dashboard_outlined,
-                    color: ColorManager.blue,
                   ),
                   label: const Text('Dashboard'),
                 ),
@@ -73,7 +94,6 @@ class _MainLayoutState extends State<MainLayout> {
                     selectedIndex == 1
                         ? Icons.build_circle
                         : Icons.build_circle_outlined,
-                    color: ColorManager.blue,
                   ),
                   label: const Text('Offices'),
                 ),
@@ -82,7 +102,6 @@ class _MainLayoutState extends State<MainLayout> {
                     selectedIndex == 2
                         ? Icons.chat_bubble
                         : Icons.chat_bubble_outline,
-                    color: ColorManager.blue,
                   ),
                   label: const Text('Chat'),
                 ),
@@ -91,7 +110,6 @@ class _MainLayoutState extends State<MainLayout> {
                     selectedIndex == 4
                         ? Icons.notifications
                         : Icons.notifications_outlined,
-                    color: ColorManager.blue,
                   ),
                   label: const Text('Notifications'),
                 ),
@@ -100,7 +118,6 @@ class _MainLayoutState extends State<MainLayout> {
                     selectedIndex == 3
                         ? Icons.settings
                         : Icons.settings_outlined,
-                    color: ColorManager.blue,
                   ),
                   label: const Text('Settings'),
                 ),

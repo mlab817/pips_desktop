@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
-import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
@@ -63,11 +62,10 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(
                     height: AppSize.s12,
                   ),
-                  Text(
+                  const Text(
                     AppStrings.publicInvestmentProgrammingSystem,
                     style: TextStyle(
                       fontSize: AppSize.s20,
-                      color: ColorManager.primary,
                       fontFamily: FontFamily.bebasNeue,
                     ),
                     textAlign: TextAlign.center,
@@ -133,9 +131,6 @@ class _LoginViewState extends State<LoginView> {
                                   content: Text('Please check your inputs!')));
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.primary,
-                      ),
                       child: const Text(
                         AppStrings.login,
                       ),

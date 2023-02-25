@@ -185,9 +185,6 @@ class _ChatViewState extends State<ChatView> {
                                       borderRadius:
                                           BorderRadius.circular(AppSize.s8),
                                       // add background color if the item is selected
-                                      color: _chatRoom?.id == chatRoom.id
-                                          ? ColorManager.darkWhite
-                                          : ColorManager.white,
                                     ),
                                     child: Row(
                                       children: [

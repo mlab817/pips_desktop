@@ -274,7 +274,7 @@ class _OfficesViewState extends State<OfficesView> {
                               AppSize.s20,
                             ),
                             decoration: BoxDecoration(
-                              color: ColorManager.darkWhite,
+                              // color: ColorManager.darkWhite,
                               borderRadius: BorderRadius.circular(AppSize.s8),
                               // TODO: update this ugly thing
                               gradient: LinearGradient(
@@ -307,9 +307,9 @@ class _OfficesViewState extends State<OfficesView> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.email,
-                                      color: ColorManager.darkGray,
+                                      // color: ColorManager.darkGray,
                                     ),
                                     const SizedBox(
                                       width: AppSize.s2,

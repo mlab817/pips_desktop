@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pips/presentation/resources/color_manager.dart';
+import 'package:pips/presentation/resources/color_schemes.g.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class ThemeManager {
-  static ThemeData getApplicationTheme() {
+  static ThemeData getApplicationTheme(ThemeMode themeMode) {
     return ThemeData(
       useMaterial3: true,
       // fontFamily: FontFamily.primary,
-      scaffoldBackgroundColor: ColorManager.white,
+      // scaffoldBackgroundColor: ColorManager.white,
+      colorScheme:
+          themeMode == ThemeMode.light ? lightColorScheme : darkColorScheme,
       appBarTheme: AppBarTheme(
         toolbarHeight: AppSize.s60,
-        backgroundColor: ColorManager.white,
-        foregroundColor: ColorManager.darkGray,
+        // backgroundColor: ColorManager.white,
+        // foregroundColor: ColorManager.darkGray,
         titleTextStyle: GoogleFonts.raleway(
           fontWeight: FontWeight.w700,
-          color: ColorManager.darkGray,
+          // color: ColorManager.darkGray,
           fontSize: AppSize.s14,
         ),
         elevation: AppSize.s1,
-        shadowColor: ColorManager.white,
-        surfaceTintColor: ColorManager.white,
-        actionsIconTheme: IconThemeData(
-          color: ColorManager.blue,
-        ),
+        // shadowColor: ColorManager.white,
+        // surfaceTintColor: ColorManager.white,
+        // actionsIconTheme: IconThemeData(
+        //   color: ColorManager.blue,
+        // ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8),
           ),
-          backgroundColor: ColorManager.primary,
-          foregroundColor: ColorManager.white,
+          // backgroundColor: ColorManager.primary,
+          // foregroundColor: ColorManager.white,
           padding: const EdgeInsets.symmetric(
             vertical: AppSize.s16,
             horizontal: AppSize.s16,
@@ -44,32 +46,32 @@ class ThemeManager {
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             style: BorderStyle.solid,
-            color: ColorManager.lightGray,
+            // color: ColorManager.lightGray,
           ),
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             style: BorderStyle.solid,
-            color: ColorManager.primary,
+            // color: ColorManager.primary,
             width: AppSize.s2,
           ),
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
-        focusColor: ColorManager.primary,
+        // focusColor: ColorManager.primary,
         isDense: true,
-        floatingLabelStyle: TextStyle(
-          color: ColorManager.primary,
-        ),
-        prefixIconColor: ColorManager.primary,
+        // floatingLabelStyle: TextStyle(
+        //   color: ColorManager.primary,
+        // ),
+        // prefixIconColor: ColorManager.primary,
         suffixStyle: const TextStyle(fontSize: AppSize.s10),
         isCollapsed: true,
       ),
-      textSelectionTheme: TextSelectionThemeData(
-        cursorColor: ColorManager.primary,
-      ),
+      // textSelectionTheme: TextSelectionThemeData(
+      //   cursorColor: ColorManager.primary,
+      // ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
           fontSize: AppSize.s20,
@@ -112,33 +114,28 @@ class ThemeManager {
         ),
       ),
       // TODO: update text button style
-      textButtonTheme: TextButtonThemeData(style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith<Color?>((states) {
-          return ColorManager.primary;
-        }),
-      )),
-      navigationRailTheme: NavigationRailThemeData(
+      navigationRailTheme: const NavigationRailThemeData(
         elevation: AppSize.s4,
-        backgroundColor: ColorManager.lightGray,
+        // backgroundColor: ColorManager.lightGray,
         unselectedIconTheme: IconThemeData(
-          color: ColorManager.darkGray,
+          // color: ColorManager.darkGray,
           size: AppSize.s18,
         ),
         selectedIconTheme: IconThemeData(
-          color: ColorManager.black,
+          // color: ColorManager.black,
           size: AppSize.s18,
         ),
-        unselectedLabelTextStyle: TextStyle(color: ColorManager.black),
+        // unselectedLabelTextStyle: TextStyle(color: ColorManager.black),
         selectedLabelTextStyle: TextStyle(
-          color: ColorManager.black,
+          // color: ColorManager.black,
           fontWeight: FontWeight.bold,
         ),
         useIndicator: true,
-        indicatorColor: ColorManager.gray,
+        // indicatorColor: ColorManager.gray,
       ),
-      progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: ColorManager.primary,
-      ),
+      // progressIndicatorTheme: ProgressIndicatorThemeData(
+      //   color: ColorManager.primary,
+      // ),
       listTileTheme: ListTileThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         dense: true,
@@ -147,13 +144,13 @@ class ThemeManager {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
-        selectedColor: ColorManager.white,
-        selectedTileColor: ColorManager.blue,
+        // selectedColor: ColorManager.white,
+        // selectedTileColor: ColorManager.blue,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: ColorManager.primary,
-        backgroundColor: ColorManager.darkWhite,
-      ),
+      // floatingActionButtonTheme: FloatingActionButtonThemeData(
+      //   foregroundColor: ColorManager.primary,
+      //   backgroundColor: ColorManager.darkWhite,
+      // ),
       // checkboxTheme: CheckboxThemeData(
       //   checkColor: MaterialStateProperty.resolveWith<Color>((states) {
       //     if (states.contains(MaterialState.selected)) {
@@ -162,26 +159,26 @@ class ThemeManager {
       //     return ColorManager.primary;
       //   }),
       // ),
-      switchTheme: SwitchThemeData(
-        overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.selected)) {
-            return ColorManager.primary;
-          }
-          return ColorManager.gray;
-        }),
-        thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.selected)) {
-            return ColorManager.primary;
-          }
-          return ColorManager.darkGray;
-        }),
-        trackColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.selected)) {
-            return ColorManager.gray;
-          }
-          return ColorManager.gray;
-        }),
-      ),
+      // switchTheme: SwitchThemeData(
+      //   overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+      //     if (states.contains(MaterialState.selected)) {
+      //       return ColorManager.primary;
+      //     }
+      //     return ColorManager.gray;
+      //   }),
+      //   thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
+      //     if (states.contains(MaterialState.selected)) {
+      //       return ColorManager.primary;
+      //     }
+      //     return ColorManager.darkGray;
+      //   }),
+      //   trackColor: MaterialStateProperty.resolveWith<Color>((states) {
+      //     if (states.contains(MaterialState.selected)) {
+      //       return ColorManager.gray;
+      //     }
+      //     return ColorManager.gray;
+      //   }),
+      // ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
