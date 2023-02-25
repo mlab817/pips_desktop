@@ -235,8 +235,8 @@ class _OfficesViewState extends State<OfficesView> {
                                   dense: true,
                                   title: Text(office.acronym),
                                   selected: _selectedOffice == office,
-                                  selectedTileColor: ColorManager.blue,
-                                  selectedColor: ColorManager.white,
+                                  // selectedTileColor: ColorManager.blue,
+                                  // selectedColor: ColorManager.white,
                                 ),
                               );
                             },

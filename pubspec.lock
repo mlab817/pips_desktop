@@ -17,6 +17,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.13"
+  adaptive_breakpoints:
+    dependency: transitive
+    description:
+      name: adaptive_breakpoints
+      sha256: "3aa6ef09074fe7824dfdc9a6d9f955c8a3bae0fb71c495cbd72f471a87699b4f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
+  adaptive_components:
+    dependency: "direct main"
+    description:
+      name: adaptive_components
+      sha256: "13a3a8db9c4aa7c25dbd28ea7ba0df4443218e04d251b6999f9bba968cac5d4f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.9"
+  adaptive_navigation:
+    dependency: transitive
+    description:
+      name: adaptive_navigation
+      sha256: "271d3e54147ce37b389c3d7d19777b4340e4ccd440d0349457c8b8db197b1c41"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.9"
   analyzer:
     dependency: transitive
     description:
@@ -49,6 +73,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  auto_route:
+    dependency: "direct main"
+    description:
+      name: auto_route
+      sha256: "12047baeca0e01df93165ef33275b32119d72699ab9a49dc64c20e78f586f96d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.4"
+  auto_route_generator:
+    dependency: "direct main"
+    description:
+      name: auto_route_generator
+      sha256: de5bfbc02ae4eebb339dd90d325749ae7536e903f6513ef72b88954072d72b0e
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
   barcode:
     dependency: transitive
     description:

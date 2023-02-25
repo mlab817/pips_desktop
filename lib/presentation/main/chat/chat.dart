@@ -351,7 +351,7 @@ class _ChatViewState extends State<ChatView> {
                           child: Material(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                // color: Colors.white,
                                 border: Border.all(
                                   color: ColorManager.darkGray,
                                 ),

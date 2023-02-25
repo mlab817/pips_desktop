@@ -6,7 +6,6 @@ import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
-import 'package:pips/presentation/resources/color_schemes.g.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 
@@ -81,8 +80,6 @@ class _SettingsViewState extends State<SettingsView> {
                         return ListTile(
                           dense: true,
                           selected: _selectedIndex == index,
-                          selectedColor: lightColorScheme.onPrimary,
-                          selectedTileColor: lightColorScheme.primary,
                           leading: _listMenu[index].icon,
                           title: Text(_listMenu[index].title),
                           onTap: () {

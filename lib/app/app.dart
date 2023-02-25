@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:pips/app/routes.dart';
-import 'package:pips/presentation/logout_listener/logout_listener.dart';
-import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:pips/presentation/resources/theme_manager.dart';
+
+import '../presentation/logout_listener/logout_listener.dart';
+import '../presentation/main/main.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
                 PointerDeviceKind.unknown
               },
             ),
-            theme: ThemeManager.getApplicationTheme(ThemeMode.light),
-            darkTheme: ThemeManager.getApplicationTheme(ThemeMode.dark),
+            theme: ThemeManager.getApplicationTheme(context, ThemeMode.light),
+            darkTheme:
+                ThemeManager.getApplicationTheme(context, ThemeMode.dark),
             themeMode: currentMode,
             onGenerateRoute: RouteGenerator.onGenerateRoute,
             initialRoute: Routes.splashRoute,

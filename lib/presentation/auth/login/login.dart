@@ -42,7 +42,6 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(AppSize.s10),
@@ -118,22 +117,18 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(
                     height: AppSize.s20,
                   ),
-                  SizedBox(
-                    height: AppSize.s36,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _login();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Please check your inputs!')));
-                        }
-                      },
-                      child: const Text(
-                        AppStrings.login,
-                      ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _login();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please check your inputs!')));
+                      }
+                    },
+                    child: const Text(
+                      AppStrings.login,
                     ),
                   ),
                   const SizedBox(

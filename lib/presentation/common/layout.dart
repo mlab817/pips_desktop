@@ -92,8 +92,8 @@ class _MainLayoutState extends State<MainLayout> {
                 NavigationRailDestination(
                   icon: Icon(
                     selectedIndex == 1
-                        ? Icons.build_circle
-                        : Icons.build_circle_outlined,
+                        ? Icons.work_outline
+                        : Icons.work_outline_outlined,
                   ),
                   label: const Text('Offices'),
                 ),

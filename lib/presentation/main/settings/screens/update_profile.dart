@@ -41,109 +41,95 @@ class _UpdateProfileState extends State<UpdateProfile> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.lg),
-            child: Padding(
-              padding: const EdgeInsets.all(AppPadding.lg),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  ListTile(
-                    leading: const Text('First Name: '),
-                    minLeadingWidth: AppSize.s100,
-                    title: TextField(
-                      controller: _firstNameController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.abc),
-                      ),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  leading: const Text('First Name: '),
+                  minLeadingWidth: AppSize.s100,
+                  title: TextField(
+                    controller: _firstNameController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.abc),
                     ),
                   ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  ListTile(
-                    leading: const Text('Last Name: '),
-                    minLeadingWidth: AppSize.s100,
-                    title: TextField(
-                      controller: _lastNameController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.abc),
-                      ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                ListTile(
+                  leading: const Text('Last Name: '),
+                  minLeadingWidth: AppSize.s100,
+                  title: TextField(
+                    controller: _lastNameController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.abc),
                     ),
                   ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  ListTile(
-                    leading: const Text('Username'),
-                    minLeadingWidth: AppSize.s100,
-                    title: TextField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.alternate_email),
-                      ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                ListTile(
+                  leading: const Text('Username'),
+                  minLeadingWidth: AppSize.s100,
+                  title: TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.alternate_email),
                     ),
                   ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  ListTile(
-                    leading: const Text('Position'),
-                    minLeadingWidth: AppSize.s100,
-                    title: TextField(
-                      controller: _positionController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person_2),
-                      ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                ListTile(
+                  leading: const Text('Position'),
+                  minLeadingWidth: AppSize.s100,
+                  title: TextField(
+                    controller: _positionController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.person_2),
                     ),
                   ),
-                  const SizedBox(
-                    height: AppSize.s12,
-                  ),
-                  ListTile(
-                    leading: const Text('Email: '),
-                    minLeadingWidth: AppSize.s100,
-                    title: TextField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        prefixIcon: Icon(Icons.email),
-                      ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                ListTile(
+                  leading: const Text('Email: '),
+                  minLeadingWidth: AppSize.s100,
+                  title: TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
                     ),
                   ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  ListTile(
-                    leading: const Text('Contact No.: '),
-                    minLeadingWidth: AppSize.s100,
-                    title: TextFormField(
-                      controller: _contactNumberController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.phone),
-                      ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                ListTile(
+                  leading: const Text('Contact No.: '),
+                  minLeadingWidth: AppSize.s100,
+                  title: TextFormField(
+                    controller: _contactNumberController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.phone),
                     ),
                   ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Flexible(
-                        child: SizedBox(
-                          height: AppSize.s36,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Submitted')));
-                            },
-                            child: const Text('Submit'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Submitted')));
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
             ),
           ),
         ),

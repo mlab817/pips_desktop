@@ -4,46 +4,32 @@ import 'package:pips/presentation/resources/color_schemes.g.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class ThemeManager {
-  static ThemeData getApplicationTheme(ThemeMode themeMode) {
+  static ThemeData getApplicationTheme(
+      BuildContext context, ThemeMode themeMode) {
     return ThemeData(
       useMaterial3: true,
-      // fontFamily: FontFamily.primary,
       // scaffoldBackgroundColor: ColorManager.white,
       colorScheme:
           themeMode == ThemeMode.light ? lightColorScheme : darkColorScheme,
-      appBarTheme: AppBarTheme(
+      fontFamily: GoogleFonts.montserrat().fontFamily,
+      appBarTheme: const AppBarTheme(
         toolbarHeight: AppSize.s60,
-        // backgroundColor: ColorManager.white,
-        // foregroundColor: ColorManager.darkGray,
-        titleTextStyle: GoogleFonts.raleway(
-          fontWeight: FontWeight.w700,
-          // color: ColorManager.darkGray,
-          fontSize: AppSize.s14,
-        ),
         elevation: AppSize.s1,
-        // shadowColor: ColorManager.white,
-        // surfaceTintColor: ColorManager.white,
-        // actionsIconTheme: IconThemeData(
-        //   color: ColorManager.blue,
-        // ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s8),
-          ),
-          // backgroundColor: ColorManager.primary,
-          // foregroundColor: ColorManager.white,
-          padding: const EdgeInsets.symmetric(
-            vertical: AppSize.s16,
-            horizontal: AppSize.s16,
-          ),
-          minimumSize: const Size(double.infinity, AppSize.s24),
-          textStyle: const TextStyle(
-            fontSize: AppSize.s12,
-          ),
-        ),
-      ),
+      //   // backgroundColor: ColorManager.white,
+      //   // foregroundColor: ColorManager.darkGray,
+      //   titleTextStyle: TextStyle(
+      //     fontWeight: FontWeight.w700,
+      //     // color: ColorManager.darkGray,
+      //     fontSize: AppSize.s14,
+      //   ),
+      // elevation: AppSize.s1,
+      // shadowColor: ColorManager.white,
+      // surfaceTintColor: ColorManager.white,
+      // actionsIconTheme: IconThemeData(
+      //   color: ColorManager.blue,
+      // ),
+      // ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderSide: const BorderSide(
@@ -53,34 +39,51 @@ class ThemeManager {
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            style: BorderStyle.solid,
-            // color: ColorManager.primary,
-            width: AppSize.s2,
+          borderSide: BorderSide(
+            width: AppSize.s3,
+            color: themeMode == ThemeMode.light
+                ? lightColorScheme.primary
+                : darkColorScheme.primary,
           ),
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
-        // focusColor: ColorManager.primary,
+        //   borderSide: const BorderSide(
+        //     // style: BorderStyle.solid,
+        //     // color: ColorManager.primary,
+        //     width: AppSize.s2,
+        //   ),
+        //   borderRadius: BorderRadius.circular(AppSize.s8),
+        // ),
+        focusColor: themeMode == ThemeMode.light
+            ? lightColorScheme.primary
+            : darkColorScheme.primary,
         isDense: true,
         // floatingLabelStyle: TextStyle(
         //   color: ColorManager.primary,
         // ),
-        // prefixIconColor: ColorManager.primary,
+        prefixIconColor: themeMode == ThemeMode.light
+            ? lightColorScheme.outline
+            : darkColorScheme.outline,
         suffixStyle: const TextStyle(fontSize: AppSize.s10),
         isCollapsed: true,
       ),
-      // textSelectionTheme: TextSelectionThemeData(
-      //   cursorColor: ColorManager.primary,
-      // ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: themeMode == ThemeMode.light
+            ? lightColorScheme.primary
+            : darkColorScheme.primary,
+      ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
           fontSize: AppSize.s20,
+          fontWeight: FontWeight.w700,
         ),
         headlineMedium: TextStyle(
           fontSize: AppSize.s18,
+          fontWeight: FontWeight.w700,
         ),
         headlineSmall: TextStyle(
-          fontSize: AppSize.s18,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.w700,
         ),
         titleLarge: TextStyle(
           fontSize: AppSize.s16,
@@ -89,11 +92,11 @@ class ThemeManager {
         // placeholder for text input,
         // works also with list title
         titleMedium: TextStyle(
-          fontSize: AppSize.s11,
+          fontSize: AppSize.s14,
           fontWeight: FontWeight.w300,
         ),
         titleSmall: TextStyle(
-          fontSize: AppSize.s8,
+          fontSize: AppSize.s12,
           fontWeight: FontWeight.w300,
         ),
         bodyLarge: TextStyle(
@@ -114,25 +117,25 @@ class ThemeManager {
         ),
       ),
       // TODO: update text button style
-      navigationRailTheme: const NavigationRailThemeData(
-        elevation: AppSize.s4,
-        // backgroundColor: ColorManager.lightGray,
-        unselectedIconTheme: IconThemeData(
-          // color: ColorManager.darkGray,
-          size: AppSize.s18,
-        ),
-        selectedIconTheme: IconThemeData(
-          // color: ColorManager.black,
-          size: AppSize.s18,
-        ),
-        // unselectedLabelTextStyle: TextStyle(color: ColorManager.black),
-        selectedLabelTextStyle: TextStyle(
-          // color: ColorManager.black,
-          fontWeight: FontWeight.bold,
-        ),
-        useIndicator: true,
-        // indicatorColor: ColorManager.gray,
-      ),
+      // navigationRailTheme: const NavigationRailThemeData(
+      //   elevation: AppSize.s4,
+      //   // backgroundColor: ColorManager.lightGray,
+      //   unselectedIconTheme: IconThemeData(
+      //     // color: ColorManager.darkGray,
+      //     size: AppSize.s18,
+      //   ),
+      //   selectedIconTheme: IconThemeData(
+      //     // color: ColorManager.black,
+      //     size: AppSize.s18,
+      //   ),
+      //   // unselectedLabelTextStyle: TextStyle(color: ColorManager.black),
+      //   selectedLabelTextStyle: TextStyle(
+      //     // color: ColorManager.black,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      //   useIndicator: true,
+      //   // indicatorColor: ColorManager.gray,
+      // ),
       // progressIndicatorTheme: ProgressIndicatorThemeData(
       //   color: ColorManager.primary,
       // ),
@@ -144,8 +147,12 @@ class ThemeManager {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8),
         ),
-        // selectedColor: ColorManager.white,
-        // selectedTileColor: ColorManager.blue,
+        selectedTileColor: themeMode == ThemeMode.light
+            ? lightColorScheme.primary
+            : darkColorScheme.primary,
+        selectedColor: themeMode == ThemeMode.light
+            ? lightColorScheme.onPrimary
+            : darkColorScheme.onPrimary,
       ),
       // floatingActionButtonTheme: FloatingActionButtonThemeData(
       //   foregroundColor: ColorManager.primary,
