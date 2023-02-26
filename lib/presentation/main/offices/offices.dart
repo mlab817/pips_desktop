@@ -1,17 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/domain/models/project.dart';
+import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../app/dep_injection.dart';
 import '../../../app/routes.dart';
@@ -115,31 +114,6 @@ class _OfficesViewState extends State<OfficesView> {
     // load selected office info
   }
 
-  Future<void> _onOpenPressed(String uuid) async {
-    final webview = FlutterMacOSWebView(
-      onOpen: () => print('Opened'),
-      onClose: () => print('Closed'),
-      onPageStarted: (url) => print('Page started: $url'),
-      onPageFinished: (url) => print('Page finished: $url'),
-      onWebResourceError: (err) {
-        print(
-          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
-        );
-      },
-    );
-
-    await webview.open(
-      url: "${Config.baseUrl}/generate-pdf/$uuid?access_key=something+nice",
-      presentationStyle: PresentationStyle.sheet,
-      // size: Size(400.0, 400.0),
-      userAgent:
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
-    );
-
-    // await Future.delayed(Duration(seconds: 5));
-    // await webview.close();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -183,6 +157,7 @@ class _OfficesViewState extends State<OfficesView> {
     return Flex(
       direction: Axis.horizontal,
       children: [
+        // office list
         Expanded(
           child: Container(
             decoration: BoxDecoration(
@@ -195,7 +170,7 @@ class _OfficesViewState extends State<OfficesView> {
             child: Column(
               children: [
                 AppBar(
-                  title: const Text('Offices'),
+                  title: const Text(AppStrings.offices),
                   centerTitle: false,
                   automaticallyImplyLeading: false,
                 ),
@@ -204,7 +179,7 @@ class _OfficesViewState extends State<OfficesView> {
                   child: TextField(
                     controller: _searchOfficeController,
                     decoration: const InputDecoration(
-                      hintText: 'Search...',
+                      hintText: AppStrings.search,
                       prefixIcon: Icon(
                         Icons.search,
                       ),
@@ -212,6 +187,7 @@ class _OfficesViewState extends State<OfficesView> {
                   ),
                 ),
                 Expanded(
+                  flex: 3,
                   child: _filteredOffices.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(
@@ -250,223 +226,74 @@ class _OfficesViewState extends State<OfficesView> {
             ),
           ),
         ),
-        _getProjectsWidget()
+        // office view
+        Expanded(
+          flex: 3,
+          child: _selectedOffice != null
+              ? _getProjectsWidget()
+              : const Center(
+                  child: Text('Select office from the left panel to begin.'),
+                ),
+        )
       ],
     );
   }
 
   Widget _getProjectsWidget() {
-    return Expanded(
-      flex: 3,
-      child: _selectedOffice != null
-          ? Center(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      // office card
-                      Padding(
-                        padding: const EdgeInsets.all(AppSize.s8),
-                        child: Card(
-                          elevation: AppSize.s4,
-                          child: Container(
-                            padding: const EdgeInsets.all(
-                              AppSize.s20,
-                            ),
-                            decoration: BoxDecoration(
-                              // color: ColorManager.darkWhite,
-                              borderRadius: BorderRadius.circular(AppSize.s8),
-                              // TODO: update this ugly thing
-                              gradient: LinearGradient(
-                                colors: [
-                                  ColorManager.veryLightGray,
-                                  ColorManager.darkWhite,
-                                  ColorManager.white,
-                                ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  AssetsManager.svgLogoAsset,
-                                  height: AppSize.s80,
-                                ),
-                                const SizedBox(
-                                  height: AppSize.s20,
-                                ),
-                                SelectableText(
-                                  _selectedOffice?.name ?? "",
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                const SizedBox(
-                                  height: AppSize.s20,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.email,
-                                      // color: ColorManager.darkGray,
-                                    ),
-                                    const SizedBox(
-                                      width: AppSize.s2,
-                                    ),
-                                    Text(_selectedOffice?.email ?? ""),
-                                    const SizedBox(
-                                      width: AppSize.s10,
-                                    ),
-                                    Icon(
-                                      Icons.phone,
-                                      color: ColorManager.darkGray,
-                                    ),
-                                    const SizedBox(
-                                      width: AppSize.s2,
-                                    ),
-                                    Text(_selectedOffice?.phoneNumber ?? ""),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // const Divider(),
-                  _projects != null
-                      ? _getProjectsList()
-                      : const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                ],
-              ),
-            )
-          : const Center(
-              child: Text('Select office from the left panel to begin.'),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          automaticallyImplyLeading: false,
+          floating: true,
+          pinned: true,
+          // OfficeCard(office: _selectedOffice!),
+          expandedHeight: 160.0,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text(_selectedOffice?.name ?? ''),
+            background: SvgPicture.asset(
+              AssetsManager.svgLogoAsset,
+              height: AppSize.s80,
             ),
+          ),
+        ),
+        if (_projects != null)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return ProjectItem(
+                  project: _projects![index],
+                  onTap: () {},
+                );
+              },
+              childCount: _projects?.length ?? 0,
+            ),
+          ),
+      ],
+    );
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: OfficeCard(office: _selectedOffice!),
+        ),
+        // const Divider(),
+        _projects != null
+            ? _getProjectsList()
+            : const Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+      ],
     );
   }
 
   Widget _getProjectsList() {
+    return Container();
+
     final projects = _projects ?? <Project>[];
 
     return projects.isNotEmpty
-        ? Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(AppSize.s8),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _searchTextEditingController,
-                    decoration: const InputDecoration(
-                      hintText: 'Search...',
-                      prefixIcon: Icon(
-                        Icons.search,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: AppSize.s8,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: projects.length,
-                      itemBuilder: (context, index) {
-                        final project = projects[index];
-
-                        return ClipRect(
-                          child: Slidable(
-                            key: Key(index.toString()),
-                            startActionPane: ActionPane(
-                              motion: const BehindMotion(),
-                              extentRatio: 0.08,
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) async {
-                                    String urlToShare =
-                                        "${Config.baseUrl}/generate-pdf/${project.uuid}";
-                                    // generate url
-                                    await Clipboard.setData(
-                                        ClipboardData(text: urlToShare));
-
-                                    _showSuccessSnackbar();
-                                  },
-                                  backgroundColor: const Color(0xFF0000FF),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.share,
-                                  label: 'Share',
-                                ),
-                              ],
-                            ),
-                            endActionPane: ActionPane(
-                              extentRatio: 0.2,
-                              // A motion is a widget used to control how the pane animates.
-                              motion: const BehindMotion(),
-
-                              // A pane can dismiss the Slidable.
-                              // dismissible: DismissiblePane(onDismissed: () {}),
-
-                              // All actions are defined in the children parameter.
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    // do nothing
-                                  },
-                                  backgroundColor: const Color(0xFF00FF00),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.visibility,
-                                  label: 'View',
-                                ),
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    // do nothing
-                                  },
-                                  backgroundColor: const Color(0xFF21B7CA),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.edit,
-                                  label: 'Edit',
-                                ),
-                                // A SlidableAction can have an icon and/or a label.
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    // do nothing
-                                  },
-                                  backgroundColor: const Color(0xFFFE4A49),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Delete',
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              title: Text(project.title),
-                              trailing: Text(
-                                  "Php ${(project.totalCost / 1000000).toStringAsFixed(2)} M"),
-                              onTap: () {
-                                if (Platform.isMacOS) {
-                                  _onOpenPressed(project.uuid);
-                                } else {
-                                  Navigator.pushNamed(
-                                      context, Routes.viewProjectRoute,
-                                      arguments: project.uuid);
-                                }
-                                // navigate to project vie
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
+        ? Container()
         : Expanded(
             child: Center(
               child: Lottie.asset(
@@ -476,8 +303,144 @@ class _OfficesViewState extends State<OfficesView> {
           );
   }
 
+  Widget _getSearchBar() {
+    return TextField(
+      controller: _searchTextEditingController,
+      decoration: const InputDecoration(
+        hintText: AppStrings.search,
+        prefixIcon: Icon(
+          Icons.search,
+        ),
+      ),
+    );
+  }
+
   void _showSuccessSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Successfully copied to clipboard.')));
+  }
+}
+
+class ProjectList extends StatelessWidget {
+  const ProjectList({Key? key, required this.projects}) : super(key: key);
+
+  final List<Project> projects;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: projects.length,
+      itemBuilder: (context, index) {
+        final project = projects[index];
+
+        return ClipRect(
+          child: ProjectItem(
+            project: project,
+            onTap: () {
+              if (UniversalPlatform.isDesktop) {
+                _onOpenPressed(project.uuid);
+              } else {
+                Navigator.pushNamed(context, Routes.viewProjectRoute,
+                    arguments: project.uuid);
+              }
+              // navigate to project vie
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onOpenPressed(String uuid) async {
+    final webview = FlutterMacOSWebView(
+      onOpen: () => print('Opened'),
+      onClose: () => print('Closed'),
+      onPageStarted: (url) => print('Page started: $url'),
+      onPageFinished: (url) => print('Page finished: $url'),
+      onWebResourceError: (err) {
+        print(
+          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
+        );
+      },
+    );
+
+    await webview.open(
+      url: "${Config.baseUrl}/generate-pdf/$uuid?access_key=something+nice",
+      presentationStyle: PresentationStyle.sheet,
+      // size: Size(400.0, 400.0),
+      userAgent:
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+    );
+
+    // await Future.delayed(Duration(seconds: 5));
+    // await webview.close();
+  }
+}
+
+class OfficeCard extends StatelessWidget {
+  const OfficeCard({Key? key, required this.office}) : super(key: key);
+
+  final Office office;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppSize.s8),
+      child: Card(
+        elevation: AppSize.s4,
+        child: Container(
+          padding: const EdgeInsets.all(
+            AppSize.s20,
+          ),
+          decoration: BoxDecoration(
+            // color: ColorManager.darkWhite,
+            borderRadius: BorderRadius.circular(AppSize.s8),
+            // TODO: update this ugly thing
+          ),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                AssetsManager.svgLogoAsset,
+                height: AppSize.s80,
+              ),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              SelectableText(
+                office.name ?? "",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.email,
+                    // color: ColorManager.darkGray,
+                  ),
+                  const SizedBox(
+                    width: AppSize.s2,
+                  ),
+                  Text(office.email ?? "N/A"),
+                  const SizedBox(
+                    width: AppSize.s10,
+                  ),
+                  Icon(
+                    Icons.phone,
+                    color: ColorManager.darkGray,
+                  ),
+                  const SizedBox(
+                    width: AppSize.s2,
+                  ),
+                  Text(office.phoneNumber ?? "N/A"),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

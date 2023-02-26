@@ -5,6 +5,7 @@
 import FlutterMacOS
 import Foundation
 
+import dynamic_color
 import firebase_core
 import firebase_messaging
 import flutter_macos_webview
@@ -15,6 +16,7 @@ import url_launcher_macos
 import window_size
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  DynamicColorPlugin.register(with: registry.registrar(forPlugin: "DynamicColorPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
   FLTFirebaseMessagingPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseMessagingPlugin"))
   FlutterMacOSWebViewPlugin.register(with: registry.registrar(forPlugin: "FlutterMacOSWebViewPlugin"))

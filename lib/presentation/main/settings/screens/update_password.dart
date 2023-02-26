@@ -40,70 +40,77 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         ),
         Padding(
           padding: const EdgeInsets.all(AppPadding.lg),
-          child: Card(
-            elevation: AppSize.s8,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(AppSize.s8),
-                  child: TextField(
-                    controller: _currentPasswordTextEditingController,
-                    obscureText: _passwordIsObscured,
-                    decoration: const InputDecoration(
-                      hintText: 'Current Password',
-                      prefixIcon: Icon(Icons.key),
-                    ),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                minLeadingWidth: AppSize.s150,
+                leading: const Text('Current Password: '),
+                title: TextFormField(
+                  controller: _currentPasswordTextEditingController,
+                  obscureText: _passwordIsObscured,
+                  decoration: const InputDecoration(
+                    hintText: 'Current Password',
+                    prefixIcon: Icon(Icons.key),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(AppSize.s8),
-                  child: TextField(
-                    controller: _newPasswordTextEditingController,
-                    obscureText: _passwordIsObscured,
-                    decoration: const InputDecoration(
-                      hintText: 'New Password',
-                      prefixIcon: Icon(Icons.key),
-                    ),
+              ),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              ListTile(
+                minLeadingWidth: AppSize.s150,
+                leading: const Text('New Password'),
+                title: TextFormField(
+                  controller: _newPasswordTextEditingController,
+                  obscureText: _passwordIsObscured,
+                  decoration: const InputDecoration(
+                    hintText: 'New Password',
+                    prefixIcon: Icon(Icons.key),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(AppSize.s8),
-                  child: TextField(
-                    controller: _confirmPasswordTextEditingController,
-                    obscureText: _passwordIsObscured,
-                    decoration: const InputDecoration(
-                      hintText: 'Re-type Password',
-                      prefixIcon: Icon(Icons.key),
-                    ),
+              ),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              ListTile(
+                minLeadingWidth: AppSize.s150,
+                leading: const Text('Re-type Password'),
+                title: TextFormField(
+                  controller: _confirmPasswordTextEditingController,
+                  obscureText: _passwordIsObscured,
+                  decoration: const InputDecoration(
+                    hintText: 'Re-type Password',
+                    prefixIcon: Icon(Icons.key),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(AppSize.s8),
-                  child: CheckboxListTile(
-                    value: _passwordIsObscured,
-                    activeColor: ColorManager.primary,
-                    title: const Text('Show Password'),
-                    contentPadding: EdgeInsets.zero,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    onChanged: (value) {
-                      setState(() {
-                        _passwordIsObscured = value ?? false;
-                      });
-                    },
-                  ),
+              ),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              CheckboxListTile(
+                value: _passwordIsObscured,
+                activeColor: ColorManager.primary,
+                title: const Text('Show Password'),
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                onChanged: (value) {
+                  setState(() {
+                    _passwordIsObscured = value ?? false;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              SizedBox(
+                height: AppSize.s36,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Change Password'),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(AppSize.s8),
-                  child: SizedBox(
-                    height: AppSize.s36,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Change Password'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],

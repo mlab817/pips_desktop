@@ -46,7 +46,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               children: [
                 ListTile(
                   leading: const Text('First Name: '),
-                  minLeadingWidth: AppSize.s100,
+                  minLeadingWidth: AppSize.s150,
                   title: TextField(
                     controller: _firstNameController,
                     decoration: const InputDecoration(
@@ -59,7 +59,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 ),
                 ListTile(
                   leading: const Text('Last Name: '),
-                  minLeadingWidth: AppSize.s100,
+                  minLeadingWidth: AppSize.s150,
                   title: TextField(
                     controller: _lastNameController,
                     decoration: const InputDecoration(
@@ -72,7 +72,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 ),
                 ListTile(
                   leading: const Text('Username'),
-                  minLeadingWidth: AppSize.s100,
+                  minLeadingWidth: AppSize.s150,
                   title: TextField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
@@ -85,7 +85,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 ),
                 ListTile(
                   leading: const Text('Position'),
-                  minLeadingWidth: AppSize.s100,
+                  minLeadingWidth: AppSize.s150,
                   title: TextField(
                     controller: _positionController,
                     decoration: const InputDecoration(
@@ -98,7 +98,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 ),
                 ListTile(
                   leading: const Text('Email: '),
-                  minLeadingWidth: AppSize.s100,
+                  minLeadingWidth: AppSize.s150,
                   title: TextField(
                     controller: _emailController,
                     decoration: const InputDecoration(
@@ -111,7 +111,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 ),
                 ListTile(
                   leading: const Text('Contact No.: '),
-                  minLeadingWidth: AppSize.s100,
+                  minLeadingWidth: AppSize.s150,
                   title: TextFormField(
                     controller: _contactNumberController,
                     decoration: const InputDecoration(

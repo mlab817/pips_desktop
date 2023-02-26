@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
-import 'package:universal_io/io.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 
 import 'firebase_options.dart';
@@ -15,7 +14,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+  if (UniversalPlatform.isDesktop) {
     setWindowTitle(AppStrings.appName);
     setWindowMinSize(const Size(960, 600));
   }
@@ -25,7 +24,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (Platform.isAndroid) {
+  if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     print("is messaging supported: ${await messaging.isSupported()}");

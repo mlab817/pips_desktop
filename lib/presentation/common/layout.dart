@@ -87,7 +87,7 @@ class _MainLayoutState extends State<MainLayout> {
                         ? Icons.dashboard
                         : Icons.dashboard_outlined,
                   ),
-                  label: const Text('Dashboard'),
+                  label: const Text(AppStrings.dashboard),
                 ),
                 NavigationRailDestination(
                   icon: Icon(
@@ -95,7 +95,7 @@ class _MainLayoutState extends State<MainLayout> {
                         ? Icons.work_outline
                         : Icons.work_outline_outlined,
                   ),
-                  label: const Text('Offices'),
+                  label: const Text(AppStrings.offices),
                 ),
                 NavigationRailDestination(
                   icon: Icon(
@@ -103,7 +103,7 @@ class _MainLayoutState extends State<MainLayout> {
                         ? Icons.chat_bubble
                         : Icons.chat_bubble_outline,
                   ),
-                  label: const Text('Chat'),
+                  label: const Text(AppStrings.chats),
                 ),
                 NavigationRailDestination(
                   icon: Icon(
@@ -111,7 +111,7 @@ class _MainLayoutState extends State<MainLayout> {
                         ? Icons.notifications
                         : Icons.notifications_outlined,
                   ),
-                  label: const Text('Notifications'),
+                  label: const Text(AppStrings.notifications),
                 ),
                 NavigationRailDestination(
                   icon: Icon(
@@ -119,13 +119,24 @@ class _MainLayoutState extends State<MainLayout> {
                         ? Icons.settings
                         : Icons.settings_outlined,
                   ),
-                  label: const Text('Settings'),
+                  label: const Text(AppStrings.settings),
                 ),
               ],
               onDestinationSelected: widget.onChange,
               selectedIndex: selectedIndex,
               // labelType: NavigationRailLabelType.all,
             ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.light_mode),
+            onPressed: () {},
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.exit_to_app),
+          ),
+          const SizedBox(
+            height: AppSize.s20,
           ),
         ],
       ),
