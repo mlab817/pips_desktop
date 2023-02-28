@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/color_schemes.g.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
@@ -198,6 +199,30 @@ class ThemeManager {
       //   }),
       // ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
+    );
+  }
+}
+
+class CustomTheme with ChangeNotifier {
+  static bool _isDarkTheme = true;
+
+  ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+
+  void toggleTheme() {
+    _isDarkTheme = !_isDarkTheme;
+
+    debugPrint(_isDarkTheme.toString());
+
+    notifyListeners();
+  }
+
+  static ThemeData get lightTheme {
+    return ThemeData();
+  }
+
+  static ThemeData get darkTheme {
+    return ThemeData(
+      scaffoldBackgroundColor: ColorManager.black,
     );
   }
 }

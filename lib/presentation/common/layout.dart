@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pips/app/config.dart';
 import 'package:pips/app/functions.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../../app/app.dart';
 import '../../app/routes.dart';
 import '../resources/color_manager.dart';
 
@@ -27,8 +27,6 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
-    debugPrint(MyApp.themeNotifier.value.toString());
-
     return Scaffold(
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,
@@ -132,7 +130,7 @@ class _MainLayoutState extends State<MainLayout> {
           ),
           IconButton(
             icon: const Icon(Icons.light_mode),
-            onPressed: () {},
+            onPressed: () => currentTheme.toggleTheme(),
           ),
           IconButton(
             onPressed: () {
