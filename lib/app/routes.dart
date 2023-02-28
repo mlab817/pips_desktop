@@ -3,7 +3,13 @@ import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/auth/sign_up/sign_up.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/main.dart';
+import 'package:pips/presentation/main/office/office.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
+import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
+import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
+import 'package:pips/presentation/main/settings/screens/notifications.dart';
+import 'package:pips/presentation/main/settings/screens/update_password.dart';
+import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 import 'package:pips/presentation/new_project/new_project.dart';
 import 'package:pips/presentation/onboarding/onboarding.dart';
 import 'package:pips/presentation/project/project.dart';
@@ -26,6 +32,12 @@ class Routes {
   static const String onboardingRoute = "/onboarding";
   static const String viewProjectRoute = "/view-project";
   static const String newProjectRoute = "/new-project";
+  static const String officeRoute = "/office";
+  static const String updateProfileRoute = "/update-profile";
+  static const String updatePasswordRoute = "/update-password";
+  static const String notificationRoute = "/notification";
+  static const String activityLogRoute = "/activity-log";
+  static const String developerNoticeRoute = "/developer-notice";
 }
 
 class RouteGenerator {
@@ -52,6 +64,11 @@ class RouteGenerator {
         initOfficesModule();
         initUsersModule();
         return MaterialPageRoute(builder: (_) => const MainView());
+      case Routes.officeRoute:
+        initOfficesModule();
+        String officeId = routeSettings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => OfficeView(officeId: officeId));
       case Routes.projectRoute:
         initProjectModule();
         String uuid = routeSettings.arguments as String;
@@ -61,6 +78,16 @@ class RouteGenerator {
                 ));
       case Routes.aboutRoute:
         return MaterialPageRoute(builder: (_) => const AboutView());
+      case Routes.updatePasswordRoute:
+        return MaterialPageRoute(builder: (_) => const UpdatePassword());
+      case Routes.developerNoticeRoute:
+        return MaterialPageRoute(builder: (_) => const DeveloperNotice());
+      case Routes.activityLogRoute:
+        return MaterialPageRoute(builder: (_) => const ActivityLogView());
+      case Routes.updateProfileRoute:
+        return MaterialPageRoute(builder: (_) => const UpdateProfile());
+      case Routes.notificationRoute:
+        return MaterialPageRoute(builder: (_) => const NotificationsView());
       case Routes.viewProjectRoute:
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));

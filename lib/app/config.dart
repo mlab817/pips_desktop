@@ -1,5 +1,5 @@
 class Config {
-  static const String baseUrl = "http://localhost:8000/api";
+  static const String baseUrl = "https://beta.pips.da.gov.ph/api";
   static const String authEndpoint =
-      "http://localhost:8000/api/broadcasting/auth";
+      "https://beta.pips.da.gov.ph/api/broadcasting/auth";
 }

@@ -16,6 +16,15 @@ class ThemeManager {
         toolbarHeight: AppSize.s60,
         elevation: AppSize.s1,
       ),
+      checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+        return Theme.of(context).colorScheme.onPrimary;
+      }), checkColor: MaterialStateProperty.resolveWith<Color>((states) {
+        if (states.contains(MaterialState.selected)) {
+          return Theme.of(context).colorScheme.primary;
+        }
+        return Theme.of(context).colorScheme.onPrimary;
+      })),
       //   // backgroundColor: ColorManager.white,
       //   // foregroundColor: ColorManager.darkGray,
       //   titleTextStyle: TextStyle(
@@ -68,9 +77,7 @@ class ThemeManager {
         isCollapsed: true,
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: themeMode == ThemeMode.light
-            ? lightColorScheme.primary
-            : darkColorScheme.primary,
+        cursorColor: Theme.of(context).colorScheme.primary,
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
@@ -139,6 +146,10 @@ class ThemeManager {
       // progressIndicatorTheme: ProgressIndicatorThemeData(
       //   color: ColorManager.primary,
       // ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        selectedLabelStyle: TextStyle(fontSize: AppSize.s10),
+        unselectedLabelStyle: TextStyle(fontSize: AppSize.s10),
+      ),
       listTileTheme: ListTileThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         dense: true,

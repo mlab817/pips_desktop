@@ -35,7 +35,6 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     _fileNameController.dispose();
@@ -79,6 +78,7 @@ class _SignUpViewState extends State<SignUpView> {
                     children: <Widget>[
                       Expanded(
                         child: TextFormField(
+                          autofocus: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'First name is required';
@@ -201,6 +201,7 @@ class _SignUpViewState extends State<SignUpView> {
                   //
                   Flex(
                     direction: Axis.horizontal,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       TextButton(
                         onPressed: _pickFile,

@@ -3,52 +3,47 @@ import 'package:pips/presentation/resources/sizes_manager.dart';
 
 import '../../../resources/strings_manager.dart';
 
-class Notifications extends StatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+class NotificationsView extends StatefulWidget {
+  const NotificationsView({Key? key}) : super(key: key);
 
   @override
-  State<Notifications> createState() => _NotificationsState();
+  State<NotificationsView> createState() => _NotificationsViewState();
 }
 
-class _NotificationsState extends State<Notifications> {
+class _NotificationsViewState extends State<NotificationsView> {
   bool _notificationsEnabled = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text(AppStrings.notifications),
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-        ),
-        Expanded(
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppPadding.md),
-                child: ListTile(
-                  dense: false,
-                  onTap: () {
-                    setState(() {
-                      _notificationsEnabled = !_notificationsEnabled;
-                    });
-                  },
-                  title: const Text(AppStrings.enableNotifications),
-                  trailing: Switch(
-                    value: _notificationsEnabled,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _notificationsEnabled = value ?? false;
-                      });
-                    },
-                  ),
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.notifications),
+      ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppPadding.md),
+            child: ListTile(
+              dense: false,
+              onTap: () {
+                setState(() {
+                  _notificationsEnabled = !_notificationsEnabled;
+                });
+              },
+              title: const Text(AppStrings.enableNotifications),
+              subtitle: const Text('For mobile only'),
+              trailing: Switch(
+                value: _notificationsEnabled,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _notificationsEnabled = value ?? false;
+                  });
+                },
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

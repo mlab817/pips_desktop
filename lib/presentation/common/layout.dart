@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:pips/app/functions.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../app/app.dart';
 import '../../app/routes.dart';
@@ -30,27 +30,26 @@ class _MainLayoutState extends State<MainLayout> {
     debugPrint(MyApp.themeNotifier.value.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(AppStrings.appName),
-        elevation: AppSize.s4,
-        actions: [
-          IconButton(
-              icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
-                  ? Icons.dark_mode
-                  : Icons.light_mode),
-              onPressed: () {
-                MyApp.themeNotifier.value =
-                    MyApp.themeNotifier.value == ThemeMode.light
-                        ? ThemeMode.dark
-                        : ThemeMode.light;
-              })
-        ],
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: const Text(AppStrings.appName),
+      //   elevation: AppSize.s4,
+      //   actions: [
+      //     IconButton(
+      //         icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
+      //             ? Icons.dark_mode
+      //             : Icons.light_mode),
+      //         onPressed: () {
+      //           MyApp.themeNotifier.value =
+      //               MyApp.themeNotifier.value == ThemeMode.light
+      //                   ? ThemeMode.dark
+      //                   : ThemeMode.light;
+      //         })
+      //   ],
+      // ),
       body: Row(
         children: [
-          if (Platform.isMacOS || Platform.isLinux || Platform.isWindows)
-            _getNavigationRail(),
+          if (UniversalPlatform.isDesktopOrWeb) _buildNavigationRail(),
           Expanded(child: widget.child),
         ],
       ),
@@ -60,10 +59,14 @@ class _MainLayoutState extends State<MainLayout> {
         },
         child: const Icon(Icons.add),
       ),
+      bottomNavigationBar:
+          (UniversalPlatform.isIOS || UniversalPlatform.isAndroid)
+              ? _buildBottomNavigator()
+              : null,
     );
   }
 
-  Widget _getNavigationRail() {
+  Widget _buildNavigationRail() {
     int selectedIndex = widget.activeIndex;
 
     return Container(
@@ -92,7 +95,7 @@ class _MainLayoutState extends State<MainLayout> {
                 NavigationRailDestination(
                   icon: Icon(
                     selectedIndex == 1
-                        ? Icons.work_outline
+                        ? Icons.work
                         : Icons.work_outline_outlined,
                   ),
                   label: const Text(AppStrings.offices),
@@ -107,7 +110,7 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(
-                    selectedIndex == 4
+                    selectedIndex == 3
                         ? Icons.notifications
                         : Icons.notifications_outlined,
                   ),
@@ -115,7 +118,7 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(
-                    selectedIndex == 3
+                    selectedIndex == 4
                         ? Icons.settings
                         : Icons.settings_outlined,
                   ),
@@ -132,7 +135,9 @@ class _MainLayoutState extends State<MainLayout> {
             onPressed: () {},
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              logout(context);
+            },
             icon: const Icon(Icons.exit_to_app),
           ),
           const SizedBox(
@@ -140,6 +145,36 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildBottomNavigator() {
+    return BottomNavigationBar(
+      currentIndex: widget.activeIndex,
+      onTap: widget.onChange,
+      type: BottomNavigationBarType.fixed,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.dashboard),
+          label: 'Dashboard',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.work),
+          label: 'Offices',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_bubble),
+          label: 'Chat',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.notifications),
+          label: 'Notifications',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.more_vert),
+          label: 'More',
+        ),
+      ],
     );
   }
 }

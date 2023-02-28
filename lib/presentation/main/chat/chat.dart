@@ -10,6 +10,8 @@ import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:pips/presentation/main/chat/conversation/conversation.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../../domain/models/user.dart';
@@ -136,8 +138,7 @@ class _ChatViewState extends State<ChatView> {
             child: Column(
               children: [
                 AppBar(
-                  title: const Text('Chats'),
-                  centerTitle: false,
+                  title: const Text(AppStrings.chats),
                   automaticallyImplyLeading: false,
                   actions: [
                     CircleAvatar(
@@ -148,115 +149,109 @@ class _ChatViewState extends State<ChatView> {
                         },
                         icon: const Icon(
                           Icons.mode,
-                          size: AppSize.s20,
+                          size: AppSize.xl,
                         ),
                       ),
                     ),
                     const SizedBox(
-                      width: AppSize.s4,
+                      width: AppSize.md,
                     )
                   ],
                 ),
                 Expanded(
                   child: _chatRooms.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.all(AppSize.s8),
-                          child: ListView.builder(
-                              itemCount: _chatRooms.length,
-                              itemBuilder: (context, index) {
-                                //
-                                final chatRoom = _chatRooms[index];
+                      ? ListView.builder(
+                          itemCount: _chatRooms.length,
+                          itemBuilder: (context, index) {
+                            //
+                            final chatRoom = _chatRooms[index];
 
-                                String chatName = chatRoom.users
-                                        ?.map((item) => item.firstName)
-                                        .toList()
-                                        .join(', ') ??
-                                    "No name.";
+                            String chatName = chatRoom.users
+                                    ?.map((item) => item.firstName)
+                                    .toList()
+                                    .join(', ') ??
+                                "No name.";
 
-                                return InkWell(
-                                  onTap: () {
-                                    _setChatRoom(chatRoom);
-                                  },
+                            return InkWell(
+                              onTap: () {
+                                _setChatRoom(chatRoom);
+                              },
+                              borderRadius:
+                                  BorderRadius.circular(AppPadding.md),
+                              child: Container(
+                                padding: const EdgeInsets.all(AppPadding.md),
+                                decoration: BoxDecoration(
                                   borderRadius:
-                                      BorderRadius.circular(AppSize.s8),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(AppSize.s8),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(AppSize.s8),
-                                      // add background color if the item is selected
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: Stack(
-                                            children: <Widget>[
-                                              Align(
-                                                alignment: Alignment.topRight,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color:
-                                                            ColorManager.white,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50.0)),
-                                                  child: CircleAvatar(
-                                                    backgroundColor:
-                                                        ColorManager.blue,
-                                                    radius: 18.0,
-                                                    child: const Text(
-                                                      '2',
-                                                      style: TextStyle(
-                                                        fontSize: 10.0,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
+                                      BorderRadius.circular(AppPadding.md),
+                                  // add background color if the item is selected
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      height: AppSize.s50,
+                                      width: AppSize.s50,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: ColorManager.white,
+                                                    width: AppSize.xs,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          AppSize.s50)),
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    ColorManager.blue,
+                                                radius: AppSize.s18,
+                                                child: const Text(
+                                                  '2',
+                                                  style: TextStyle(
+                                                    fontSize: AppSize.s10,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
                                               ),
-                                              Align(
-                                                alignment: Alignment.bottomLeft,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: ColorManager.white,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                  ),
-                                                  child: const CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.blue,
-                                                    radius: 18.0,
-                                                    child: Text(
-                                                      '1',
-                                                      style: TextStyle(
-                                                        fontSize: 10.0,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(width: AppSize.s10),
-                                        Expanded(child: Text(chatName)),
-                                        const Icon(Icons.chevron_right),
-                                      ],
+                                          Align(
+                                            alignment: Alignment.bottomLeft,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: ColorManager.white,
+                                                  width: AppSize.xs,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
+                                              child: const CircleAvatar(
+                                                backgroundColor: Colors.blue,
+                                                radius: AppSize.s18,
+                                                child: Text(
+                                                  '1',
+                                                  style: TextStyle(
+                                                    fontSize: AppSize.s10,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }),
-                        )
+                                    const SizedBox(width: AppSize.s10),
+                                    Expanded(child: Text(chatName)),
+                                    const Icon(Icons.chevron_right),
+                                  ],
+                                ),
+                              ),
+                            );
+                          })
                       : const Center(
                           child: Text('No rooms.'),
                         ),
@@ -265,7 +260,7 @@ class _ChatViewState extends State<ChatView> {
             ),
           ),
         ),
-        _getMessagePanel(),
+        if (UniversalPlatform.isDesktopOrWeb) _getMessagePanel(),
       ],
     );
   }
@@ -330,7 +325,7 @@ class _ChatViewState extends State<ChatView> {
                       );
                     },
                     optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text == '') {
+                      if (textEditingValue.text == AppStrings.empty) {
                         return const Iterable<UserModel>.empty();
                       }
                       return _users.where((UserModel userModel) {
@@ -357,8 +352,8 @@ class _ChatViewState extends State<ChatView> {
                                 ),
                                 borderRadius: BorderRadius.circular(AppSize.s8),
                               ),
-                              width: 300,
-                              height: 400,
+                              width: AppSize.s300,
+                              height: AppSize.s400,
                               child: ListView.builder(
                                 padding: const EdgeInsets.all(AppSize.s0),
                                 itemCount: options.length,

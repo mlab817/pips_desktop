@@ -12,8 +12,9 @@
     <application
         android:name="${applicationName}"
         android:banner="@drawable/banner"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/launcher_icon"
-        android:label="pips_desktop">
+        android:label="@string/android_label">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

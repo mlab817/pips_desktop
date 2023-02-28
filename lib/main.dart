@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
@@ -19,8 +22,11 @@ void main() async {
     setWindowMinSize(const Size(960, 600));
   }
 
+  // override for bad certificate
+  HttpOverrides.global = MyHttpOverrides();
+
   await Firebase.initializeApp(
-    name: 'my-app',
+    // name: 'default',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -51,8 +57,21 @@ void main() async {
     });
   }
 
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.landscapeRight]);
+
   // initialize dependency injection
   await initAppModule();
 
   runApp(const MyApp());
+}
+
+// override for bad certificate
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+  }
 }

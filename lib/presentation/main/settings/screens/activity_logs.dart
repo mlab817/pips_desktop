@@ -13,39 +13,34 @@ class ActivityLogView extends StatefulWidget {
 class _ActivityLogViewState extends State<ActivityLogView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text(AppStrings.activityLogs),
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-        ),
-        Expanded(
-          child: ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const Icon(Icons.format_list_numbered),
-                  title: const Text('Test'),
-                  subtitle: const Text('Date&Time'),
-                  trailing: const Icon(Icons.more_horiz),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          // TODO: Add the details of the activity log
-                          return AlertDialog(
-                            title: const Text('Activity Log'),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppSize.s2),
-                            ),
-                          );
-                        });
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.activityLogs),
+      ),
+      body: ListView.builder(
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: const Icon(Icons.format_list_numbered),
+              title: const Text('Test'),
+              subtitle: const Text('Date&Time'),
+              trailing: const Icon(Icons.more_horiz),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    // TODO: Add the details of the activity log
+                    return AlertDialog(
+                      title: const Text('Activity Log'),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppSize.s2),
+                      ),
+                    );
                   },
                 );
-              }),
-        ),
-      ],
+              },
+            );
+          }),
     );
   }
 }

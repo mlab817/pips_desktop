@@ -37,13 +37,20 @@ class AppSize {
   static const double s800 = 800;
   static const double s900 = 900;
   static const double s1000 = 1000;
+
+  static const double none = 0;
+  static const double xs = 2;
+  static const double sm = 4;
+  static const double md = 8;
+  static const double lg = 12;
+  static const double xl = 16;
 }
 
 class AppPadding {
-  static const double xl = 16;
-  static const double lg = 12;
-  static const double md = 8;
-  static const double sm = 4;
-  static const double xs = 2;
   static const double none = 0;
+  static const double xs = 2;
+  static const double sm = 4;
+  static const double md = 8;
+  static const double lg = 12;
+  static const double xl = 16;
 }

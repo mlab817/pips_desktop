@@ -8,6 +8,7 @@ import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../app/dep_injection.dart';
 import '../../../app/routes.dart';
@@ -22,12 +23,12 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   final AppPreferences _appPreferences = instance<AppPreferences>();
 
-  int _selectedIndex = 0;
+  int? _selectedIndex;
 
   final List<Widget> _children = <Widget>[
     const UpdateProfile(),
     const UpdatePassword(),
-    const Notifications(),
+    const NotificationsView(),
     const ActivityLogView(),
     const DeveloperNotice(),
     const AboutView(),
@@ -35,45 +36,67 @@ class _SettingsViewState extends State<SettingsView> {
 
   final _listMenu = <SettingsMenu>[
     SettingsMenu(
-        title: AppStrings.updateProfile, icon: const Icon(Icons.person)),
-    SettingsMenu(title: AppStrings.updatePassword, icon: const Icon(Icons.key)),
+      title: AppStrings.updateProfile,
+      icon: const Icon(Icons.person),
+      route: Routes.updateProfileRoute,
+    ),
     SettingsMenu(
-        title: AppStrings.notifications, icon: const Icon(Icons.notifications)),
+      title: AppStrings.updatePassword,
+      icon: const Icon(Icons.key),
+      route: Routes.updatePasswordRoute,
+    ),
     SettingsMenu(
-        title: AppStrings.activityLogs,
-        icon: const Icon(Icons.format_list_numbered)),
+      title: AppStrings.notifications,
+      icon: const Icon(Icons.notifications),
+      route: Routes.notificationRoute,
+    ),
     SettingsMenu(
-        title: AppStrings.developerNotice,
-        icon: const Icon(Icons.document_scanner)),
-    SettingsMenu(title: AppStrings.about, icon: const Icon(Icons.info_outline)),
-    SettingsMenu(title: AppStrings.logout, icon: const Icon(Icons.exit_to_app)),
+      title: AppStrings.activityLogs,
+      icon: const Icon(Icons.format_list_numbered),
+      route: Routes.activityLogRoute,
+    ),
+    SettingsMenu(
+      title: AppStrings.developerNotice,
+      icon: const Icon(Icons.document_scanner),
+      route: Routes.developerNoticeRoute,
+    ),
+    SettingsMenu(
+      title: AppStrings.about,
+      icon: const Icon(Icons.info_outline),
+      route: Routes.aboutRoute,
+    ),
   ];
 
   @override
+  void initState() {
+    super.initState();
+
+    _selectedIndex = UniversalPlatform.isDesktopOrWeb ? 0 : null;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.horizontal,
-      children: [
-        Expanded(
-          child: Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  // color: ColorManager.darkGray,
-                  width: AppSize.s0_5,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.settings),
+        automaticallyImplyLeading: false,
+      ),
+      body: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  right: BorderSide(
+                    // color: ColorManager.darkGray,
+                    width: AppSize.s0_5,
+                  ),
                 ),
               ),
-            ),
-            child: Column(
-              children: [
-                AppBar(
-                  title: const Text(AppStrings.settings),
-                  centerTitle: false,
-                  automaticallyImplyLeading: false,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppPadding.md),
+              child: Column(
+                children: [
+                  Expanded(
                     child: ListView.builder(
                       itemCount: _listMenu.length,
                       itemBuilder: (context, index) {
@@ -83,36 +106,32 @@ class _SettingsViewState extends State<SettingsView> {
                           leading: _listMenu[index].icon,
                           title: Text(_listMenu[index].title),
                           onTap: () {
-                            if (index == 6) {
-                              // handle logout
-                              _appPreferences.clear();
-                              resetModules();
-
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.loginRoute);
-                              return;
+                            if (UniversalPlatform.isDesktopOrWeb) {
+                              setState(
+                                () {
+                                  _selectedIndex = index;
+                                },
+                              );
+                            } else {
+                              Navigator.pushNamed(
+                                  context, _listMenu[index].route);
                             }
-
-                            setState(
-                              () {
-                                _selectedIndex = index;
-                              },
-                            );
                           },
                         );
                       },
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          flex: 3,
-          child: _children[_selectedIndex],
-        ),
-      ],
+          if (UniversalPlatform.isDesktopOrWeb)
+            Expanded(
+              flex: 3,
+              child: _children[_selectedIndex!],
+            ),
+        ],
+      ),
     );
   }
 }
@@ -122,8 +141,11 @@ class SettingsMenu {
 
   Icon icon;
 
+  String route;
+
   SettingsMenu({
     required this.title,
     required this.icon,
+    required this.route,
   });
 }

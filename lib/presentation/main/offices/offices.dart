@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/domain/models/project.dart';
-import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
@@ -17,6 +15,7 @@ import '../../../app/routes.dart';
 import '../../../domain/models/office.dart';
 import '../../../domain/usecase/office_usecase.dart';
 import '../../../domain/usecase/offices_usecase.dart';
+import '../../common/project_item.dart';
 
 class OfficesView extends StatefulWidget {
   const OfficesView({Key? key}) : super(key: key);
@@ -114,6 +113,10 @@ class _OfficesViewState extends State<OfficesView> {
     // load selected office info
   }
 
+  void _showSearch(BuildContext context) {
+    showSearch(context: context, delegate: _SearchProjectDelegate(_projects));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -154,153 +157,127 @@ class _OfficesViewState extends State<OfficesView> {
       }
     });
 
-    return Flex(
-      direction: Axis.horizontal,
-      children: [
-        // office list
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: ColorManager.darkGray,
-                ),
-              ),
-            ),
-            child: Column(
-              children: [
-                AppBar(
-                  title: const Text(AppStrings.offices),
-                  centerTitle: false,
-                  automaticallyImplyLeading: false,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(AppSize.s8),
-                  child: TextField(
-                    controller: _searchOfficeController,
-                    decoration: const InputDecoration(
-                      hintText: AppStrings.search,
-                      prefixIcon: Icon(
-                        Icons.search,
-                      ),
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.offices),
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              onPressed: () => _showSearch(context),
+              icon: const Icon(Icons.search)),
+        ],
+      ),
+      body: Flex(
+        direction: Axis.horizontal,
+        children: [
+          // office list
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  right: BorderSide(
+                    color: ColorManager.darkGray,
                   ),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: _filteredOffices.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.all(
-                            AppSize.s8,
-                          ),
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            itemCount: _filteredOffices.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final office = _filteredOffices[index];
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: _filteredOffices.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(
+                              AppPadding.md,
+                            ),
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: _filteredOffices.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final office = _filteredOffices[index];
 
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedOffice = office;
-                                  });
-                                  _getOffice();
-                                },
-                                borderRadius: BorderRadius.circular(AppSize.s8),
-                                child: ListTile(
-                                  dense: true,
-                                  title: Text(office.acronym),
-                                  selected: _selectedOffice == office,
-                                  // selectedTileColor: ColorManager.blue,
-                                  // selectedColor: ColorManager.white,
-                                ),
-                              );
-                            },
+                                return InkWell(
+                                  onTap: () {
+                                    if (UniversalPlatform.isDesktopOrWeb) {
+                                      setState(() {
+                                        _selectedOffice = office;
+                                      });
+                                      _getOffice();
+                                    } else {
+                                      // navigate to office view
+                                      Navigator.pushNamed(
+                                          context, Routes.officeRoute,
+                                          arguments: office.uuid);
+                                    }
+                                  },
+                                  borderRadius:
+                                      BorderRadius.circular(AppSize.s8),
+                                  child: ListTile(
+                                    dense: true,
+                                    title: Text(office.acronym),
+                                    selected: _selectedOffice == office,
+                                    // selectedTileColor: ColorManager.blue,
+                                    // selectedColor: ColorManager.white,
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(),
                           ),
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        // office view
-        Expanded(
-          flex: 3,
-          child: _selectedOffice != null
-              ? _getProjectsWidget()
-              : const Center(
-                  child: Text('Select office from the left panel to begin.'),
-                ),
-        )
-      ],
+          // office view
+          if (UniversalPlatform.isDesktopOrWeb)
+            Expanded(
+              flex: 3,
+              child: _selectedOffice != null
+                  ? _getProjectsWidget()
+                  : const Center(
+                      child:
+                          Text('Select office from the left panel to begin.'),
+                    ),
+            )
+        ],
+      ),
     );
   }
 
   Widget _getProjectsWidget() {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
+    return Column(
+      children: [
+        AppBar(
           automaticallyImplyLeading: false,
-          floating: true,
-          pinned: true,
-          // OfficeCard(office: _selectedOffice!),
-          expandedHeight: 160.0,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(_selectedOffice?.name ?? ''),
-            background: SvgPicture.asset(
-              AssetsManager.svgLogoAsset,
-              height: AppSize.s80,
+          title: Text(_selectedOffice?.name ?? ''),
+          actions: [
+            IconButton(
+              onPressed: () {
+                _showSearch(context);
+              },
+              icon: const Icon(Icons.search),
             ),
-          ),
+          ],
         ),
         if (_projects != null)
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return ProjectItem(
-                  project: _projects![index],
-                  onTap: () {},
-                );
-              },
-              childCount: _projects?.length ?? 0,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(AppPadding.none),
+              child: ListView.separated(
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (BuildContext context, int index) {
+                  return ProjectItem(
+                    project: _projects![index],
+                    onTap: () {},
+                  );
+                },
+                itemCount: _projects?.length ?? 0,
+              ),
             ),
           ),
       ],
     );
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: OfficeCard(office: _selectedOffice!),
-        ),
-        // const Divider(),
-        _projects != null
-            ? _getProjectsList()
-            : const Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-      ],
-    );
-  }
-
-  Widget _getProjectsList() {
-    return Container();
-
-    final projects = _projects ?? <Project>[];
-
-    return projects.isNotEmpty
-        ? Container()
-        : Expanded(
-            child: Center(
-              child: Lottie.asset(
-                AssetsManager.animEmptyJson,
-              ),
-            ),
-          );
   }
 
   Widget _getSearchBar() {
@@ -442,5 +419,77 @@ class OfficeCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// TODO: Fix searchDelegate to handle result tapping when query is updated instead of when result is shown
+class _SearchProjectDelegate extends SearchDelegate<String> {
+  final List<Project> _projects;
+
+  _SearchProjectDelegate(List<Project>? projects)
+      : _projects = projects ?? [],
+        super();
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return <Widget>[
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, '');
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    debugPrint("query: $query");
+    final results = _projects
+        .where((project) =>
+            project.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+        itemCount: results.length,
+        itemBuilder: (BuildContext context, int index) {
+          final project = results[index];
+
+          return ListTile(
+            title: Text(project.title ?? ''),
+            onTap: () {
+              debugPrint('tapped result');
+            },
+          );
+        });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestions = _projects
+        .where((project) =>
+            project.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+        itemCount: suggestions.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(suggestions[index].title),
+            onTap: () {
+              query = suggestions[index].title;
+            },
+          );
+        });
   }
 }

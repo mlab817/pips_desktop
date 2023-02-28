@@ -73,6 +73,7 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSize.s40,
                   ),
                   TextFormField(
+                    autofocus: true,
                     controller: _usernameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -178,18 +179,23 @@ class _LoginViewState extends State<LoginView> {
             username: _usernameController.text,
             password: _passwordController.text))
         .then((Result<LoginResponse> value) => {
+              debugPrint("login success: ${value.success.toString()}"),
               if (value.success)
                 {
-                  Navigator.pushNamed(context, Routes.mainRoute),
                   _repository.setIsUserLoggedIn(),
                   _repository
                       .setLoggedInUser(value.data?.user ?? "" as UserModel),
                   _repository.setBearerToken(value.data?.accessToken ?? ""),
                   resetModules(),
                   Navigator.of(context).pop(),
+                  Navigator.pushNamed(context, Routes.mainRoute),
                 }
               else
-                {debugPrint('Failed')}
+                {
+                  debugPrint('Failed'),
+                  debugPrint(value.error),
+                  Navigator.of(context).pop(),
+                }
             });
   }
 

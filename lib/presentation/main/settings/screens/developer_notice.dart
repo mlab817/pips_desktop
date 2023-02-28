@@ -10,19 +10,13 @@ class DeveloperNotice extends StatefulWidget {
 class _DeveloperNoticeState extends State<DeveloperNotice> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text('Developer Notice'),
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-        ),
-        const Expanded(
-          child: Center(
-            child: Text('For any ...'),
-          ),
-        )
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Developer Notice'),
+      ),
+      body: const Center(
+        child: Text('For any ...'),
+      ),
     );
   }
 }

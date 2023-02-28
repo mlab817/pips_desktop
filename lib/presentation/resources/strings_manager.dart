@@ -25,6 +25,7 @@ class AppStrings {
   static const String newProgramProject = "New Program/Project";
   static const String enableNotifications = "Enable notifications";
   static const String search = "Search";
+  static const String empty = "";
 
   // messages pages
   static const String typeMessageAndPressEnter =

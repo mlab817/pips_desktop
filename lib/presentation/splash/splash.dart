@@ -38,6 +38,7 @@ class _SplashViewState extends State<SplashView> {
     progressCounter().pipe(_streamController.sink);
 
     _appPreferences.getIsUserLoggedIn().then((isUserLoggedIn) => {
+          debugPrint("isUserLoggedIn: ${isUserLoggedIn.toString()}"),
           if (isUserLoggedIn)
             {
               // handle logged in
@@ -46,7 +47,7 @@ class _SplashViewState extends State<SplashView> {
           else
             {
               // handle not logged in
-              Navigator.pushReplacementNamed(context, Routes.mainRoute),
+              Navigator.pushReplacementNamed(context, Routes.loginRoute),
             }
         });
   }
