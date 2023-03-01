@@ -10,6 +10,14 @@ class OnboardingView extends StatefulWidget {
 }
 
 class _OnboardingViewState extends State<OnboardingView> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    // handle routing if onboarded already
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

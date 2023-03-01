@@ -42,7 +42,20 @@ class _SplashViewState extends State<SplashView> {
           if (isUserLoggedIn)
             {
               // handle logged in
-              Navigator.pushReplacementNamed(context, Routes.onboardingRoute),
+              _appPreferences
+                  .getIsOnboardingScreenViewed()
+                  .then((isOnboardingScreenViewed) => {
+                        if (isOnboardingScreenViewed)
+                          {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.mainRoute),
+                          }
+                        else
+                          {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.onboardingRoute),
+                          }
+                      })
             }
           else
             {

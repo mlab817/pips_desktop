@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String sharedPrefsBearerToken = "BEARER_TOKEN";
 const String sharedPrefsDatabaseLoaded = "DATABASE_LOADED";
 const String sharedPrefsIsUserLoggedIn = "IS_USER_LOGGED_IN";
+const String sharedPrefsIsOnboardingScreenViewed =
+    "IS_ONBOARDING_SCREEN_VIEWED";
 
 abstract class LocalDataSource {
   Future<String> getBearerToken();
@@ -14,6 +16,10 @@ abstract class LocalDataSource {
   Future<void> setBearerToken(String value);
 
   Future<void> setIsUserLoggedIn();
+
+  Future<void> setIsOnboardingScreenViewed();
+
+  Future<bool> getIsOnboardingScreenViewed();
 
   Future<bool> getIsUserLoggedIn();
 
@@ -65,6 +71,17 @@ class LocalDataSourceImplementer implements LocalDataSource {
   @override
   Future<bool> getIsUserLoggedIn() async {
     return _sharedPreferences.getBool(sharedPrefsIsUserLoggedIn) ?? false;
+  }
+
+  @override
+  Future<void> setIsOnboardingScreenViewed() async {
+    _sharedPreferences.setBool(sharedPrefsIsOnboardingScreenViewed, true);
+  }
+
+  @override
+  Future<bool> getIsOnboardingScreenViewed() async {
+    return _sharedPreferences.getBool(sharedPrefsIsOnboardingScreenViewed) ??
+        false;
   }
 
   @override

@@ -34,9 +34,11 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.updatePassword),
-      ),
+      appBar: !UniversalPlatform.isDesktopOrWeb
+          ? AppBar(
+              title: const Text(AppStrings.updatePassword),
+            )
+          : null,
       body: Padding(
         padding: const EdgeInsets.only(top: AppPadding.lg),
         child: Column(

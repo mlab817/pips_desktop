@@ -13,6 +13,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       passesValidation: json['passes_validation'] as int,
       isLocked: json['is_locked'] as bool,
       updatedAt: json['updated_at'] as String,
+      pipolCode: json['pipol_code'] as String?,
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'passes_validation': instance.passesValidation,
       'is_locked': instance.isLocked,
       'updated_at': instance.updatedAt,
+      'pipol_code': instance.pipolCode,
     };

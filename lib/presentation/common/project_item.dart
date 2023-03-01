@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +25,19 @@ class ProjectItem extends StatefulWidget {
 class _ProjectItemState extends State<ProjectItem> {
   bool _isHovered = false;
 
+  bool? _webViewAvailable;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WebviewWindow.isWebviewAvailable().then((value) {
+      setState(() {
+        _webViewAvailable = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -37,6 +53,7 @@ class _ProjectItemState extends State<ProjectItem> {
           });
         },
         child: ListTile(
+          leading: Text(widget.project.pipolCode ?? 'PIPOL_CODE'),
           title: Text(widget.project.title),
           trailing: Container(
             width: AppSize.s150,
@@ -134,24 +151,29 @@ class _ProjectItemState extends State<ProjectItem> {
   }
 
   Future<void> _onOpenPressed(String uuid) async {
-    final webview = FlutterMacOSWebView(
-      onOpen: () => print('Opened'),
-      onClose: () => print('Closed'),
-      onPageStarted: (url) => print('Page started: $url'),
-      onPageFinished: (url) => print('Page finished: $url'),
-      onWebResourceError: (err) {
-        print(
-          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
-        );
-      },
+    // final webview = FlutterMacOSWebView(
+    //   onOpen: () => print('Opened'),
+    //   onClose: () => print('Closed'),
+    //   onPageStarted: (url) => print('Page started: $url'),
+    //   onPageFinished: (url) => print('Page finished: $url'),
+    //   onWebResourceError: (err) {
+    //     print(
+    //       'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
+    //     );
+    //   },
+    // );
+
+    final webview = await WebviewWindow.create(
+      configuration: CreateConfiguration(
+        windowHeight: 720,
+        windowWidth: 1080,
+        title: 'View',
+        titleBarTopPadding: Platform.isMacOS ? 20 : 0,
+      ),
     );
 
-    await webview.open(
-      url: "${Config.baseUrl}/generate-pdf/$uuid?access_key=something+nice",
-      presentationStyle: PresentationStyle.sheet,
-      // size: Size(400.0, 400.0),
-      userAgent:
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+    webview.launch(
+      "${Config.baseUrl}/generate-pdf/$uuid?access_key=something+nice",
     );
 
     // await Future.delayed(Duration(seconds: 5));

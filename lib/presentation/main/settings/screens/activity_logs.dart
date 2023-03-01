@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../resources/strings_manager.dart';
 
@@ -14,9 +15,11 @@ class _ActivityLogViewState extends State<ActivityLogView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.activityLogs),
-      ),
+      appBar:!UniversalPlatform.isDesktopOrWeb
+          ? AppBar(
+              title: const Text(AppStrings.activityLogs),
+            )
+          : null,
       body: ListView.builder(
           itemCount: 2,
           itemBuilder: (context, index) {

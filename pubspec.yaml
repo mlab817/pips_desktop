@@ -79,6 +79,7 @@ dependencies:
   universal_platform: ^1.0.0+1
   material_color_utilities: ^0.2.0
   dynamic_color: ^1.6.2
+  desktop_webview_window: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  msix: ^3.8.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -176,3 +178,14 @@ flutter_icons:
   macos:
     generate: true
     image_path: "assets/images/logo.png"
+
+msix_config:
+  display_name: PIPS
+  publisher_display_name: DA-IPD
+  identity_name: com.mlab817.pipsDesktop
+  msix_version: 1.0.0.0
+  logo_path: "assets/images/logo.png"
+  icons_background_color: "#FFFFFF"
+  capabilities: internetClient
+  store: false
+  architecture: x64

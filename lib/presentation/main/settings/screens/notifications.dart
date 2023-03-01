@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../resources/strings_manager.dart';
 
@@ -16,9 +17,11 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.notifications),
-      ),
+      appBar: !UniversalPlatform.isDesktopOrWeb
+          ? AppBar(
+              title: const Text(AppStrings.notifications),
+            )
+          : null,
       body: ListView(
         children: [
           Padding(

@@ -22,6 +22,9 @@ class Project {
   @JsonKey(name: "updated_at")
   String updatedAt;
 
+  @JsonKey(name: "pipol_code")
+  String? pipolCode;
+
   Project({
     required this.uuid,
     required this.title,
@@ -29,6 +32,7 @@ class Project {
     required this.passesValidation,
     required this.isLocked,
     required this.updatedAt,
+    this.pipolCode,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) =>

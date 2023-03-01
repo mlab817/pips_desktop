@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,12 @@ import 'package:window_size/window_size.dart';
 
 import 'firebase_options.dart';
 
-void main() async {
+void main(List<String> args) async {
   // debugPaintSizeEnabled = true;
+
+  if (runWebViewTitleBarWidget(args)) {
+    return;
+  }
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -27,36 +32,38 @@ void main() async {
   // override for bad certificate
   HttpOverrides.global = MyHttpOverrides();
 
-  await Firebase.initializeApp(
-    // name: 'default',
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    print("is messaging supported: ${await messaging.isSupported()}");
-
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
+  if (!UniversalPlatform.isDesktopOrWeb) {
+    await Firebase.initializeApp(
+      // name: 'default',
+      options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    final fcmToken = await messaging.getToken().onError((error, stackTrace) {
-      print(error.toString());
-      return null;
-    });
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    print("fcmToken $fcmToken");
+      print("is messaging supported: ${await messaging.isSupported()}");
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(message.toString());
-    });
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+
+      final fcmToken = await messaging.getToken().onError((error, stackTrace) {
+        print(error.toString());
+        return null;
+      });
+
+      print("fcmToken $fcmToken");
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        print(message.toString());
+      });
+    }
   }
 
   SystemChrome.setPreferredOrientations(

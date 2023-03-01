@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../resources/strings_manager.dart';
 
@@ -16,9 +17,11 @@ class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.about),
-      ),
+      appBar: !UniversalPlatform.isDesktopOrWeb
+          ? AppBar(
+              title: const Text(AppStrings.about),
+            )
+          : null,
       body: SingleChildScrollView(
         child: Center(
           child: Padding(

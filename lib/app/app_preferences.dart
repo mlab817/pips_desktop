@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String bearerToken = 'SHARED_PREFS_BEARER_TOKEN';
 const String loggedInUser = 'SHARED_PREFS_LOGGED_IN_USER';
+const String isOnboardingScreenViewed =
+    'SHARED_PREFS_IS_ONBOARDING_SCREEN_VIEWED';
 
 abstract class AppPreferences {
   void setBearerToken(String value);
@@ -13,6 +15,8 @@ abstract class AppPreferences {
   Future<String> getBearerToken();
 
   Future<bool> getIsUserLoggedIn();
+
+  Future<bool> getIsOnboardingScreenViewed();
 
   Future<UserModel?> getLoggedInUser();
 
@@ -52,5 +56,10 @@ class AppPreferencesImplementer implements AppPreferences {
     }
     var userMap = jsonDecode(userJson);
     return UserModel.fromJson(userMap);
+  }
+
+  @override
+  Future<bool> getIsOnboardingScreenViewed() async {
+    return _sharedPreferences.getBool(isOnboardingScreenViewed) ?? false;
   }
 }

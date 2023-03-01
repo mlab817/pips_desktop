@@ -203,7 +203,7 @@ class ThemeManager {
 }
 
 class CustomTheme with ChangeNotifier {
-  static bool _isDarkTheme = true;
+  static bool _isDarkTheme = false;
 
   ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
 
@@ -221,7 +221,7 @@ class CustomTheme with ChangeNotifier {
 
   static ThemeData get lightTheme {
     return ThemeData(
-      fontFamily: GoogleFonts.sourceCodePro().fontFamily,
+      fontFamily: GoogleFonts.inter().fontFamily,
       colorScheme: lightColorScheme,
       appBarTheme: const AppBarTheme(
         elevation: AppSize.s0,
@@ -251,6 +251,7 @@ class CustomTheme with ChangeNotifier {
         bodyMedium: TextStyle(fontSize: AppSize.s14),
         bodySmall: TextStyle(fontSize: AppSize.s12),
       ),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
 

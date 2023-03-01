@@ -33,9 +33,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Update Profile'),
-      ),
+      appBar: !UniversalPlatform.isDesktopOrWeb
+          ? AppBar(
+              title: const Text('Update Profile'),
+            )
+          : null,
       body: Padding(
         padding: const EdgeInsets.only(top: AppPadding.lg),
         child: SingleChildScrollView(
