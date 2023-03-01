@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:pips/presentation/resources/theme_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 
@@ -63,7 +65,12 @@ void main() async {
   // initialize dependency injection
   await initAppModule();
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CustomTheme(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 // override for bad certificate

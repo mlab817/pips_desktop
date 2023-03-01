@@ -3,6 +3,8 @@ import 'package:pips/app/config.dart';
 import 'package:pips/app/functions.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
+import 'package:pips/presentation/resources/theme_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../../app/routes.dart';
@@ -25,6 +27,14 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    currentTheme.addListener(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +76,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   Widget _buildNavigationRail() {
     int selectedIndex = widget.activeIndex;
+
+    debugPrint("darkTheme: ${currentTheme.isDarkTheme.toString()}");
 
     return Container(
       decoration: BoxDecoration(
@@ -128,10 +140,18 @@ class _MainLayoutState extends State<MainLayout> {
               // labelType: NavigationRailLabelType.all,
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.light_mode),
-            onPressed: () => currentTheme.toggleTheme(),
-          ),
+          Consumer<CustomTheme>(builder: (context, currentTheme, child) {
+            return IconButton(
+              icon: Icon(
+                Provider.of<CustomTheme>(context).isDarkTheme
+                    ? Icons.light_mode
+                    : Icons.dark_mode,
+              ),
+              onPressed: () => Provider.of<CustomTheme>(context, listen: false)
+                  .toggleTheme(),
+            );
+          }),
+
           IconButton(
             onPressed: () {
               logout(context);

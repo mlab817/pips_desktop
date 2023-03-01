@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:pips/app/config.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:pips/presentation/resources/theme_manager.dart';
+import 'package:provider/provider.dart';
 
 import '../presentation/logout_listener/logout_listener.dart';
 import '../presentation/main/main.dart';
@@ -18,41 +18,35 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    currentTheme.addListener(() {
-      setState(() {
-        
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppStrings.appName,
-      scrollBehavior: const MaterialScrollBehavior().copyWith(
-        dragDevices: {
-          PointerDeviceKind.mouse,
-          PointerDeviceKind.touch,
-          PointerDeviceKind.stylus,
-          PointerDeviceKind.unknown,
-          PointerDeviceKind.trackpad,
-        },
-      ),
-      theme: CustomTheme.lightTheme,
-      // ThemeManager.getApplicationTheme(context, ThemeMode.light),
-      darkTheme: CustomTheme.darkTheme,
-      // ThemeManager.getApplicationTheme(context, ThemeMode.dark),
-      themeMode: currentTheme.currentTheme,
-      onGenerateRoute: RouteGenerator.onGenerateRoute,
-      initialRoute: Routes.splashRoute,
-      // Routes.splashRoute
-      home: const LogoutListener(
-        child: MainView(),
-      ),
+    return Consumer<CustomTheme>(
+      builder: (BuildContext context, customTheme, Widget? child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: AppStrings.appName,
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown,
+              PointerDeviceKind.trackpad,
+            },
+          ),
+          theme: CustomTheme.lightTheme,
+          // ThemeManager.getApplicationTheme(context, ThemeMode.light),
+          darkTheme: CustomTheme.darkTheme,
+          // ThemeManager.getApplicationTheme(context, ThemeMode.dark),
+          themeMode: Provider.of<CustomTheme>(context).currentTheme,
+          // currentTheme.currentTheme,
+          onGenerateRoute: RouteGenerator.onGenerateRoute,
+          initialRoute: Routes.splashRoute,
+          // Routes.splashRoute
+          home: const LogoutListener(
+            child: MainView(),
+          ),
+        );
+      },
     );
   }
 }
