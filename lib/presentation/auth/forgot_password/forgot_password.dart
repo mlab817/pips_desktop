@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../resources/sizes_manager.dart';
+import '../../resources/strings_manager.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password'),
+        title: const Text(AppStrings.forgotPassword),
       ),
       body: Center(
         child: Padding(
@@ -26,8 +27,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  const Text(
-                      'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.'),
+                  const Text(AppStrings.forgotPasswordMesssage),
                   const SizedBox(height: AppSize.s20),
                   Form(
                     key: _formKey,
@@ -53,7 +53,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         _sendPasswordResetLink();
                       }
                     },
-                    child: const Text('Send password reset link'),
+                    child: const Text(AppStrings.sendPasswordResetLink),
                   ),
                 ],
               )),

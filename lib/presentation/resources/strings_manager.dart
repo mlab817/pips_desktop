@@ -30,4 +30,6 @@ class AppStrings {
   // messages pages
   static const String typeMessageAndPressEnter =
       "Type message and press enter to send";
+  static const String forgotPasswordMesssage = 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.';
+  static const String sendPasswordResetLink = 'Send password reset link';
 }

@@ -177,11 +177,13 @@ class RepositoryImplementer implements Repository {
     try {
       final OptionsResponse response = await _remoteDataSource.getOptions();
 
+      debugPrint("response from getOptions: ${response.toString()}");
+
       debugPrint("from rep imp: ${response.toString()}");
 
       return Result(data: response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
+      debugPrint("error from rep imp: ${e.toString()}");
       return Result(error: e.toString());
     }
   }

@@ -12,11 +12,10 @@ import '../../app/config.dart';
 import '../../app/routes.dart';
 
 class ProjectItem extends StatefulWidget {
-  const ProjectItem({Key? key, required this.project, required this.onTap})
+  const ProjectItem({Key? key, required this.project})
       : super(key: key);
 
   final Project project;
-  final VoidCallback onTap;
 
   @override
   State<ProjectItem> createState() => _ProjectItemState();

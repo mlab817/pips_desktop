@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'full_project.freezed.dart';
+
 part 'full_project.g.dart';
 
 @freezed
@@ -26,6 +27,8 @@ class FullProject with _$FullProject {
     required bool rdip,
     required bool covid,
     required bool research,
+    required List<int> bases,
+    @JsonKey(name: "operating_units") required List<int> operatingUnits,
     @JsonKey(name: "rdc_endorsement_required")
         required bool rdcEndorsementRequired,
   }) = _FullProject;

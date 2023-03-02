@@ -7,104 +7,104 @@ part of 'options.dart';
 // **************************************************************************
 
 Options _$OptionsFromJson(Map<String, dynamic> json) => Options(
-      agenda: (json['agenda'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      agenda: (json['agenda'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      approvalLevels: (json['approval_levels'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      approvalLevels: (json['approval_levels'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      bases: (json['bases'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      bases: (json['bases'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      categories: (json['categories'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      cipTypes: (json['cip_types'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      cipTypes: (json['cip_types'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      commodities: (json['commodities'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      commodities: (json['commodities'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fsStatuses: (json['fs_statuses'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      fsStatuses: (json['fs_statuses'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fundingInstitutions: (json['funding_institutions'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      fundingInstitutions: (json['funding_institutions'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fundingSources: (json['funding_sources'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      fundingSources: (json['funding_sources'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      gads: (json['gads'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      gads: (json['gads'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      implementationModes: (json['implementationModes'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      implementationModes: (json['implementationModes'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      infrastructureSectors: (json['infrastructureSectors'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      infrastructureSectors: (json['infrastructureSectors'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      locations: (json['locations'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      locations: (json['locations'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nafmipOutputs: (json['nafmip_outputs'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      nafmipOutputs: (json['nafmip_outputs'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      offices: (json['offices'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      offices: (json['offices'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      operatingUnits: (json['operating_units'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      operatingUnits: (json['operating_units'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pdpChapters: (json['pdp_chapters'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      pdpChapters: (json['pdp_chapters'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pdpStrategies: (json['pdp_strategies'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      pdpStrategies: (json['pdp_strategies'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pipolStatuses: (json['pipol_statuses'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      pipolStatuses: (json['pipol_statuses'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pipsStatuses: (json['pips_statuses'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      pipsStatuses: (json['pips_statuses'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      preparationDocuments: (json['preparation_documents'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      preparationDocuments: (json['preparation_documents'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      prerequisites: (json['prerequisites'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      prerequisites: (json['prerequisites'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      prexcs: (json['prexcs'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      prexcs: (json['prexcs'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      programs: (json['programs'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      programs: (json['programs'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      projectStatuses: (json['project_statuses'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      projectStatuses: (json['project_statuses'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      readinessLevels: (json['readiness_levels'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      readinessLevels: (json['readiness_levels'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      regions: (json['regions'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      regions: (json['regions'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      roles: (json['roles'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      roles: (json['roles'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sdgs: (json['sdgs'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      sdgs: (json['sdgs'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      spatialCoverages: (json['spatial_coverages'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      spatialCoverages: (json['spatial_coverages'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      types: (json['types'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      types: (json['types'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      typologies: (json['typologies'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      typologies: (json['typologies'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      vcSegments: (json['vc_segments'] as List<dynamic>)
-          .map((e) => Option.fromJson(e as Map<String, dynamic>))
+      vcSegments: (json['vc_segments'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

@@ -6,10 +6,10 @@ part 'options_response.g.dart';
 @JsonSerializable()
 class OptionsResponse {
   @JsonKey(name: "data")
-  Options data;
+  Options? data;
 
   OptionsResponse({
-    required this.data,
+    this.data,
   });
 
   factory OptionsResponse.fromJson(Map<String, dynamic> json) =>

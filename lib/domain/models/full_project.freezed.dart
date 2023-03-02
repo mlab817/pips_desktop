@@ -48,6 +48,9 @@ mixin _$FullProject {
   bool get rdip => throw _privateConstructorUsedError;
   bool get covid => throw _privateConstructorUsedError;
   bool get research => throw _privateConstructorUsedError;
+  List<int> get bases => throw _privateConstructorUsedError;
+  @JsonKey(name: "operating_units")
+  List<int> get operatingUnits => throw _privateConstructorUsedError;
   @JsonKey(name: "rdc_endorsement_required")
   bool get rdcEndorsementRequired => throw _privateConstructorUsedError;
 
@@ -83,6 +86,8 @@ abstract class $FullProjectCopyWith<$Res> {
       bool rdip,
       bool covid,
       bool research,
+      List<int> bases,
+      @JsonKey(name: "operating_units") List<int> operatingUnits,
       @JsonKey(name: "rdc_endorsement_required") bool rdcEndorsementRequired});
 }
 
@@ -118,6 +123,8 @@ class _$FullProjectCopyWithImpl<$Res, $Val extends FullProject>
     Object? rdip = null,
     Object? covid = null,
     Object? research = null,
+    Object? bases = null,
+    Object? operatingUnits = null,
     Object? rdcEndorsementRequired = null,
   }) {
     return _then(_value.copyWith(
@@ -197,6 +204,14 @@ class _$FullProjectCopyWithImpl<$Res, $Val extends FullProject>
           ? _value.research
           : research // ignore: cast_nullable_to_non_nullable
               as bool,
+      bases: null == bases
+          ? _value.bases
+          : bases // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      operatingUnits: null == operatingUnits
+          ? _value.operatingUnits
+          : operatingUnits // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       rdcEndorsementRequired: null == rdcEndorsementRequired
           ? _value.rdcEndorsementRequired
           : rdcEndorsementRequired // ignore: cast_nullable_to_non_nullable
@@ -233,6 +248,8 @@ abstract class _$$_FullProjectCopyWith<$Res>
       bool rdip,
       bool covid,
       bool research,
+      List<int> bases,
+      @JsonKey(name: "operating_units") List<int> operatingUnits,
       @JsonKey(name: "rdc_endorsement_required") bool rdcEndorsementRequired});
 }
 
@@ -266,6 +283,8 @@ class __$$_FullProjectCopyWithImpl<$Res>
     Object? rdip = null,
     Object? covid = null,
     Object? research = null,
+    Object? bases = null,
+    Object? operatingUnits = null,
     Object? rdcEndorsementRequired = null,
   }) {
     return _then(_$_FullProject(
@@ -345,6 +364,14 @@ class __$$_FullProjectCopyWithImpl<$Res>
           ? _value.research
           : research // ignore: cast_nullable_to_non_nullable
               as bool,
+      bases: null == bases
+          ? _value._bases
+          : bases // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      operatingUnits: null == operatingUnits
+          ? _value._operatingUnits
+          : operatingUnits // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       rdcEndorsementRequired: null == rdcEndorsementRequired
           ? _value.rdcEndorsementRequired
           : rdcEndorsementRequired // ignore: cast_nullable_to_non_nullable
@@ -386,8 +413,13 @@ class _$_FullProject implements _FullProject {
       required this.rdip,
       required this.covid,
       required this.research,
+      required final List<int> bases,
+      @JsonKey(name: "operating_units")
+          required final List<int> operatingUnits,
       @JsonKey(name: "rdc_endorsement_required")
-          required this.rdcEndorsementRequired});
+          required this.rdcEndorsementRequired})
+      : _bases = bases,
+        _operatingUnits = operatingUnits;
 
   factory _$_FullProject.fromJson(Map<String, dynamic> json) =>
       _$$_FullProjectFromJson(json);
@@ -439,13 +471,30 @@ class _$_FullProject implements _FullProject {
   final bool covid;
   @override
   final bool research;
+  final List<int> _bases;
+  @override
+  List<int> get bases {
+    if (_bases is EqualUnmodifiableListView) return _bases;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bases);
+  }
+
+  final List<int> _operatingUnits;
+  @override
+  @JsonKey(name: "operating_units")
+  List<int> get operatingUnits {
+    if (_operatingUnits is EqualUnmodifiableListView) return _operatingUnits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_operatingUnits);
+  }
+
   @override
   @JsonKey(name: "rdc_endorsement_required")
   final bool rdcEndorsementRequired;
 
   @override
   String toString() {
-    return 'FullProject(id: $id, uuid: $uuid, title: $title, typeId: $typeId, regularProgram: $regularProgram, description: $description, totalCost: $totalCost, expectedOutputs: $expectedOutputs, spatialCoverageId: $spatialCoverageId, approvalLevelId: $approvalLevelId, approvalLevelDate: $approvalLevelDate, pip: $pip, pipTypologyId: $pipTypologyId, cip: $cip, cipTypeId: $cipTypeId, trip: $trip, rdip: $rdip, covid: $covid, research: $research, rdcEndorsementRequired: $rdcEndorsementRequired)';
+    return 'FullProject(id: $id, uuid: $uuid, title: $title, typeId: $typeId, regularProgram: $regularProgram, description: $description, totalCost: $totalCost, expectedOutputs: $expectedOutputs, spatialCoverageId: $spatialCoverageId, approvalLevelId: $approvalLevelId, approvalLevelDate: $approvalLevelDate, pip: $pip, pipTypologyId: $pipTypologyId, cip: $cip, cipTypeId: $cipTypeId, trip: $trip, rdip: $rdip, covid: $covid, research: $research, bases: $bases, operatingUnits: $operatingUnits, rdcEndorsementRequired: $rdcEndorsementRequired)';
   }
 
   @override
@@ -482,6 +531,9 @@ class _$_FullProject implements _FullProject {
             (identical(other.covid, covid) || other.covid == covid) &&
             (identical(other.research, research) ||
                 other.research == research) &&
+            const DeepCollectionEquality().equals(other._bases, _bases) &&
+            const DeepCollectionEquality()
+                .equals(other._operatingUnits, _operatingUnits) &&
             (identical(other.rdcEndorsementRequired, rdcEndorsementRequired) ||
                 other.rdcEndorsementRequired == rdcEndorsementRequired));
   }
@@ -509,6 +561,8 @@ class _$_FullProject implements _FullProject {
         rdip,
         covid,
         research,
+        const DeepCollectionEquality().hash(_bases),
+        const DeepCollectionEquality().hash(_operatingUnits),
         rdcEndorsementRequired
       ]);
 
@@ -556,6 +610,9 @@ abstract class _FullProject implements FullProject {
       required final bool rdip,
       required final bool covid,
       required final bool research,
+      required final List<int> bases,
+      @JsonKey(name: "operating_units")
+          required final List<int> operatingUnits,
       @JsonKey(name: "rdc_endorsement_required")
           required final bool rdcEndorsementRequired}) = _$_FullProject;
 
@@ -609,6 +666,11 @@ abstract class _FullProject implements FullProject {
   bool get covid;
   @override
   bool get research;
+  @override
+  List<int> get bases;
+  @override
+  @JsonKey(name: "operating_units")
+  List<int> get operatingUnits;
   @override
   @JsonKey(name: "rdc_endorsement_required")
   bool get rdcEndorsementRequired;

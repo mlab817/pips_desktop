@@ -15,6 +15,9 @@ class ThemeManager {
       appBarTheme: const AppBarTheme(
         toolbarHeight: AppSize.s60,
         elevation: AppSize.s1,
+        actionsIconTheme: IconThemeData(
+          size: FontSize.sm,
+        )
       ),
       checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.resolveWith<Color>((states) {
@@ -225,6 +228,9 @@ class CustomTheme with ChangeNotifier {
       colorScheme: lightColorScheme,
       appBarTheme: const AppBarTheme(
         elevation: AppSize.s0,
+          actionsIconTheme: IconThemeData(
+            size: FontSize.sm,
+          ),
       ),
       navigationRailTheme: const NavigationRailThemeData(
         selectedIconTheme: IconThemeData(

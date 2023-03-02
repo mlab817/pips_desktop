@@ -27,6 +27,10 @@ _$_FullProject _$$_FullProjectFromJson(Map<String, dynamic> json) =>
       rdip: json['rdip'] as bool,
       covid: json['covid'] as bool,
       research: json['research'] as bool,
+      bases: (json['bases'] as List<dynamic>).map((e) => e as int).toList(),
+      operatingUnits: (json['operating_units'] as List<dynamic>)
+          .map((e) => e as int)
+          .toList(),
       rdcEndorsementRequired: json['rdc_endorsement_required'] as bool,
     );
 
@@ -51,5 +55,7 @@ Map<String, dynamic> _$$_FullProjectToJson(_$_FullProject instance) =>
       'rdip': instance.rdip,
       'covid': instance.covid,
       'research': instance.research,
+      'bases': instance.bases,
+      'operating_units': instance.operatingUnits,
       'rdc_endorsement_required': instance.rdcEndorsementRequired,
     };

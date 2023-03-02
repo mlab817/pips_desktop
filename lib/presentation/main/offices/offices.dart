@@ -16,6 +16,7 @@ import '../../../domain/models/office.dart';
 import '../../../domain/usecase/office_usecase.dart';
 import '../../../domain/usecase/offices_usecase.dart';
 import '../../common/project_item.dart';
+import '../office/office.dart';
 
 class OfficesView extends StatefulWidget {
   const OfficesView({Key? key}) : super(key: key);
@@ -65,10 +66,12 @@ class _OfficesViewState extends State<OfficesView> {
 
   Future<void> _getOffices() async {
     // set loading to true so that this won't trigger when a request is already happening
-    _loadingOffice = true;
+    setState(() {
+      _loadingOffice = true;
 
-    // remove projects
-    _projects = null;
+      // remove projects
+      _projects = null;
+    });
 
     final officesResponse =
         await _officesUseCase.execute(GetOfficesRequest(page: _currentPage));
@@ -111,10 +114,6 @@ class _OfficesViewState extends State<OfficesView> {
       debugPrint(officeResponse.error);
     }
     // load selected office info
-  }
-
-  void _showSearch(BuildContext context) {
-    showSearch(context: context, delegate: _SearchProjectDelegate(_projects));
   }
 
   @override
@@ -161,11 +160,6 @@ class _OfficesViewState extends State<OfficesView> {
       appBar: AppBar(
         title: const Text(AppStrings.offices),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-              onPressed: () => _showSearch(context),
-              icon: const Icon(Icons.search)),
-        ],
       ),
       body: Flex(
         direction: Axis.horizontal,
@@ -234,7 +228,7 @@ class _OfficesViewState extends State<OfficesView> {
             Expanded(
               flex: 3,
               child: _selectedOffice != null
-                  ? _getProjectsWidget()
+                  ? OfficeView(officeId: _selectedOffice!.uuid,) //_getProjectsWidget()
                   : const Center(
                       child:
                           Text('Select office from the left panel to begin.'),
@@ -254,7 +248,6 @@ class _OfficesViewState extends State<OfficesView> {
           actions: [
             IconButton(
               onPressed: () {
-                _showSearch(context);
               },
               icon: const Icon(Icons.search),
             ),
@@ -269,7 +262,6 @@ class _OfficesViewState extends State<OfficesView> {
                 itemBuilder: (BuildContext context, int index) {
                   return ProjectItem(
                     project: _projects![index],
-                    onTap: () {},
                   );
                 },
                 itemCount: _projects?.length ?? 0,
@@ -313,15 +305,6 @@ class ProjectList extends StatelessWidget {
         return ClipRect(
           child: ProjectItem(
             project: project,
-            onTap: () {
-              if (UniversalPlatform.isDesktop) {
-                _onOpenPressed(project.uuid);
-              } else {
-                Navigator.pushNamed(context, Routes.viewProjectRoute,
-                    arguments: project.uuid);
-              }
-              // navigate to project vie
-            },
           ),
         );
       },
@@ -419,77 +402,5 @@ class OfficeCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// TODO: Fix searchDelegate to handle result tapping when query is updated instead of when result is shown
-class _SearchProjectDelegate extends SearchDelegate<String> {
-  final List<Project> _projects;
-
-  _SearchProjectDelegate(List<Project>? projects)
-      : _projects = projects ?? [],
-        super();
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return <Widget>[
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: const Icon(Icons.clear),
-      ),
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, '');
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    debugPrint("query: $query");
-    final results = _projects
-        .where((project) =>
-            project.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    return ListView.builder(
-        itemCount: results.length,
-        itemBuilder: (BuildContext context, int index) {
-          final project = results[index];
-
-          return ListTile(
-            title: Text(project.title ?? ''),
-            onTap: () {
-              debugPrint('tapped result');
-            },
-          );
-        });
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestions = _projects
-        .where((project) =>
-            project.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    return ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(suggestions[index].title),
-            onTap: () {
-              query = suggestions[index].title;
-            },
-          );
-        });
   }
 }

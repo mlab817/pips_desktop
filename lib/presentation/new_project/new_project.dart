@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:forme_file_picker/forme_file_picker.dart';
 import 'package:pips/domain/models/full_project.dart';
+import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 import 'package:pips/presentation/resources/color_manager.dart';
 
+import '../../app/dep_injection.dart';
 import '../../domain/models/options.dart';
 import '../resources/sizes_manager.dart';
 import '../resources/strings_manager.dart';
@@ -17,6 +19,8 @@ class NewProjectView extends StatefulWidget {
 
 class _NewProjectViewState extends State<NewProjectView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final OptionsUseCase _optionsUseCase = instance<OptionsUseCase>();
+  Options? _options;
 
   final PageController _pageController = PageController();
 
@@ -118,15 +122,15 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   int _currentPage = 0;
 
-  final List<Option> _options = [
-    Option(value: 1, label: 'Option 1'),
-    Option(value: 2, label: 'Option 2'),
-    Option(value: 3, label: 'Option 3'),
-    Option(value: 4, label: 'Option 4'),
-    Option(value: 5, label: 'Option 5'),
-    Option(value: 6, label: 'Option 6'),
-    Option(value: 7, label: 'Option 7'),
-  ];
+  // final List<Option> _options = [
+  //   Option(value: 1, label: 'Option 1'),
+  //   Option(value: 2, label: 'Option 2'),
+  //   Option(value: 3, label: 'Option 3'),
+  //   Option(value: 4, label: 'Option 4'),
+  //   Option(value: 5, label: 'Option 5'),
+  //   Option(value: 6, label: 'Option 6'),
+  //   Option(value: 7, label: 'Option 7'),
+  // ];
 
   final List<Sdg> sdgs = [
     Sdg(image: AssetsManager.sdg1, value: 1),
@@ -170,8 +174,22 @@ class _NewProjectViewState extends State<NewProjectView> {
     16: false,
   };
 
+  Future<void> _loadOptions() async {
+    final response = await _optionsUseCase.execute(null);
+
+    setState(() {
+      if (response.success) {
+        _options = response.data?.data;
+      } else {
+        _options = null;
+      }
+    });
+  }
+
   @override
   void initState() {
+    _loadOptions();
+
     super.initState();
 
     _project = FullProject(
@@ -195,6 +213,8 @@ class _NewProjectViewState extends State<NewProjectView> {
       covid: false,
       research: false,
       rdcEndorsementRequired: false,
+      bases: [],
+      operatingUnits: [],
     );
   }
 
@@ -262,83 +282,41 @@ class _NewProjectViewState extends State<NewProjectView> {
               child: Column(
                 children: [
                   Expanded(
-                    child: PageView(
-                      controller: _pageController,
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        _getOne(),
-                        _getTwo(),
-                        _getThree(),
-                        _getFour(),
-                        _getFive(),
-                        _getSix(),
-                        _getSeven(),
-                        _getEight(),
-                        _getNine(),
-                        _getTen(),
-                        _getEleven(),
-                        _getTwelve(),
-                        _getThirteen(),
-                        _getFourteen(),
-                        _getFifteen(),
-                        _getSixteen(),
-                        _getSeventeen(),
-                      ],
-                      onPageChanged: (index) {
-                        //
-                        setState(() {
-                          _currentPage = index;
-                        });
-                      },
-                    ),
+                    child: _options != null
+                        ? PageView(
+                            controller: _pageController,
+                            scrollDirection: Axis.vertical,
+                            children: [
+                              _getOne(),
+                              _getTwo(),
+                              _getThree(),
+                              _getFour(),
+                              _getFive(),
+                              _getSix(),
+                              _getSeven(),
+                              _getEight(),
+                              _getNine(),
+                              _getTen(),
+                              _getEleven(),
+                              _getTwelve(),
+                              _getThirteen(),
+                              _getFourteen(),
+                              _getFifteen(),
+                              _getSixteen(),
+                              _getSeventeen(),
+                            ],
+                            onPageChanged: (index) {
+                              //
+                              setState(() {
+                                _currentPage = index;
+                              });
+                            },
+                          )
+                        : const Center(
+                            child: Text('Resources not loaded yet'),
+                          ),
                   ),
                   // Bottom Arrow Controls
-                  Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        top: BorderSide(width: AppSize.s0_5),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // IconButton(
-                        //   icon: const Icon(Icons.chevron_left),
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       if (_currentPage == 0) {
-                        //         //
-                        //       }
-
-                        //       _currentPage--;
-                        //     });
-                        //   },
-                        // ),
-                        // Text("${_currentPage + 1} of ${_pages.length}"),
-                        IconButton(
-                          icon: const Icon(Icons.chevron_right),
-                          onPressed: () {
-                            // if (_currentPage == _pages.length - 1) {
-                            //   setState(() {
-                            //     _currentPage = 0;
-                            //   });
-                            //   return;
-                            // }
-
-                            setState(() {
-                              _pageController.animateToPage(
-                                17,
-                                duration: const Duration(
-                                  milliseconds: 400,
-                                ),
-                                curve: Curves.easeInOut,
-                              );
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -349,6 +327,8 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getOne() {
+    final bases = _options?.bases ?? [];
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -365,34 +345,22 @@ class _NewProjectViewState extends State<NewProjectView> {
           ),
           const Spacer(),
           Row(
-            children: [
-              Expanded(
-                child: RadioListTile(
-                    value: 1,
-                    groupValue: _project.typeId,
-                    title: const Text('Program'),
-                    onChanged: (value) {
-                      setState(() {
-                        _project = _project.copyWith(typeId: value);
-                      });
-                    }),
-              ),
-              Expanded(
-                child: RadioListTile(
-                    value: 2,
-                    groupValue: _project.typeId,
-                    title: const Text('Project'),
-                    onChanged: (value) {
-                      setState(() {
-                        _project = _project.copyWith(typeId: value);
-                      });
-                    }),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(),
-              ),
-            ],
+            children: _options?.types
+                    ?.map(
+                      (Option option) => Expanded(
+                        child: RadioListTile(
+                            value: option.value,
+                            groupValue: _project.typeId,
+                            title: Text(option.label),
+                            onChanged: (value) {
+                              setState(() {
+                                _project = _project.copyWith(typeId: value);
+                              });
+                            }),
+                      ),
+                    )
+                    .toList() ??
+                [Container()],
           ),
           const Spacer(),
           CheckboxListTile(
@@ -410,23 +378,32 @@ class _NewProjectViewState extends State<NewProjectView> {
           const Spacer(),
           ListView.builder(
             shrinkWrap: true,
-            itemCount: _options.length,
+            itemCount: bases.length,
             itemBuilder: (context, index) {
               return CheckboxListTile(
-                  value: _selectedOptions.contains(_options[index].value),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: Text(_options[index].label),
-                  onChanged: (_) {
-                    if (_selectedOptions.contains(index)) {
-                      _selectedOptions.remove(index); // unselect
-                    } else {
-                      _selectedOptions.add(index); // select
-                    }
+                selected: _project.bases.contains(bases[index].value),
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text(bases[index].label),
+                onChanged: (bool? value) {
+                  List<int> selectedBases = _project.bases.toList();
+                  int currentValue = bases[index].value;
+                  // if bases contains the value
+                  if (value ?? false) {
+                    selectedBases.add(currentValue);
+                  } else {
+                    selectedBases.remove(currentValue);
+                  }
+
+                  setState(() {
+                    _project = _project.copyWith(bases: selectedBases);
                   });
+                },
+                value: _project.bases.contains(bases[index].value),
+              );
             },
           ),
           const Spacer(),
-          TextField(
+          TextFormField(
             controller: _descriptionController,
             minLines: 5,
             maxLines: 10,
@@ -440,11 +417,12 @@ class _NewProjectViewState extends State<NewProjectView> {
             },
           ),
           const Spacer(),
-          TextField(
+          TextFormField(
             controller: _totalCostController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               labelText: 'Total Cost in absolute PhP',
+              prefixText: 'PHP',
             ),
             onChanged: (String? value) {
               setState(() {
@@ -459,67 +437,205 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getTwo() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: _options.length,
-      itemBuilder: (context, index) {
-        return CheckboxListTile(
-            value: _selectedOptions.contains(_options[index].value),
-            controlAffinity: ListTileControlAffinity.leading,
-            title: Text(_options[index].label),
-            onChanged: (_) {
-              if (_selectedOptions.contains(index)) {
-                _selectedOptions.remove(index); // unselect
-              } else {
-                _selectedOptions.add(index); // select
-              }
-            });
-      },
+    final operatingUnits = _options?.operatingUnits ?? [];
+
+    return Container(
+      child: GridView.builder(
+        shrinkWrap: true,
+        itemCount: operatingUnits.length,
+        itemBuilder: (context, index) {
+          return CheckboxListTile(
+              selected:
+                  _project.operatingUnits.contains(operatingUnits[index].value),
+              value:
+                  _project.operatingUnits.contains(operatingUnits[index].value),
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text(operatingUnits[index].label),
+              onChanged: (bool? value) {
+                List<int> selectedOus = _project.operatingUnits.toList();
+                int currentValue = operatingUnits[index].value;
+                // if bases contains the value
+                if (value ?? false) {
+                  selectedOus.add(currentValue);
+                } else {
+                  selectedOus.remove(currentValue);
+                }
+
+                setState(() {
+                  _project = _project.copyWith(operatingUnits: selectedOus);
+                });
+              });
+        },
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+      ),
     );
   }
 
   Widget _getThree() {
-    return Column(
-      children: <Widget>[
-        // spatial coverage,
-        const Text('Spatial Coverage'),
-        DropdownButton(
-            items: const [
-              DropdownMenuItem(value: 1, child: Text('Item 1')),
-              DropdownMenuItem(value: 2, child: Text('Item 2')),
-              DropdownMenuItem(value: 3, child: Text('Item 3')),
-            ],
-            onChanged: (int? newValue) {
-              //
-            }),
-        // regions and provinces
-        const Text('Locations')
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          // spatial coverage,
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text('Spatial Coverage'),
+          ),
+          Column(
+            children: _options?.spatialCoverages
+                    ?.map(
+                      (Option option) => Expanded(
+                        child: RadioListTile(
+                            value: option.value,
+                            groupValue: _project.spatialCoverageId,
+                            title: Text(option.label),
+                            onChanged: (value) {
+                              setState(() {
+                                _project =
+                                    _project.copyWith(spatialCoverageId: value);
+                              });
+                            }),
+                      ),
+                    )
+                    .toList() ??
+                [Container()],
+          ),
+          // regions and provinces
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text('Locations'),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _getFour() {
     return Column(
-      children: const <Widget>[
-        Text('Level of Approval'),
-        Text('As of'),
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: Text('Level of Approval'),
+        ),
+        Column(
+          children: _options?.approvalLevels
+                  ?.map(
+                    (Option option) => Expanded(
+                      child: RadioListTile(
+                          value: option.value,
+                          groupValue: _project.approvalLevelId,
+                          title: Text(option.label),
+                          onChanged: (value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(approvalLevelId: value);
+                            });
+                          }),
+                    ),
+                  )
+                  .toList() ??
+              [Container()],
+        ),
+        const Divider(),
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: Text('As of'),
+        ),
+        CalendarDatePicker(
+            initialDate: _project.approvalLevelDate.isNotEmpty
+                ? DateTime.parse(_project.approvalLevelDate)
+                : DateTime.now(),
+            firstDate: DateTime(2023, 1, 1),
+            lastDate: DateTime(2023, 12, 31),
+            onDateChanged: (DateTime dateTime) {
+              setState(() {
+                _project = _project.copyWith(
+                    approvalLevelDate: dateTime.toIso8601String());
+              });
+            }),
       ],
     );
   }
 
   Widget _getFive() {
-    return Column(
-      children: const <Widget>[
-        Text('PIP'),
-        Text('PIP Typology'),
-        Text('CIP'),
-        Text('CIP Type'),
-        Text('TRIP'),
-        Text('RDIP'),
-        Text('Research'),
-        Text('ICT'),
-        Text('COVID'),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          const Text('PIP'),
+          CheckboxListTile(
+              value: _project.pip,
+              title: const Text('Public Investment Program'),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (bool? value) {
+                setState(() {
+                  _project = _project.copyWith(pip: value ?? false);
+                });
+              }),
+          const Text('PIP Typology'),
+          Column(
+            children: _options?.typologies
+                    ?.map((Option option) => RadioListTile(
+                        value: option.value,
+                        title: Text(option.label),
+                        groupValue: _project.pipTypologyId,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _project = _project.copyWith(pipTypologyId: value!);
+                          });
+                        }))
+                    .toList() ??
+                [Container()],
+          ),
+          const Text('CIP'),
+          CheckboxListTile(
+              value: _project.cip,
+              title: const Text('Core Investment Program/Project'),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (bool? value) {
+                setState(() {
+                  _project = _project.copyWith(cip: value ?? false);
+                });
+              }),
+          const Text('CIP Type'),
+          Column(
+            children: _options?.cipTypes
+                    ?.map((Option option) => RadioListTile(
+                        value: option.value,
+                        title: Text(option.label),
+                        groupValue: _project.cipTypeId,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _project = _project.copyWith(cipTypeId: value!);
+                          });
+                        }))
+                    .toList() ??
+                [Container()],
+          ),
+          const Text('TRIP'),
+          CheckboxListTile(
+              value: _project.trip,
+              title: const Text('Three-Year Rolling Infrastructure Program'),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (bool? value) {
+                setState(() {
+                  _project = _project.copyWith(trip: value ?? false);
+                });
+              }),
+          const Text('RDIP'),
+          CheckboxListTile(
+              value: _project.rdip,
+              title: const Text('Regional Development Investment Program'),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (bool? value) {
+                setState(() {
+                  _project = _project.copyWith(rdip: value ?? false);
+                });
+              }),
+          const Text('Research'),
+          const Text('ICT'),
+          const Text('COVID'),
+        ],
+      ),
     );
   }
 

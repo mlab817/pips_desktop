@@ -54,3 +54,14 @@ class AppPadding {
   static const double lg = 12;
   static const double xl = 16;
 }
+
+class FontSize {
+  static const double xxs = 6;
+  static const double xs = 8;
+  static const double sm = 10;
+  static const double md = 11;
+  static const double lg = 12;
+  static const double xl = 14;
+  static const double xxl = 16;
+  static const double xxxl = 20;
+}

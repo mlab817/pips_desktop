@@ -80,6 +80,7 @@ dependencies:
   material_color_utilities: ^0.2.0
   dynamic_color: ^1.6.2
   desktop_webview_window: ^0.2.0
+  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:

@@ -108,7 +108,7 @@ class _SplashViewState extends State<SplashView> {
                         fontSize: AppSize.s20,
                       ),
                     ),
-                    valueColor: AlwaysStoppedAnimation(ColorManager.primary),
+                    valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.primary),
                   ),
                 ),
               );
@@ -126,10 +126,10 @@ class _SplashViewState extends State<SplashView> {
                   ),
                   Text(
                     AppStrings.publicInvestmentProgrammingSystem,
-                    style: Theme.of(context).textTheme.headline1?.copyWith(
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                           color: ColorManager.primary,
                           fontFamily: FontFamily.bebasNeue,
-                          fontSize: AppSize.s32,
+                          fontSize: FontSize.md,
                         ),
                   ),
                 ],
