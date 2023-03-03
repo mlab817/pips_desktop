@@ -53,6 +53,34 @@ mixin _$FullProject {
   List<int> get operatingUnits => throw _privateConstructorUsedError;
   @JsonKey(name: "rdc_endorsement_required")
   bool get rdcEndorsementRequired => throw _privateConstructorUsedError;
+  @JsonKey(name: "pdp_chapter_id")
+  int? get pdpChapterId => throw _privateConstructorUsedError;
+  @JsonKey(name: "pdp_chapters")
+  List<int> get pdpChapters => throw _privateConstructorUsedError;
+  @JsonKey(name: "risk")
+  String? get risk => throw _privateConstructorUsedError;
+  List<int> get agendas => throw _privateConstructorUsedError;
+  @JsonKey(name: "funding_source_id")
+  int? get fundingSourceId => throw _privateConstructorUsedError;
+  @JsonKey(name: "funding_sources")
+  List<int> get fundingSources => throw _privateConstructorUsedError;
+  @JsonKey(name: "implementation_mode_id")
+  int? get implementationModeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "project_status_id")
+  int? get projectStatusId => throw _privateConstructorUsedError;
+  @JsonKey(name: "category_id")
+  int? get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: "readiness_level_id")
+  int? get readinessLevelId => throw _privateConstructorUsedError;
+  String? get updates => throw _privateConstructorUsedError;
+  @JsonKey(name: "updates_as_of")
+  String? get asOf => throw _privateConstructorUsedError;
+  @JsonKey(name: "employment_generated")
+  int? get employmentGenerated => throw _privateConstructorUsedError;
+  @JsonKey(name: "employed_male")
+  int? get employedMale => throw _privateConstructorUsedError;
+  @JsonKey(name: "employed_female")
+  int? get employedFemale => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -88,7 +116,22 @@ abstract class $FullProjectCopyWith<$Res> {
       bool research,
       List<int> bases,
       @JsonKey(name: "operating_units") List<int> operatingUnits,
-      @JsonKey(name: "rdc_endorsement_required") bool rdcEndorsementRequired});
+      @JsonKey(name: "rdc_endorsement_required") bool rdcEndorsementRequired,
+      @JsonKey(name: "pdp_chapter_id") int? pdpChapterId,
+      @JsonKey(name: "pdp_chapters") List<int> pdpChapters,
+      @JsonKey(name: "risk") String? risk,
+      List<int> agendas,
+      @JsonKey(name: "funding_source_id") int? fundingSourceId,
+      @JsonKey(name: "funding_sources") List<int> fundingSources,
+      @JsonKey(name: "implementation_mode_id") int? implementationModeId,
+      @JsonKey(name: "project_status_id") int? projectStatusId,
+      @JsonKey(name: "category_id") int? categoryId,
+      @JsonKey(name: "readiness_level_id") int? readinessLevelId,
+      String? updates,
+      @JsonKey(name: "updates_as_of") String? asOf,
+      @JsonKey(name: "employment_generated") int? employmentGenerated,
+      @JsonKey(name: "employed_male") int? employedMale,
+      @JsonKey(name: "employed_female") int? employedFemale});
 }
 
 /// @nodoc
@@ -126,6 +169,21 @@ class _$FullProjectCopyWithImpl<$Res, $Val extends FullProject>
     Object? bases = null,
     Object? operatingUnits = null,
     Object? rdcEndorsementRequired = null,
+    Object? pdpChapterId = freezed,
+    Object? pdpChapters = null,
+    Object? risk = freezed,
+    Object? agendas = null,
+    Object? fundingSourceId = freezed,
+    Object? fundingSources = null,
+    Object? implementationModeId = freezed,
+    Object? projectStatusId = freezed,
+    Object? categoryId = freezed,
+    Object? readinessLevelId = freezed,
+    Object? updates = freezed,
+    Object? asOf = freezed,
+    Object? employmentGenerated = freezed,
+    Object? employedMale = freezed,
+    Object? employedFemale = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -216,6 +274,66 @@ class _$FullProjectCopyWithImpl<$Res, $Val extends FullProject>
           ? _value.rdcEndorsementRequired
           : rdcEndorsementRequired // ignore: cast_nullable_to_non_nullable
               as bool,
+      pdpChapterId: freezed == pdpChapterId
+          ? _value.pdpChapterId
+          : pdpChapterId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pdpChapters: null == pdpChapters
+          ? _value.pdpChapters
+          : pdpChapters // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      risk: freezed == risk
+          ? _value.risk
+          : risk // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agendas: null == agendas
+          ? _value.agendas
+          : agendas // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      fundingSourceId: freezed == fundingSourceId
+          ? _value.fundingSourceId
+          : fundingSourceId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      fundingSources: null == fundingSources
+          ? _value.fundingSources
+          : fundingSources // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      implementationModeId: freezed == implementationModeId
+          ? _value.implementationModeId
+          : implementationModeId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      projectStatusId: freezed == projectStatusId
+          ? _value.projectStatusId
+          : projectStatusId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      readinessLevelId: freezed == readinessLevelId
+          ? _value.readinessLevelId
+          : readinessLevelId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      updates: freezed == updates
+          ? _value.updates
+          : updates // ignore: cast_nullable_to_non_nullable
+              as String?,
+      asOf: freezed == asOf
+          ? _value.asOf
+          : asOf // ignore: cast_nullable_to_non_nullable
+              as String?,
+      employmentGenerated: freezed == employmentGenerated
+          ? _value.employmentGenerated
+          : employmentGenerated // ignore: cast_nullable_to_non_nullable
+              as int?,
+      employedMale: freezed == employedMale
+          ? _value.employedMale
+          : employedMale // ignore: cast_nullable_to_non_nullable
+              as int?,
+      employedFemale: freezed == employedFemale
+          ? _value.employedFemale
+          : employedFemale // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -250,7 +368,22 @@ abstract class _$$_FullProjectCopyWith<$Res>
       bool research,
       List<int> bases,
       @JsonKey(name: "operating_units") List<int> operatingUnits,
-      @JsonKey(name: "rdc_endorsement_required") bool rdcEndorsementRequired});
+      @JsonKey(name: "rdc_endorsement_required") bool rdcEndorsementRequired,
+      @JsonKey(name: "pdp_chapter_id") int? pdpChapterId,
+      @JsonKey(name: "pdp_chapters") List<int> pdpChapters,
+      @JsonKey(name: "risk") String? risk,
+      List<int> agendas,
+      @JsonKey(name: "funding_source_id") int? fundingSourceId,
+      @JsonKey(name: "funding_sources") List<int> fundingSources,
+      @JsonKey(name: "implementation_mode_id") int? implementationModeId,
+      @JsonKey(name: "project_status_id") int? projectStatusId,
+      @JsonKey(name: "category_id") int? categoryId,
+      @JsonKey(name: "readiness_level_id") int? readinessLevelId,
+      String? updates,
+      @JsonKey(name: "updates_as_of") String? asOf,
+      @JsonKey(name: "employment_generated") int? employmentGenerated,
+      @JsonKey(name: "employed_male") int? employedMale,
+      @JsonKey(name: "employed_female") int? employedFemale});
 }
 
 /// @nodoc
@@ -286,6 +419,21 @@ class __$$_FullProjectCopyWithImpl<$Res>
     Object? bases = null,
     Object? operatingUnits = null,
     Object? rdcEndorsementRequired = null,
+    Object? pdpChapterId = freezed,
+    Object? pdpChapters = null,
+    Object? risk = freezed,
+    Object? agendas = null,
+    Object? fundingSourceId = freezed,
+    Object? fundingSources = null,
+    Object? implementationModeId = freezed,
+    Object? projectStatusId = freezed,
+    Object? categoryId = freezed,
+    Object? readinessLevelId = freezed,
+    Object? updates = freezed,
+    Object? asOf = freezed,
+    Object? employmentGenerated = freezed,
+    Object? employedMale = freezed,
+    Object? employedFemale = freezed,
   }) {
     return _then(_$_FullProject(
       id: freezed == id
@@ -376,6 +524,66 @@ class __$$_FullProjectCopyWithImpl<$Res>
           ? _value.rdcEndorsementRequired
           : rdcEndorsementRequired // ignore: cast_nullable_to_non_nullable
               as bool,
+      pdpChapterId: freezed == pdpChapterId
+          ? _value.pdpChapterId
+          : pdpChapterId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pdpChapters: null == pdpChapters
+          ? _value._pdpChapters
+          : pdpChapters // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      risk: freezed == risk
+          ? _value.risk
+          : risk // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agendas: null == agendas
+          ? _value._agendas
+          : agendas // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      fundingSourceId: freezed == fundingSourceId
+          ? _value.fundingSourceId
+          : fundingSourceId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      fundingSources: null == fundingSources
+          ? _value._fundingSources
+          : fundingSources // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      implementationModeId: freezed == implementationModeId
+          ? _value.implementationModeId
+          : implementationModeId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      projectStatusId: freezed == projectStatusId
+          ? _value.projectStatusId
+          : projectStatusId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      readinessLevelId: freezed == readinessLevelId
+          ? _value.readinessLevelId
+          : readinessLevelId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      updates: freezed == updates
+          ? _value.updates
+          : updates // ignore: cast_nullable_to_non_nullable
+              as String?,
+      asOf: freezed == asOf
+          ? _value.asOf
+          : asOf // ignore: cast_nullable_to_non_nullable
+              as String?,
+      employmentGenerated: freezed == employmentGenerated
+          ? _value.employmentGenerated
+          : employmentGenerated // ignore: cast_nullable_to_non_nullable
+              as int?,
+      employedMale: freezed == employedMale
+          ? _value.employedMale
+          : employedMale // ignore: cast_nullable_to_non_nullable
+              as int?,
+      employedFemale: freezed == employedFemale
+          ? _value.employedFemale
+          : employedFemale // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -417,9 +625,40 @@ class _$_FullProject implements _FullProject {
       @JsonKey(name: "operating_units")
           required final List<int> operatingUnits,
       @JsonKey(name: "rdc_endorsement_required")
-          required this.rdcEndorsementRequired})
+          required this.rdcEndorsementRequired,
+      @JsonKey(name: "pdp_chapter_id")
+          this.pdpChapterId,
+      @JsonKey(name: "pdp_chapters")
+          required final List<int> pdpChapters,
+      @JsonKey(name: "risk")
+          this.risk,
+      required final List<int> agendas,
+      @JsonKey(name: "funding_source_id")
+          this.fundingSourceId,
+      @JsonKey(name: "funding_sources")
+          required final List<int> fundingSources,
+      @JsonKey(name: "implementation_mode_id")
+          this.implementationModeId,
+      @JsonKey(name: "project_status_id")
+          this.projectStatusId,
+      @JsonKey(name: "category_id")
+          this.categoryId,
+      @JsonKey(name: "readiness_level_id")
+          this.readinessLevelId,
+      this.updates,
+      @JsonKey(name: "updates_as_of")
+          this.asOf,
+      @JsonKey(name: "employment_generated")
+          this.employmentGenerated,
+      @JsonKey(name: "employed_male")
+          this.employedMale,
+      @JsonKey(name: "employed_female")
+          this.employedFemale})
       : _bases = bases,
-        _operatingUnits = operatingUnits;
+        _operatingUnits = operatingUnits,
+        _pdpChapters = pdpChapters,
+        _agendas = agendas,
+        _fundingSources = fundingSources;
 
   factory _$_FullProject.fromJson(Map<String, dynamic> json) =>
       _$$_FullProjectFromJson(json);
@@ -491,10 +730,71 @@ class _$_FullProject implements _FullProject {
   @override
   @JsonKey(name: "rdc_endorsement_required")
   final bool rdcEndorsementRequired;
+  @override
+  @JsonKey(name: "pdp_chapter_id")
+  final int? pdpChapterId;
+  final List<int> _pdpChapters;
+  @override
+  @JsonKey(name: "pdp_chapters")
+  List<int> get pdpChapters {
+    if (_pdpChapters is EqualUnmodifiableListView) return _pdpChapters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_pdpChapters);
+  }
+
+  @override
+  @JsonKey(name: "risk")
+  final String? risk;
+  final List<int> _agendas;
+  @override
+  List<int> get agendas {
+    if (_agendas is EqualUnmodifiableListView) return _agendas;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_agendas);
+  }
+
+  @override
+  @JsonKey(name: "funding_source_id")
+  final int? fundingSourceId;
+  final List<int> _fundingSources;
+  @override
+  @JsonKey(name: "funding_sources")
+  List<int> get fundingSources {
+    if (_fundingSources is EqualUnmodifiableListView) return _fundingSources;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fundingSources);
+  }
+
+  @override
+  @JsonKey(name: "implementation_mode_id")
+  final int? implementationModeId;
+  @override
+  @JsonKey(name: "project_status_id")
+  final int? projectStatusId;
+  @override
+  @JsonKey(name: "category_id")
+  final int? categoryId;
+  @override
+  @JsonKey(name: "readiness_level_id")
+  final int? readinessLevelId;
+  @override
+  final String? updates;
+  @override
+  @JsonKey(name: "updates_as_of")
+  final String? asOf;
+  @override
+  @JsonKey(name: "employment_generated")
+  final int? employmentGenerated;
+  @override
+  @JsonKey(name: "employed_male")
+  final int? employedMale;
+  @override
+  @JsonKey(name: "employed_female")
+  final int? employedFemale;
 
   @override
   String toString() {
-    return 'FullProject(id: $id, uuid: $uuid, title: $title, typeId: $typeId, regularProgram: $regularProgram, description: $description, totalCost: $totalCost, expectedOutputs: $expectedOutputs, spatialCoverageId: $spatialCoverageId, approvalLevelId: $approvalLevelId, approvalLevelDate: $approvalLevelDate, pip: $pip, pipTypologyId: $pipTypologyId, cip: $cip, cipTypeId: $cipTypeId, trip: $trip, rdip: $rdip, covid: $covid, research: $research, bases: $bases, operatingUnits: $operatingUnits, rdcEndorsementRequired: $rdcEndorsementRequired)';
+    return 'FullProject(id: $id, uuid: $uuid, title: $title, typeId: $typeId, regularProgram: $regularProgram, description: $description, totalCost: $totalCost, expectedOutputs: $expectedOutputs, spatialCoverageId: $spatialCoverageId, approvalLevelId: $approvalLevelId, approvalLevelDate: $approvalLevelDate, pip: $pip, pipTypologyId: $pipTypologyId, cip: $cip, cipTypeId: $cipTypeId, trip: $trip, rdip: $rdip, covid: $covid, research: $research, bases: $bases, operatingUnits: $operatingUnits, rdcEndorsementRequired: $rdcEndorsementRequired, pdpChapterId: $pdpChapterId, pdpChapters: $pdpChapters, risk: $risk, agendas: $agendas, fundingSourceId: $fundingSourceId, fundingSources: $fundingSources, implementationModeId: $implementationModeId, projectStatusId: $projectStatusId, categoryId: $categoryId, readinessLevelId: $readinessLevelId, updates: $updates, asOf: $asOf, employmentGenerated: $employmentGenerated, employedMale: $employedMale, employedFemale: $employedFemale)';
   }
 
   @override
@@ -535,7 +835,33 @@ class _$_FullProject implements _FullProject {
             const DeepCollectionEquality()
                 .equals(other._operatingUnits, _operatingUnits) &&
             (identical(other.rdcEndorsementRequired, rdcEndorsementRequired) ||
-                other.rdcEndorsementRequired == rdcEndorsementRequired));
+                other.rdcEndorsementRequired == rdcEndorsementRequired) &&
+            (identical(other.pdpChapterId, pdpChapterId) ||
+                other.pdpChapterId == pdpChapterId) &&
+            const DeepCollectionEquality()
+                .equals(other._pdpChapters, _pdpChapters) &&
+            (identical(other.risk, risk) || other.risk == risk) &&
+            const DeepCollectionEquality().equals(other._agendas, _agendas) &&
+            (identical(other.fundingSourceId, fundingSourceId) ||
+                other.fundingSourceId == fundingSourceId) &&
+            const DeepCollectionEquality()
+                .equals(other._fundingSources, _fundingSources) &&
+            (identical(other.implementationModeId, implementationModeId) ||
+                other.implementationModeId == implementationModeId) &&
+            (identical(other.projectStatusId, projectStatusId) ||
+                other.projectStatusId == projectStatusId) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.readinessLevelId, readinessLevelId) ||
+                other.readinessLevelId == readinessLevelId) &&
+            (identical(other.updates, updates) || other.updates == updates) &&
+            (identical(other.asOf, asOf) || other.asOf == asOf) &&
+            (identical(other.employmentGenerated, employmentGenerated) ||
+                other.employmentGenerated == employmentGenerated) &&
+            (identical(other.employedMale, employedMale) ||
+                other.employedMale == employedMale) &&
+            (identical(other.employedFemale, employedFemale) ||
+                other.employedFemale == employedFemale));
   }
 
   @JsonKey(ignore: true)
@@ -563,7 +889,22 @@ class _$_FullProject implements _FullProject {
         research,
         const DeepCollectionEquality().hash(_bases),
         const DeepCollectionEquality().hash(_operatingUnits),
-        rdcEndorsementRequired
+        rdcEndorsementRequired,
+        pdpChapterId,
+        const DeepCollectionEquality().hash(_pdpChapters),
+        risk,
+        const DeepCollectionEquality().hash(_agendas),
+        fundingSourceId,
+        const DeepCollectionEquality().hash(_fundingSources),
+        implementationModeId,
+        projectStatusId,
+        categoryId,
+        readinessLevelId,
+        updates,
+        asOf,
+        employmentGenerated,
+        employedMale,
+        employedFemale
       ]);
 
   @JsonKey(ignore: true)
@@ -614,7 +955,35 @@ abstract class _FullProject implements FullProject {
       @JsonKey(name: "operating_units")
           required final List<int> operatingUnits,
       @JsonKey(name: "rdc_endorsement_required")
-          required final bool rdcEndorsementRequired}) = _$_FullProject;
+          required final bool rdcEndorsementRequired,
+      @JsonKey(name: "pdp_chapter_id")
+          final int? pdpChapterId,
+      @JsonKey(name: "pdp_chapters")
+          required final List<int> pdpChapters,
+      @JsonKey(name: "risk")
+          final String? risk,
+      required final List<int> agendas,
+      @JsonKey(name: "funding_source_id")
+          final int? fundingSourceId,
+      @JsonKey(name: "funding_sources")
+          required final List<int> fundingSources,
+      @JsonKey(name: "implementation_mode_id")
+          final int? implementationModeId,
+      @JsonKey(name: "project_status_id")
+          final int? projectStatusId,
+      @JsonKey(name: "category_id")
+          final int? categoryId,
+      @JsonKey(name: "readiness_level_id")
+          final int? readinessLevelId,
+      final String? updates,
+      @JsonKey(name: "updates_as_of")
+          final String? asOf,
+      @JsonKey(name: "employment_generated")
+          final int? employmentGenerated,
+      @JsonKey(name: "employed_male")
+          final int? employedMale,
+      @JsonKey(name: "employed_female")
+          final int? employedFemale}) = _$_FullProject;
 
   factory _FullProject.fromJson(Map<String, dynamic> json) =
       _$_FullProject.fromJson;
@@ -674,6 +1043,49 @@ abstract class _FullProject implements FullProject {
   @override
   @JsonKey(name: "rdc_endorsement_required")
   bool get rdcEndorsementRequired;
+  @override
+  @JsonKey(name: "pdp_chapter_id")
+  int? get pdpChapterId;
+  @override
+  @JsonKey(name: "pdp_chapters")
+  List<int> get pdpChapters;
+  @override
+  @JsonKey(name: "risk")
+  String? get risk;
+  @override
+  List<int> get agendas;
+  @override
+  @JsonKey(name: "funding_source_id")
+  int? get fundingSourceId;
+  @override
+  @JsonKey(name: "funding_sources")
+  List<int> get fundingSources;
+  @override
+  @JsonKey(name: "implementation_mode_id")
+  int? get implementationModeId;
+  @override
+  @JsonKey(name: "project_status_id")
+  int? get projectStatusId;
+  @override
+  @JsonKey(name: "category_id")
+  int? get categoryId;
+  @override
+  @JsonKey(name: "readiness_level_id")
+  int? get readinessLevelId;
+  @override
+  String? get updates;
+  @override
+  @JsonKey(name: "updates_as_of")
+  String? get asOf;
+  @override
+  @JsonKey(name: "employment_generated")
+  int? get employmentGenerated;
+  @override
+  @JsonKey(name: "employed_male")
+  int? get employedMale;
+  @override
+  @JsonKey(name: "employed_female")
+  int? get employedFemale;
   @override
   @JsonKey(ignore: true)
   _$$_FullProjectCopyWith<_$_FullProject> get copyWith =>

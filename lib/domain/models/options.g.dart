@@ -37,10 +37,10 @@ Options _$OptionsFromJson(Map<String, dynamic> json) => Options(
       gads: (json['gads'] as List<dynamic>?)
           ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      implementationModes: (json['implementationModes'] as List<dynamic>?)
+      implementationModes: (json['implementation_modes'] as List<dynamic>?)
           ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
-      infrastructureSectors: (json['infrastructureSectors'] as List<dynamic>?)
+      infrastructureSectors: (json['infrastructure_sectors'] as List<dynamic>?)
           ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
       locations: (json['locations'] as List<dynamic>?)
@@ -119,8 +119,8 @@ Map<String, dynamic> _$OptionsToJson(Options instance) => <String, dynamic>{
       'funding_institutions': instance.fundingInstitutions,
       'funding_sources': instance.fundingSources,
       'gads': instance.gads,
-      'implementationModes': instance.implementationModes,
-      'infrastructureSectors': instance.infrastructureSectors,
+      'implementation_modes': instance.implementationModes,
+      'infrastructure_sectors': instance.infrastructureSectors,
       'locations': instance.locations,
       'nafmip_outputs': instance.nafmipOutputs,
       'offices': instance.offices,

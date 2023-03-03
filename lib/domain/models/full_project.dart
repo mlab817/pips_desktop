@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'full_project.freezed.dart';
-
 part 'full_project.g.dart';
 
 @freezed
@@ -31,6 +30,21 @@ class FullProject with _$FullProject {
     @JsonKey(name: "operating_units") required List<int> operatingUnits,
     @JsonKey(name: "rdc_endorsement_required")
         required bool rdcEndorsementRequired,
+    @JsonKey(name: "pdp_chapter_id") int? pdpChapterId,
+    @JsonKey(name: "pdp_chapters") required List<int> pdpChapters,
+    @JsonKey(name: "risk") String? risk,
+    required List<int> agendas,
+    @JsonKey(name: "funding_source_id") int? fundingSourceId,
+    @JsonKey(name: "funding_sources") required List<int> fundingSources,
+    @JsonKey(name: "implementation_mode_id") int? implementationModeId,
+    @JsonKey(name: "project_status_id") int? projectStatusId,
+    @JsonKey(name: "category_id") int? categoryId,
+    @JsonKey(name: "readiness_level_id") int? readinessLevelId,
+    String? updates,
+    @JsonKey(name: "updates_as_of") String? asOf,
+    @JsonKey(name: "employment_generated") int? employmentGenerated,
+    @JsonKey(name: "employed_male") int? employedMale,
+    @JsonKey(name: "employed_female") int? employedFemale,
   }) = _FullProject;
 
   factory FullProject.fromJson(Map<String, Object?> json) =>

@@ -34,10 +34,10 @@ class Options {
   @JsonKey(name: "gads")
   List<Option>? gads;
 
-  @JsonKey(name: "implementationModes")
+  @JsonKey(name: "implementation_modes")
   List<Option>? implementationModes;
 
-  @JsonKey(name: "infrastructureSectors")
+  @JsonKey(name: "infrastructure_sectors")
   List<Option>? infrastructureSectors;
 
   @JsonKey(name: "locations")
@@ -104,38 +104,38 @@ class Options {
   List<Option>? vcSegments;
 
   Options({
-     this.agenda,
-     this.approvalLevels,
-     this.bases,
-     this.categories,
-     this.cipTypes,
-     this.commodities,
-     this.fsStatuses,
-     this.fundingInstitutions,
-     this.fundingSources,
-     this.gads,
-     this.implementationModes,
-     this.infrastructureSectors,
-     this.locations,
-     this.nafmipOutputs,
-     this.offices,
-     this.operatingUnits,
-     this.pdpChapters,
-     this.pdpStrategies,
-     this.pipolStatuses,
-     this.pipsStatuses,
-     this.preparationDocuments,
-     this.prerequisites,
-     this.prexcs,
-     this.programs,
-     this.projectStatuses,
-     this.readinessLevels,
-     this.regions,
-     this.roles,
-     this.sdgs,
-     this.spatialCoverages,
-     this.types,
-     this.typologies,
+    this.agenda,
+    this.approvalLevels,
+    this.bases,
+    this.categories,
+    this.cipTypes,
+    this.commodities,
+    this.fsStatuses,
+    this.fundingInstitutions,
+    this.fundingSources,
+    this.gads,
+    this.implementationModes,
+    this.infrastructureSectors,
+    this.locations,
+    this.nafmipOutputs,
+    this.offices,
+    this.operatingUnits,
+    this.pdpChapters,
+    this.pdpStrategies,
+    this.pipolStatuses,
+    this.pipsStatuses,
+    this.preparationDocuments,
+    this.prerequisites,
+    this.prexcs,
+    this.programs,
+    this.projectStatuses,
+    this.readinessLevels,
+    this.regions,
+    this.roles,
+    this.sdgs,
+    this.spatialCoverages,
+    this.types,
+    this.typologies,
     this.vcSegments,
   });
 

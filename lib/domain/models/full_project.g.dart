@@ -32,6 +32,24 @@ _$_FullProject _$$_FullProjectFromJson(Map<String, dynamic> json) =>
           .map((e) => e as int)
           .toList(),
       rdcEndorsementRequired: json['rdc_endorsement_required'] as bool,
+      pdpChapterId: json['pdp_chapter_id'] as int?,
+      pdpChapters:
+          (json['pdp_chapters'] as List<dynamic>).map((e) => e as int).toList(),
+      risk: json['risk'] as String?,
+      agendas: (json['agendas'] as List<dynamic>).map((e) => e as int).toList(),
+      fundingSourceId: json['funding_source_id'] as int?,
+      fundingSources: (json['funding_sources'] as List<dynamic>)
+          .map((e) => e as int)
+          .toList(),
+      implementationModeId: json['implementation_mode_id'] as int?,
+      projectStatusId: json['project_status_id'] as int?,
+      categoryId: json['category_id'] as int?,
+      readinessLevelId: json['readiness_level_id'] as int?,
+      updates: json['updates'] as String?,
+      asOf: json['updates_as_of'] as String?,
+      employmentGenerated: json['employment_generated'] as int?,
+      employedMale: json['employed_male'] as int?,
+      employedFemale: json['employed_female'] as int?,
     );
 
 Map<String, dynamic> _$$_FullProjectToJson(_$_FullProject instance) =>
@@ -58,4 +76,19 @@ Map<String, dynamic> _$$_FullProjectToJson(_$_FullProject instance) =>
       'bases': instance.bases,
       'operating_units': instance.operatingUnits,
       'rdc_endorsement_required': instance.rdcEndorsementRequired,
+      'pdp_chapter_id': instance.pdpChapterId,
+      'pdp_chapters': instance.pdpChapters,
+      'risk': instance.risk,
+      'agendas': instance.agendas,
+      'funding_source_id': instance.fundingSourceId,
+      'funding_sources': instance.fundingSources,
+      'implementation_mode_id': instance.implementationModeId,
+      'project_status_id': instance.projectStatusId,
+      'category_id': instance.categoryId,
+      'readiness_level_id': instance.readinessLevelId,
+      'updates': instance.updates,
+      'updates_as_of': instance.asOf,
+      'employment_generated': instance.employmentGenerated,
+      'employed_male': instance.employedMale,
+      'employed_female': instance.employedFemale,
     };

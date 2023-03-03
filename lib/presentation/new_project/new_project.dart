@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:forme_file_picker/forme_file_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:pips/domain/models/full_project.dart';
 import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
@@ -119,6 +121,15 @@ class _NewProjectViewState extends State<NewProjectView> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _totalCostController = TextEditingController();
+  final TextEditingController _riskController = TextEditingController();
+  final TextEditingController _expectedOutputsController =
+      TextEditingController();
+  final TextEditingController _updatesController = TextEditingController();
+  final TextEditingController _employmentGeneratedController =
+      TextEditingController();
+  final TextEditingController _employedMaleController = TextEditingController();
+  final TextEditingController _employedFemaleController =
+      TextEditingController();
 
   int _currentPage = 0;
 
@@ -213,8 +224,18 @@ class _NewProjectViewState extends State<NewProjectView> {
       covid: false,
       research: false,
       rdcEndorsementRequired: false,
+      pdpChapterId: null,
+      fundingSourceId: null,
+      implementationModeId: null,
+      updates: '',
+      employedMale: 0,
+      employedFemale: 0,
+      employmentGenerated: 0,
       bases: [],
       operatingUnits: [],
+      pdpChapters: [],
+      agendas: [],
+      fundingSources: [],
     );
   }
 
@@ -223,6 +244,12 @@ class _NewProjectViewState extends State<NewProjectView> {
     _titleController.dispose();
     _descriptionController.dispose();
     _totalCostController.dispose();
+    _riskController.dispose();
+    _expectedOutputsController.dispose();
+    _updatesController.dispose();
+    _employmentGeneratedController.dispose();
+    _employedMaleController.dispose();
+    _employedFemaleController.dispose();
 
     _pageController.dispose();
     super.dispose();
@@ -313,7 +340,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                             },
                           )
                         : const Center(
-                            child: Text('Resources not loaded yet'),
+                            child: CircularProgressIndicator(),
                           ),
                   ),
                   // Bottom Arrow Controls
@@ -335,7 +362,7 @@ class _NewProjectViewState extends State<NewProjectView> {
           TextField(
             controller: _titleController,
             decoration: const InputDecoration(
-              labelText: 'Program/Project Title',
+              labelText: AppStrings.programProjectTitle,
             ),
             onChanged: (String? value) {
               setState(() {
@@ -371,7 +398,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                 _project = _project.copyWith(regularProgram: value ?? false);
               });
             },
-            title: const Text('Regular Program'),
+            title: const Text(AppStrings.regularProgram),
             controlAffinity: ListTileControlAffinity.leading,
             activeColor: ColorManager.primary,
           ),
@@ -408,7 +435,7 @@ class _NewProjectViewState extends State<NewProjectView> {
             minLines: 5,
             maxLines: 10,
             decoration: const InputDecoration(
-              labelText: 'Description',
+              labelText: AppStrings.description,
             ),
             onChanged: (String? value) {
               setState(() {
@@ -421,8 +448,8 @@ class _NewProjectViewState extends State<NewProjectView> {
             controller: _totalCostController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              labelText: 'Total Cost in absolute PhP',
-              prefixText: 'PHP',
+              labelText: AppStrings.totalCostInAbsolutePhp,
+              prefixText: AppStrings.php,
             ),
             onChanged: (String? value) {
               setState(() {
@@ -479,31 +506,35 @@ class _NewProjectViewState extends State<NewProjectView> {
           // spatial coverage,
           const Padding(
             padding: EdgeInsets.all(AppPadding.md),
-            child: Text('Spatial Coverage'),
+            child: Text(AppStrings.spatialCoverage),
           ),
-          Column(
-            children: _options?.spatialCoverages
-                    ?.map(
-                      (Option option) => Expanded(
-                        child: RadioListTile(
-                            value: option.value,
-                            groupValue: _project.spatialCoverageId,
-                            title: Text(option.label),
-                            onChanged: (value) {
-                              setState(() {
-                                _project =
-                                    _project.copyWith(spatialCoverageId: value);
-                              });
-                            }),
-                      ),
-                    )
-                    .toList() ??
-                [Container()],
+          SizedBox(
+            height: AppSize.s200,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: _options?.spatialCoverages
+                      ?.map(
+                        (Option option) => Expanded(
+                          child: RadioListTile(
+                              value: option.value,
+                              groupValue: _project.spatialCoverageId,
+                              title: Text(option.label),
+                              onChanged: (value) {
+                                setState(() {
+                                  _project = _project.copyWith(
+                                      spatialCoverageId: value);
+                                });
+                              }),
+                        ),
+                      )
+                      .toList() ??
+                  [Container()],
+            ),
           ),
           // regions and provinces
           const Padding(
             padding: EdgeInsets.all(AppPadding.md),
-            child: Text('Locations'),
+            child: Text(AppStrings.locations),
           ),
         ],
       ),
@@ -515,7 +546,7 @@ class _NewProjectViewState extends State<NewProjectView> {
       children: <Widget>[
         const Padding(
           padding: EdgeInsets.all(AppPadding.md),
-          child: Text('Level of Approval'),
+          child: Text(AppStrings.levelOfApproval),
         ),
         Column(
           children: _options?.approvalLevels
@@ -539,7 +570,7 @@ class _NewProjectViewState extends State<NewProjectView> {
         const Divider(),
         const Padding(
           padding: EdgeInsets.all(AppPadding.md),
-          child: Text('As of'),
+          child: Text(AppStrings.asOf),
         ),
         CalendarDatePicker(
             initialDate: _project.approvalLevelDate.isNotEmpty
@@ -561,17 +592,17 @@ class _NewProjectViewState extends State<NewProjectView> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          const Text('PIP'),
+          const Text(AppStrings.pip),
           CheckboxListTile(
               value: _project.pip,
-              title: const Text('Public Investment Program'),
+              title: const Text(AppStrings.publicInvestmentProgram),
               controlAffinity: ListTileControlAffinity.leading,
               onChanged: (bool? value) {
                 setState(() {
                   _project = _project.copyWith(pip: value ?? false);
                 });
               }),
-          const Text('PIP Typology'),
+          const Text(AppStrings.typologyOfPip),
           Column(
             children: _options?.typologies
                     ?.map((Option option) => RadioListTile(
@@ -586,17 +617,17 @@ class _NewProjectViewState extends State<NewProjectView> {
                     .toList() ??
                 [Container()],
           ),
-          const Text('CIP'),
+          const Text(AppStrings.cip),
           CheckboxListTile(
               value: _project.cip,
-              title: const Text('Core Investment Program/Project'),
+              title: const Text(AppStrings.coreInvestmentProgramsProjects),
               controlAffinity: ListTileControlAffinity.leading,
               onChanged: (bool? value) {
                 setState(() {
                   _project = _project.copyWith(cip: value ?? false);
                 });
               }),
-          const Text('CIP Type'),
+          const Text(AppStrings.typeOfCip),
           Column(
             children: _options?.cipTypes
                     ?.map((Option option) => RadioListTile(
@@ -611,20 +642,22 @@ class _NewProjectViewState extends State<NewProjectView> {
                     .toList() ??
                 [Container()],
           ),
-          const Text('TRIP'),
+          const Text(AppStrings.trip),
           CheckboxListTile(
               value: _project.trip,
-              title: const Text('Three-Year Rolling Infrastructure Program'),
+              title:
+                  const Text(AppStrings.threeYearRollingInfrastructureProgram),
               controlAffinity: ListTileControlAffinity.leading,
               onChanged: (bool? value) {
                 setState(() {
                   _project = _project.copyWith(trip: value ?? false);
                 });
               }),
-          const Text('RDIP'),
+          const Text(AppStrings.rdip),
           CheckboxListTile(
               value: _project.rdip,
-              title: const Text('Regional Development Investment Program'),
+              title:
+                  const Text(AppStrings.regionalDevelopmentInvestmentProgram),
               controlAffinity: ListTileControlAffinity.leading,
               onChanged: (bool? value) {
                 setState(() {
@@ -640,20 +673,75 @@ class _NewProjectViewState extends State<NewProjectView> {
   }
 
   Widget _getSix() {
-    return Column(
-      children: const <Widget>[
-        Text('Main PDP Chapter'),
-        Text('Other PDP Chapters'),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.mainPdpChapter),
+          ),
+          Column(
+            children: _options?.pdpChapters?.map((Option option) {
+                  return RadioListTile(
+                      groupValue: _project.pdpChapterId,
+                      value: option.value,
+                      title: Text(option.label),
+                      onChanged: (value) {
+                        setState(() {
+                          _project = _project.copyWith(pdpChapterId: value);
+                        });
+                      });
+                }).toList() ??
+                [Container()],
+          ),
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.otherPdpChapters),
+          ),
+          Column(
+            children: _options?.pdpChapters?.map((Option option) {
+                  // copy immutable state to new array
+                  List<int> selectedChapters = _project.pdpChapters.toList();
+
+                  return CheckboxListTile(
+                      value: _project.pdpChapters.contains(option.value),
+                      title: Text(option.label),
+                      onChanged: (bool? value) {
+                        if (value ?? false) {
+                          selectedChapters.add(option.value);
+                        } else {
+                          selectedChapters.remove(option.value);
+                        }
+                        setState(() {
+                          _project =
+                              _project.copyWith(pdpChapters: selectedChapters);
+                        });
+                      });
+                }).toList() ??
+                [Container()],
+          ),
+        ],
+      ),
     );
   }
 
   Widget _getSeven() {
     return Column(
-      children: const <Widget>[
-        Text('Infrastructure Sector'),
-        Text('Status of Implementation Readiness'),
-        Text('Implementation Risk and Mitigation Strategies'),
+      children: <Widget>[
+        const Text('Infrastructure Sector'),
+        const Text('Status of Implementation Readiness'),
+        const Text('Implementation Risk and Mitigation Strategies'),
+        TextFormField(
+          controller: _riskController,
+          decoration: const InputDecoration(
+            labelText: 'Implementation Risk and Mitigation Strategies',
+          ),
+          onChanged: (String? value) {
+            setState(() {
+              _project = _project.copyWith(risk: value ?? '');
+            });
+          },
+        ),
       ],
     );
   }
@@ -663,14 +751,18 @@ class _NewProjectViewState extends State<NewProjectView> {
   Widget _getEight() {
     return SingleChildScrollView(
       child: Column(
-        children: const [
-          Placeholder(
-            child: SizedBox(
-              width: double.infinity,
-              height: AppSize.s200,
-              child: Text('Expected Outputs/Deliverables'),
+        children: [
+          TextFormField(
+            controller: _expectedOutputsController,
+            decoration: const InputDecoration(
+              labelText: AppStrings.expectedOutputs,
             ),
-          ),
+            onChanged: (String? value) {
+              setState(() {
+                _project = _project.copyWith(expectedOutputs: value ?? '');
+              });
+            },
+          )
         ],
       ),
     );
@@ -713,12 +805,6 @@ class _NewProjectViewState extends State<NewProjectView> {
                     child: Checkbox(
                       value: _selectedSdgs.contains(sdg.value),
                       onChanged: (_) {
-                        debugPrint(
-                            _selectedSdgs.contains(sdg.value).toString());
-                        debugPrint(sdg.value.toString());
-                        debugPrint(
-                            "selected sdgs: ${_selectedSdgs.length.toString()}");
-
                         setState(() {
                           if (!_selectedSdgs.contains(sdg.value)) {
                             _selectedSdgs.add(sdg.value);
@@ -741,14 +827,30 @@ class _NewProjectViewState extends State<NewProjectView> {
   Widget _getNine() {
     return SingleChildScrollView(
       child: Column(
-        children: const [
-          Placeholder(
-            child: SizedBox(
-              width: double.infinity,
-              height: AppSize.s200,
-              child: Text('Socioeconomic Agenda'),
-            ),
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.socioeconomicAgenda),
           ),
+          Column(
+              children: _options?.agenda
+                      ?.map((Option option) => CheckboxListTile(
+                          value: _project.agendas.contains(option.value),
+                          title: Text(option.label),
+                          onChanged: (bool? value) {
+                            List<int> agendas = _project.agendas.toList();
+
+                            if (value ?? false) {
+                              agendas.add(option.value);
+                            } else {
+                              agendas.remove(option.value);
+                            }
+                            setState(() {
+                              _project = _project.copyWith(agendas: agendas);
+                            });
+                          }))
+                      .toList() ??
+                  [Container()]),
         ],
       ),
     );
@@ -883,71 +985,133 @@ class _NewProjectViewState extends State<NewProjectView> {
 
   Widget _getThirteen() {
     return SingleChildScrollView(
-      child: Column(mainAxisSize: MainAxisSize.max, children: const [
-        SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Total'),
-            )),
-        SizedBox(
-          height: AppSize.s20,
-        ),
-        SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Male'),
-            )),
-        SizedBox(
-          height: AppSize.s20,
-        ),
-        SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Female'),
-            )),
-      ]),
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.employmentGenerated),
+          ),
+          Row(mainAxisSize: MainAxisSize.max, children: [
+            Expanded(
+              child: TextFormField(
+                controller: _employedMaleController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: const InputDecoration(labelText: 'Male'),
+              ),
+            ),
+            const SizedBox(width: AppSize.md),
+            Expanded(
+              child: TextFormField(
+                controller: _employedFemaleController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: const InputDecoration(labelText: 'Female'),
+              ),
+            ),
+            const SizedBox(width: AppSize.md),
+            Expanded(
+              child: TextFormField(
+                readOnly: true,
+                controller: _employmentGeneratedController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: const InputDecoration(labelText: 'Total'),
+              ),
+            ),
+          ]),
+        ],
+      ),
     );
   }
 
   Widget _getFourteen() {
     return SingleChildScrollView(
-      child: Column(mainAxisSize: MainAxisSize.max, children: const [
-        SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Funding Source'),
-            )),
-        SizedBox(
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: Text(AppStrings.mainFundingSource),
+        ),
+        Column(
+          children: _options?.fundingSources?.map((Option option) {
+                return RadioListTile(
+                    value: option.value,
+                    title: Text(option.label),
+                    groupValue: _project.fundingSourceId,
+                    onChanged: (value) {
+                      setState(() {
+                        _project = _project.copyWith(fundingSourceId: value);
+                      });
+                    });
+              }).toList() ??
+              [Container()],
+        ),
+        const SizedBox(
           height: AppSize.s20,
         ),
-        SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Other Funding Source'),
-            )),
-        SizedBox(
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: Text(AppStrings.otherFundingSources),
+        ),
+        Column(
+          children: _options?.fundingSources?.map((Option option) {
+                return CheckboxListTile(
+                    value: _project.fundingSources.contains(option.value),
+                    title: Text(option.label),
+                    onChanged: (bool? value) {
+                      List<int> selectedFs = _project.fundingSources.toList();
+
+                      if (value ?? false) {
+                        selectedFs.add(option.value);
+                      } else {
+                        selectedFs.remove(option.value);
+                      }
+
+                      setState(() {
+                        _project =
+                            _project.copyWith(fundingSources: selectedFs);
+                      });
+                    });
+              }).toList() ??
+              [Container()],
+        ),
+        const SizedBox(
           height: AppSize.s20,
         ),
-        SizedBox(
+        const SizedBox(
             height: AppSize.s200,
             width: double.infinity,
             child: Placeholder(
-              child: Text('Funding Institutions'),
+              child: Text(AppStrings.fundingInstitutions),
             )),
-        SizedBox(
+        const SizedBox(
           height: AppSize.s20,
         ),
-        SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Mode of Implementation'),
-            )),
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: Text(AppStrings.modeOfImplementation),
+        ),
+        Column(
+          children: _options?.implementationModes?.map((Option option) {
+                return RadioListTile(
+                    value: option.value,
+                    title: Text(option.label),
+                    groupValue: _project.implementationModeId,
+                    onChanged: (value) {
+                      setState(() {
+                        _project =
+                            _project.copyWith(implementationModeId: value);
+                      });
+                    });
+              }).toList() ??
+              [Container()],
+        ),
       ]),
     );
   }
@@ -956,71 +1120,134 @@ class _NewProjectViewState extends State<NewProjectView> {
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.max,
-        children: const [
-          SizedBox(
-              height: AppSize.s200,
-              width: double.infinity,
-              child: Placeholder(
-                child: Text('Project Status'),
-              )),
-          SizedBox(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.projectStatus),
+          ),
+          Column(
+            children: _options?.projectStatuses
+                    ?.map((Option option) => RadioListTile(
+                          value: option.value,
+                          title: Text(option.label),
+                          onChanged: (int? value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(projectStatusId: value);
+                            });
+                          },
+                          groupValue: _project.projectStatusId,
+                        ))
+                    .toList() ??
+                [Container()],
+          ),
+          const SizedBox(
             height: AppSize.s20,
           ),
-          SizedBox(
-              height: AppSize.s200,
-              width: double.infinity,
-              child: Placeholder(
-                child: Text('Category'),
-              )),
-          SizedBox(
-            height: AppSize.s20,
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.category),
           ),
-          SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Start Year'),
+          Column(
+            children: _options?.categories
+                    ?.map((Option option) => RadioListTile(
+                          value: option.value,
+                          title: Text(option.label),
+                          onChanged: (int? value) {
+                            setState(() {
+                              _project = _project.copyWith(categoryId: value);
+                            });
+                          },
+                          groupValue: _project.categoryId,
+                        ))
+                    .toList() ??
+                [const Text('Failed to load options')],
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.implementationPeriod),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.md),
+            child: Row(
+              children: const [
+                Expanded(
+                  child: Text('Start Year'),
+                ),
+                Expanded(
+                  child: Text('End Year'),
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            height: AppSize.s20,
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.levelOfReadiness),
           ),
-          SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('End Year'),
+          Column(
+            children: _options?.readinessLevels
+                    ?.map((Option option) => RadioListTile(
+                          value: option.value,
+                          title: Text(option.label),
+                          onChanged: (int? value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(readinessLevelId: value);
+                            });
+                          },
+                          groupValue: _project.readinessLevelId,
+                        ))
+                    .toList() ??
+                [const Text('Failed to load options')],
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.updates),
+          ),
+          TextFormField(
+            controller: _updatesController,
+            decoration: const InputDecoration(
+              labelText: AppStrings.updates,
             ),
+            onChanged: (String? value) {
+              setState(() {
+                _project = _project.copyWith(updates: value);
+              });
+            },
           ),
-          SizedBox(
-            height: AppSize.s20,
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.asOf),
           ),
-          SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Level of Readiness'),
-            ),
-          ),
-          SizedBox(
-            height: AppSize.s20,
-          ),
-          SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('Updates'),
-            ),
-          ),
-          SizedBox(
-            height: AppSize.s20,
-          ),
-          SizedBox(
-            height: AppSize.s200,
-            width: double.infinity,
-            child: Placeholder(
-              child: Text('As of'),
-            ),
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2022, 1, 1),
+                      lastDate: DateTime.now(),
+                    );
+
+                    debugPrint(selectedDate.toString());
+
+                    setState(() {
+                      _project =
+                          _project.copyWith(asOf: selectedDate?.toString());
+                    });
+                  },
+                  icon: const Icon(Icons.calendar_month)),
+              Expanded(
+                  child: Text(_project.asOf != null
+                      ? DateFormat.yMMMd()
+                          .format(DateTime.parse(_project.asOf!))
+                      : AppStrings.selectDate)),
+            ],
           ),
         ],
       ),
@@ -1031,7 +1258,7 @@ class _NewProjectViewState extends State<NewProjectView> {
     return Center(
       child: Column(
         children: [
-          const Text('Attachments'),
+          const Text(AppStrings.attachments),
           FormeFileGrid(
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200.0,
