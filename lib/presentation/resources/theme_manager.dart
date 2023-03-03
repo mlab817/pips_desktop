@@ -13,12 +13,11 @@ class ThemeManager {
           themeMode == ThemeMode.light ? lightColorScheme : darkColorScheme,
       fontFamily: GoogleFonts.montserrat().fontFamily,
       appBarTheme: const AppBarTheme(
-        toolbarHeight: AppSize.s60,
-        elevation: AppSize.s1,
-        actionsIconTheme: IconThemeData(
-          size: FontSize.sm,
-        )
-      ),
+          toolbarHeight: AppSize.s60,
+          elevation: AppSize.s1,
+          actionsIconTheme: IconThemeData(
+            size: FontSize.sm,
+          )),
       checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.resolveWith<Color>((states) {
         return Theme.of(context).colorScheme.onPrimary;
@@ -228,9 +227,6 @@ class CustomTheme with ChangeNotifier {
       colorScheme: lightColorScheme,
       appBarTheme: const AppBarTheme(
         elevation: AppSize.s0,
-          actionsIconTheme: IconThemeData(
-            size: FontSize.sm,
-          ),
       ),
       navigationRailTheme: const NavigationRailThemeData(
         selectedIconTheme: IconThemeData(

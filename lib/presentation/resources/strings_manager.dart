@@ -72,4 +72,16 @@ class AppStrings {
   static const String programProjectTitle = 'Program/Project Title';
   static const String totalCostInAbsolutePhp = 'Total Cost in absolute PhP';
   static const String php = 'PHP';
+
+  static const String confirmDelete = 'Confirm Delete';
+  static const String confirm = 'Confirm';
+  static const String cancel = 'Cancel';
+  static const String areYouSureYouWantToDeleteThisPap =
+      'Are you sure you want to delete this PAP?';
+
+  static const String deletePap = 'Delete PAP';
+  static const String delete = 'Delete';
+  static const String ok = 'OK';
+  static const String view = 'View';
+  static const String edit = 'Edit';
 }
