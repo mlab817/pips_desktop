@@ -145,7 +145,19 @@ class _ChatViewState extends State<ChatView> {
                       backgroundColor: ColorManager.darkWhite,
                       child: IconButton(
                         onPressed: () {
-                          _setChatRoom(null);
+                          if (UniversalPlatform.isDesktopOrWeb) {
+                            _setChatRoom(null);
+                          } else {
+                            showModalBottomSheet<void>(
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(AppSize.s10),
+                                ),
+                                builder: (context) {
+                                  return _buildBottomSheet(context);
+                                });
+                          }
                         },
                         icon: const Icon(
                           Icons.mode,
@@ -411,6 +423,57 @@ class _ChatViewState extends State<ChatView> {
               }),
             }
         });
+  }
+
+  Widget _buildBottomSheet(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          leadingWidth: AppSize.s80,
+          leading: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          title: Text(
+            'New message',
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          ),
+          centerTitle: true,
+        ),
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+              prefixText: 'To: ',
+            ),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(AppPadding.md),
+          child: Text(
+            'Suggested',
+            textAlign: TextAlign.start,
+          ),
+        ),
+        const Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Placeholder(
+              child: Center(
+                child: Text('Suggested users'),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void _setChatRoom(chatRoom) {

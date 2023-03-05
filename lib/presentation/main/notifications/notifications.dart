@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/domain/usecase/notifications_usecase.dart';
+import 'package:pips/presentation/resources/sizes_manager.dart';
 
 import '../../../domain/models/notification.dart' as notificationModel;
 import '../../../domain/usecase/base_usecase.dart';
@@ -70,32 +71,42 @@ class _NotificationsViewState extends State<NotificationsView> {
         ),
         _notifications != null
             ? Expanded(
-                child: ListView.builder(
+                child: ListView.separated(
                   itemCount: _notifications?.length ?? 0,
+                  separatorBuilder: (context, index) => const Divider(),
                   itemBuilder: (context, index) {
                     var notifications = _notifications ?? [];
 
                     return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(
-                          notifications[index]
-                              .data
-                              .sender
-                              .substring(0, 2)
-                              .toUpperCase(),
+                      leading: Icon(
+                        Icons.mark_email_unread_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      title: Text(
+                        notifications[index].data.subject,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      title: Text(notifications[index].data.subject),
                       subtitle: Text(
-                        notifications[index].data.message,
-                      ),
-                      trailing: Text(
-                        DateFormat.yMd().add_jms().format(
+                        DateFormat.yMMMd().add_jms().format(
                               DateTime.parse(
                                 notifications[index].createdAt,
                               ),
                             ),
+                        style: const TextStyle(fontSize: FontSize.lg),
                       ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content:
+                                    Text(notifications[index].data.message),
+                              );
+                            });
+                      },
                     );
                   },
                 ),

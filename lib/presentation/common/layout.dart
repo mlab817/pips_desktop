@@ -186,11 +186,11 @@ class _MainLayoutState extends State<MainLayout> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
-          label: 'Notifications',
+          label: 'Notifs',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.more_vert),
-          label: 'More',
+          icon: Icon(Icons.settings),
+          label: 'Settings',
         ),
       ],
     );

@@ -155,7 +155,7 @@ class _ProjectItemState extends State<ProjectItem> {
                               )
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: AppSize.s12),
+                                    horizontal: AppPadding.md),
                                 child: Text(DateFormat.yMMMd().format(
                                     DateTime.parse(widget.project.updatedAt))),
                               ),
