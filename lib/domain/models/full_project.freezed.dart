@@ -60,6 +60,7 @@ mixin _$FullProject {
   @JsonKey(name: "risk")
   String? get risk => throw _privateConstructorUsedError;
   List<int> get agendas => throw _privateConstructorUsedError;
+  List<int> get sdgs => throw _privateConstructorUsedError;
   @JsonKey(name: "funding_source_id")
   int? get fundingSourceId => throw _privateConstructorUsedError;
   @JsonKey(name: "funding_sources")
@@ -121,6 +122,7 @@ abstract class $FullProjectCopyWith<$Res> {
       @JsonKey(name: "pdp_chapters") List<int> pdpChapters,
       @JsonKey(name: "risk") String? risk,
       List<int> agendas,
+      List<int> sdgs,
       @JsonKey(name: "funding_source_id") int? fundingSourceId,
       @JsonKey(name: "funding_sources") List<int> fundingSources,
       @JsonKey(name: "implementation_mode_id") int? implementationModeId,
@@ -173,6 +175,7 @@ class _$FullProjectCopyWithImpl<$Res, $Val extends FullProject>
     Object? pdpChapters = null,
     Object? risk = freezed,
     Object? agendas = null,
+    Object? sdgs = null,
     Object? fundingSourceId = freezed,
     Object? fundingSources = null,
     Object? implementationModeId = freezed,
@@ -290,6 +293,10 @@ class _$FullProjectCopyWithImpl<$Res, $Val extends FullProject>
           ? _value.agendas
           : agendas // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      sdgs: null == sdgs
+          ? _value.sdgs
+          : sdgs // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       fundingSourceId: freezed == fundingSourceId
           ? _value.fundingSourceId
           : fundingSourceId // ignore: cast_nullable_to_non_nullable
@@ -373,6 +380,7 @@ abstract class _$$_FullProjectCopyWith<$Res>
       @JsonKey(name: "pdp_chapters") List<int> pdpChapters,
       @JsonKey(name: "risk") String? risk,
       List<int> agendas,
+      List<int> sdgs,
       @JsonKey(name: "funding_source_id") int? fundingSourceId,
       @JsonKey(name: "funding_sources") List<int> fundingSources,
       @JsonKey(name: "implementation_mode_id") int? implementationModeId,
@@ -423,6 +431,7 @@ class __$$_FullProjectCopyWithImpl<$Res>
     Object? pdpChapters = null,
     Object? risk = freezed,
     Object? agendas = null,
+    Object? sdgs = null,
     Object? fundingSourceId = freezed,
     Object? fundingSources = null,
     Object? implementationModeId = freezed,
@@ -540,6 +549,10 @@ class __$$_FullProjectCopyWithImpl<$Res>
           ? _value._agendas
           : agendas // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      sdgs: null == sdgs
+          ? _value._sdgs
+          : sdgs // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       fundingSourceId: freezed == fundingSourceId
           ? _value.fundingSourceId
           : fundingSourceId // ignore: cast_nullable_to_non_nullable
@@ -633,6 +646,7 @@ class _$_FullProject implements _FullProject {
       @JsonKey(name: "risk")
           this.risk,
       required final List<int> agendas,
+      required final List<int> sdgs,
       @JsonKey(name: "funding_source_id")
           this.fundingSourceId,
       @JsonKey(name: "funding_sources")
@@ -658,6 +672,7 @@ class _$_FullProject implements _FullProject {
         _operatingUnits = operatingUnits,
         _pdpChapters = pdpChapters,
         _agendas = agendas,
+        _sdgs = sdgs,
         _fundingSources = fundingSources;
 
   factory _$_FullProject.fromJson(Map<String, dynamic> json) =>
@@ -753,6 +768,14 @@ class _$_FullProject implements _FullProject {
     return EqualUnmodifiableListView(_agendas);
   }
 
+  final List<int> _sdgs;
+  @override
+  List<int> get sdgs {
+    if (_sdgs is EqualUnmodifiableListView) return _sdgs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sdgs);
+  }
+
   @override
   @JsonKey(name: "funding_source_id")
   final int? fundingSourceId;
@@ -794,7 +817,7 @@ class _$_FullProject implements _FullProject {
 
   @override
   String toString() {
-    return 'FullProject(id: $id, uuid: $uuid, title: $title, typeId: $typeId, regularProgram: $regularProgram, description: $description, totalCost: $totalCost, expectedOutputs: $expectedOutputs, spatialCoverageId: $spatialCoverageId, approvalLevelId: $approvalLevelId, approvalLevelDate: $approvalLevelDate, pip: $pip, pipTypologyId: $pipTypologyId, cip: $cip, cipTypeId: $cipTypeId, trip: $trip, rdip: $rdip, covid: $covid, research: $research, bases: $bases, operatingUnits: $operatingUnits, rdcEndorsementRequired: $rdcEndorsementRequired, pdpChapterId: $pdpChapterId, pdpChapters: $pdpChapters, risk: $risk, agendas: $agendas, fundingSourceId: $fundingSourceId, fundingSources: $fundingSources, implementationModeId: $implementationModeId, projectStatusId: $projectStatusId, categoryId: $categoryId, readinessLevelId: $readinessLevelId, updates: $updates, asOf: $asOf, employmentGenerated: $employmentGenerated, employedMale: $employedMale, employedFemale: $employedFemale)';
+    return 'FullProject(id: $id, uuid: $uuid, title: $title, typeId: $typeId, regularProgram: $regularProgram, description: $description, totalCost: $totalCost, expectedOutputs: $expectedOutputs, spatialCoverageId: $spatialCoverageId, approvalLevelId: $approvalLevelId, approvalLevelDate: $approvalLevelDate, pip: $pip, pipTypologyId: $pipTypologyId, cip: $cip, cipTypeId: $cipTypeId, trip: $trip, rdip: $rdip, covid: $covid, research: $research, bases: $bases, operatingUnits: $operatingUnits, rdcEndorsementRequired: $rdcEndorsementRequired, pdpChapterId: $pdpChapterId, pdpChapters: $pdpChapters, risk: $risk, agendas: $agendas, sdgs: $sdgs, fundingSourceId: $fundingSourceId, fundingSources: $fundingSources, implementationModeId: $implementationModeId, projectStatusId: $projectStatusId, categoryId: $categoryId, readinessLevelId: $readinessLevelId, updates: $updates, asOf: $asOf, employmentGenerated: $employmentGenerated, employedMale: $employedMale, employedFemale: $employedFemale)';
   }
 
   @override
@@ -842,6 +865,7 @@ class _$_FullProject implements _FullProject {
                 .equals(other._pdpChapters, _pdpChapters) &&
             (identical(other.risk, risk) || other.risk == risk) &&
             const DeepCollectionEquality().equals(other._agendas, _agendas) &&
+            const DeepCollectionEquality().equals(other._sdgs, _sdgs) &&
             (identical(other.fundingSourceId, fundingSourceId) ||
                 other.fundingSourceId == fundingSourceId) &&
             const DeepCollectionEquality()
@@ -894,6 +918,7 @@ class _$_FullProject implements _FullProject {
         const DeepCollectionEquality().hash(_pdpChapters),
         risk,
         const DeepCollectionEquality().hash(_agendas),
+        const DeepCollectionEquality().hash(_sdgs),
         fundingSourceId,
         const DeepCollectionEquality().hash(_fundingSources),
         implementationModeId,
@@ -963,6 +988,7 @@ abstract class _FullProject implements FullProject {
       @JsonKey(name: "risk")
           final String? risk,
       required final List<int> agendas,
+      required final List<int> sdgs,
       @JsonKey(name: "funding_source_id")
           final int? fundingSourceId,
       @JsonKey(name: "funding_sources")
@@ -1054,6 +1080,8 @@ abstract class _FullProject implements FullProject {
   String? get risk;
   @override
   List<int> get agendas;
+  @override
+  List<int> get sdgs;
   @override
   @JsonKey(name: "funding_source_id")
   int? get fundingSourceId;

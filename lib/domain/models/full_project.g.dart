@@ -37,6 +37,7 @@ _$_FullProject _$$_FullProjectFromJson(Map<String, dynamic> json) =>
           (json['pdp_chapters'] as List<dynamic>).map((e) => e as int).toList(),
       risk: json['risk'] as String?,
       agendas: (json['agendas'] as List<dynamic>).map((e) => e as int).toList(),
+      sdgs: (json['sdgs'] as List<dynamic>).map((e) => e as int).toList(),
       fundingSourceId: json['funding_source_id'] as int?,
       fundingSources: (json['funding_sources'] as List<dynamic>)
           .map((e) => e as int)
@@ -80,6 +81,7 @@ Map<String, dynamic> _$$_FullProjectToJson(_$_FullProject instance) =>
       'pdp_chapters': instance.pdpChapters,
       'risk': instance.risk,
       'agendas': instance.agendas,
+      'sdgs': instance.sdgs,
       'funding_source_id': instance.fundingSourceId,
       'funding_sources': instance.fundingSources,
       'implementation_mode_id': instance.implementationModeId,

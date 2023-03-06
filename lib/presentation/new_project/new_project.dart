@@ -206,9 +206,9 @@ class _NewProjectViewState extends State<NewProjectView> {
         _getFive(),
         _getSix(),
         _getSeven(),
-        // _getEight(),
+        _getEight(),
         // _getNine(),
-        // _getTen(),
+        _getTen(),
         // _getEleven(),
         // _getTwelve(),
         // _getThirteen(),
@@ -257,6 +257,7 @@ class _NewProjectViewState extends State<NewProjectView> {
       pdpChapters: [],
       agendas: [],
       fundingSources: [],
+      sdgs: [],
     );
   }
 
@@ -752,11 +753,10 @@ class _NewProjectViewState extends State<NewProjectView> {
         ));
   }
 
-  final List<int> _selectedSdgs = [];
-
-  Widget _getEight() {
-    return SingleChildScrollView(
-      child: Column(
+  Step _getEight() {
+    return Step(
+      title: Text(_profileSection[7].title),
+      content: Column(
         children: [
           TextFormField(
             controller: _expectedOutputsController,
@@ -774,59 +774,67 @@ class _NewProjectViewState extends State<NewProjectView> {
     );
   }
 
-  Widget _getTen() {
-    return Column(
-      children: [
-        Text(_selectedSdgs.length.toString()),
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: sdgs.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 8,
-            crossAxisSpacing: AppSize.s8,
-            mainAxisSpacing: AppSize.s8,
-          ),
-          itemBuilder: (context, index) {
-            final sdg = sdgs[index];
-
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  if (!_selectedSdgs.contains(sdg.value)) {
-                    _selectedSdgs.add(sdg.value);
-                  } else {
-                    _selectedSdgs.remove(sdg.value);
-                  }
-                });
-              },
-              child: Stack(
-                children: [
-                  Image.asset(
-                    sdg.image,
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Checkbox(
-                      value: _selectedSdgs.contains(sdg.value),
-                      onChanged: (_) {
-                        setState(() {
-                          if (!_selectedSdgs.contains(sdg.value)) {
-                            _selectedSdgs.add(sdg.value);
-                          } else {
-                            _selectedSdgs.remove(sdg.value);
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+  Step _getTen() {
+    return Step(
+      title: Text(_profileSection[9].title),
+      content: GridView.builder(
+        shrinkWrap: true,
+        itemCount: sdgs.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 8,
+          crossAxisSpacing: AppSize.s8,
+          mainAxisSpacing: AppSize.s8,
         ),
-      ],
+        itemBuilder: (context, index) {
+          final sdg = sdgs[index];
+
+          return InkWell(
+            onTap: () {
+              List<int> selectedSdgs = _project.sdgs.toList();
+
+              setState(() {
+                if (selectedSdgs.contains(sdg.value)) {
+                  selectedSdgs.remove(sdg.value);
+                } else {
+                  selectedSdgs.add(sdg.value);
+                }
+              });
+
+              setState(() {
+                _project = _project.copyWith(sdgs: selectedSdgs);
+              });
+            },
+            child: Stack(
+              children: [
+                Image.asset(
+                  sdg.image,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Checkbox(
+                    value: _project.sdgs.contains(sdg.value),
+                    onChanged: (bool? value) {
+                      List<int> selectedSdgs = _project.sdgs.toList();
+
+                      if (value ?? false) {
+                        selectedSdgs.remove(sdg.value);
+                      } else {
+                        selectedSdgs.add(sdg.value);
+                      }
+
+                      setState(() {
+                        _project = _project.copyWith(sdgs: selectedSdgs);
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
