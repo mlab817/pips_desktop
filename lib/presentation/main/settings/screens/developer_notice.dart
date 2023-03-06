@@ -14,11 +14,10 @@ class _DeveloperNoticeState extends State<DeveloperNotice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !UniversalPlatform.isDesktopOrWeb
-          ? AppBar(
-              title: const Text(AppStrings.developerNotice),
-            )
-          : null,
+      appBar: AppBar(
+        automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
+        title: const Text(AppStrings.developerNotice),
+      ),
       body: const Center(
         child: Text('For any ...'),
       ),

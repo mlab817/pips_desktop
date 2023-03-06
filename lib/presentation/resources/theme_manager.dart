@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme with ChangeNotifier {
   static bool _isDarkTheme = false;
@@ -23,6 +24,7 @@ class CustomTheme with ChangeNotifier {
       scheme: FlexScheme.damask,
       surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
       blendLevel: 9,
+      appBarElevation: 0.5,
       subThemesData: const FlexSubThemesData(
         blendOnLevel: 10,
         blendOnColors: false,
@@ -35,11 +37,12 @@ class CustomTheme with ChangeNotifier {
         bottomNavigationBarElevation: 1.0,
         navigationRailUseIndicator: false,
       ),
-      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      // visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      visualDensity: VisualDensity.compact,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
       // To use the playground font, add GoogleFonts package and uncomment
-      // fontFamily: GoogleFonts.notoSans().fontFamily,
+      fontFamily: GoogleFonts.notoSans().fontFamily,
     );
   }
 
@@ -59,7 +62,8 @@ class CustomTheme with ChangeNotifier {
         bottomNavigationBarElevation: 1.0,
         navigationRailUseIndicator: false,
       ),
-      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      // visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      visualDensity: VisualDensity.compact,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
       // To use the Playground font, add GoogleFonts package and uncomment

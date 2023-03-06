@@ -14,12 +14,14 @@ import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
+import 'package:pips/data/responses/update_profile/update_profile.dart';
 import 'package:pips/data/responses/users/users_response.dart';
 import 'package:pips/domain/models/message.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/base_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
+import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../data_source/local_data_source.dart';
@@ -279,6 +281,21 @@ class RepositoryImplementer implements Repository {
   Future<Result<SignUpResponse>> register(SignUpRequest input) async {
     try {
       final SignUpResponse response = await _remoteDataSource.register(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("error from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<UpdateProfileResponse>> updateProfile(UserProfile input) async {
+    try {
+      final UpdateProfileResponse response =
+          await _remoteDataSource.updateProfile(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 

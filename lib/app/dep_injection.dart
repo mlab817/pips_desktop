@@ -20,6 +20,7 @@ import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:pips/domain/usecase/signup_usecase.dart';
+import 'package:pips/domain/usecase/updateprofile_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,21 +47,21 @@ final GetIt instance = GetIt.instance;
 
 Future<void> initAppModule() async {
   final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+  await SharedPreferences.getInstance();
 
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   instance.registerLazySingleton<AppPreferences>(
-      () => AppPreferencesImplementer(instance()));
+          () => AppPreferencesImplementer(instance()));
 
   instance.registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImplementer(instance()));
+          () => RemoteDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImplementer(instance()));
+          () => LocalDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<Repository>(
-      () => RepositoryImplementer(instance(), instance()));
+          () => RepositoryImplementer(instance(), instance()));
 
   instance.registerLazySingleton<DioFactory>(() => DioFactory(instance()));
 
@@ -87,17 +88,20 @@ Future<void> initAppModule() async {
   instance.registerFactory<ChatRoomUseCase>(() => ChatRoomUseCase(instance()));
 
   instance.registerFactory<CreateChatRoomUseCase>(
-      () => CreateChatRoomUseCase(instance()));
+          () => CreateChatRoomUseCase(instance()));
 
   instance.registerFactory<CreateMessageUseCase>(
-      () => CreateMessageUseCase(instance()));
+          () => CreateMessageUseCase(instance()));
 
   instance.registerFactory<MessagesUseCase>(() => MessagesUseCase(instance()));
 
   instance.registerFactory<NotificationsUseCase>(
-      () => NotificationsUseCase(instance()));
+          () => NotificationsUseCase(instance()));
 
   // await FbMessaging.init();
+
+  instance.registerFactory<UpdateProfileUseCase>(() =>
+      UpdateProfileUseCase(instance()));
 }
 
 initLoginModule() {

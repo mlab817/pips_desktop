@@ -84,4 +84,18 @@ class AppStrings {
   static const String ok = 'OK';
   static const String view = 'View';
   static const String edit = 'Edit';
+  static const String showPassword = 'Show Password';
+  static const String newPassword = 'New Password';
+  static const String currentPassword = 'Current Password';
+  static const String retypePassword = 'Re-type Password';
+  static const String changePassword = 'Change Password';
+  static const String submitted = 'Submitted';
+  static const String contactNo = 'Contact No.';
+  static const String email = 'Email';
+  static const String position = 'Position';
+  static const String lastName = 'Last Name';
+  static const String firstName = 'First Name';
+  static const String markAsRead = 'Mark as read';
+  static const String back = 'Back';
+  static const String clear = 'Clear';
 }

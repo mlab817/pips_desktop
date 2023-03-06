@@ -17,11 +17,10 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !UniversalPlatform.isDesktopOrWeb
-          ? AppBar(
-              title: const Text(AppStrings.notifications),
-            )
-          : null,
+      appBar: AppBar(
+        automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
+        title: const Text(AppStrings.notifications),
+      ),
       body: ListView(
         children: [
           Padding(
@@ -34,10 +33,11 @@ class _NotificationsViewState extends State<NotificationsView> {
                 });
               },
               title: const Text(AppStrings.enableNotifications),
-              subtitle: const Text('For mobile only'),
+              subtitle: const Text('Supported for mobile only'),
               trailing: Switch(
                 value: _notificationsEnabled,
                 onChanged: (bool? value) {
+                  // TODO: make sure that this is handled by the device
                   setState(() {
                     _notificationsEnabled = value ?? false;
                   });

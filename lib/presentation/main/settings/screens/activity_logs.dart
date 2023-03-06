@@ -15,11 +15,10 @@ class _ActivityLogViewState extends State<ActivityLogView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:!UniversalPlatform.isDesktopOrWeb
-          ? AppBar(
-              title: const Text(AppStrings.activityLogs),
-            )
-          : null,
+      appBar: AppBar(
+        automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
+        title: const Text(AppStrings.activityLogs),
+      ),
       body: ListView.builder(
           itemCount: 2,
           itemBuilder: (context, index) {

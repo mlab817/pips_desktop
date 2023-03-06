@@ -9,6 +9,7 @@ import 'package:retrofit/http.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
+import '../../presentation/main/settings/screens/update_profile.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/notifications/notifications_response.dart';
 import '../responses/office_response/office_response.dart';
@@ -17,6 +18,7 @@ import '../responses/options/options_response.dart';
 import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
 import '../responses/register/signup_response.dart';
+import '../responses/update_profile/update_profile.dart';
 import '../responses/users/users_response.dart';
 
 part 'app_api.g.dart';
@@ -33,6 +35,9 @@ abstract class AppServiceClient {
 
   @POST("/auth/forgot-password")
   Future<ForgotPasswordResponse> forgotPassword(@Field("email") String email);
+
+  @POST("/auth/update-profile")
+  Future<UpdateProfileResponse> updateProfile(@Body() UserProfile userProfile);
 
   @GET("/projects")
   Future<ProjectsResponse> getProjects(

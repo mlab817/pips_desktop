@@ -79,39 +79,43 @@ class _OfficeViewState extends State<OfficeView> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         foregroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(_office?.acronym ?? 'Loading...',),
+        title: Text(
+          _office?.acronym ?? 'Loading...',
+        ),
         automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
         elevation: AppSize.s0_5,
         actions: [
-          IconButton(onPressed: () {
-            _showSearch(context);
-          }, icon: const Icon(Icons.search),),
+          IconButton(
+            onPressed: () {
+              _showSearch(context);
+            },
+            icon: const Icon(Icons.search),
+          ),
         ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                final project = _projects![index];
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (BuildContext context, int index) {
+                      final project = _projects![index];
 
-                return ProjectItem(
-                  project: project,
-                );
-              },
-              itemCount: _projects?.length ?? 0,
+                      return ProjectItem(
+                        project: project,
+                      );
+                    },
+                    itemCount: _projects?.length ?? 0,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 
-  void _onTap() {
-
-  }
+  void _onTap() {}
 }
 
 class _SearchProjectDelegate extends SearchDelegate<String> {
@@ -148,10 +152,11 @@ class _SearchProjectDelegate extends SearchDelegate<String> {
     debugPrint("query: $query");
     final results = _projects
         .where((project) =>
-        project.title.toLowerCase().contains(query.toLowerCase()))
+            project.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    return ListView.builder(
+    return ListView.separated(
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: results.length,
         itemBuilder: (BuildContext context, int index) {
           final project = results[index];
@@ -169,7 +174,7 @@ class _SearchProjectDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final suggestions = _projects
         .where((project) =>
-        project.title.toLowerCase().contains(query.toLowerCase()))
+            project.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     return ListView.builder(

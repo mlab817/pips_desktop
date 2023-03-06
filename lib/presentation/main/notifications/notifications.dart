@@ -7,6 +7,7 @@ import 'package:pips/presentation/resources/sizes_manager.dart';
 
 import '../../../domain/models/notification.dart' as notificationModel;
 import '../../../domain/usecase/base_usecase.dart';
+import '../../resources/strings_manager.dart';
 
 class NotificationsView extends StatefulWidget {
   const NotificationsView({super.key});
@@ -57,11 +58,11 @@ class _NotificationsViewState extends State<NotificationsView> {
     return Column(
       children: [
         AppBar(
-          title: const Text('Notifications'),
+          title: const Text(AppStrings.notifications),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-              tooltip: 'Search',
+              tooltip: AppStrings.search,
               onPressed: () async {
                 _showSearch(context);
               },
@@ -80,6 +81,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                     return ListTile(
                       leading: Icon(
                         Icons.mark_email_unread_outlined,
+                        // TODO: if mark as read should return to default
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       title: Text(
@@ -102,8 +104,22 @@ class _NotificationsViewState extends State<NotificationsView> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
+                                icon: const Icon(Icons.mark_email_unread),
                                 content:
                                     Text(notifications[index].data.message),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(AppStrings.cancel)),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // handle mark as read
+                                    },
+                                    child: const Text(AppStrings.markAsRead),
+                                  ),
+                                ],
                               );
                             });
                       },
@@ -132,7 +148,7 @@ class _MySearchDelegate extends SearchDelegate<String> {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        tooltip: 'Clear',
+        tooltip: AppStrings.clear,
         icon: const Icon(Icons.clear),
         onPressed: () {
           // clear the search
@@ -145,7 +161,7 @@ class _MySearchDelegate extends SearchDelegate<String> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      tooltip: 'Back',
+      tooltip: AppStrings.back,
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,

@@ -17,11 +17,10 @@ class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !UniversalPlatform.isDesktopOrWeb
-          ? AppBar(
-              title: const Text(AppStrings.about),
-            )
-          : null,
+      appBar: AppBar(
+        automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
+        title: const Text(AppStrings.about),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(

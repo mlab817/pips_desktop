@@ -228,10 +228,17 @@ class _OfficesViewState extends State<OfficesView> {
             Expanded(
               flex: 3,
               child: _selectedOffice != null
-                  ? OfficeView(officeId: _selectedOffice!.uuid,) //_getProjectsWidget()
+                  ? OfficeView(
+                      officeId: _selectedOffice!.uuid,
+                    ) //_getProjectsWidget()
                   : const Center(
-                      child:
-                          Text('Select office from the left panel to begin.'),
+                      child: Text(
+                        'Select office from the left panel to view details here.',
+                        style: TextStyle(
+                          fontSize: FontSize.xxxl,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
                     ),
             )
         ],
@@ -247,8 +254,7 @@ class _OfficesViewState extends State<OfficesView> {
           title: Text(_selectedOffice?.name ?? ''),
           actions: [
             IconButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               icon: const Icon(Icons.search),
             ),
           ],

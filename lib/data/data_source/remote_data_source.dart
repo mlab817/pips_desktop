@@ -16,11 +16,13 @@ import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
+import '../../presentation/main/settings/screens/update_profile.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/forgot_password/forgot_password.dart';
 import '../responses/messages/messages_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
+import '../responses/update_profile/update_profile.dart';
 import '../responses/users/users_response.dart';
 
 // declare methods to get data from remote data source
@@ -54,6 +56,8 @@ abstract class RemoteDataSource {
   Future<NotificationsResponse> listNotifications();
 
   Future<SignUpResponse> register(SignUpRequest input);
+
+  Future<UpdateProfileResponse> updateProfile(UserProfile input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -136,5 +140,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<SignUpResponse> register(SignUpRequest input) async {
     return await _appServiceClient.register(input);
+  }
+
+  @override
+  Future<UpdateProfileResponse> updateProfile(UserProfile input) async {
+    return await _appServiceClient.updateProfile(input);
   }
 }

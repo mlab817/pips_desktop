@@ -22,6 +22,12 @@ class UserModel {
   @JsonKey(name: "last_name")
   final String? lastName;
 
+  @JsonKey(name: "position")
+  final String? position;
+
+  @JsonKey(name: "contact_number")
+  final String? contactNumber;
+
   String avatar;
 
   UserModel({
@@ -31,6 +37,8 @@ class UserModel {
     required this.email,
     required this.firstName,
     required this.lastName,
+    required this.position,
+    required this.contactNumber,
     avatar,
   }) : avatar = "${firstName?.substring(0, 1)}${lastName?.substring(0, 1)}";
 
