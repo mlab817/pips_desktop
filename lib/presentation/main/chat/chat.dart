@@ -332,7 +332,6 @@ class _ChatViewState extends State<ChatView> {
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
-                          isCollapsed: true,
                         ),
                       );
                     },

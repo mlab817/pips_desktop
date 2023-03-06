@@ -1,7 +1,5 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pips/presentation/resources/color_schemes.g.dart';
-import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class CustomTheme with ChangeNotifier {
   static bool _isDarkTheme = false;
@@ -21,49 +19,51 @@ class CustomTheme with ChangeNotifier {
   }
 
   static ThemeData get lightTheme {
-    return ThemeData(
-      fontFamily: GoogleFonts.inter().fontFamily,
-      colorScheme: lightColorScheme,
-      appBarTheme: AppBarTheme(
-        elevation: AppSize.s0,
-        titleTextStyle: GoogleFonts.creteRound(fontSize: FontSize.xxxl),
+    return FlexThemeData.light(
+      scheme: FlexScheme.damask,
+      surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+      blendLevel: 9,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 10,
+        blendOnColors: false,
+        inputDecoratorRadius: 8.0,
+        inputDecoratorUnfocusedBorderIsColored: false,
+        inputDecoratorBorderWidth: 0.5,
+        inputDecoratorFocusedBorderWidth: 3.0,
+        cardRadius: 8.0,
+        bottomSheetRadius: 8.0,
+        bottomNavigationBarElevation: 1.0,
+        navigationRailUseIndicator: false,
       ),
-      navigationRailTheme: const NavigationRailThemeData(
-        selectedIconTheme: IconThemeData(
-          size: AppSize.s20,
-        ),
-        unselectedIconTheme: IconThemeData(
-          size: AppSize.s20,
-        ),
-      ),
-      textTheme: const TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: AppSize.s18,
-          fontWeight: FontWeight.bold,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: AppSize.s16,
-          fontWeight: FontWeight.bold,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: AppSize.s14,
-          fontWeight: FontWeight.bold,
-        ),
-        bodyLarge: TextStyle(fontSize: AppSize.s18),
-        bodyMedium: TextStyle(fontSize: AppSize.s16),
-        bodySmall: TextStyle(fontSize: AppSize.s14),
-      ),
-      visualDensity: VisualDensity.adaptivePlatformDensity,
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      useMaterial3: true,
+      swapLegacyOnMaterial3: true,
+      // To use the playground font, add GoogleFonts package and uncomment
+      // fontFamily: GoogleFonts.notoSans().fontFamily,
     );
   }
 
   static ThemeData get darkTheme {
-    return ThemeData(
-      fontFamily: GoogleFonts.sourceCodePro().fontFamily,
-      colorScheme: darkColorScheme,
-      appBarTheme: const AppBarTheme(
-        elevation: AppSize.s0,
+    return FlexThemeData.dark(
+      scheme: FlexScheme.damask,
+      surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+      blendLevel: 15,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 20,
+        inputDecoratorRadius: 8.0,
+        inputDecoratorUnfocusedBorderIsColored: false,
+        inputDecoratorBorderWidth: 0.5,
+        inputDecoratorFocusedBorderWidth: 3.0,
+        cardRadius: 8.0,
+        bottomSheetRadius: 8.0,
+        bottomNavigationBarElevation: 1.0,
+        navigationRailUseIndicator: false,
       ),
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      useMaterial3: true,
+      swapLegacyOnMaterial3: true,
+      // To use the Playground font, add GoogleFonts package and uncomment
+      // fontFamily: GoogleFonts.notoSans().fontFamily,
     );
   }
 }
