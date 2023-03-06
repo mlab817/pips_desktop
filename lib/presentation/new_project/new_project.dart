@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:pips/domain/models/full_project.dart';
 import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
-import 'package:pips/presentation/resources/color_manager.dart';
 
 import '../../app/dep_injection.dart';
 import '../../domain/models/options.dart';
@@ -25,6 +24,8 @@ class _NewProjectViewState extends State<NewProjectView> {
   Options? _options;
 
   final PageController _pageController = PageController();
+
+  int _currentStep = 0;
 
   final List<Section> _profileSection = [
     Section(
@@ -197,6 +198,26 @@ class _NewProjectViewState extends State<NewProjectView> {
     });
   }
 
+  List<Step> _stepList() => [
+        _getOne(),
+        _getTwo(),
+        _getThree(),
+        // _getFour(),
+        // _getFive(),
+        // _getSix(),
+        // _getSeven(),
+        // _getEight(),
+        // _getNine(),
+        // _getTen(),
+        // _getEleven(),
+        // _getTwelve(),
+        // _getThirteen(),
+        // _getFourteen(),
+        // _getFifteen(),
+        // _getSixteen(),
+        // _getSeventeen(),
+      ];
+
   @override
   void initState() {
     _loadOptions();
@@ -263,88 +284,62 @@ class _NewProjectViewState extends State<NewProjectView> {
       ),
       body: Row(
         children: <Widget>[
+          // Expanded(
+          //   child: Container(
+          //     padding: const EdgeInsets.all(AppPadding.md),
+          //     decoration: const BoxDecoration(
+          //       border: Border(
+          //         right: BorderSide(width: AppSize.s0_5),
+          //       ),
+          //     ),
+          //     child: ListView.builder(
+          //       itemCount: _profileSection.length,
+          //       itemBuilder: (context, index) {
+          //         final section = _profileSection[index];
+          //
+          //         return ListTile(
+          //           dense: true,
+          //           leading: section.icon,
+          //           trailing: _stepCompleted[index] ?? false
+          //               ? Icon(
+          //                   Icons.check,
+          //                   color: ColorManager.blue,
+          //                 )
+          //               : const Icon(Icons.check),
+          //           title: Text(_profileSection[index].title),
+          //           selected: _currentPage == index,
+          //           onTap: () {
+          //             _pageController.animateToPage(
+          //               index,
+          //               duration: const Duration(milliseconds: 500),
+          //               curve: Curves.easeInOut,
+          //             );
+          //             setState(() {
+          //               _currentPage = index;
+          //             });
+          //           },
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(AppPadding.md),
-              decoration: const BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: AppSize.s0_5),
-                ),
-              ),
-              child: ListView.builder(
-                itemCount: _profileSection.length,
-                itemBuilder: (context, index) {
-                  final section = _profileSection[index];
-
-                  return ListTile(
-                    dense: true,
-                    leading: section.icon,
-                    trailing: _stepCompleted[index] ?? false
-                        ? Icon(
-                            Icons.check,
-                            color: ColorManager.blue,
-                          )
-                        : const Icon(Icons.check),
-                    title: Text(_profileSection[index].title),
-                    selected: _currentPage == index,
-                    onTap: () {
-                      _pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                      setState(() {
-                        _currentPage = index;
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.md),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: _options != null
-                        ? PageView(
-                            controller: _pageController,
-                            scrollDirection: Axis.vertical,
-                            children: [
-                              _getOne(),
-                              _getTwo(),
-                              _getThree(),
-                              _getFour(),
-                              _getFive(),
-                              _getSix(),
-                              _getSeven(),
-                              _getEight(),
-                              _getNine(),
-                              _getTen(),
-                              _getEleven(),
-                              _getTwelve(),
-                              _getThirteen(),
-                              _getFourteen(),
-                              _getFifteen(),
-                              _getSixteen(),
-                              _getSeventeen(),
-                            ],
-                            onPageChanged: (index) {
-                              //
-                              setState(() {
-                                _currentPage = index;
-                              });
-                            },
-                          )
-                        : const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                  ),
-                  // Bottom Arrow Controls
-                ],
+              child: Stepper(
+                steps: _stepList(),
+                onStepContinue: () {
+                  if (_currentStep < (_stepList().length - 1)) {
+                    setState(() {
+                      _currentStep += 1;
+                    });
+                  }
+                },
+                onStepTapped: (int index) {
+                  setState(() {
+                    _currentStep = index;
+                  });
+                },
               ),
             ),
           ),
@@ -353,11 +348,13 @@ class _NewProjectViewState extends State<NewProjectView> {
     );
   }
 
-  Widget _getOne() {
+  Step _getOne() {
     final bases = _options?.bases ?? [];
 
-    return SingleChildScrollView(
-      child: Column(
+    return Step(
+      state: _currentStep <= 0 ? StepState.editing : StepState.complete,
+      isActive: _currentStep >= 0,
+      content: Column(
         children: [
           TextField(
             controller: _titleController,
@@ -391,7 +388,6 @@ class _NewProjectViewState extends State<NewProjectView> {
           ),
           const Spacer(),
           CheckboxListTile(
-            dense: true,
             value: _project.regularProgram,
             onChanged: (bool? value) {
               setState(() {
@@ -399,8 +395,6 @@ class _NewProjectViewState extends State<NewProjectView> {
               });
             },
             title: const Text(AppStrings.regularProgram),
-            controlAffinity: ListTileControlAffinity.leading,
-            activeColor: ColorManager.primary,
           ),
           const Spacer(),
           ListView.builder(
@@ -460,48 +454,52 @@ class _NewProjectViewState extends State<NewProjectView> {
           ),
         ],
       ),
+      title: Text(_profileSection[0].title),
     );
   }
 
-  Widget _getTwo() {
+  Step _getTwo() {
     final operatingUnits = _options?.operatingUnits ?? [];
 
-    return Container(
-      child: GridView.builder(
-        shrinkWrap: true,
-        itemCount: operatingUnits.length,
-        itemBuilder: (context, index) {
-          return CheckboxListTile(
-              selected:
-                  _project.operatingUnits.contains(operatingUnits[index].value),
-              value:
-                  _project.operatingUnits.contains(operatingUnits[index].value),
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(operatingUnits[index].label),
-              onChanged: (bool? value) {
-                List<int> selectedOus = _project.operatingUnits.toList();
-                int currentValue = operatingUnits[index].value;
-                // if bases contains the value
-                if (value ?? false) {
-                  selectedOus.add(currentValue);
-                } else {
-                  selectedOus.remove(currentValue);
-                }
+    return Step(
+        title: Text(_profileSection[1].title),
+        state: _currentStep <= 1 ? StepState.editing : StepState.complete,
+        isActive: _currentStep >= 1,
+        content: GridView.builder(
+          shrinkWrap: true,
+          itemCount: operatingUnits.length,
+          itemBuilder: (context, index) {
+            return CheckboxListTile(
+                selected: _project.operatingUnits
+                    .contains(operatingUnits[index].value),
+                value: _project.operatingUnits
+                    .contains(operatingUnits[index].value),
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text(operatingUnits[index].label),
+                onChanged: (bool? value) {
+                  List<int> selectedOus = _project.operatingUnits.toList();
+                  int currentValue = operatingUnits[index].value;
+                  // if bases contains the value
+                  if (value ?? false) {
+                    selectedOus.add(currentValue);
+                  } else {
+                    selectedOus.remove(currentValue);
+                  }
 
-                setState(() {
-                  _project = _project.copyWith(operatingUnits: selectedOus);
+                  setState(() {
+                    _project = _project.copyWith(operatingUnits: selectedOus);
+                  });
                 });
-              });
-        },
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
-      ),
-    );
+          },
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 6),
+        ));
   }
 
-  Widget _getThree() {
-    return SingleChildScrollView(
-      child: Column(
+  Step _getThree() {
+    return Step(
+      title: Text(_profileSection[2].title),
+      content: Column(
         children: <Widget>[
           // spatial coverage,
           const Padding(

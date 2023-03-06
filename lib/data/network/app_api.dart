@@ -43,6 +43,12 @@ abstract class AppServiceClient {
   Future<ProjectsResponse> getProjects(
       @Query('per_page') int perPage, @Query('page') int page);
 
+  @POST("/projects")
+  Future<void> createProject(); // TODO: implement
+
+  @DELETE("/projects/{uuid}")
+  Future<void> deleteProject(@Path('uuid') String uuid); // TODO: implement
+
   @GET("/offices")
   Future<OfficesResponse> getOffices(
       @Query('per_page') int perPage, @Query('page') int page);

@@ -19,7 +19,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   final TextEditingController _confirmPasswordTextEditingController =
       TextEditingController();
 
-  bool _passwordIsShown = true;
+  bool _passwordIsShown = false;
 
   @override
   void dispose() {
@@ -46,7 +46,6 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 controller: _currentPasswordTextEditingController,
                 obscureText: !_passwordIsShown,
                 decoration: const InputDecoration(
-                  hintText: AppStrings.currentPassword,
                   labelText: AppStrings.currentPassword,
                   prefixIcon: Icon(Icons.key),
                 ),
@@ -60,7 +59,6 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 controller: _newPasswordTextEditingController,
                 obscureText: !_passwordIsShown,
                 decoration: const InputDecoration(
-                  hintText: AppStrings.newPassword,
                   labelText: AppStrings.newPassword,
                   prefixIcon: Icon(Icons.key),
                 ),
@@ -74,7 +72,6 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 controller: _confirmPasswordTextEditingController,
                 obscureText: !_passwordIsShown,
                 decoration: const InputDecoration(
-                  hintText: AppStrings.retypePassword,
                   labelText: AppStrings.retypePassword,
                   prefixIcon: Icon(Icons.key),
                 ),
