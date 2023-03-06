@@ -14,8 +14,6 @@ class CustomTheme with ChangeNotifier {
   void toggleTheme() {
     _isDarkTheme = !_isDarkTheme;
 
-    debugPrint(_isDarkTheme.toString());
-
     notifyListeners();
   }
 
