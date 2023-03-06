@@ -202,10 +202,10 @@ class _NewProjectViewState extends State<NewProjectView> {
         _getOne(),
         _getTwo(),
         _getThree(),
-        // _getFour(),
-        // _getFive(),
-        // _getSix(),
-        // _getSeven(),
+        _getFour(),
+        _getFive(),
+        _getSix(),
+        _getSeven(),
         // _getEight(),
         // _getNine(),
         // _getTen(),
@@ -328,6 +328,7 @@ class _NewProjectViewState extends State<NewProjectView> {
               padding: const EdgeInsets.all(AppPadding.md),
               child: Stepper(
                 steps: _stepList(),
+                currentStep: _currentStep,
                 onStepContinue: () {
                   if (_currentStep < (_stepList().length - 1)) {
                     setState(() {
@@ -398,6 +399,7 @@ class _NewProjectViewState extends State<NewProjectView> {
           ),
           const Spacer(),
           ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: bases.length,
             itemBuilder: (context, index) {
@@ -466,6 +468,7 @@ class _NewProjectViewState extends State<NewProjectView> {
         state: _currentStep <= 1 ? StepState.editing : StepState.complete,
         isActive: _currentStep >= 1,
         content: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: operatingUnits.length,
           itemBuilder: (context, index) {
@@ -539,18 +542,19 @@ class _NewProjectViewState extends State<NewProjectView> {
     );
   }
 
-  Widget _getFour() {
-    return Column(
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.all(AppPadding.md),
-          child: Text(AppStrings.levelOfApproval),
-        ),
-        Column(
-          children: _options?.approvalLevels
-                  ?.map(
-                    (Option option) => Expanded(
-                      child: RadioListTile(
+  Step _getFour() {
+    return Step(
+      title: Text(_profileSection[3].title),
+      content: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.levelOfApproval),
+          ),
+          Column(
+            children: _options?.approvalLevels
+                    ?.map(
+                      (Option option) => RadioListTile(
                           value: option.value,
                           groupValue: _project.approvalLevelId,
                           title: Text(option.label),
@@ -560,35 +564,36 @@ class _NewProjectViewState extends State<NewProjectView> {
                                   _project.copyWith(approvalLevelId: value);
                             });
                           }),
-                    ),
-                  )
-                  .toList() ??
-              [Container()],
-        ),
-        const Divider(),
-        const Padding(
-          padding: EdgeInsets.all(AppPadding.md),
-          child: Text(AppStrings.asOf),
-        ),
-        CalendarDatePicker(
-            initialDate: _project.approvalLevelDate.isNotEmpty
-                ? DateTime.parse(_project.approvalLevelDate)
-                : DateTime.now(),
-            firstDate: DateTime(2023, 1, 1),
-            lastDate: DateTime(2023, 12, 31),
-            onDateChanged: (DateTime dateTime) {
-              setState(() {
-                _project = _project.copyWith(
-                    approvalLevelDate: dateTime.toIso8601String());
-              });
-            }),
-      ],
+                    )
+                    .toList() ??
+                [Container()],
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: Text(AppStrings.asOf),
+          ),
+          CalendarDatePicker(
+              initialDate: _project.approvalLevelDate.isNotEmpty
+                  ? DateTime.parse(_project.approvalLevelDate)
+                  : DateTime.now(),
+              firstDate: DateTime(2023, 1, 1),
+              lastDate: DateTime(2023, 12, 31),
+              onDateChanged: (DateTime dateTime) {
+                setState(() {
+                  _project = _project.copyWith(
+                      approvalLevelDate: dateTime.toIso8601String());
+                });
+              }),
+        ],
+      ),
     );
   }
 
-  Widget _getFive() {
-    return SingleChildScrollView(
-      child: Column(
+  Step _getFive() {
+    return Step(
+      title: Text(_profileSection[4].title),
+      content: Column(
         children: <Widget>[
           const Text(AppStrings.pip),
           CheckboxListTile(
@@ -670,10 +675,11 @@ class _NewProjectViewState extends State<NewProjectView> {
     );
   }
 
-  Widget _getSix() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
+  Step _getSix() {
+    return Step(
+      title: Text(_profileSection[5].title),
+      content: Column(
+        children: [
           const Padding(
             padding: EdgeInsets.all(AppPadding.md),
             child: Text(AppStrings.mainPdpChapter),
@@ -723,25 +729,27 @@ class _NewProjectViewState extends State<NewProjectView> {
     );
   }
 
-  Widget _getSeven() {
-    return Column(
-      children: <Widget>[
-        const Text('Infrastructure Sector'),
-        const Text('Status of Implementation Readiness'),
-        const Text('Implementation Risk and Mitigation Strategies'),
-        TextFormField(
-          controller: _riskController,
-          decoration: const InputDecoration(
-            labelText: 'Implementation Risk and Mitigation Strategies',
-          ),
-          onChanged: (String? value) {
-            setState(() {
-              _project = _project.copyWith(risk: value ?? '');
-            });
-          },
-        ),
-      ],
-    );
+  Step _getSeven() {
+    return Step(
+        title: Text(_profileSection[6].title),
+        content: Column(
+          children: [
+            const Text('Infrastructure Sector'),
+            const Text('Status of Implementation Readiness'),
+            const Text('Implementation Risk and Mitigation Strategies'),
+            TextFormField(
+              controller: _riskController,
+              decoration: const InputDecoration(
+                labelText: 'Implementation Risk and Mitigation Strategies',
+              ),
+              onChanged: (String? value) {
+                setState(() {
+                  _project = _project.copyWith(risk: value ?? '');
+                });
+              },
+            ),
+          ],
+        ));
   }
 
   final List<int> _selectedSdgs = [];
