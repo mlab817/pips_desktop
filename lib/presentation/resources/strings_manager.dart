@@ -98,4 +98,6 @@ class AppStrings {
   static const String markAsRead = 'Mark as read';
   static const String back = 'Back';
   static const String clear = 'Clear';
+  static const String rightOfWay = 'Right of Way';
+  static const String resettlementActionPlan = 'Resettlement Action Plan';
 }
