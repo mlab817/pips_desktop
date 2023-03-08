@@ -38,6 +38,17 @@ _$_FullProject _$$_FullProjectFromJson(Map<String, dynamic> json) =>
       risk: json['risk'] as String?,
       agendas: (json['agendas'] as List<dynamic>).map((e) => e as int).toList(),
       sdgs: (json['sdgs'] as List<dynamic>).map((e) => e as int).toList(),
+      prerequisites: (json['prerequisites'] as List<dynamic>)
+          .map((e) => e as int)
+          .toList(),
+      locations:
+          (json['locations'] as List<dynamic>).map((e) => e as int).toList(),
+      infrastructureSectors: (json['infrastructure_sectors'] as List<dynamic>)
+          .map((e) => e as int)
+          .toList(),
+      fundingInstitutions: (json['funding_institutions'] as List<dynamic>)
+          .map((e) => e as int)
+          .toList(),
       fundingSourceId: json['funding_source_id'] as int?,
       fundingSources: (json['funding_sources'] as List<dynamic>)
           .map((e) => e as int)
@@ -82,6 +93,10 @@ Map<String, dynamic> _$$_FullProjectToJson(_$_FullProject instance) =>
       'risk': instance.risk,
       'agendas': instance.agendas,
       'sdgs': instance.sdgs,
+      'prerequisites': instance.prerequisites,
+      'locations': instance.locations,
+      'infrastructure_sectors': instance.infrastructureSectors,
+      'funding_institutions': instance.fundingInstitutions,
       'funding_source_id': instance.fundingSourceId,
       'funding_sources': instance.fundingSources,
       'implementation_mode_id': instance.implementationModeId,

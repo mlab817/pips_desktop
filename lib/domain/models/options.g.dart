@@ -147,9 +147,11 @@ Map<String, dynamic> _$OptionsToJson(Options instance) => <String, dynamic>{
 Option _$OptionFromJson(Map<String, dynamic> json) => Option(
       value: json['value'] as int,
       label: json['label'] as String,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$OptionToJson(Option instance) => <String, dynamic>{
       'value': instance.value,
       'label': instance.label,
+      'description': instance.description,
     };

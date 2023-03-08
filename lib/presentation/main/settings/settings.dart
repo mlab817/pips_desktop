@@ -101,7 +101,6 @@ class _SettingsViewState extends State<SettingsView> {
                       itemCount: _listMenu.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          dense: true,
                           selected: _selectedIndex == index,
                           leading: _listMenu[index].icon,
                           title: Text(_listMenu[index].title),

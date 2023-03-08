@@ -38,35 +38,20 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: const Text(AppStrings.appName),
-      //   elevation: AppSize.s4,
-      //   actions: [
-      //     IconButton(
-      //         icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
-      //             ? Icons.dark_mode
-      //             : Icons.light_mode),
-      //         onPressed: () {
-      //           MyApp.themeNotifier.value =
-      //               MyApp.themeNotifier.value == ThemeMode.light
-      //                   ? ThemeMode.dark
-      //                   : ThemeMode.light;
-      //         })
-      //   ],
-      // ),
       body: Row(
         children: [
           if (UniversalPlatform.isDesktopOrWeb) _buildNavigationRail(),
           Expanded(child: widget.child),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.newProjectRoute);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: UniversalPlatform.isDesktopOrWeb
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.newProjectRoute);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       bottomNavigationBar:
           (UniversalPlatform.isIOS || UniversalPlatform.isAndroid)
               ? _buildBottomNavigator()
@@ -129,6 +114,14 @@ class _MainLayoutState extends State<MainLayout> {
                 NavigationRailDestination(
                   icon: Icon(
                     selectedIndex == 4
+                        ? Icons.download
+                        : Icons.download_outlined,
+                  ),
+                  label: const Text(AppStrings.downloads),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    selectedIndex == 5
                         ? Icons.settings
                         : Icons.settings_outlined,
                   ),
@@ -169,25 +162,34 @@ class _MainLayoutState extends State<MainLayout> {
   Widget _buildBottomNavigator() {
     return BottomNavigationBar(
       currentIndex: widget.activeIndex,
+      elevation: AppSize.s10,
       onTap: widget.onChange,
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.dashboard),
-          label: 'Dashboard',
+          icon: Icon(Icons.home),
+          label: 'Home',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.work),
-          label: 'Offices',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.work),
+        //   label: 'Offices',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble),
           label: 'Chat',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          label: 'Notifs',
+          icon: Icon(Icons.add),
+          label: 'New',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.notifications),
+          label: 'Notifications',
+        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.download),
+        //   label: 'Downloads',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: 'Settings',

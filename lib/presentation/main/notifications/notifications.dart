@@ -55,84 +55,77 @@ class _NotificationsViewState extends State<NotificationsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text(AppStrings.notifications),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              tooltip: AppStrings.search,
-              onPressed: () async {
-                _showSearch(context);
-              },
-              icon: const Icon(Icons.search),
-            ),
-          ],
-        ),
-        _notifications != null
-            ? Expanded(
-                child: ListView.separated(
-                  itemCount: _notifications?.length ?? 0,
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemBuilder: (context, index) {
-                    var notifications = _notifications ?? [];
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.notifications),
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            tooltip: AppStrings.search,
+            onPressed: () async {
+              _showSearch(context);
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
+      body: _notifications != null
+          ? ListView.separated(
+              itemCount: _notifications?.length ?? 0,
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, index) {
+                var notifications = _notifications ?? [];
 
-                    return ListTile(
-                      leading: Icon(
-                        Icons.mark_email_unread_outlined,
-                        // TODO: if mark as read should return to default
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      title: Text(
-                        notifications[index].data.subject,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).colorScheme.primary,
+                return ListTile(
+                  leading: Icon(
+                    Icons.mark_email_unread_outlined,
+                    // TODO: if mark as read should return to default
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: Text(
+                    notifications[index].data.subject,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  subtitle: Text(
+                    DateFormat.yMMMd().add_jms().format(
+                          DateTime.parse(
+                            notifications[index].createdAt,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        DateFormat.yMMMd().add_jms().format(
-                              DateTime.parse(
-                                notifications[index].createdAt,
+                    style: const TextStyle(fontSize: FontSize.lg),
+                  ),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            icon: const Icon(Icons.mark_email_unread),
+                            content: Text(notifications[index].data.message),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(AppStrings.cancel)),
+                              ElevatedButton(
+                                onPressed: () {
+                                  // handle mark as read
+                                },
+                                child: const Text(AppStrings.markAsRead),
                               ),
-                            ),
-                        style: const TextStyle(fontSize: FontSize.lg),
-                      ),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                icon: const Icon(Icons.mark_email_unread),
-                                content:
-                                    Text(notifications[index].data.message),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(AppStrings.cancel)),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // handle mark as read
-                                    },
-                                    child: const Text(AppStrings.markAsRead),
-                                  ),
-                                ],
-                              );
-                            });
-                      },
-                    );
+                            ],
+                          );
+                        });
                   },
-                ),
-              )
-            : const Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-      ],
+                );
+              },
+            )
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 }

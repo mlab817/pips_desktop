@@ -152,10 +152,14 @@ class Option {
 
   @JsonKey(name: "label")
   String label;
+  
+  @JsonKey(name: "description")
+  String? description;
 
   Option({
     required this.value,
     required this.label,
+    this.description,
   });
 
   factory Option.fromJson(Map<String, dynamic> json) => _$OptionFromJson(json);

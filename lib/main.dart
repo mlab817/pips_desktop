@@ -34,7 +34,7 @@ void main(List<String> args) async {
 
   if (!UniversalPlatform.isDesktopOrWeb) {
     await Firebase.initializeApp(
-      // name: 'default',
+      name: 'default',
       options: DefaultFirebaseOptions.currentPlatform,
     );
 

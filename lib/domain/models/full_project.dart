@@ -35,6 +35,12 @@ class FullProject with _$FullProject {
     @JsonKey(name: "risk") String? risk,
     required List<int> agendas,
     required List<int> sdgs,
+    required List<int> prerequisites,
+    required List<int> locations,
+    @JsonKey(name: "infrastructure_sectors")
+        required List<int> infrastructureSectors,
+    @JsonKey(name: "funding_institutions")
+        required List<int> fundingInstitutions,
     @JsonKey(name: "funding_source_id") int? fundingSourceId,
     @JsonKey(name: "funding_sources") required List<int> fundingSources,
     @JsonKey(name: "implementation_mode_id") int? implementationModeId,

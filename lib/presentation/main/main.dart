@@ -5,12 +5,13 @@ import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/presentation/common/layout.dart';
 import 'package:pips/presentation/main/chat/chat.dart';
-import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/notifications/notifications.dart';
 import 'package:pips/presentation/main/offices/offices.dart';
+import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
 
 import '../../app/dep_injection.dart';
+import 'downloads/downloads.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -34,10 +35,11 @@ class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
 
   final List<Widget> _views = [
-    const DashboardView(),
+    const ProjectsView(),
     const OfficesView(),
     const ChatView(),
     const NotificationsView(),
+    const DownloadsView(),
     const SettingsView(),
   ];
 
@@ -91,54 +93,10 @@ class _MainViewState extends State<MainView> {
       activeIndex: _selectedIndex,
       child: _views[_selectedIndex],
     );
-    // return Scaffold(
-    //   body: Row(
-    //     children: [
-    //       if (Platform.isMacOS || Platform.isLinux || Platform.isWindows)
-    //         _getNavigationRail(),
-    //       Expanded(child: _views[_selectedIndex]),
-    //     ],
-    //   ),
-    //   floatingActionButton: FloatingActionButton(
-    //     onPressed: () {
-    //       Navigator.pushNamed(context, Routes.newProjectRoute);
-    //     },
-    //     child: const Icon(Icons.add),
-    //   ),
-    //   bottomNavigationBar: (Platform.isIOS || Platform.isAndroid)
-    //       ? BottomNavigationBar(
-    //           currentIndex: _selectedIndex,
-    //           onTap: (index) {
-    //             setState(() {
-    //               _selectedIndex = index;
-    //             });
-    //           },
-    //           type: BottomNavigationBarType.fixed,
-    //           items: const <BottomNavigationBarItem>[
-    //             BottomNavigationBarItem(
-    //               icon: Icon(Icons.dashboard),
-    //               label: 'Dashboard',
-    //             ),
-    //             BottomNavigationBarItem(
-    //               icon: Icon(Icons.view_column),
-    //               label: 'Projects',
-    //             ),
-    //             BottomNavigationBarItem(
-    //               icon: Icon(Icons.info_outline),
-    //               label: 'About',
-    //             ),
-    //             BottomNavigationBarItem(
-    //               icon: Icon(Icons.settings),
-    //               label: 'Settings',
-    //             ),
-    //           ],
-    //         )
-    //       : null,
-    // );
   }
 
   void _onDestinationSelected(int index) {
-    if (index == 5) {
+    if (index == 6) {
       _appPreferences.clear();
       resetModules();
 

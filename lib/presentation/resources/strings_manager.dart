@@ -48,7 +48,7 @@ class AppStrings {
   static const String selectDate = 'Select date';
   static const String attachments = 'Attachments';
   static const String employmentGenerated = 'Employment Generated';
-  static const String socioeconomicAgenda = 'Socioeconomic Agenda';
+  static const String socioeconomicAgenda = '8-Point Socioeconomic Agenda';
   static const String expectedOutputs = 'Expected Outputs/Deliverables';
   static const String otherPdpChapters = 'Other PDP Chapters';
   static const String mainPdpChapter = 'Main PDP Chapter';
@@ -100,4 +100,7 @@ class AppStrings {
   static const String clear = 'Clear';
   static const String rightOfWay = 'Right of Way';
   static const String resettlementActionPlan = 'Resettlement Action Plan';
+  static const String sustainableDevelopmentGoals =
+      'Sustainable Development Goals';
+  static const String downloads = 'Downloads';
 }

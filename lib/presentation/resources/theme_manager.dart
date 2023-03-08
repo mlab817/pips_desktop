@@ -1,6 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class CustomTheme with ChangeNotifier {
   static bool _isDarkTheme = false;
@@ -23,6 +24,12 @@ class CustomTheme with ChangeNotifier {
       surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
       blendLevel: 9,
       appBarElevation: 0.5,
+      textTheme: const TextTheme(
+        // used for subtitle in list tile
+        bodyMedium: TextStyle(
+          fontSize: FontSize.lg,
+        ),
+      ),
       subThemesData: const FlexSubThemesData(
         blendOnLevel: 10,
         blendOnColors: false,

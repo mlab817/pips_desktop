@@ -89,6 +89,7 @@ class RouteGenerator {
       case Routes.notificationRoute:
         return MaterialPageRoute(builder: (_) => const NotificationsView());
       case Routes.viewProjectRoute:
+        initProjectModule();
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
       case Routes.newProjectRoute:

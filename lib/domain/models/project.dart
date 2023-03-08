@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'attribute.dart';
+
 part 'project.g.dart';
 
 @JsonSerializable()
@@ -11,7 +13,7 @@ class Project {
   String title;
 
   @JsonKey(name: "total_cost")
-  double totalCost;
+  double? totalCost;
 
   @JsonKey(name: "passes_validation")
   int passesValidation;
@@ -25,14 +27,22 @@ class Project {
   @JsonKey(name: "pipol_code")
   String? pipolCode;
 
+  @JsonKey(name: "description")
+  String? description;
+
+  @JsonKey(name: "spatial_coverage")
+  Attribute? spatialCoverage;
+
   Project({
     required this.uuid,
     required this.title,
-    required this.totalCost,
+    this.totalCost,
     required this.passesValidation,
     required this.isLocked,
     required this.updatedAt,
     this.pipolCode,
+    this.description,
+    this.spatialCoverage,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) =>
