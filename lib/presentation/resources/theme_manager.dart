@@ -26,8 +26,23 @@ class CustomTheme with ChangeNotifier {
       appBarElevation: 0.5,
       textTheme: const TextTheme(
         // used for subtitle in list tile
+        titleLarge: TextStyle(
+          fontSize: FontSize.xxl,
+        ),
+        titleMedium: TextStyle(
+          fontSize: FontSize.xl,
+        ),
+        titleSmall: TextStyle(
+          fontSize: FontSize.lg,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: FontSize.xl,
+        ),
         bodyMedium: TextStyle(
           fontSize: FontSize.lg,
+        ),
+        bodySmall: TextStyle(
+          fontSize: FontSize.md,
         ),
       ),
       subThemesData: const FlexSubThemesData(
@@ -40,14 +55,18 @@ class CustomTheme with ChangeNotifier {
         cardRadius: 8.0,
         bottomSheetRadius: 8.0,
         bottomNavigationBarElevation: 1.0,
-        navigationRailUseIndicator: false,
+        navigationRailUseIndicator: true,
+        thickBorderWidth: 4.0,
+        thinBorderWidth: 0.5,
+        buttonPadding: EdgeInsets.all(AppPadding.md),
+        fabRadius: 50.0,
       ),
       // visualDensity: FlexColorScheme.comfortablePlatformDensity,
       visualDensity: VisualDensity.compact,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
       // To use the playground font, add GoogleFonts package and uncomment
-      fontFamily: GoogleFonts.notoSans().fontFamily,
+      fontFamily: GoogleFonts.mavenPro().fontFamily,
     );
   }
 

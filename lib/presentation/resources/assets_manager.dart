@@ -22,4 +22,6 @@ class AssetsManager {
   static const String sdg15 = "assets/images/sdgs/E-WEB-Goal-15.png";
   static const String sdg16 = "assets/images/sdgs/E-WEB-Goal-16.png";
   static const String sdg17 = "assets/images/sdgs/E-WEB-Goal-17.png";
+
+  static const String defaultAvatar = "assets/images/default_avatar.jpeg";
 }

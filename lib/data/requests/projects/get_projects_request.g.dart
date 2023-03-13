@@ -10,10 +10,12 @@ GetProjectsRequest _$GetProjectsRequestFromJson(Map<String, dynamic> json) =>
     GetProjectsRequest(
       perPage: json['per_page'] as int? ?? 25,
       page: json['page'] as int? ?? 1,
+      q: json['q'] as String?,
     );
 
 Map<String, dynamic> _$GetProjectsRequestToJson(GetProjectsRequest instance) =>
     <String, dynamic>{
       'per_page': instance.perPage,
       'page': instance.page,
+      'q': instance.q,
     };

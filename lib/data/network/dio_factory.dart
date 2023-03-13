@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:event_bus/event_bus.dart';
 
 import '../../app/config.dart';
 import '../../app/dep_injection.dart';
@@ -49,10 +49,10 @@ class DioFactory {
       dio.interceptors.add(PrettyDioLogger(
         request: true,
         // requestHeader: true,
-        // requestBody: true,
-        responseBody: false,
+        requestBody: true,
+        // responseBody: false,
         // responseHeader: true,
-        // responseBody: true,
+        responseBody: true,
         compact: true,
         error: true,
       ));

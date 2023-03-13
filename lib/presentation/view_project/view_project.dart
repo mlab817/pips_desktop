@@ -4,6 +4,7 @@ import 'package:pips/app/dep_injection.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
+import '../../app/routes.dart';
 import '../../domain/models/project.dart';
 
 class ViewProjectView extends StatefulWidget {
@@ -85,14 +86,9 @@ class _ViewProjectViewState extends State<ViewProjectView> {
             padding: const EdgeInsets.all(AppPadding.xl),
             child: ElevatedButton(
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        icon: const Icon(Icons.dashboard_outlined),
-                        title: Text(_project?.title ?? ''),
-                      );
-                    });
+                //
+                Navigator.pushNamed(context, Routes.viewPdfRoute,
+                    arguments: widget.uuid);
               },
               child: const Text('View PDF'),
             ),

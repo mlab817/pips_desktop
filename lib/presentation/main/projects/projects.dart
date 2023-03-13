@@ -5,8 +5,15 @@ import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/domain/models/project.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
+import 'package:pips/presentation/common/project_item.dart';
+import 'package:pips/presentation/main/projects/search_projects.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:skeletons/skeletons.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../app/routes.dart';
+import '../../resources/sizes_manager.dart';
+import '../../resources/strings_manager.dart';
 
 class ProjectsView extends StatefulWidget {
   const ProjectsView({Key? key}) : super(key: key);
@@ -18,45 +25,71 @@ class ProjectsView extends StatefulWidget {
 class _ProjectsViewState extends State<ProjectsView>
     with AutomaticKeepAliveClientMixin {
   final ProjectsUseCase _projectsUseCase = instance<ProjectsUseCase>();
-  late ScrollController _scrollController;
+  final ScrollController _scrollController = ScrollController();
 
   final List<Project> _projects = [];
-  String? _error;
   int _currentPage = 1;
   int _lastPage = 1;
   bool _loading = true;
+  String? _error;
 
-  get _isLast {
-    return _lastPage >= _currentPage;
+  bool get _isLast {
+    return _currentPage == _lastPage;
   }
 
   Future<void> _loadProjects() async {
-    setState(() {
-      _loading = true;
-    });
-
+    debugPrint("loading page ${_currentPage.toString()}");
     final response =
-        await _projectsUseCase.execute(GetProjectsRequest(page: _currentPage));
+    await _projectsUseCase.execute(GetProjectsRequest(page: _currentPage));
 
-    setState(() {
+    if (mounted) {
       if (response.success) {
-        _projects.addAll(response.data?.data ?? []);
-        _lastPage = response.data?.meta.pagination.last ?? 1;
-        _loading = false;
-        _currentPage++;
+        setState(() {
+          _lastPage = response.data?.meta.pagination.last ?? 1;
+          debugPrint(_lastPage.toString());
+          _loading = false;
+          _currentPage++;
+          _projects.addAll(response.data?.data ?? []);
+        });
       } else {
-        _error = response.error;
+        setState(() {
+          _error = response.error;
+          _loading = false;
+        });
       }
-    });
+    }
   }
 
   @override
   void initState() {
     super.initState();
 
-    _scrollController = ScrollController();
-
     _loadProjects();
+
+    _scrollController.addListener(() {
+      var nextPageTrigger = 0.8 * _scrollController.position.maxScrollExtent;
+
+      if (_scrollController.position.pixels > nextPageTrigger) {
+        if (_loading) {
+          debugPrint("loading is true so not loading next page");
+          return;
+        }
+
+        if (_isLast) {
+          debugPrint("last page reached");
+          return;
+        }
+
+        debugPrint('next page called');
+
+        // setState(() {
+        _loading = true;
+        // });
+
+        // if already in the last page, do not load next page
+        _loadProjects();
+      }
+    });
   }
 
   @override
@@ -68,53 +101,167 @@ class _ProjectsViewState extends State<ProjectsView>
 
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(() {
-      var nextPageTrigger = 0.8 * _scrollController.position.maxScrollExtent;
-
-      if (_scrollController.position.pixels > nextPageTrigger &&
-          !_loading &&
-          !_isLast) {
-        debugPrint('next page called');
-        _loadProjects();
-      }
-    });
+    super.build(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text(AppStrings.home),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+        actions: [_buildSearchAction()],
+      ),
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    //
+
+    // first time loading - show big loading indicator
+    if (_projects.isEmpty) {
+      if (_loading) {
+        return _buildLoader();
+      }
+      if (_error != null) {
+        return _buildError(); // TODO: Add retry button
+      }
+      return const Center(
+        child: Text('No data'),
+      );
+    }
+    // first time error - show big error with retry
+    // succeeding loading - show loading as another list item
+    // succeeding error - show error as another list item
+    if (_projects.isNotEmpty) {
+      return ListView.separated(
+        controller: _scrollController,
+        itemCount: _projects.length + 1,
+        itemBuilder: (context, index) {
+          if (index == _projects.length) {
+            return _loading
+                ? const SizedBox(
+                height: AppSize.s40,
+                child: Center(child: CircularProgressIndicator()))
+                : (_error != null)
+                ? _buildError()
+                : Container();
+          }
+
+          final project = _projects[index];
+
+          if (UniversalPlatform.isDesktopOrWeb) {
+            return ProjectItem(project: project);
+          }
+
+          return ListTile(
+            title: Text(
+              project.title,
+              maxLines: 2,
+              style: TextStyle(color: Theme
+                  .of(context)
+                  .primaryColor),
+            ),
+            isThreeLine: true,
+            subtitle: Text(project.pipolCode ?? ''),
+            trailing: project.totalCost != null
+                ? Text("${(project.totalCost! / pow(10, 6)).toString()} M")
+                : null,
+            onTap: () {
+              Navigator.pushNamed(context, Routes.viewProjectRoute,
+                  arguments: project.uuid);
+            },
+          );
+        },
+        separatorBuilder: (context, index) =>
+            Divider(
+              color: Theme
+                  .of(context)
+                  .dividerColor,
+            ),
+      );
+    }
+
+    return Container();
+  }
+
+  Widget _buildError() {
+    return Center(
+      child: Column(
+        children: [
+          Text(_error!),
+          ElevatedButton(
+            onPressed: _loadProjects,
+            child: const Text('Retry'),
+          ),
         ],
       ),
-      body: _projects.isNotEmpty
-          ? ListView.separated(
-              controller: _scrollController,
-              itemCount: _projects!.length,
-              itemBuilder: (context, index) {
-                final project = _projects![index];
+    );
+  }
 
-                return ListTile(
-                  title: Text(
-                    project.title,
-                    maxLines: 2,
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                  isThreeLine: true,
-                  subtitle: Text(project.pipolCode ?? ''),
-                  trailing: Text(
-                      "${(project.totalCost ?? 0 / pow(10, 6)).toString()} M"),
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.viewProjectRoute,
-                        arguments: project.uuid);
-                  },
-                );
-              },
-              separatorBuilder: (context, index) => Divider(
-                color: Theme.of(context).dividerColor,
-              ),
-            )
-          : const Center(child: CircularProgressIndicator()),
+  Widget _buildSearchAction() {
+    return IconButton(
+      onPressed: () {
+        showSearch(
+          context: context,
+          delegate: SearchProjects(projects: _projects),
+        );
+      },
+      icon: const Icon(Icons.search),
+    );
+  }
+
+  Widget _buildList() {
+    return ListView.separated(
+      controller: _scrollController,
+      itemCount: _projects.length,
+      itemBuilder: (context, index) {
+        final project = _projects[index];
+
+        if (UniversalPlatform.isDesktopOrWeb) {
+          return ProjectItem(project: project);
+        }
+
+        return ListTile(
+          title: Text(
+            project.title,
+            maxLines: 2,
+            style: TextStyle(color: Theme
+                .of(context)
+                .primaryColor),
+          ),
+          isThreeLine: true,
+          subtitle: Text(project.pipolCode ?? ''),
+          trailing: project.totalCost != null
+              ? Text("${(project.totalCost! / pow(10, 6)).toString()} M")
+              : null,
+          onTap: () {
+            Navigator.pushNamed(context, Routes.viewProjectRoute,
+                arguments: project.uuid);
+          },
+        );
+      },
+      separatorBuilder: (context, index) =>
+          Divider(
+            color: Theme
+                .of(context)
+                .dividerColor,
+          ),
+    );
+  }
+
+  Widget _buildLoader() {
+    return SingleChildScrollView(
+      child: SkeletonLoader(
+        builder: ListView.builder(
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(AppPadding.md),
+              child: SkeletonListTile(hasSubtitle: true),
+            );
+          },
+        ),
+      ),
     );
   }
 

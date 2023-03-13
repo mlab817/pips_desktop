@@ -15,9 +15,6 @@ class Project {
   @JsonKey(name: "total_cost")
   double? totalCost;
 
-  @JsonKey(name: "passes_validation")
-  int passesValidation;
-
   @JsonKey(name: "is_locked")
   bool isLocked;
 
@@ -37,7 +34,6 @@ class Project {
     required this.uuid,
     required this.title,
     this.totalCost,
-    required this.passesValidation,
     required this.isLocked,
     required this.updatedAt,
     this.pipolCode,

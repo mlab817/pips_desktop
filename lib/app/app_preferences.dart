@@ -20,6 +20,8 @@ abstract class AppPreferences {
 
   Future<UserModel?> getLoggedInUser();
 
+  Future<bool> setLoggedInUser(UserModel userModel);
+
   Future<bool> clear();
 }
 
@@ -61,5 +63,10 @@ class AppPreferencesImplementer implements AppPreferences {
   @override
   Future<bool> getIsOnboardingScreenViewed() async {
     return _sharedPreferences.getBool(isOnboardingScreenViewed) ?? false;
+  }
+
+  @override
+  Future<bool> setLoggedInUser(UserModel userModel) async {
+    return _sharedPreferences.setString(loggedInUser, jsonEncode(userModel));
   }
 }

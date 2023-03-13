@@ -12,6 +12,7 @@ class UpdatePassword extends StatefulWidget {
 }
 
 class _UpdatePasswordState extends State<UpdatePassword> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _currentPasswordTextEditingController =
       TextEditingController();
   final TextEditingController _newPasswordTextEditingController =
@@ -37,69 +38,92 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
         title: const Text(AppStrings.updatePassword),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: AppPadding.lg),
-        child: Column(
-          children: [
-            ListTile(
-              title: TextFormField(
-                controller: _currentPasswordTextEditingController,
-                obscureText: !_passwordIsShown,
-                decoration: const InputDecoration(
-                  labelText: AppStrings.currentPassword,
-                  prefixIcon: Icon(Icons.key),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(AppPadding.md),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _currentPasswordTextEditingController,
+                  obscureText: !_passwordIsShown,
+                  decoration: const InputDecoration(
+                    labelText: AppStrings.currentPassword,
+                    prefixIcon: Icon(Icons.key),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.thisFieldIsRequired;
+                    }
+                    return null;
+                  },
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            ListTile(
-              title: TextFormField(
-                controller: _newPasswordTextEditingController,
-                obscureText: !_passwordIsShown,
-                decoration: const InputDecoration(
-                  labelText: AppStrings.newPassword,
-                  prefixIcon: Icon(Icons.key),
+                const SizedBox(
+                  height: AppSize.s20,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            ListTile(
-              title: TextFormField(
-                controller: _confirmPasswordTextEditingController,
-                obscureText: !_passwordIsShown,
-                decoration: const InputDecoration(
-                  labelText: AppStrings.retypePassword,
-                  prefixIcon: Icon(Icons.key),
+                TextFormField(
+                  controller: _newPasswordTextEditingController,
+                  obscureText: !_passwordIsShown,
+                  decoration: const InputDecoration(
+                    labelText: AppStrings.newPassword,
+                    prefixIcon: Icon(Icons.key),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.thisFieldIsRequired;
+                    }
+                    return null;
+                  },
                 ),
-              ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                TextFormField(
+                  controller: _confirmPasswordTextEditingController,
+                  obscureText: !_passwordIsShown,
+                  decoration: const InputDecoration(
+                    labelText: AppStrings.retypePassword,
+                    prefixIcon: Icon(Icons.key),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.thisFieldIsRequired;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                CheckboxListTile(
+                  value: _passwordIsShown,
+                  title: const Text(AppStrings.showPassword),
+                  onChanged: (value) {
+                    setState(() {
+                      _passwordIsShown = value ?? false;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                SizedBox(
+                  height: AppSize.s36,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Validated!')));
+                      }
+                      return;
+                    },
+                    child: const Text(AppStrings.submit),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            CheckboxListTile(
-              value: _passwordIsShown,
-              title: const Text(AppStrings.showPassword),
-              onChanged: (value) {
-                setState(() {
-                  _passwordIsShown = value ?? false;
-                });
-              },
-            ),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            SizedBox(
-              height: AppSize.s36,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text(AppStrings.submit),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

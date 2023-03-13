@@ -4,6 +4,7 @@ import 'package:pips/presentation/auth/sign_up/sign_up.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/main/office/office.dart';
+import 'package:pips/presentation/main/search_results/search_results.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
 import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
@@ -14,6 +15,7 @@ import 'package:pips/presentation/new_project/new_project.dart';
 import 'package:pips/presentation/onboarding/onboarding.dart';
 import 'package:pips/presentation/project/project.dart';
 import 'package:pips/presentation/splash/splash.dart';
+import 'package:pips/presentation/view_pdf/view_pdf.dart';
 import 'package:pips/presentation/view_project/view_project.dart';
 
 import '../presentation/auth/forgot_password/forgot_password.dart';
@@ -38,6 +40,8 @@ class Routes {
   static const String notificationRoute = "/notification";
   static const String activityLogRoute = "/activity-log";
   static const String developerNoticeRoute = "/developer-notice";
+  static const String searchResultsPageRoute = "/search-results";
+  static const String viewPdfRoute = "/view-pdf";
 }
 
 class RouteGenerator {
@@ -94,6 +98,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
       case Routes.newProjectRoute:
         return MaterialPageRoute(builder: (_) => const NewProjectView());
+      case Routes.searchResultsPageRoute:
+        String query = routeSettings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => SearchResultsPage(query: query));
+      case Routes.viewPdfRoute:
+        String uuid = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ViewPdfView(uuid: uuid));
       default:
         // return null
         return MaterialPageRoute(builder: (_) => const DashboardView());

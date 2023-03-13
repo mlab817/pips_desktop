@@ -11,7 +11,6 @@ import 'package:pips/domain/usecase/users_usecase.dart';
 import 'package:pips/presentation/main/chat/conversation/conversation.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../../domain/models/user.dart';
@@ -123,157 +122,27 @@ class _ChatViewState extends State<ChatView> {
       }
     });
 
-    return Flex(
-      direction: Axis.horizontal,
-      children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: ColorManager.darkGray,
-                ),
-              ),
-            ),
-            child: Column(
-              children: [
-                AppBar(
-                  title: const Text(AppStrings.chats),
-                  automaticallyImplyLeading: false,
-                  actions: [
-                    CircleAvatar(
-                      backgroundColor: ColorManager.darkWhite,
-                      child: IconButton(
-                        onPressed: () {
-                          if (UniversalPlatform.isDesktopOrWeb) {
-                            _setChatRoom(null);
-                          } else {
-                            showModalBottomSheet<void>(
-                                context: context,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(AppSize.s10),
-                                ),
-                                builder: (context) {
-                                  return _buildBottomSheet(context);
-                                });
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.mode,
-                          size: AppSize.xl,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: AppSize.md,
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: _chatRooms.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: _chatRooms.length,
-                          itemBuilder: (context, index) {
-                            //
-                            final chatRoom = _chatRooms[index];
-
-                            String chatName = chatRoom.users
-                                    ?.map((item) => item.firstName)
-                                    .toList()
-                                    .join(', ') ??
-                                "No name.";
-
-                            return InkWell(
-                              onTap: () {
-                                _setChatRoom(chatRoom);
-                              },
-                              borderRadius:
-                                  BorderRadius.circular(AppPadding.md),
-                              child: Container(
-                                padding: const EdgeInsets.all(AppPadding.md),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.circular(AppPadding.md),
-                                  // add background color if the item is selected
-                                ),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      height: AppSize.s50,
-                                      width: AppSize.s50,
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: ColorManager.white,
-                                                    width: AppSize.xs,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          AppSize.s50)),
-                                              child: CircleAvatar(
-                                                backgroundColor:
-                                                    ColorManager.blue,
-                                                radius: AppSize.s18,
-                                                child: const Text(
-                                                  '2',
-                                                  style: TextStyle(
-                                                    fontSize: AppSize.s10,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.bottomLeft,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: ColorManager.white,
-                                                  width: AppSize.xs,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                              ),
-                                              child: const CircleAvatar(
-                                                backgroundColor: Colors.blue,
-                                                radius: AppSize.s18,
-                                                child: Text(
-                                                  '1',
-                                                  style: TextStyle(
-                                                    fontSize: AppSize.s10,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: AppSize.s10),
-                                    Expanded(child: Text(chatName)),
-                                    const Icon(Icons.chevron_right),
-                                  ],
-                                ),
-                              ),
-                            );
-                          })
-                      : const Center(
-                          child: Text('No rooms.'),
-                        ),
-                ),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(AppStrings.chat),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // open bottom sheet
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return _buildBottomSheet(context);
+                  });
+            },
+            icon: const Icon(Icons.add_comment),
           ),
-        ),
-        if (UniversalPlatform.isDesktopOrWeb) _getMessagePanel(),
-      ],
+        ],
+      ),
+      body: const Center(
+        child: Text('Coming Soon!'),
+      ),
     );
   }
 
@@ -340,9 +209,9 @@ class _ChatViewState extends State<ChatView> {
                         return const Iterable<UserModel>.empty();
                       }
                       return _users.where((UserModel userModel) {
-                        return userModel.firstName?.toLowerCase().startsWith(
-                                textEditingValue.text.toLowerCase()) ??
-                            false;
+                        return userModel.firstName
+                            .toLowerCase()
+                            .startsWith(textEditingValue.text.toLowerCase());
                       });
                     },
                     optionsViewBuilder: (
@@ -437,7 +306,7 @@ class _ChatViewState extends State<ChatView> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: const Text(AppStrings.cancel),
           ),
           title: Text(
             'New message',
@@ -459,15 +328,30 @@ class _ChatViewState extends State<ChatView> {
           child: Text(
             'Suggested',
             textAlign: TextAlign.start,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        const Expanded(
+        Expanded(
           child: Padding(
-            padding: EdgeInsets.all(AppPadding.md),
-            child: Placeholder(
-              child: Center(
-                child: Text('Suggested users'),
-              ),
+            padding: const EdgeInsets.all(AppPadding.md),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _users.length,
+              controller: _scrollController,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    // TODO: new chat
+                  },
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: NetworkImage(
+                        "https://robohash.org/${_users[index].email}.png?set=set5"),
+                  ),
+                  title: Text(
+                      "${_users[index].firstName} ${_users[index].lastName}"),
+                );
+              },
             ),
           ),
         ),

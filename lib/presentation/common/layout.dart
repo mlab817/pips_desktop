@@ -33,6 +33,9 @@ class _MainLayoutState extends State<MainLayout> {
     super.initState();
 
     currentTheme.addListener(() {});
+
+    debugPrint(
+        "isDesktopOrWeb: ${UniversalPlatform.isDesktopOrWeb.toString()}");
   }
 
   @override
@@ -44,14 +47,20 @@ class _MainLayoutState extends State<MainLayout> {
           Expanded(child: widget.child),
         ],
       ),
-      floatingActionButton: UniversalPlatform.isDesktopOrWeb
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.newProjectRoute);
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
+      // floatingActionButton: UniversalPlatform.isDesktopOrWeb
+      //     ? FloatingActionButton(
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, Routes.newProjectRoute);
+      //         },
+      //         child: const Icon(Icons.add),
+      //       )
+      //     : null,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.newProjectRoute);
+        },
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar:
           (UniversalPlatform.isIOS || UniversalPlatform.isAndroid)
               ? _buildBottomNavigator()
@@ -85,23 +94,29 @@ class _MainLayoutState extends State<MainLayout> {
                         ? Icons.dashboard
                         : Icons.dashboard_outlined,
                   ),
-                  label: const Text(AppStrings.dashboard),
+                  label: const Text(AppStrings.home),
                 ),
+                // NavigationRailDestination(
+                //   icon: Icon(
+                //     selectedIndex == 1
+                //         ? Icons.work
+                //         : Icons.work_outline_outlined,
+                //   ),
+                //   label: const Text(AppStrings.offices),
+                // ),
                 NavigationRailDestination(
                   icon: Icon(
                     selectedIndex == 1
-                        ? Icons.work
-                        : Icons.work_outline_outlined,
-                  ),
-                  label: const Text(AppStrings.offices),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(
-                    selectedIndex == 2
                         ? Icons.chat_bubble
                         : Icons.chat_bubble_outline,
                   ),
-                  label: const Text(AppStrings.chats),
+                  label: const Text(AppStrings.chat),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    selectedIndex == 2 ? Icons.add : Icons.add_outlined,
+                  ),
+                  label: const Text(AppStrings.newProgramProject),
                 ),
                 NavigationRailDestination(
                   icon: Icon(
@@ -111,17 +126,17 @@ class _MainLayoutState extends State<MainLayout> {
                   ),
                   label: const Text(AppStrings.notifications),
                 ),
+                // NavigationRailDestination(
+                //   icon: Icon(
+                //     selectedIndex == 4
+                //         ? Icons.download
+                //         : Icons.download_outlined,
+                //   ),
+                //   label: const Text(AppStrings.downloads),
+                // ),
                 NavigationRailDestination(
                   icon: Icon(
                     selectedIndex == 4
-                        ? Icons.download
-                        : Icons.download_outlined,
-                  ),
-                  label: const Text(AppStrings.downloads),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(
-                    selectedIndex == 5
                         ? Icons.settings
                         : Icons.settings_outlined,
                   ),
@@ -130,7 +145,8 @@ class _MainLayoutState extends State<MainLayout> {
               ],
               onDestinationSelected: widget.onChange,
               selectedIndex: selectedIndex,
-              // labelType: NavigationRailLabelType.all,
+              labelType: NavigationRailLabelType.none,
+              extended: true,
             ),
           ),
           Consumer<CustomTheme>(builder: (context, currentTheme, child) {
@@ -170,10 +186,6 @@ class _MainLayoutState extends State<MainLayout> {
           icon: Icon(Icons.home),
           label: 'Home',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.work),
-        //   label: 'Offices',
-        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble),
           label: 'Chat',
@@ -186,10 +198,6 @@ class _MainLayoutState extends State<MainLayout> {
           icon: Icon(Icons.notifications),
           label: 'Notifications',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.download),
-        //   label: 'Downloads',
-        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: 'Settings',

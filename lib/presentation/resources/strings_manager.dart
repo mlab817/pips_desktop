@@ -14,7 +14,7 @@ class AppStrings {
 
   static const String dashboard = "Dashboard";
   static const String offices = "Offices";
-  static const String chats = "Chats";
+  static const String chat = "Chat";
   static const String notifications = "Notifications";
   static const String settings = "Settings";
   static const String updateProfile = "Update Profile";
@@ -103,4 +103,8 @@ class AppStrings {
   static const String sustainableDevelopmentGoals =
       'Sustainable Development Goals';
   static const String downloads = 'Downloads';
+  static const String aboutTheIpd = 'About the IPD';
+  static const String home = "Home";
+  static const String thisFieldIsRequired = 'This field is required.';
+  static const String pdf = 'PDF';
 }

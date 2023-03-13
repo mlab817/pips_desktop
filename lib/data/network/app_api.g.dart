@@ -73,12 +73,21 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<UpdateProfileResponse> updateProfile(userProfile) async {
+  Future<UpdateProfileResponse> updateProfile(
+    firstName,
+    lastName,
+    position,
+    contactNumber,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(userProfile.toJson());
+    final _data = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'position': position,
+      'contact_number': contactNumber,
+    };
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateProfileResponse>(Options(
       method: 'POST',
@@ -100,12 +109,15 @@ class _AppServiceClient implements AppServiceClient {
   Future<ProjectsResponse> getProjects(
     perPage,
     page,
+    q,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'per_page': perPage,
       r'page': page,
+      r'q': q,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio
@@ -454,6 +466,30 @@ class _AppServiceClient implements AppServiceClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SignUpResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UploadAvatarResponse> uploadAvatar(formData) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(formData.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UploadAvatarResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/upload-avatar',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UploadAvatarResponse.fromJson(_result.data!);
     return value;
   }
 

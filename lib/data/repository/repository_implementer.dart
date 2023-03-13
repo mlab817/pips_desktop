@@ -4,6 +4,7 @@ import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/data/requests/upload_avatar/upload_avatar_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/chat_room/chat_room.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
@@ -15,6 +16,7 @@ import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/update_profile/update_profile.dart';
+import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/data/responses/users/users_response.dart';
 import 'package:pips/domain/models/message.dart';
 import 'package:pips/domain/models/user.dart';
@@ -296,6 +298,22 @@ class RepositoryImplementer implements Repository {
     try {
       final UpdateProfileResponse response =
           await _remoteDataSource.updateProfile(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("error from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<Result<UploadAvatarResponse>> uploadAvatar(
+      UploadAvatarRequest input) async {
+    try {
+      final UploadAvatarResponse response =
+          await _remoteDataSource.uploadAvatar(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 

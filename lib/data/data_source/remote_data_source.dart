@@ -4,6 +4,7 @@ import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/data/requests/upload_avatar/upload_avatar_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/login/login_response.dart';
@@ -12,6 +13,7 @@ import 'package:pips/data/responses/options/options_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/register/signup_response.dart';
+import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../domain/models/chat_room.dart';
@@ -58,6 +60,8 @@ abstract class RemoteDataSource {
   Future<SignUpResponse> register(SignUpRequest input);
 
   Future<UpdateProfileResponse> updateProfile(UserProfile input);
+
+  Future<UploadAvatarResponse> uploadAvatar(UploadAvatarRequest input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -79,7 +83,8 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
 
   @override
   Future<ProjectsResponse> getProjects(GetProjectsRequest input) async {
-    return await _appServiceClient.getProjects(input.perPage, input.page);
+    return await _appServiceClient.getProjects(
+        input.perPage, input.page, input.q);
   }
 
   @override
@@ -144,6 +149,12 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
 
   @override
   Future<UpdateProfileResponse> updateProfile(UserProfile input) async {
-    return await _appServiceClient.updateProfile(input);
+    return await _appServiceClient.updateProfile(
+        input.firstName, input.lastName, input.position, input.contactNumber);
+  }
+
+  @override
+  Future<UploadAvatarResponse> uploadAvatar(UploadAvatarRequest input) async {
+    return await _appServiceClient.uploadAvatar(input);
   }
 }

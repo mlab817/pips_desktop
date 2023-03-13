@@ -25,6 +25,8 @@ class AppSize {
   static const double s80 = 80;
   static const double s100 = 100;
   static const double s150 = 150;
+  static const double s160 = 160;
+  static const double s170 = 170;
   static const double s200 = 200;
   static const double s220 = 220;
   static const double s250 = 250;
@@ -51,20 +53,20 @@ class AppSize {
 
 class AppPadding {
   static const double none = 0;
-  static const double xs = 2;
-  static const double sm = 4;
-  static const double md = 8;
-  static const double lg = 12;
-  static const double xl = 16;
+  static const double xs = 4;
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 20;
 }
 
 class FontSize {
-  static const double xxs = 6;
-  static const double xs = 8;
-  static const double sm = 10;
-  static const double md = 11;
-  static const double lg = 12;
-  static const double xl = 14;
-  static const double xxl = 16;
-  static const double xxxl = 20;
+  static const double xxs = 8;
+  static const double xs = 10;
+  static const double sm = 11;
+  static const double md = 12;
+  static const double lg = 14;
+  static const double xl = 16;
+  static const double xxl = 18;
+  static const double xxxl = 24;
 }

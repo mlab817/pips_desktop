@@ -5,11 +5,12 @@ import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
+import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:retrofit/http.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
-import '../../presentation/main/settings/screens/update_profile.dart';
+import '../requests/upload_avatar/upload_avatar_request.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/notifications/notifications_response.dart';
 import '../responses/office_response/office_response.dart';
@@ -24,7 +25,7 @@ import '../responses/users/users_response.dart';
 part 'app_api.g.dart';
 
 // note: annotation requires retrofit_generator
-@RestApi(baseUrl: Config.baseUrl)
+@RestApi(baseUrl: Config.baseApiUrl)
 abstract class AppServiceClient {
   factory AppServiceClient(Dio dio, {String baseUrl}) = _AppServiceClient;
 
@@ -37,11 +38,15 @@ abstract class AppServiceClient {
   Future<ForgotPasswordResponse> forgotPassword(@Field("email") String email);
 
   @POST("/auth/update-profile")
-  Future<UpdateProfileResponse> updateProfile(@Body() UserProfile userProfile);
+  Future<UpdateProfileResponse> updateProfile(
+      @Field("first_name") String firstName,
+      @Field("last_name") String lastName,
+      @Field("position") String position,
+      @Field("contact_number") String contactNumber);
 
   @GET("/projects")
-  Future<ProjectsResponse> getProjects(
-      @Query('per_page') int perPage, @Query('page') int page);
+  Future<ProjectsResponse> getProjects(@Query('per_page') int perPage,
+      @Query('page') int page, @Query('q') String? q);
 
   @POST("/projects")
   Future<void> createProject(); // TODO: implement
@@ -87,4 +92,8 @@ abstract class AppServiceClient {
 
   @POST("/signup")
   Future<SignUpResponse> register(@Body() SignUpRequest formData);
+
+  @POST("/auth/upload-avatar")
+  Future<UploadAvatarResponse> uploadAvatar(
+      @Body() UploadAvatarRequest formData);
 }

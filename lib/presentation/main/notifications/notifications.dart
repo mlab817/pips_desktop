@@ -4,6 +4,8 @@ import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/domain/usecase/notifications_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:skeletons/skeletons.dart';
 
 import '../../../domain/models/notification.dart' as notificationModel;
 import '../../../domain/usecase/base_usecase.dart';
@@ -27,6 +29,8 @@ class _NotificationsViewState extends State<NotificationsView> {
         await _notificationsUseCase.execute(null);
 
     if (result.success) {
+      if (!mounted) return;
+
       final data = result.data?.data;
 
       setState(() {
@@ -72,7 +76,9 @@ class _NotificationsViewState extends State<NotificationsView> {
       body: _notifications != null
           ? ListView.separated(
               itemCount: _notifications?.length ?? 0,
-              separatorBuilder: (context, index) => const Divider(),
+              separatorBuilder: (context, index) => Divider(
+                color: Theme.of(context).dividerColor,
+              ),
               itemBuilder: (context, index) {
                 var notifications = _notifications ?? [];
 
@@ -123,8 +129,20 @@ class _NotificationsViewState extends State<NotificationsView> {
                 );
               },
             )
-          : const Center(
-              child: CircularProgressIndicator(),
+          : SkeletonLoader(
+              builder: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(AppPadding.md),
+                    child: SkeletonListTile(
+                      hasLeading: true,
+                      hasSubtitle: true,
+                    ),
+                  );
+                },
+              ),
             ),
     );
   }

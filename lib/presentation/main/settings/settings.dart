@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/app_preferences.dart';
+import 'package:pips/app/functions.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
 import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
-import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -77,61 +77,32 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.settings),
-        automaticallyImplyLeading: false,
-      ),
-      body: Flex(
-        direction: Axis.horizontal,
-        children: [
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  right: BorderSide(
-                    // color: ColorManager.darkGray,
-                    width: AppSize.s0_5,
-                  ),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _listMenu.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          selected: _selectedIndex == index,
-                          leading: _listMenu[index].icon,
-                          title: Text(_listMenu[index].title),
-                          onTap: () {
-                            if (UniversalPlatform.isDesktopOrWeb) {
-                              setState(
-                                () {
-                                  _selectedIndex = index;
-                                },
-                              );
-                            } else {
-                              Navigator.pushNamed(
-                                  context, _listMenu[index].route);
-                            }
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+        appBar: AppBar(
+          title: const Text(AppStrings.settings),
+          automaticallyImplyLeading: false,
+        ),
+        body: Column(children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: _listMenu.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                selected: _selectedIndex == index,
+                leading: _listMenu[index].icon,
+                title: Text(_listMenu[index].title),
+                onTap: () {
+                  Navigator.pushNamed(context, _listMenu[index].route);
+                },
+              );
+            },
           ),
-          if (UniversalPlatform.isDesktopOrWeb)
-            Expanded(
-              flex: 3,
-              child: _children[_selectedIndex!],
-            ),
-        ],
-      ),
-    );
+          ElevatedButton(
+            onPressed: () {
+              logout(context);
+            },
+            child: const Text(AppStrings.logout),
+          )
+        ]));
   }
 }
 

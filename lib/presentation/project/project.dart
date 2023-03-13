@@ -15,13 +15,15 @@ class ProjectView extends StatefulWidget {
 
 class _ProjectViewState extends State<ProjectView> {
   final ProjectUseCase _projectUseCase = instance<ProjectUseCase>();
+
   // load data
   Project? _project;
 
   Future<void> _getProject() async {
     final projectResponse = await _projectUseCase.execute(widget.uuid);
 
-    if (projectResponse.success) {
+    // check if the widget is still mounted before setting state
+    if (projectResponse.success && mounted) {
       setState(() {
         _project = projectResponse.data?.project;
       });
