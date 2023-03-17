@@ -46,14 +46,14 @@ class _SettingsViewState extends State<SettingsView> {
       route: Routes.updatePasswordRoute,
     ),
     SettingsMenu(
-      title: AppStrings.notifications,
-      icon: const Icon(Icons.notifications),
-      route: Routes.notificationRoute,
-    ),
-    SettingsMenu(
       title: AppStrings.logins,
       icon: const Icon(Icons.format_list_numbered),
       route: Routes.activityLogRoute,
+    ),
+    SettingsMenu(
+      title: AppStrings.settings,
+      icon: const Icon(Icons.settings),
+      route: Routes.notificationRoute,
     ),
     SettingsMenu(
       title: AppStrings.about,

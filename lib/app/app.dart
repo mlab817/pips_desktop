@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
           themeMode: Provider.of<CustomTheme>(context).currentTheme,
           // currentTheme.currentTheme,
           onGenerateRoute: RouteGenerator.onGenerateRoute,
-          initialRoute: Routes.splashRoute,
+          initialRoute: Routes.onboardingRoute,
           // Routes.splashRoute
           home: const LogoutListener(
             child: MainView(),

@@ -109,4 +109,7 @@ class AppStrings {
   static const String pdf = 'PDF';
   static const String download = 'Download';
   static const String tryAgain = 'TRY AGAIN';
+  static const String showOnboardingScreen = 'Show onboarding screen';
+  static const String showOnboardingScreenWhenAppStarts =
+      'Show onboarding screen when app starts';
 }

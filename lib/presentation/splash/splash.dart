@@ -52,7 +52,7 @@ class _SplashViewState extends State<SplashView> {
                           }
                         else
                           {
-                            _appPreferences.setIsOnboardingScreenViewed(),
+                            _appPreferences.setIsOnboardingScreenViewed(true),
                             Navigator.pushReplacementNamed(
                                 context, Routes.onboardingRoute),
                           }

@@ -4,6 +4,10 @@ class AssetsManager {
 
   static const String loadingJson = "assets/json/loading.json";
   static const String fingerprintJson = "assets/json/fingerprint.json";
+  static const String projects = "assets/json/projects.json";
+  static const String chat = "assets/json/chat.json";
+  static const String notifications = "assets/json/notifications.json";
+  static const String profile = "assets/json/profile.json";
 
   static const String sdg1 = "assets/images/sdgs/E-WEB-Goal-01.png";
   static const String sdg2 = "assets/images/sdgs/E-WEB-Goal-02.png";

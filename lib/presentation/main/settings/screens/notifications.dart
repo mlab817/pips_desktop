@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pips/app/app_preferences.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import '../../../../app/dep_injection.dart';
 import '../../../resources/strings_manager.dart';
 
 class NotificationsView extends StatefulWidget {
@@ -12,7 +14,31 @@ class NotificationsView extends StatefulWidget {
 }
 
 class _NotificationsViewState extends State<NotificationsView> {
+  final AppPreferences _appPreferences = instance<AppPreferences>();
+
   bool _notificationsEnabled = false;
+  bool? _isOnboardingScreenViewable;
+
+  Future<void> _toggleOnboardingScreen(bool value) async {
+    // Update shared preferences value here
+    await _appPreferences.setIsOnboardingScreenViewed(value);
+
+    setState(() {
+      _isOnboardingScreenViewable = value;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _appPreferences.getIsOnboardingScreenViewed().then((value) {
+      setState(() {
+        _isOnboardingScreenViewable = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +49,26 @@ class _NotificationsViewState extends State<NotificationsView> {
       ),
       body: ListView(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppPadding.md),
+            child: ListTile(
+              dense: false,
+              onTap: () {
+                _toggleOnboardingScreen(
+                    !(_isOnboardingScreenViewable ?? false));
+              },
+              title: const Text(AppStrings.showOnboardingScreen),
+              subtitle:
+                  const Text(AppStrings.showOnboardingScreenWhenAppStarts),
+              trailing: Switch(
+                value: _isOnboardingScreenViewable ?? false,
+                onChanged: _toggleOnboardingScreen,
+              ),
+            ),
+          ),
+          Divider(
+            color: Theme.of(context).dividerColor,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: AppPadding.md),
             child: ListTile(

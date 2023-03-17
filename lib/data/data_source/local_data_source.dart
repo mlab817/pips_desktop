@@ -84,7 +84,7 @@ class LocalDataSourceImplementer implements LocalDataSource {
 
   @override
   Future<bool> getIsOnboardingScreenViewed() async {
-    return _sharedPreferences.getBool(sharedPrefsIsOnboardingScreenViewed) ??
+    return // _sharedPreferences.getBool(sharedPrefsIsOnboardingScreenViewed) ??
         false;
   }
 

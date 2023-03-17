@@ -19,7 +19,7 @@ abstract class AppPreferences {
 
   Future<bool> getIsOnboardingScreenViewed();
 
-  Future<void> setIsOnboardingScreenViewed();
+  Future<void> setIsOnboardingScreenViewed(bool? value);
 
   Future<UserModel?> getLoggedInUser();
 
@@ -78,8 +78,8 @@ class AppPreferencesImplementer implements AppPreferences {
   }
 
   @override
-  Future<bool> setIsOnboardingScreenViewed() async {
-    return _sharedPreferences.setBool(isOnboardingScreenViewed, true);
+  Future<bool> setIsOnboardingScreenViewed(bool? value) async {
+    return _sharedPreferences.setBool(isOnboardingScreenViewed, value ?? false);
   }
 
   @override
