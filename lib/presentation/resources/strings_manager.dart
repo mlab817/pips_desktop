@@ -19,7 +19,7 @@ class AppStrings {
   static const String settings = "Settings";
   static const String updateProfile = "Update Profile";
   static const String updatePassword = "Update Password";
-  static const String activityLogs = "Activity Logs";
+  static const String logins = "Logins";
   static const String developerNotice = "Developer Notice";
   static const String about = "About";
   static const String newProgramProject = "New Program/Project";
@@ -107,4 +107,6 @@ class AppStrings {
   static const String home = "Home";
   static const String thisFieldIsRequired = 'This field is required.';
   static const String pdf = 'PDF';
+  static const String download = 'Download';
+  static const String tryAgain = 'TRY AGAIN';
 }

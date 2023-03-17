@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
+import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
-import 'package:pips/data/requests/upload_avatar/upload_avatar_request.dart';
 import 'package:pips/data/responses/login/login_response.dart';
+import 'package:pips/data/responses/logins/logins_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
 import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
+import 'package:pips/data/responses/status/status_response.dart';
 import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
@@ -63,19 +67,28 @@ abstract class Repository {
 
   Future<Result<MessagesResponse>> listMessages(int input);
 
-  Future<Result<NotificationsResponse>> listNotifications();
+  Future<Result<NotificationsResponse>> listNotifications(
+      NotificationsRequest input);
 
   Future<Result<SignUpResponse>> register(SignUpRequest input);
 
   Future<Result<UpdateProfileResponse>> updateProfile(UserProfile input);
 
-  Future<Result<UploadAvatarResponse>> uploadAvatar(UploadAvatarRequest input);
+  Future<Result<UploadAvatarResponse>> uploadAvatar(File input);
+
+  Future<Result<StatusResponse>> markNotificationAsRead(String input);
+
+  Future<Result<LoginsResponse>> getLogins();
 
   Future<String> getBearerToken();
 
   Future<void> setBearerToken(String value);
 
   Future<void> setIsUserLoggedIn();
+
+  Future<void> setImageUrl(String value);
+
+  Future<String?> getImageUrl();
 
   Future<bool> getIsUserLoggedIn();
 

@@ -10,14 +10,12 @@ UploadAvatarResponse _$UploadAvatarResponseFromJson(
         Map<String, dynamic> json) =>
     UploadAvatarResponse(
       status: json['status'] as String?,
-      message: json['message'] as String?,
-      request: json['request'] as String?,
+      data: json['data'] as String?,
     );
 
 Map<String, dynamic> _$UploadAvatarResponseToJson(
         UploadAvatarResponse instance) =>
     <String, dynamic>{
       'status': instance.status,
-      'message': instance.message,
-      'request': instance.request,
+      'data': instance.data,
     };

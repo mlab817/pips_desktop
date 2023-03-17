@@ -13,11 +13,18 @@ class Notification {
   @JsonKey(name: 'created_at')
   String createdAt;
 
+  @JsonKey(name: 'read_at')
+  String? readAt;
+
+  @JsonKey(includeFromJson: false)
+  bool read;
+
   Notification({
     required this.id,
     required this.data,
     required this.createdAt,
-  });
+    this.readAt,
+  }) : read = readAt != null;
 
   factory Notification.fromJson(Map<String, dynamic> json) =>
       _$NotificationFromJson(json);

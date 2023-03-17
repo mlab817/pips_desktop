@@ -52,6 +52,7 @@ class _SplashViewState extends State<SplashView> {
                           }
                         else
                           {
+                            _appPreferences.setIsOnboardingScreenViewed(),
                             Navigator.pushReplacementNamed(
                                 context, Routes.onboardingRoute),
                           }
@@ -108,7 +109,8 @@ class _SplashViewState extends State<SplashView> {
                         fontSize: AppSize.s20,
                       ),
                     ),
-                    valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.primary),
+                    valueColor: AlwaysStoppedAnimation(
+                        Theme.of(context).colorScheme.primary),
                   ),
                 ),
               );

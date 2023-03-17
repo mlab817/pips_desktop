@@ -6,8 +6,8 @@ import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/main/office/office.dart';
 import 'package:pips/presentation/main/search_results/search_results.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
-import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
+import 'package:pips/presentation/main/settings/screens/logins.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
@@ -87,7 +87,7 @@ class RouteGenerator {
       case Routes.developerNoticeRoute:
         return MaterialPageRoute(builder: (_) => const DeveloperNotice());
       case Routes.activityLogRoute:
-        return MaterialPageRoute(builder: (_) => const ActivityLogView());
+        return MaterialPageRoute(builder: (_) => const LoginsView());
       case Routes.updateProfileRoute:
         return MaterialPageRoute(builder: (_) => const UpdateProfile());
       case Routes.notificationRoute:

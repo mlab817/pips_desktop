@@ -55,12 +55,14 @@ class _MainLayoutState extends State<MainLayout> {
       //         child: const Icon(Icons.add),
       //       )
       //     : null,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.newProjectRoute);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: UniversalPlatform.isDesktopOrWeb
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.newProjectRoute);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       bottomNavigationBar:
           (UniversalPlatform.isIOS || UniversalPlatform.isAndroid)
               ? _buildBottomNavigator()
@@ -70,8 +72,6 @@ class _MainLayoutState extends State<MainLayout> {
 
   Widget _buildNavigationRail() {
     int selectedIndex = widget.activeIndex;
-
-    debugPrint("darkTheme: ${currentTheme.isDarkTheme.toString()}");
 
     return Container(
       decoration: BoxDecoration(
@@ -189,10 +189,6 @@ class _MainLayoutState extends State<MainLayout> {
         BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble),
           label: 'Chat',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'New',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),

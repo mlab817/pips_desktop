@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:pips/data/network/app_api.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
+import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
-import 'package:pips/data/requests/upload_avatar/upload_avatar_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/login/login_response.dart';
@@ -21,9 +23,11 @@ import '../../domain/models/message.dart';
 import '../../presentation/main/settings/screens/update_profile.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/forgot_password/forgot_password.dart';
+import '../responses/logins/logins_response.dart';
 import '../responses/messages/messages_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
+import '../responses/status/status_response.dart';
 import '../responses/update_profile/update_profile.dart';
 import '../responses/users/users_response.dart';
 
@@ -55,13 +59,17 @@ abstract class RemoteDataSource {
 
   Future<MessagesResponse> listMessages(int input);
 
-  Future<NotificationsResponse> listNotifications();
+  Future<NotificationsResponse> listNotifications(NotificationsRequest input);
 
   Future<SignUpResponse> register(SignUpRequest input);
 
   Future<UpdateProfileResponse> updateProfile(UserProfile input);
 
-  Future<UploadAvatarResponse> uploadAvatar(UploadAvatarRequest input);
+  Future<UploadAvatarResponse> uploadAvatar(File input);
+
+  Future<StatusResponse> markNotificationAsRead(String input);
+
+  Future<LoginsResponse> getLogins();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -138,8 +146,9 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   }
 
   @override
-  Future<NotificationsResponse> listNotifications() async {
-    return await _appServiceClient.listNotifications();
+  Future<NotificationsResponse> listNotifications(
+      NotificationsRequest input) async {
+    return await _appServiceClient.listNotifications(input);
   }
 
   @override
@@ -154,7 +163,17 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   }
 
   @override
-  Future<UploadAvatarResponse> uploadAvatar(UploadAvatarRequest input) async {
+  Future<UploadAvatarResponse> uploadAvatar(File input) async {
     return await _appServiceClient.uploadAvatar(input);
+  }
+
+  @override
+  Future<StatusResponse> markNotificationAsRead(String input) async {
+    return await _appServiceClient.markNotificationAsRead(input);
+  }
+
+  @override
+  Future<LoginsResponse> getLogins() async {
+    return await _appServiceClient.getLogins();
   }
 }

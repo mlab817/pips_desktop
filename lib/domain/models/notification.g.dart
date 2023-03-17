@@ -10,6 +10,7 @@ Notification _$NotificationFromJson(Map<String, dynamic> json) => Notification(
       id: json['id'] as String,
       data: NotificationData.fromJson(json['data'] as Map<String, dynamic>),
       createdAt: json['created_at'] as String,
+      readAt: json['read_at'] as String?,
     );
 
 Map<String, dynamic> _$NotificationToJson(Notification instance) =>
@@ -17,6 +18,7 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) =>
       'id': instance.id,
       'data': instance.data,
       'created_at': instance.createdAt,
+      'read_at': instance.readAt,
     };
 
 NotificationData _$NotificationDataFromJson(Map<String, dynamic> json) =>

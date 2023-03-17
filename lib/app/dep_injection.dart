@@ -1,4 +1,5 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
@@ -12,6 +13,7 @@ import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
+import 'package:pips/domain/usecase/logins_usecase.dart';
 import 'package:pips/domain/usecase/messages_usecase.dart';
 import 'package:pips/domain/usecase/notifications_usecase.dart';
 import 'package:pips/domain/usecase/office_usecase.dart';
@@ -19,6 +21,7 @@ import 'package:pips/domain/usecase/offices_usecase.dart';
 import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
+import 'package:pips/domain/usecase/read_notification_usecase.dart';
 import 'package:pips/domain/usecase/signup_usecase.dart';
 import 'package:pips/domain/usecase/updateprofile_usecase.dart';
 import 'package:pips/domain/usecase/upload_avatar_usecase.dart';
@@ -69,6 +72,8 @@ Future<void> initAppModule() async {
   // need to pass context in getDio
   final dio = await instance<DioFactory>().getDio();
 
+  instance.registerLazySingleton<Dio>(() => dio);
+
   instance.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));
   // add dio to client
 
@@ -108,6 +113,11 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<UploadAvatarUseCase>(
       () => UploadAvatarUseCase(instance()));
+
+  instance.registerFactory<ReadNotificationUseCase>(
+      () => ReadNotificationUseCase(instance()));
+
+  instance.registerFactory<LoginsUseCase>(() => LoginsUseCase(instance()));
 }
 
 initLoginModule() {

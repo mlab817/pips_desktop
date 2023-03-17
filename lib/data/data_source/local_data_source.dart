@@ -17,6 +17,10 @@ abstract class LocalDataSource {
 
   Future<void> setIsUserLoggedIn();
 
+  Future<void> setImageUrl(String value);
+
+  Future<String?> getImageUrl();
+
   Future<void> setIsOnboardingScreenViewed();
 
   Future<bool> getIsOnboardingScreenViewed();
@@ -87,5 +91,15 @@ class LocalDataSourceImplementer implements LocalDataSource {
   @override
   Future<void> setLoggedInUser(UserModel value) async {
     _sharedPreferences.setString(loggedInUser, jsonEncode(value));
+  }
+
+  @override
+  Future<String?> getImageUrl() async {
+    return _sharedPreferences.getString(imageUrl);
+  }
+
+  @override
+  Future<void> setImageUrl(String value) async {
+    _sharedPreferences.setString(imageUrl, value);
   }
 }

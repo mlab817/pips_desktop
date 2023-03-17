@@ -8,6 +8,7 @@ const String bearerToken = 'SHARED_PREFS_BEARER_TOKEN';
 const String loggedInUser = 'SHARED_PREFS_LOGGED_IN_USER';
 const String isOnboardingScreenViewed =
     'SHARED_PREFS_IS_ONBOARDING_SCREEN_VIEWED';
+const String imageUrl = 'SHARED_PREFS_IMAGE_URL';
 
 abstract class AppPreferences {
   void setBearerToken(String value);
@@ -18,9 +19,15 @@ abstract class AppPreferences {
 
   Future<bool> getIsOnboardingScreenViewed();
 
+  Future<void> setIsOnboardingScreenViewed();
+
   Future<UserModel?> getLoggedInUser();
 
   Future<bool> setLoggedInUser(UserModel userModel);
+
+  Future<bool> setImageUrl(String imageUrl);
+
+  Future<String?> getImageUrl();
 
   Future<bool> clear();
 }
@@ -68,5 +75,20 @@ class AppPreferencesImplementer implements AppPreferences {
   @override
   Future<bool> setLoggedInUser(UserModel userModel) async {
     return _sharedPreferences.setString(loggedInUser, jsonEncode(userModel));
+  }
+
+  @override
+  Future<bool> setIsOnboardingScreenViewed() async {
+    return _sharedPreferences.setBool(isOnboardingScreenViewed, true);
+  }
+
+  @override
+  Future<bool> setImageUrl(String imageUrl) async {
+    return _sharedPreferences.setString(imageUrl, imageUrl);
+  }
+
+  @override
+  Future<String?> getImageUrl() async {
+    return _sharedPreferences.getString(imageUrl);
   }
 }

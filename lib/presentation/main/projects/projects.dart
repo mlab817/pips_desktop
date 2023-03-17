@@ -25,7 +25,7 @@ class ProjectsView extends StatefulWidget {
 class _ProjectsViewState extends State<ProjectsView>
     with AutomaticKeepAliveClientMixin {
   final ProjectsUseCase _projectsUseCase = instance<ProjectsUseCase>();
-  final ScrollController _scrollController = ScrollController();
+  late ScrollController _scrollController;
 
   final List<Project> _projects = [];
   int _currentPage = 1;
@@ -66,12 +66,13 @@ class _ProjectsViewState extends State<ProjectsView>
 
     _loadProjects();
 
+    _scrollController = ScrollController();
+
     _scrollController.addListener(() {
       var nextPageTrigger = 0.8 * _scrollController.position.maxScrollExtent;
 
       if (_scrollController.position.pixels > nextPageTrigger) {
         if (_loading) {
-          debugPrint("loading is true so not loading next page");
           return;
         }
 
@@ -82,9 +83,7 @@ class _ProjectsViewState extends State<ProjectsView>
 
         debugPrint('next page called');
 
-        // setState(() {
         _loading = true;
-        // });
 
         // if already in the last page, do not load next page
         _loadProjects();
@@ -121,9 +120,11 @@ class _ProjectsViewState extends State<ProjectsView>
       if (_loading) {
         return _buildLoader();
       }
+
       if (_error != null) {
         return _buildError(); // TODO: Add retry button
       }
+
       return const Center(
         child: Text('No data'),
       );
@@ -156,9 +157,12 @@ class _ProjectsViewState extends State<ProjectsView>
             title: Text(
               project.title,
               maxLines: 2,
-              style: TextStyle(color: Theme
-                  .of(context)
-                  .primaryColor),
+              style: TextStyle(
+                color: Theme
+                    .of(context)
+                    .primaryColor,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             isThreeLine: true,
             subtitle: Text(project.pipolCode ?? ''),
@@ -224,9 +228,12 @@ class _ProjectsViewState extends State<ProjectsView>
           title: Text(
             project.title,
             maxLines: 2,
-            style: TextStyle(color: Theme
-                .of(context)
-                .primaryColor),
+            style: TextStyle(
+              color: Theme
+                  .of(context)
+                  .primaryColor,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           isThreeLine: true,
           subtitle: Text(project.pipolCode ?? ''),

@@ -7,7 +7,6 @@ import 'package:pips/presentation/common/layout.dart';
 import 'package:pips/presentation/main/notifications/notifications.dart';
 import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
-import 'package:pips/presentation/new_project/new_project.dart';
 
 import '../../app/dep_injection.dart';
 import 'chat/chat.dart';
@@ -36,7 +35,7 @@ class _MainViewState extends State<MainView> {
   final List<Widget> _views = [
     const ProjectsView(),
     const ChatView(),
-    const NewProjectView(),
+    // const NewProjectView(),
     // const OfficesView(),
     const NotificationsView(),
     // const DownloadsView(),

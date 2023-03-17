@@ -7,16 +7,12 @@ class UploadAvatarResponse {
   @JsonKey(name: "status")
   String? status;
 
-  @JsonKey(name: "message")
-  String? message;
-
-  @JsonKey(name: "request")
-  String? request;
+  @JsonKey(name: "data")
+  String? data;
 
   UploadAvatarResponse({
     this.status,
-    this.message,
-    this.request,
+    this.data,
   });
 
   factory UploadAvatarResponse.fromJson(Map<String, dynamic> json) =>

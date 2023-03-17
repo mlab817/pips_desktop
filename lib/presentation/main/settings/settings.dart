@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/functions.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
-import 'package:pips/presentation/main/settings/screens/activity_logs.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
+import 'package:pips/presentation/main/settings/screens/logins.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
@@ -29,7 +29,7 @@ class _SettingsViewState extends State<SettingsView> {
     const UpdateProfile(),
     const UpdatePassword(),
     const NotificationsView(),
-    const ActivityLogView(),
+    const LoginsView(),
     const DeveloperNotice(),
     const AboutView(),
   ];
@@ -51,14 +51,9 @@ class _SettingsViewState extends State<SettingsView> {
       route: Routes.notificationRoute,
     ),
     SettingsMenu(
-      title: AppStrings.activityLogs,
+      title: AppStrings.logins,
       icon: const Icon(Icons.format_list_numbered),
       route: Routes.activityLogRoute,
-    ),
-    SettingsMenu(
-      title: AppStrings.developerNotice,
-      icon: const Icon(Icons.document_scanner),
-      route: Routes.developerNoticeRoute,
     ),
     SettingsMenu(
       title: AppStrings.about,

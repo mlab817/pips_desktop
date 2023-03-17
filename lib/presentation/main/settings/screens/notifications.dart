@@ -33,7 +33,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                 });
               },
               title: const Text(AppStrings.enableNotifications),
-              subtitle: const Text('Supported for mobile only'),
+              subtitle: const Text('Supported for Android only'),
               trailing: Switch(
                 value: _notificationsEnabled,
                 onChanged: (bool? value) {

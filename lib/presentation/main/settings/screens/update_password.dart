@@ -50,7 +50,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   obscureText: !_passwordIsShown,
                   decoration: const InputDecoration(
                     labelText: AppStrings.currentPassword,
-                    prefixIcon: Icon(Icons.key),
+                    // prefixIcon: Icon(Icons.key),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -67,7 +67,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   obscureText: !_passwordIsShown,
                   decoration: const InputDecoration(
                     labelText: AppStrings.newPassword,
-                    prefixIcon: Icon(Icons.key),
+                    // prefixIcon: Icon(Icons.key),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -84,7 +84,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   obscureText: !_passwordIsShown,
                   decoration: const InputDecoration(
                     labelText: AppStrings.retypePassword,
-                    prefixIcon: Icon(Icons.key),
+                    // prefixIcon: Icon(Icons.key),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {

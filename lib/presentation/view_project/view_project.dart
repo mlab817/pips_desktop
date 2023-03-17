@@ -50,7 +50,6 @@ class _ViewProjectViewState extends State<ViewProjectView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Program/Project Details"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.share))],
       ),
       body: _project != null
           ? _buildProject()

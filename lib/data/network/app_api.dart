@@ -1,17 +1,21 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
+import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
+import 'package:pips/data/responses/status/status_response.dart';
 import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:retrofit/http.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
-import '../requests/upload_avatar/upload_avatar_request.dart';
 import '../responses/chat_room/chat_room.dart';
+import '../responses/logins/logins_response.dart';
 import '../responses/notifications/notifications_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
@@ -88,12 +92,19 @@ abstract class AppServiceClient {
   Future<MessagesResponse> listMessages(@Path('id') int id);
 
   @GET("/auth/notifications")
-  Future<NotificationsResponse> listNotifications();
+  Future<NotificationsResponse> listNotifications(
+      @Body() NotificationsRequest input);
 
   @POST("/signup")
   Future<SignUpResponse> register(@Body() SignUpRequest formData);
 
   @POST("/auth/upload-avatar")
-  Future<UploadAvatarResponse> uploadAvatar(
-      @Body() UploadAvatarRequest formData);
+  @MultiPart()
+  Future<UploadAvatarResponse> uploadAvatar(@Part(name: "avatar") File file);
+
+  @POST("/auth/mark-notification-as-read")
+  Future<StatusResponse> markNotificationAsRead(@Field("id") String id);
+
+  @GET("/auth/logins")
+  Future<LoginsResponse> getLogins();
 }

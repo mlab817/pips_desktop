@@ -185,10 +185,11 @@ class _LoginViewState extends State<LoginView> {
                   _repository.setIsUserLoggedIn(),
                   _repository
                       .setLoggedInUser(value.data?.user ?? "" as UserModel),
+                  _repository.setImageUrl(value.data?.user.imageUrl ?? ""),
                   _repository.setBearerToken(value.data?.accessToken ?? ""),
                   resetModules(),
                   Navigator.of(context).pop(),
-                  Navigator.pushNamed(context, Routes.mainRoute),
+                  Navigator.pushReplacementNamed(context, Routes.mainRoute),
                 }
               else
                 {
