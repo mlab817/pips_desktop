@@ -9,6 +9,6 @@ class ChatRoomUseCase extends BaseUseCase<int, Result<ChatRoomResponse>> {
 
   @override
   Future<Result<ChatRoomResponse>> execute(int input) async {
-    return _repository.getChatRoom(input);
+    return _repository.getChatRoomByUserId(input);
   }
 }

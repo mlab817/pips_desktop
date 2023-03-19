@@ -48,8 +48,6 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("currentIndex $_currentIndex");
-
     return Scaffold(
       body: Column(
         children: [

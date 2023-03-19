@@ -9,6 +9,7 @@ import 'package:pips/data/network/dio_factory.dart';
 import 'package:pips/data/network/ws.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/domain/usecase/allusers_usecase.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
@@ -118,6 +119,8 @@ Future<void> initAppModule() async {
       () => ReadNotificationUseCase(instance()));
 
   instance.registerFactory<LoginsUseCase>(() => LoginsUseCase(instance()));
+
+  instance.registerFactory<AllUsersUseCase>(() => AllUsersUseCase(instance()));
 }
 
 initLoginModule() {

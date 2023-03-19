@@ -25,6 +25,9 @@ class ChatRoom {
   @JsonKey(name: "messages")
   List<Message>? messages;
 
+  @JsonKey(name: "last_message")
+  Message? lastMessage;
+
   ChatRoom({
     required this.id,
     required this.createdAt,
@@ -32,6 +35,7 @@ class ChatRoom {
     this.name,
     this.users,
     this.messages,
+    this.lastMessage,
   });
 
   factory ChatRoom.fromJson(Map<String, dynamic> json) =>

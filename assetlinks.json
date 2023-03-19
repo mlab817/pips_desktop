@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mlab817.pips",
+      "sha256_cert_fingerprints": [
+        "1C:F7:F8:68:5D:2A:3F:3D:D6:03:F8:3A:9A:4C:DB:AB:EB:A7:7E:7B:26:CD:5E:41:88:1E:B5:20:4E:32:5C:7F"
+      ]
+    }
+  }
+]

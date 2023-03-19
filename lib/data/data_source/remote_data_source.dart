@@ -21,6 +21,7 @@ import 'package:pips/domain/usecase/createmessage_usecase.dart';
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
 import '../../presentation/main/settings/screens/update_profile.dart';
+import '../responses/all_users/all_users.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/forgot_password/forgot_password.dart';
 import '../responses/logins/logins_response.dart';
@@ -53,6 +54,8 @@ abstract class RemoteDataSource {
 
   Future<ChatRoomResponse> getChatRoom(int input);
 
+  Future<ChatRoomResponse> getChatRoomByUserId(int input);
+
   Future<ChatRoom> createChatRoom(int input);
 
   Future<Message> createMessage(CreateMessageUseCaseInput input);
@@ -70,6 +73,8 @@ abstract class RemoteDataSource {
   Future<StatusResponse> markNotificationAsRead(String input);
 
   Future<LoginsResponse> getLogins();
+
+  Future<AllUsersResponse> getAllUsers();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -175,5 +180,15 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<LoginsResponse> getLogins() async {
     return await _appServiceClient.getLogins();
+  }
+
+  @override
+  Future<ChatRoomResponse> getChatRoomByUserId(int input) async {
+    return await _appServiceClient.getChatRoomByUserId(input);
+  }
+
+  @override
+  Future<AllUsersResponse> getAllUsers() async {
+    return await _appServiceClient.getAllUsers();
   }
 }

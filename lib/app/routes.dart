@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/auth/sign_up/sign_up.dart';
+import 'package:pips/presentation/chat_room/chat_room.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/main.dart';
 import 'package:pips/presentation/main/office/office.dart';
@@ -42,6 +43,7 @@ class Routes {
   static const String developerNoticeRoute = "/developer-notice";
   static const String searchResultsPageRoute = "/search-results";
   static const String viewPdfRoute = "/view-pdf";
+  static const String chatRoomRoute = "/chat-room";
 }
 
 class RouteGenerator {
@@ -105,6 +107,9 @@ class RouteGenerator {
       case Routes.viewPdfRoute:
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewPdfView(uuid: uuid));
+      case Routes.chatRoomRoute:
+        Object user = routeSettings.arguments as Object;
+        return MaterialPageRoute(builder: (_) => ChatRoomView(user: user));
       default:
         // return null
         return MaterialPageRoute(builder: (_) => const DashboardView());

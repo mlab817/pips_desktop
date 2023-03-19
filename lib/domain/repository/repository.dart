@@ -5,6 +5,7 @@ import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/logins/logins_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
@@ -61,6 +62,8 @@ abstract class Repository {
 
   Future<Result<ChatRoomResponse>> getChatRoom(int input);
 
+  Future<Result<ChatRoomResponse>> getChatRoomByUserId(int input);
+
   Future<Result<ChatRoom>> createChatRoom(int input);
 
   Future<Result<Message>> createMessage(CreateMessageUseCaseInput input);
@@ -81,6 +84,8 @@ abstract class Repository {
   Future<Result<LoginsResponse>> getLogins();
 
   Future<String> getBearerToken();
+
+  Future<Result<AllUsersResponse>> getAllUsers();
 
   Future<void> setBearerToken(String value);
 

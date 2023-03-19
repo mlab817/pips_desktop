@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
@@ -107,4 +108,10 @@ abstract class AppServiceClient {
 
   @GET("/auth/logins")
   Future<LoginsResponse> getLogins();
+
+  @GET("/chat-room")
+  Future<ChatRoomResponse> getChatRoomByUserId(@Field('user_id') int userId);
+
+  @GET("/all-users")
+  Future<AllUsersResponse> getAllUsers();
 }
