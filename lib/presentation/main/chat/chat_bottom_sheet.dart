@@ -15,7 +15,8 @@ class ChatBottomSheet extends StatefulWidget {
   State<ChatBottomSheet> createState() => _ChatBottomSheetState();
 }
 
-class _ChatBottomSheetState extends State<ChatBottomSheet> {
+class _ChatBottomSheetState extends State<ChatBottomSheet>
+    with AutomaticKeepAliveClientMixin {
   final AllUsersUseCase _allUsersUseCase = instance<AllUsersUseCase>();
 
   final TextEditingController _filterController = TextEditingController();
@@ -146,4 +147,7 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

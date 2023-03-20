@@ -38,9 +38,8 @@ class _ProjectsViewState extends State<ProjectsView>
   }
 
   Future<void> _loadProjects() async {
-    debugPrint("loading page ${_currentPage.toString()}");
     final response =
-    await _projectsUseCase.execute(GetProjectsRequest(page: _currentPage));
+        await _projectsUseCase.execute(GetProjectsRequest(page: _currentPage));
 
     if (mounted) {
       if (response.success) {
@@ -77,11 +76,8 @@ class _ProjectsViewState extends State<ProjectsView>
         }
 
         if (_isLast) {
-          debugPrint("last page reached");
           return;
         }
-
-        debugPrint('next page called');
 
         _loading = true;
 
@@ -140,11 +136,11 @@ class _ProjectsViewState extends State<ProjectsView>
           if (index == _projects.length) {
             return _loading
                 ? const SizedBox(
-                height: AppSize.s40,
-                child: Center(child: CircularProgressIndicator()))
+                    height: AppSize.s40,
+                    child: Center(child: CircularProgressIndicator()))
                 : (_error != null)
-                ? _buildError()
-                : Container();
+                    ? _buildError()
+                    : Container();
           }
 
           final project = _projects[index];
@@ -158,16 +154,15 @@ class _ProjectsViewState extends State<ProjectsView>
               project.title,
               maxLines: 2,
               style: TextStyle(
-                color: Theme
-                    .of(context)
-                    .primaryColor,
+                color: Theme.of(context).primaryColor,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             isThreeLine: true,
             subtitle: Text(project.pipolCode ?? ''),
             trailing: project.totalCost != null
-                ? Text("${(project.totalCost! / pow(10, 6)).toString()} M")
+                ? Text(
+                    "${(project.totalCost! / pow(10, 6)).toStringAsFixed(2)} M")
                 : null,
             onTap: () {
               Navigator.pushNamed(context, Routes.viewProjectRoute,
@@ -175,12 +170,9 @@ class _ProjectsViewState extends State<ProjectsView>
             },
           );
         },
-        separatorBuilder: (context, index) =>
-            Divider(
-              color: Theme
-                  .of(context)
-                  .dividerColor,
-            ),
+        separatorBuilder: (context, index) => Divider(
+          color: Theme.of(context).dividerColor,
+        ),
       );
     }
 
@@ -229,9 +221,7 @@ class _ProjectsViewState extends State<ProjectsView>
             project.title,
             maxLines: 2,
             style: TextStyle(
-              color: Theme
-                  .of(context)
-                  .primaryColor,
+              color: Theme.of(context).primaryColor,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -246,12 +236,9 @@ class _ProjectsViewState extends State<ProjectsView>
           },
         );
       },
-      separatorBuilder: (context, index) =>
-          Divider(
-            color: Theme
-                .of(context)
-                .dividerColor,
-          ),
+      separatorBuilder: (context, index) => Divider(
+        color: Theme.of(context).dividerColor,
+      ),
     );
   }
 

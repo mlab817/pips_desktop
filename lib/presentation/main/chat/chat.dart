@@ -44,8 +44,6 @@ class _ChatViewState extends State<ChatView> {
     _appPreferences.getLoggedInUser().then((value) {
       _currentUser = value;
     });
-
-    debugPrint("_currentUser: ${_currentUser.toString()}");
   }
 
   @override
@@ -95,8 +93,6 @@ class _ChatViewState extends State<ChatView> {
                   itemBuilder: (context, index) {
                     final chatRooms = snapshot.data?.data?.data ?? [];
                     final chatRoom = chatRooms[index];
-
-                    debugPrint(chatRoom.users![0].username);
 
                     return _buildItem(chatRoom);
                   });

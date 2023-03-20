@@ -57,7 +57,10 @@ class SearchResultsPage extends StatelessWidget {
               return Text('Error: ${snapshot.error}');
             } else {
               return SkeletonLoader(
-                  builder: ListView.builder(
+                  builder: ListView.separated(
+                      separatorBuilder: (context, index) => Divider(
+                            color: Theme.of(context).dividerColor,
+                          ),
                       shrinkWrap: true,
                       itemCount: 5,
                       itemBuilder: (context, index) {
@@ -76,9 +79,16 @@ class SearchResultsPage extends StatelessWidget {
   }
 
   Widget _buildList(snapshot) {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) => Divider(
+        color: Theme.of(context).dividerColor,
+      ),
       itemBuilder: (context, index) => ListTile(
-        title: Text(snapshot.data![index].title),
+        title: Text(
+          snapshot.data![index].title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
         onTap: () {
           //
           Navigator.of(context).pushNamed(Routes.viewProjectRoute,

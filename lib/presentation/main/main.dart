@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/routes.dart';
@@ -8,7 +9,9 @@ import 'package:pips/presentation/main/notifications/notifications.dart';
 import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
 
+import '../../app/config.dart';
 import '../../app/dep_injection.dart';
+import '../../domain/repository/repository.dart';
 import 'chat/chat.dart';
 
 class MainView extends StatefulWidget {
@@ -21,14 +24,14 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   final AppPreferences _appPreferences = instance<AppPreferences>();
 
-  // final Repository _repository = instance<Repository>();
-  // final PusherChannelsClient _client = instance<PusherChannelsClient>();
+  final Repository _repository = instance<Repository>();
+  final PusherChannelsClient _client = instance<PusherChannelsClient>();
 
-  // late PresenceChannel _presenceChannel;
+  late PresenceChannel _presenceChannel;
 
-  // late StreamSubscription<ChannelReadEvent> _streamSubscription;
+  late StreamSubscription<ChannelReadEvent> _streamSubscription;
 
-  // late StreamSubscription<ChannelReadEvent> _allEventsSubs;
+  late StreamSubscription<ChannelReadEvent> _allEventsSubs;
 
   int _selectedIndex = 0;
 
@@ -43,29 +46,29 @@ class _MainViewState extends State<MainView> {
   ];
 
   Future<void> _subscribeToChannel() async {
-    // String token = await _repository.getBearerToken();
+    String token = await _repository.getBearerToken();
 
-    // _presenceChannel = _client.presenceChannel(
-    //   'online-users',
-    //   authorizationDelegate:
-    //       EndpointAuthorizableChannelTokenAuthorizationDelegate
-    //           .forPresenceChannel(
-    //     authorizationEndpoint: Uri.parse(Config.authEndpoint),
-    //     headers: {"Authorization": "Bearer $token"},
-    //   ),
-    // );
+    _presenceChannel = _client.presenceChannel(
+      'online-users',
+      authorizationDelegate:
+          EndpointAuthorizableChannelTokenAuthorizationDelegate
+              .forPresenceChannel(
+        authorizationEndpoint: Uri.parse(Config.authEndpoint),
+        headers: {"Authorization": "Bearer $token"},
+      ),
+    );
 
-    // _presenceChannel.subscribeIfNotUnsubscribed();
+    _presenceChannel.subscribeIfNotUnsubscribed();
 
-    // _allEventsSubs = _presenceChannel.bindToAll().listen((event) {
-    //   debugPrint(event.toString());
-    // });
+    _allEventsSubs = _presenceChannel.bindToAll().listen((event) {
+      debugPrint(event.toString());
+    });
 
-    // if (_presenceChannel.state?.status == ChannelStatus.subscribed) {
-    //   _presenceChannel.trigger(eventName: 'login', data: {
-    //     'message': 'hello world!',
-    //   });
-    // }
+    if (_presenceChannel.state?.status == ChannelStatus.subscribed) {
+      _presenceChannel.trigger(eventName: 'login', data: {
+        'message': 'hello world!',
+      });
+    }
   }
 
   @override
@@ -79,10 +82,10 @@ class _MainViewState extends State<MainView> {
   void dispose() {
     super.dispose();
 
-    // _presenceChannel.unsubscribe();
+    _presenceChannel.unsubscribe();
 
-    // // cancel subscription
-    // _streamSubscription.cancel();
+    // cancel subscription
+    _streamSubscription.cancel();
   }
 
   @override

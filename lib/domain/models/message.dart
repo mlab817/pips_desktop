@@ -37,6 +37,12 @@ class Message {
   @JsonKey(name: "updated_at")
   final String updatedAt;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? sent;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final int? localId;
+
   Message({
     required this.id,
     required this.content,
@@ -44,10 +50,22 @@ class Message {
     required this.senderId,
     required this.createdAt,
     required this.updatedAt,
+    this.localId,
+    this.sent = true,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
 
   Map<String, dynamic> toJson() => _$MessageToJson(this);
+
+  Message copyWith({required bool sent}) => Message(
+        id: id,
+        content: content,
+        chatRoomId: chatRoomId,
+        senderId: senderId,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        sent: sent,
+      );
 }

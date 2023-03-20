@@ -23,7 +23,8 @@ class CustomTheme with ChangeNotifier {
       scheme: FlexScheme.damask,
       surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
       blendLevel: 9,
-      appBarElevation: 0.5,
+      appBarElevation: 1,
+      // appBarStyle: FlexAppBarStyle.material,
       textTheme: const TextTheme(
         // used for subtitle in list tile
         titleLarge: TextStyle(

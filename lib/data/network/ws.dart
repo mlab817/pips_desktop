@@ -1,4 +1,6 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:pips/app/config.dart';
 
 enum ChannelType { presenceChannel, publicChannel, privateChannel }
 
@@ -25,7 +27,7 @@ class PusherWebsocketClient implements WebsocketClient {
   PusherWebsocketClient._internal();
 
   static Uri get authEndPoint =>
-      Uri.parse('https://beta.pips.da.gov.ph/api/broadcasting/auth');
+      Uri.parse('${Config.baseApiUrl}/broadcasting/auth');
 
   @override
   PusherChannelsClient init() {
@@ -34,9 +36,7 @@ class PusherWebsocketClient implements WebsocketClient {
 
     const hostOptions = PusherChannelsOptions.fromHost(
       scheme: 'wss',
-      // host: 'pips.da.gov.ph',
-      // TODO: update settings
-      host: 'pips.da.gov.ph',
+      host: Config.wsHost,
       port: 443,
       key: '1b421e8d437e47b9eee3',
     );
@@ -44,6 +44,7 @@ class PusherWebsocketClient implements WebsocketClient {
     final client = PusherChannelsClient.websocket(
       options: hostOptions,
       connectionErrorHandler: (exception, trace, refresh) {
+        debugPrint("exception: ${exception.toString()}");
         refresh();
       },
     );
