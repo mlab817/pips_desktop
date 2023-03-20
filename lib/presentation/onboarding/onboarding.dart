@@ -49,24 +49,26 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              itemCount: _screens.length,
-              controller: _pageController,
-              itemBuilder: (context, index) {
-                return _buildPage(index);
-              },
-              onPageChanged: (int index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                itemCount: _screens.length,
+                controller: _pageController,
+                itemBuilder: (context, index) {
+                  return _buildPage(index);
+                },
+                onPageChanged: (int index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
             ),
-          ),
-          _buildBottomNavigation()
-        ],
+            _buildBottomNavigation()
+          ],
+        ),
       ),
     );
   }

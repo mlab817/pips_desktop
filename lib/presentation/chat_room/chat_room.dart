@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +44,31 @@ class _ChatRoomViewState extends State<ChatRoomView> {
   ChatRoom? _chatRoom;
   List<Message>? _messages = [];
   String? _error;
+  bool _loading = true;
+
+  bool _isTyping = false;
+
+  PrivateChannel? _privateChannel;
 
   UserModel? _currentUser;
+
+  Timer? _typingTimer;
+
+  void _setIsTyping(bool value) {
+    setState(() {
+      _isTyping = value;
+    });
+
+    if (_typingTimer != null) {
+      _typingTimer!.cancel();
+    }
+
+    if (_isTyping) {
+      _typingTimer = Timer(const Duration(seconds: 1), () {
+        _setIsTyping(false);
+      });
+    }
+  }
 
   Future<void> _loadChatRoom() async {
     final chatRoomId = widget.user.id;
@@ -55,12 +79,14 @@ class _ChatRoomViewState extends State<ChatRoomView> {
       setState(() {
         _chatRoom = response.data?.data;
         _messages = response.data?.data.messages;
+        _loading = false;
       });
 
       await _connectToClient();
     } else {
       setState(() {
         _error = response.error;
+        _loading = false;
       });
     }
   }
@@ -73,7 +99,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
     if (_chatRoom != null) {
       final privateChannel = 'private-chat-room.${_chatRoom?.id}';
 
-      PrivateChannel channel = _client.privateChannel(
+      _privateChannel = _client.privateChannel(
         privateChannel,
         authorizationDelegate:
             EndpointAuthorizableChannelTokenAuthorizationDelegate
@@ -85,14 +111,23 @@ class _ChatRoomViewState extends State<ChatRoomView> {
         ),
       );
 
-      channel.subscribeIfNotUnsubscribed();
+      _privateChannel?.subscribeIfNotUnsubscribed();
 
-      _streamSubscription = channel.bindToAll().listen((event) {
-        debugPrint(event.toString());
+      _streamSubscription = _privateChannel?.bindToAll().listen((event) {
+        print(event.name.toString());
       });
 
-      _streamSubscription?.onData((data) {
-        print(data.data.toString());
+      _streamSubscription?.onData((ChannelReadEvent event) {
+        if (event.name == 'message.created') {
+          debugPrint("eventName: ${event.name}");
+          setState(() {
+            _messages?.add(Message.fromJson(jsonDecode(event.data)['message']));
+          });
+        }
+
+        if (event.name == 'client-chat') {
+          _setIsTyping(true);
+        }
       });
     }
   }
@@ -106,6 +141,12 @@ class _ChatRoomViewState extends State<ChatRoomView> {
     _loadChatRoom();
 
     _connectToClient();
+
+    _contentController.addListener(() {
+      // listener for trigger
+      _privateChannel
+          ?.trigger(eventName: 'client-chat', data: {'typing': true});
+    });
   }
 
   @override
@@ -135,7 +176,17 @@ class _ChatRoomViewState extends State<ChatRoomView> {
       ),
       body: Column(
         children: [
-          _getChatMessages(),
+          _loading
+              ? const Expanded(
+                  child: Center(child: CircularProgressIndicator()))
+              : _getChatMessages(),
+          if (_isTyping)
+            const Padding(
+              padding: EdgeInsets.all(AppPadding.md),
+              child: Text(
+                'User is typing...',
+              ),
+            ),
           _getChatBox(),
         ],
       ),
@@ -177,6 +228,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
         ),
       );
     }
+
     return const Expanded(
         child: Center(
       child: CircularProgressIndicator(),
@@ -344,6 +396,9 @@ class _ChatRoomViewState extends State<ChatRoomView> {
       _messages?.add(localMessage);
     });
 
+    _contentController.clear();
+    _focusNode.requestFocus();
+
     final createMessageResponse = await _createMessageUseCase.execute(
         CreateMessageUseCaseInput(id: _chatRoom!.id, content: message));
 
@@ -360,8 +415,5 @@ class _ChatRoomViewState extends State<ChatRoomView> {
         });
       } else {}
     }
-
-    _contentController.clear();
-    _focusNode.requestFocus();
   }
 }

@@ -8,10 +8,10 @@ PODS:
   - Firebase/Messaging (10.3.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.3.0)
-  - firebase_core (2.7.0):
+  - firebase_core (2.7.1):
     - Firebase/CoreOnly (~> 10.3.0)
     - FlutterMacOS
-  - firebase_messaging (14.2.5):
+  - firebase_messaging (14.2.6):
     - Firebase/CoreOnly (~> 10.3.0)
     - Firebase/Messaging (~> 10.3.0)
     - firebase_core
@@ -71,6 +71,8 @@ PODS:
   - printing (1.0.0):
     - FlutterMacOS
   - PromisesObjC (2.2.0)
+  - share_plus (0.0.1):
+    - FlutterMacOS
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -88,6 +90,7 @@ DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
   - printing (from `Flutter/ephemeral/.symlinks/plugins/printing/macos`)
+  - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - window_size (from `Flutter/ephemeral/.symlinks/plugins/window_size/macos`)
@@ -121,6 +124,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
   printing:
     :path: Flutter/ephemeral/.symlinks/plugins/printing/macos
+  share_plus:
+    :path: Flutter/ephemeral/.symlinks/plugins/share_plus/macos
   shared_preferences_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos
   url_launcher_macos:
@@ -132,8 +137,8 @@ SPEC CHECKSUMS:
   desktop_webview_window: d4365e71bcd4e1aa0c14cf0377aa24db0c16a7e2
   dynamic_color: 2eaa27267de1ca20d879fbd6e01259773fb1670f
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
-  firebase_core: 2569fb36c8e95ab963e04d8d9fdc9f0f1d297765
-  firebase_messaging: 81bfa1d051f9f1f1cc77a7e1dea34f5356d13371
+  firebase_core: 82d0bad907d4128050efaaaa978f9d313b2ef167
+  firebase_messaging: e3a99b4c6fb6f593c6f21d959f9b998967d3367c
   FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
   FirebaseCoreInternal: c7cd505e2136811096b225ac388d6254a2622362
   FirebaseInstallations: 13dde135fa0524e15bddb133ccc8465c53a1b3f3
@@ -146,6 +151,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   printing: e4b7e232ff3d5d50a70b20d959aa71035a5c31f9
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  share_plus: 76dd39142738f7a68dd57b05093b5e8193f220f7
   shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   url_launcher_macos: 5335912b679c073563f29d89d33d10d459f95451
   window_size: 339dafa0b27a95a62a843042038fa6c3c48de195
