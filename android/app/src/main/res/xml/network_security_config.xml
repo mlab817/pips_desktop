@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">pips.da.gov.ph</domain>
     </domain-config>
-    <!--    <base-config cleartextTrafficPermitted="true">-->
-    <!--        <trust-anchors>-->
-    <!--            &lt;!&ndash; Trust preinstalled CAs &ndash;&gt;-->
-    <!--            <certificates src="system" />-->
-    <!--            &lt;!&ndash; Additionally trust user added CAs &ndash;&gt;-->
-    <!--            <certificates src="user" />-->
-    <!--        </trust-anchors>-->
-    <!--    </base-config>-->
 </network-security-config>
