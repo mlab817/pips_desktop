@@ -78,7 +78,7 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSize.s30,
                   ),
                   Text(
-                    AppStrings.publicInvestmentProgrammingSystem,
+                    AppStrings.publicInvestmentProgramSystem,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontFamily: FontFamily.bebasNeue,
                           color: Theme.of(context).colorScheme.primary,

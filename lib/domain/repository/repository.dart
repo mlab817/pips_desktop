@@ -21,12 +21,14 @@ import 'package:pips/domain/usecase/createmessage_usecase.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 
 import '../../data/requests/sign_up/sign_up_request.dart';
+import '../../data/requests/update_password_request.dart';
 import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/chat_room/chat_room.dart';
 import '../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../data/responses/forgot_password/forgot_password.dart';
 import '../../data/responses/options/options_response.dart';
 import '../../data/responses/register/signup_response.dart';
+import '../../data/responses/update_password/update_password_response.dart';
 import '../../data/responses/update_profile/update_profile.dart';
 import '../../data/responses/users/users_response.dart';
 import '../models/chat_room.dart';
@@ -108,4 +110,7 @@ abstract class Repository {
   Future<void> resetDatabaseLoaded();
 
   Future<void> setIsOnboardingScreenViewed(bool value);
+
+  Future<Result<UpdatePasswordResponse>> updatePassword(
+      UpdatePasswordRequest input);
 }

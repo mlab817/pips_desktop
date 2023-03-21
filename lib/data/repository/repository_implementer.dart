@@ -7,6 +7,7 @@ import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/data/requests/update_password_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_room/chat_room.dart';
@@ -20,6 +21,7 @@ import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/status/status_response.dart';
+import 'package:pips/data/responses/update_password/update_password_response.dart';
 import 'package:pips/data/responses/update_profile/update_profile.dart';
 import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/data/responses/users/users_response.dart';
@@ -404,7 +406,22 @@ class RepositoryImplementer implements Repository {
 
   @override
   Future<void> setIsOnboardingScreenViewed(bool value) async {
-    // TODO: implement setIsOnboardingScreenViewed
     return _localDataSource.setIsOnboardingScreenViewed(value);
+  }
+
+  @override
+  Future<Result<UpdatePasswordResponse>> updatePassword(
+      UpdatePasswordRequest input) async {
+    try {
+      final UpdatePasswordResponse response =
+          await _remoteDataSource.updatePassword(input);
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("error from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/data/requests/update_password_request.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
@@ -24,6 +25,7 @@ import '../responses/options/options_response.dart';
 import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
 import '../responses/register/signup_response.dart';
+import '../responses/update_password/update_password_response.dart';
 import '../responses/update_profile/update_profile.dart';
 import '../responses/users/users_response.dart';
 
@@ -114,4 +116,8 @@ abstract class AppServiceClient {
 
   @GET("/all-users")
   Future<AllUsersResponse> getAllUsers();
+
+  @POST("/auth/update-password")
+  Future<UpdatePasswordResponse> updatePassword(
+      @Body() UpdatePasswordRequest input);
 }

@@ -35,7 +35,7 @@ class _AboutViewState extends State<AboutView> {
             ),
             const SizedBox(height: AppSize.s20),
             Text(
-              AppStrings.publicInvestmentProgrammingSystem,
+              AppStrings.publicInvestmentProgramSystem,
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),

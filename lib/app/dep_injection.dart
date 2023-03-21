@@ -25,6 +25,7 @@ import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:pips/domain/usecase/read_notification_usecase.dart';
 import 'package:pips/domain/usecase/signup_usecase.dart';
+import 'package:pips/domain/usecase/updatepassword_usecase.dart';
 import 'package:pips/domain/usecase/updateprofile_usecase.dart';
 import 'package:pips/domain/usecase/upload_avatar_usecase.dart';
 import 'package:pips/domain/usecase/users_usecase.dart';
@@ -125,6 +126,9 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<ForgotPasswordUseCase>(
       () => ForgotPasswordUseCase(instance()));
+
+  instance.registerFactory<UpdatePasswordUseCase>(
+      () => UpdatePasswordUseCase(instance()));
 }
 
 initLoginModule() {

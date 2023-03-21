@@ -7,6 +7,7 @@ import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
+import 'package:pips/data/requests/update_password_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/login/login_response.dart';
@@ -15,6 +16,7 @@ import 'package:pips/data/responses/options/options_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/register/signup_response.dart';
+import 'package:pips/data/responses/update_password/update_password_response.dart';
 import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
@@ -75,6 +77,8 @@ abstract class RemoteDataSource {
   Future<LoginsResponse> getLogins();
 
   Future<AllUsersResponse> getAllUsers();
+
+  Future<UpdatePasswordResponse> updatePassword(UpdatePasswordRequest input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -190,5 +194,12 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<AllUsersResponse> getAllUsers() async {
     return await _appServiceClient.getAllUsers();
+  }
+
+  @override
+  Future<UpdatePasswordResponse> updatePassword(
+      UpdatePasswordRequest input) async {
+    // TODO: implement updatePassword
+    return await _appServiceClient.updatePassword(input);
   }
 }

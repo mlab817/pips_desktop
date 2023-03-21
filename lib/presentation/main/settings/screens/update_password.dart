@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pips/data/requests/update_password_request.dart';
+import 'package:pips/domain/usecase/updatepassword_usecase.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import '../../../../app/dep_injection.dart';
 import '../../../resources/sizes_manager.dart';
 import '../../../resources/strings_manager.dart';
 
@@ -14,21 +17,23 @@ class UpdatePassword extends StatefulWidget {
 class _UpdatePasswordState extends State<UpdatePassword> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _currentPasswordTextEditingController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _newPasswordTextEditingController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _confirmPasswordTextEditingController =
-      TextEditingController();
+  TextEditingController();
+  final UpdatePasswordUseCase _updatePasswordUseCase =
+  instance<UpdatePasswordUseCase>();
 
   bool _passwordIsShown = false;
 
   @override
   void dispose() {
-    super.dispose();
-
     _currentPasswordTextEditingController.dispose();
     _newPasswordTextEditingController.dispose();
     _confirmPasswordTextEditingController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -90,6 +95,9 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                     if (value == null || value.isEmpty) {
                       return AppStrings.thisFieldIsRequired;
                     }
+                    if (value != _newPasswordTextEditingController.text) {
+                      return 'Passwords do not match';
+                    }
                     return null;
                   },
                 ),
@@ -113,10 +121,11 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Validated!')));
+                        _updatePassword();
+                        return;
                       }
-                      return;
+
+                      _showSnackbar(AppStrings.pleaseCheckYourInputs);
                     },
                     child: const Text(AppStrings.submit),
                   ),
@@ -127,5 +136,51 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         ),
       ),
     );
+  }
+
+  Future<void> _updatePassword() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Dialog(
+            child: SizedBox(
+              height: AppSize.s100,
+              width: AppSize.s100,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        });
+
+    final response = await _updatePasswordUseCase.execute(UpdatePasswordRequest(
+      currentPassword: _currentPasswordTextEditingController.text,
+      password: _newPasswordTextEditingController.text,
+      passwordConfirmation: _confirmPasswordTextEditingController.text,
+    ));
+
+    if (response.success) {
+      _showSnackbar(response.data?.message ?? 'Successfully changed password');
+      _popContext();
+      _clearInputs();
+    } else {
+      _showSnackbar(response.error ?? AppStrings.somethingWentWrong);
+      _popContext();
+    }
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  void _popContext() {
+    Navigator.pop(context);
+  }
+
+  void _clearInputs() {
+    _currentPasswordTextEditingController.clear();
+    _newPasswordTextEditingController.clear();
+    _confirmPasswordTextEditingController.clear();
   }
 }

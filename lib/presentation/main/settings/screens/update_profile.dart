@@ -32,55 +32,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late Image _profilePicture;
-
   UserProfile? _userProfile;
 
   String? _imageUrl;
-
-  String? _error;
-
-  Future<void> _uploadProfile() async {
-    try {
-      final XFile? image =
-      await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (image == null) return;
-
-      if (mounted) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return const Center(child: CircularProgressIndicator());
-            });
-      }
-
-      // FormData formData = FormData.fromMap({
-      //   'avatar': await MultipartFile.fromFile(image.path, filename: fileName)
-      // });
-
-      // final response = await _dio.post('/auth/upload-avatar', data: formData);
-
-      final response = await _uploadAvatarUseCase.execute(File(image.path));
-
-      if (response.success) {
-        _appPreferences.setImageUrl(response.data?.data ?? '');
-        setState(() {
-          _imageUrl = response.data?.data;
-        });
-
-        if (mounted) {
-          Navigator.of(context).pop();
-        }
-      } else {
-        throw Exception(response.error);
-      }
-    } catch (err) {
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(err.toString())));
-    }
-  }
 
   Future<void> _loadUserFromPreferences() async {
     _appPreferences.getLoggedInUser().then((UserModel? value) {
@@ -303,39 +257,81 @@ class _UpdateProfileState extends State<UpdateProfile> {
   }
 
   Future<void> _submit() async {
-    String message = '';
-
-    if (_formKey.currentState?.validate() ?? false) {
-      final response = await _updateProfileUseCase.execute(_userProfile!);
-
-      if (response.success) {
-        UserModel? userModel = await _appPreferences.getLoggedInUser();
-
-        if (userModel != null) {
-          userModel = userModel.copyWith(
-            firstName: _userProfile!.firstName,
-            lastName: _userProfile!.lastName,
-            position: _userProfile!.position,
-            contactNumber: _userProfile!.contactNumber,
-          );
-
-          await _appPreferences.setLoggedInUser(userModel);
-        }
-
-        message = 'Successfully updated user profile.';
-      } else {
-        setState(() {
-          _error = response.error;
-        });
-      }
-    } else {
-      message = 'Please review required fields.';
+    if (_formKey.currentState!.validate()) {
+      return _showSnackbar(AppStrings.pleaseCheckYourInputs);
     }
 
-    if (!mounted) return;
+    final response = await _updateProfileUseCase.execute(_userProfile!);
 
+    if (response.success) {
+      UserModel? userModel = await _appPreferences.getLoggedInUser();
+
+      if (userModel != null) {
+        userModel = userModel.copyWith(
+          firstName: _userProfile!.firstName,
+          lastName: _userProfile!.lastName,
+          position: _userProfile!.position,
+          contactNumber: _userProfile!.contactNumber,
+        );
+
+        await _appPreferences.setLoggedInUser(userModel);
+      }
+
+      _showSnackbar('Successfully updated user profile.');
+    } else {
+      _showSnackbar(response.error ?? AppStrings.somethingWentWrong);
+    }
+  }
+
+  Future<void> _uploadProfile() async {
+    try {
+      final XFile? image =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (image == null) return;
+
+      if (mounted) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(child: CircularProgressIndicator());
+            });
+      }
+
+      // FormData formData = FormData.fromMap({
+      //   'avatar': await MultipartFile.fromFile(image.path, filename: fileName)
+      // });
+
+      // final response = await _dio.post('/auth/upload-avatar', data: formData);
+
+      final response = await _uploadAvatarUseCase.execute(File(image.path));
+
+      if (response.success) {
+        _appPreferences.setImageUrl(response.data?.data ?? '');
+        setState(() {
+          _imageUrl = response.data?.data;
+        });
+
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+      } else {
+        throw Exception(response.error);
+      }
+    } catch (err) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(err.toString())));
+    }
+  }
+
+  void _showSnackbar(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  void _popContext() {
+    Navigator.pop(context);
   }
 }
 
