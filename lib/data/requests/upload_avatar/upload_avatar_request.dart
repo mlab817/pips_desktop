@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -29,23 +28,16 @@ class UploadAvatarRequest {
       _$UploadAvatarRequestFromJson(json);
 
   Map<String, dynamic> toJson() {
-    debugPrint("filePath $filePath");
-    debugPrint(avatar.length.toString());
-
     final formData = FormData();
     // FormData.fromMap({'extra': 'test data', 'avatar': avatar ?? 'no data'});
 
     formData.files.add(MapEntry('avatar', avatar));
-
-    debugPrint(formData.fields.toString());
 
     final map = <String, dynamic>{};
 
     formData.fields.forEach((field) {
       map[field.key] = field.value;
     });
-
-    debugPrint("map: ${map.toString()}");
 
     return map;
   }

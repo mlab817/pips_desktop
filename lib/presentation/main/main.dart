@@ -29,9 +29,9 @@ class _MainViewState extends State<MainView> {
 
   late PresenceChannel _presenceChannel;
 
-  late StreamSubscription<ChannelReadEvent> _streamSubscription;
+  StreamSubscription<ChannelReadEvent>? _streamSubscription;
 
-  late StreamSubscription<ChannelReadEvent> _allEventsSubs;
+  StreamSubscription<ChannelReadEvent>? _allEventsSubs;
 
   int _selectedIndex = 0;
 
@@ -61,7 +61,7 @@ class _MainViewState extends State<MainView> {
     _presenceChannel.subscribeIfNotUnsubscribed();
 
     _allEventsSubs = _presenceChannel.bindToAll().listen((event) {
-      debugPrint(event.toString());
+      //
     });
 
     if (_presenceChannel.state?.status == ChannelStatus.subscribed) {
@@ -85,7 +85,9 @@ class _MainViewState extends State<MainView> {
     _presenceChannel.unsubscribe();
 
     // cancel subscription
-    _streamSubscription.cancel();
+    if (_streamSubscription != null) {
+      _streamSubscription!.cancel();
+    }
   }
 
   @override

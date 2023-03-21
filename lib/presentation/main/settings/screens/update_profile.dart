@@ -38,6 +38,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
 
   String? _imageUrl;
 
+  String? _error;
+
   Future<void> _uploadProfile() async {
     try {
       final XFile? image =
@@ -307,7 +309,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
       final response = await _updateProfileUseCase.execute(_userProfile!);
 
       if (response.success) {
-        debugPrint('update successful');
         UserModel? userModel = await _appPreferences.getLoggedInUser();
 
         if (userModel != null) {
@@ -323,7 +324,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
 
         message = 'Successfully updated user profile.';
       } else {
-        debugPrint('update failed');
+        setState(() {
+          _error = response.error;
+        });
       }
     } else {
       message = 'Please review required fields.';

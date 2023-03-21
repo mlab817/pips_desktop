@@ -31,8 +31,6 @@ class SearchResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("query: $query");
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Results'),

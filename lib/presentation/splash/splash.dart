@@ -1,27 +1,18 @@
+/// Splash screen determines which route to show first. Show also status of retrieval of data.
+/// First is onboarding screen but determine first if the user has disabled its viewing or not.
+/// After onboarding, go to login page but if user is already logged in, proceed to main.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/dep_injection.dart';
+import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
-import 'package:pips/presentation/resources/color_manager.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 
 import '../../app/routes.dart';
-
-Stream<double> progressCounter() async* {
-  int i = 0;
-
-  while (true) {
-    await Future.delayed(const Duration(milliseconds: 50));
-    yield i++ / 100;
-    if (i > 100) break;
-  }
-}
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -31,37 +22,36 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-  final AppPreferences _appPreferences = instance<AppPreferences>();
-  final _streamController = StreamController<double>();
+  Timer? _timer;
+  final Repository _repository = instance<Repository>();
 
-  void _startProgress() {
-    progressCounter().pipe(_streamController.sink);
+  _startDelay() {
+    _timer = Timer(const Duration(seconds: 2), _goNext);
+  }
 
-    _appPreferences.getIsUserLoggedIn().then((isUserLoggedIn) => {
-          debugPrint("isUserLoggedIn: ${isUserLoggedIn.toString()}"),
+  Future<void> _goNext() async {
+    _repository.getIsUserLoggedIn().then((isUserLoggedIn) => {
           if (isUserLoggedIn)
             {
-              // handle logged in
-              _appPreferences
-                  .getIsOnboardingScreenViewed()
-                  .then((isOnboardingScreenViewed) => {
-                        if (isOnboardingScreenViewed)
-                          {
-                            Navigator.pushReplacementNamed(
-                                context, Routes.mainRoute),
-                          }
-                        else
-                          {
-                            _appPreferences.setIsOnboardingScreenViewed(true),
-                            Navigator.pushReplacementNamed(
-                                context, Routes.onboardingRoute),
-                          }
-                      })
+              // navigate to main screen
+              Navigator.pushReplacementNamed(context, Routes.mainRoute)
             }
           else
             {
-              // handle not logged in
-              Navigator.pushReplacementNamed(context, Routes.loginRoute),
+              _repository
+                  .getIsOnboardingScreenViewed()
+                  .then((isOnBoardingScreenViewed) => {
+                        if (isOnBoardingScreenViewed)
+                          {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.loginRoute)
+                          }
+                        else
+                          {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.onboardingRoute)
+                          }
+                      })
             }
         });
   }
@@ -70,74 +60,37 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
 
-    _startProgress();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _streamController.close();
+    _startDelay();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<double>(
-          stream: _streamController.stream,
-          // progressCounter(), // loadDataFromCsv(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              Future.delayed(Duration.zero, () {
-                Navigator.pushNamed(context, Routes.loginRoute);
-              });
+      body: _buildSplash(),
+    );
+  }
 
-              // return Text(snapshot.data?.toString() ?? "");
-            } else if (snapshot.hasData && snapshot.data != null) {
-              return Center(
-                child: SizedBox(
-                  height: AppSize.s100,
-                  width: AppSize.s100,
-                  child: LiquidCircularProgressIndicator(
-                    value: snapshot.data ?? 0,
-                    backgroundColor: ColorManager.white,
-                    direction: Axis.vertical,
-                    center: Text(
-                      '${(snapshot.data! * 100).toStringAsFixed(0)}%',
-                      style: TextStyle(
-                        color: ColorManager.gray,
-                        fontSize: AppSize.s20,
-                      ),
-                    ),
-                    valueColor: AlwaysStoppedAnimation(
-                        Theme.of(context).colorScheme.primary),
-                  ),
+  Widget _buildSplash() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            AssetsManager.svgLogoAsset,
+            height: AppSize.s100,
+          ),
+          const SizedBox(
+            height: AppSize.s36,
+          ),
+          Text(
+            AppStrings.publicInvestmentProgrammingSystem,
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontFamily: FontFamily.bebasNeue,
                 ),
-              );
-            }
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    AssetsManager.svgLogoAsset,
-                    height: AppSize.s100,
-                  ),
-                  const SizedBox(
-                    height: AppSize.s36,
-                  ),
-                  Text(
-                    AppStrings.publicInvestmentProgrammingSystem,
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          color: ColorManager.primary,
-                          fontFamily: FontFamily.bebasNeue,
-                          fontSize: FontSize.md,
-                        ),
-                  ),
-                ],
-              ),
-            );
-          }),
+          ),
+        ],
+      ),
     );
   }
 }

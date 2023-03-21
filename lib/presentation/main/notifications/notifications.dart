@@ -23,9 +23,9 @@ class NotificationsView extends StatefulWidget {
 class _NotificationsViewState extends State<NotificationsView>
     with AutomaticKeepAliveClientMixin {
   final NotificationsUseCase _notificationsUseCase =
-  instance<NotificationsUseCase>();
+      instance<NotificationsUseCase>();
   final ReadNotificationUseCase _readNotificationUseCase =
-  instance<ReadNotificationUseCase>();
+      instance<ReadNotificationUseCase>();
 
   late ScrollController _scrollController;
 
@@ -159,28 +159,22 @@ class _NotificationsViewState extends State<NotificationsView>
     return ListView.separated(
       controller: _scrollController,
       itemCount: _notifications.length + 1,
-      separatorBuilder: (context, index) =>
-          Divider(
-            color: Theme
-                .of(context)
-                .dividerColor,
-          ),
+      separatorBuilder: (context, index) => Divider(
+        color: Theme.of(context).dividerColor,
+      ),
       itemBuilder: (context, index) {
         if (index == _notifications.length) {
           return _loading
               ? const Center(child: CircularProgressIndicator())
               : (_error != null
-              ? _buildError()
-              : const Text(
-            'End of list',
-            textAlign: TextAlign.center,
-          ));
+                  ? _buildError()
+                  : const Text(
+                      'End of list',
+                      textAlign: TextAlign.center,
+                    ));
         }
 
         var notifications = _notifications;
-
-        debugPrint("read: ${notifications[index].read.toString()}");
-        debugPrint("read: ${notifications[index].readAt.toString()}");
 
         return ListTile(
           leading: Icon(
@@ -188,36 +182,24 @@ class _NotificationsViewState extends State<NotificationsView>
                 ? Icons.mark_email_read
                 : Icons.mark_email_unread_outlined,
             color: notifications[index].read
-                ? Theme
-                .of(context)
-                .colorScheme
-                .secondary
-                : Theme
-                .of(context)
-                .colorScheme
-                .primary,
+                ? Theme.of(context).colorScheme.secondary
+                : Theme.of(context).colorScheme.primary,
           ),
           title: Text(
             notifications[index].data.subject,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               color: notifications[index].read
-                  ? Theme
-                  .of(context)
-                  .colorScheme
-                  .secondary
-                  : Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
+                  ? Theme.of(context).colorScheme.secondary
+                  : Theme.of(context).colorScheme.primary,
             ),
           ),
           subtitle: Text(
             DateFormat.yMMMd().add_jms().format(
-              DateTime.parse(
-                notifications[index].createdAt,
-              ),
-            ),
+                  DateTime.parse(
+                    notifications[index].createdAt,
+                  ),
+                ),
             style: const TextStyle(fontSize: FontSize.lg),
           ),
           onTap: () {
@@ -366,15 +348,15 @@ class _MySearchDelegate extends SearchDelegate<String> {
   Widget buildResults(BuildContext context) {
     final results = _notifications
         .where((notification) =>
-    notification.data.subject
-        .toLowerCase()
-        .contains(query.toLowerCase()) ||
-        notification.data.sender
-            .toLowerCase()
-            .contains(query.toLowerCase()) ||
-        notification.data.message
-            .toLowerCase()
-            .contains(query.toLowerCase()))
+            notification.data.subject
+                .toLowerCase()
+                .contains(query.toLowerCase()) ||
+            notification.data.sender
+                .toLowerCase()
+                .contains(query.toLowerCase()) ||
+            notification.data.message
+                .toLowerCase()
+                .contains(query.toLowerCase()))
         .toList();
 
     return ListView.builder(
@@ -394,11 +376,10 @@ class _MySearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final suggestions = query.isNotEmpty
         ? _notifications
-        .where((notification) =>
-        notification.data.subject
-            .toLowerCase()
-            .startsWith(query.toLowerCase()))
-        .toList()
+            .where((notification) => notification.data.subject
+                .toLowerCase()
+                .startsWith(query.toLowerCase()))
+            .toList()
         : [];
 
     return ListView.builder(

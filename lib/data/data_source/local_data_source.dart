@@ -21,7 +21,7 @@ abstract class LocalDataSource {
 
   Future<String?> getImageUrl();
 
-  Future<void> setIsOnboardingScreenViewed();
+  Future<void> setIsOnboardingScreenViewed(bool value);
 
   Future<bool> getIsOnboardingScreenViewed();
 
@@ -78,13 +78,13 @@ class LocalDataSourceImplementer implements LocalDataSource {
   }
 
   @override
-  Future<void> setIsOnboardingScreenViewed() async {
-    _sharedPreferences.setBool(sharedPrefsIsOnboardingScreenViewed, true);
+  Future<void> setIsOnboardingScreenViewed(value) async {
+    _sharedPreferences.setBool(sharedPrefsIsOnboardingScreenViewed, value);
   }
 
   @override
   Future<bool> getIsOnboardingScreenViewed() async {
-    return // _sharedPreferences.getBool(sharedPrefsIsOnboardingScreenViewed) ??
+    return _sharedPreferences.getBool(sharedPrefsIsOnboardingScreenViewed) ??
         false;
   }
 

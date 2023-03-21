@@ -139,7 +139,6 @@ class _ViewPdfViewState extends State<ViewPdfView> {
   }
 
   Widget _buildProgressIndicator() {
-    debugPrint(_progress.toString());
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.md),

@@ -8,12 +8,12 @@ import 'package:pips/presentation/resources/font_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 
-import '../../../app/dep_injection.dart';
-import '../../../data/requests/login/login_request.dart';
-import '../../../data/responses/login/login_response.dart';
-import '../../../domain/models/user.dart';
-import '../../../domain/usecase/base_usecase.dart';
-import '../../resources/assets_manager.dart';
+import '../../app/dep_injection.dart';
+import '../../data/requests/login/login_request.dart';
+import '../../data/responses/login/login_response.dart';
+import '../../domain/models/user.dart';
+import '../../domain/usecase/base_usecase.dart';
+import '../resources/assets_manager.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -32,11 +32,27 @@ class _LoginViewState extends State<LoginView> {
 
   bool _passwordIsObscured = true;
 
+  Future<void> _retrieveUser() async {
+    final bool isUserLoggedIn = await _repository.getIsUserLoggedIn();
+
+    if (isUserLoggedIn) {
+      _goToMainRoute();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _retrieveUser();
+  }
+
   @override
   void dispose() {
-    super.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -56,17 +72,17 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   SvgPicture.asset(
                     AssetsManager.svgLogoAsset,
-                    height: AppSize.s50,
+                    height: AppSize.s100,
                   ),
                   const SizedBox(
-                    height: AppSize.s12,
+                    height: AppSize.s30,
                   ),
-                  const Text(
+                  Text(
                     AppStrings.publicInvestmentProgrammingSystem,
-                    style: TextStyle(
-                      fontSize: AppSize.s20,
-                      fontFamily: FontFamily.bebasNeue,
-                    ),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontFamily: FontFamily.bebasNeue,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -77,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
                     controller: _usernameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Username is required';
+                        return AppStrings.usernameIsRequired;
                       }
                       return null;
                     },
@@ -95,7 +111,7 @@ class _LoginViewState extends State<LoginView> {
                     obscureText: _passwordIsObscured,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Password is required';
+                        return AppStrings.passwordIsRequired;
                       }
                       return null;
                     },
@@ -104,11 +120,7 @@ class _LoginViewState extends State<LoginView> {
                       prefixIcon: const Icon(Icons.key),
                       hintText: AppStrings.password,
                       suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _passwordIsObscured = !_passwordIsObscured;
-                          });
-                        },
+                        onPressed: _togglePasswordVisibility,
                         icon: Icon(_passwordIsObscured
                             ? Icons.visibility
                             : Icons.visibility_off),
@@ -118,28 +130,40 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(
                     height: AppSize.s20,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _login();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please check your inputs!')));
-                      }
-                    },
-                    child: const Text(
-                      AppStrings.login,
+                  // TODO: Reminder to change height of ElevatedButton to 36
+                  SizedBox(
+                    height: AppSize.s36,
+                    width: AppSize.s100,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _login();
+                        } else {
+                          _showSnackbar(AppStrings.pleaseCheckYourInputs);
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.login),
+                          SizedBox(width: AppSize.md),
+                          Text(
+                            AppStrings.login,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
-                    height: AppSize.s40,
+                    height: AppSize.s60,
                   ),
                   TextButton(
                     onPressed: _goToForgotPassword,
                     child: const Text(AppStrings.forgotPassword),
                   ),
-                  const Divider(),
+                  Divider(
+                    color: Theme.of(context).dividerColor,
+                  ),
                   TextButton(
                     onPressed: _goToSignUp,
                     child: const Text(AppStrings.signUp),
@@ -160,7 +184,7 @@ class _LoginViewState extends State<LoginView> {
         context: context,
         builder: (context) {
           return Dialog(
-            backgroundColor: Colors.transparent,
+            // backgroundColor: Colors.transparent,
             clipBehavior: Clip.hardEdge,
             elevation: AppSize.s0,
             insetPadding: EdgeInsets.zero,
@@ -179,7 +203,6 @@ class _LoginViewState extends State<LoginView> {
             username: _usernameController.text,
             password: _passwordController.text))
         .then((Result<LoginResponse> value) => {
-              debugPrint("login success: ${value.success.toString()}"),
               if (value.success)
                 {
                   _repository.setIsUserLoggedIn(),
@@ -189,13 +212,12 @@ class _LoginViewState extends State<LoginView> {
                   _repository.setBearerToken(value.data?.accessToken ?? ""),
                   resetModules(),
                   Navigator.of(context).pop(),
-                  Navigator.pushReplacementNamed(context, Routes.mainRoute),
+                  _goToMainRoute(),
                 }
               else
                 {
-                  debugPrint('Failed'),
-                  debugPrint(value.error),
                   Navigator.of(context).pop(),
+                  _showSnackbar(value.error ?? AppStrings.somethingWentWrong),
                 }
             });
   }
@@ -206,6 +228,18 @@ class _LoginViewState extends State<LoginView> {
 
   void _goToSignUp() {
     Navigator.pushNamed(context, Routes.signUpRoute);
+  }
+
+  void _goToMainRoute() {
+    Navigator.pushReplacementNamed(
+      context,
+      Routes.mainRoute,
+    );
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _togglePasswordVisibility() {

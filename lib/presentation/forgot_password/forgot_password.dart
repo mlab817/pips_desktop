@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
+import 'package:pips/domain/usecase/forgot_password_usecase.dart';
 
-import '../../resources/sizes_manager.dart';
-import '../../resources/strings_manager.dart';
+import '../../app/dep_injection.dart';
+import '../resources/sizes_manager.dart';
+import '../resources/strings_manager.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);
@@ -12,6 +15,16 @@ class ForgotPasswordView extends StatefulWidget {
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final ForgotPasswordUseCase _useCase = instance<ForgotPasswordUseCase>();
+
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _emailController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +47,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     child: TextFormField(
                       autofocus: true,
                       keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Email address is required.';
@@ -62,8 +76,20 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     );
   }
 
-  void _sendPasswordResetLink() {
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset link sent!')));
+  Future<void> _sendPasswordResetLink() async {
+    final response = await _useCase
+        .execute(ForgotPasswordRequest(email: _emailController.text));
+
+    // 'Password reset link sent!'
+    if (response.success) {
+      _showSnackbar(response.data?.status ?? 'Success!');
+    } else {
+      _showSnackbar(response.error ?? 'Something went wrong');
+    }
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 }

@@ -149,7 +149,6 @@ class _SearchProjectDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    debugPrint("query: $query");
     final results = _projects
         .where((project) =>
             project.title.toLowerCase().contains(query.toLowerCase()))
@@ -164,7 +163,7 @@ class _SearchProjectDelegate extends SearchDelegate<String> {
           return ListTile(
             title: Text(project.title ?? ''),
             onTap: () {
-              debugPrint('tapped result');
+              //  TODO: implement onTap office
             },
           );
         });

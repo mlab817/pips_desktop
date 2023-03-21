@@ -6,7 +6,6 @@ import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:pips/presentation/resources/theme_manager.dart';
 import 'package:provider/provider.dart';
 
-import '../presentation/logout_listener/logout_listener.dart';
 import '../presentation/main/main.dart';
 
 class MyApp extends StatefulWidget {
@@ -34,17 +33,11 @@ class _MyAppState extends State<MyApp> {
             },
           ),
           theme: CustomTheme.lightTheme,
-          // ThemeManager.getApplicationTheme(context, ThemeMode.light),
           darkTheme: CustomTheme.darkTheme,
-          // ThemeManager.getApplicationTheme(context, ThemeMode.dark),
           themeMode: Provider.of<CustomTheme>(context).currentTheme,
-          // currentTheme.currentTheme,
           onGenerateRoute: RouteGenerator.onGenerateRoute,
-          initialRoute: Routes.onboardingRoute,
-          // Routes.splashRoute
-          home: const LogoutListener(
-            child: MainView(),
-          ),
+          initialRoute: Routes.splashRoute,
+          home: const MainView(),
         );
       },
     );

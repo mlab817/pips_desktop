@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pips/app/routes.dart';
+import 'package:pips/domain/repository/repository.dart';
 
+import '../../app/dep_injection.dart';
 import '../resources/assets_manager.dart';
 import '../resources/sizes_manager.dart';
 
@@ -14,27 +16,30 @@ class OnboardingView extends StatefulWidget {
 
 class _OnboardingViewState extends State<OnboardingView> {
   final PageController _pageController = PageController();
+  final Repository _repository = instance<Repository>();
   int _currentIndex = 0;
+
+  bool _viewOnboardingScreen = false;
 
   final List<OnboardingPage> _screens = [
     OnboardingPage(
       title: 'Manage PAPs',
-      description: '',
+      description: 'View and Download PAPs',
       lottieAnimation: AssetsManager.projects,
     ),
     OnboardingPage(
       title: 'Connect with other users',
-      description: '',
+      description: 'Chat other users in real-time',
       lottieAnimation: AssetsManager.chat,
     ),
     OnboardingPage(
       title: 'Manage notifications',
-      description: '',
+      description: 'Never miss anything again',
       lottieAnimation: AssetsManager.notifications,
     ),
     OnboardingPage(
       title: 'Manage Profile',
-      description: '',
+      description: 'Manage your profile and password here',
       lottieAnimation: AssetsManager.profile,
     ),
   ];
@@ -49,26 +54,45 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                itemCount: _screens.length,
-                controller: _pageController,
-                itemBuilder: (context, index) {
-                  return _buildPage(index);
-                },
-                onPageChanged: (int index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              itemCount: _screens.length,
+              controller: _pageController,
+              itemBuilder: (context, index) {
+                return _buildPage(index);
+              },
+              onPageChanged: (int index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
             ),
-            _buildBottomNavigation()
-          ],
-        ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _viewOnboardingScreen = !_viewOnboardingScreen;
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Checkbox(
+                  value: _viewOnboardingScreen,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _viewOnboardingScreen = value ?? false;
+                    });
+                  },
+                ),
+                const Text('Don\'t show this again'),
+              ],
+            ),
+          ),
+          _buildBottomNavigation()
+        ],
       ),
     );
   }
@@ -77,19 +101,22 @@ class _OnboardingViewState extends State<OnboardingView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: _currentIndex > 0
-              ? () {
-                  if (_currentIndex == 0) {
-                    return;
+        SizedBox(
+          width: AppSize.s80,
+          child: IconButton(
+            onPressed: _currentIndex > 0
+                ? () {
+                    if (_currentIndex == 0) {
+                      return;
+                    }
+                    setState(() {
+                      --_currentIndex;
+                    });
+                    _pageController.jumpToPage(_currentIndex);
                   }
-                  setState(() {
-                    --_currentIndex;
-                  });
-                  _pageController.jumpToPage(_currentIndex);
-                }
-              : null,
-          icon: const Icon(Icons.chevron_left),
+                : null,
+            icon: const Icon(Icons.chevron_left),
+          ),
         ),
         Flexible(
             child: Row(
@@ -106,24 +133,30 @@ class _OnboardingViewState extends State<OnboardingView> {
             );
           }).toList(),
         )),
-        _currentIndex < _screens.length - 1
-            ? IconButton(
-                onPressed: () {
-                  if (_currentIndex == _screens.length - 1) {
-                    return;
-                  }
-                  setState(() {
-                    _currentIndex++;
-                  });
-                  _pageController.jumpToPage(_currentIndex);
-                },
-                icon: const Icon(Icons.chevron_right),
-              )
-            : TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, Routes.mainRoute);
-                },
-                child: const Text('Proceed')),
+        SizedBox(
+          width: AppSize.s80,
+          child: _currentIndex < _screens.length - 1
+              ? IconButton(
+                  onPressed: () {
+                    if (_currentIndex == _screens.length - 1) {
+                      return;
+                    }
+                    setState(() {
+                      _currentIndex++;
+                    });
+                    _pageController.jumpToPage(_currentIndex);
+                  },
+                  icon: const Icon(Icons.chevron_right),
+                )
+              : TextButton(
+                  onPressed: () async {
+                    await _repository
+                        .setIsOnboardingScreenViewed(_viewOnboardingScreen);
+
+                    _goToLoginRoute();
+                  },
+                  child: const Text('Start')),
+        ),
       ],
     );
   }
@@ -139,31 +172,46 @@ class _OnboardingViewState extends State<OnboardingView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
+          Text(
+            screen.title,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(
+            height: AppSize.s20,
+          ),
           SizedBox(
-              height: screenSize.height / 2,
+              height: screenSize.height / 3,
               child: LottieBuilder.asset(screen.lottieAnimation)),
           const SizedBox(
             height: AppSize.s20,
           ),
-          Text(
-            screen.title!,
-            style: Theme.of(context).textTheme.headlineMedium,
+          Padding(
+            padding: const EdgeInsets.all(AppSize.md),
+            child: Text(
+              screen.description,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
     );
   }
+
+  void _goToLoginRoute() {
+    Navigator.pushReplacementNamed(context, Routes.loginRoute);
+  }
 }
 
 class OnboardingPage {
-  String? title;
+  String title;
 
   String description;
 
   String lottieAnimation;
 
   OnboardingPage({
-    this.title,
+    required this.title,
     required this.description,
     required this.lottieAnimation,
   });

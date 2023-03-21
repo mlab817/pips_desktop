@@ -87,6 +87,8 @@ abstract class Repository {
 
   Future<Result<AllUsersResponse>> getAllUsers();
 
+  Future<bool> getIsOnboardingScreenViewed();
+
   Future<void> setBearerToken(String value);
 
   Future<void> setIsUserLoggedIn();
@@ -104,4 +106,6 @@ abstract class Repository {
   Future<void> setDatabaseLoaded();
 
   Future<void> resetDatabaseLoaded();
+
+  Future<void> setIsOnboardingScreenViewed(bool value);
 }

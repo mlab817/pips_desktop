@@ -29,7 +29,7 @@ class ChatRoomView extends StatefulWidget {
 class _ChatRoomViewState extends State<ChatRoomView> {
   final ChatRoomUseCase _chatRoomUseCase = instance<ChatRoomUseCase>();
   final CreateMessageUseCase _createMessageUseCase =
-      instance<CreateMessageUseCase>();
+  instance<CreateMessageUseCase>();
   final PusherChannelsClient _client = instance<PusherChannelsClient>();
   final Repository _repository = instance<Repository>();
   final AppPreferences _appPreferences = instance<AppPreferences>();
@@ -92,8 +92,6 @@ class _ChatRoomViewState extends State<ChatRoomView> {
   }
 
   Future<void> _connectToClient() async {
-    debugPrint("connecting to client");
-
     final bearerToken = await _repository.getBearerToken();
 
     if (_chatRoom != null) {
@@ -102,8 +100,8 @@ class _ChatRoomViewState extends State<ChatRoomView> {
       _privateChannel = _client.privateChannel(
         privateChannel,
         authorizationDelegate:
-            EndpointAuthorizableChannelTokenAuthorizationDelegate
-                .forPrivateChannel(
+        EndpointAuthorizableChannelTokenAuthorizationDelegate
+            .forPrivateChannel(
           authorizationEndpoint: PusherWebsocketClient.authEndPoint,
           headers: {
             "Authorization": "Bearer $bearerToken",
@@ -114,12 +112,11 @@ class _ChatRoomViewState extends State<ChatRoomView> {
       _privateChannel?.subscribeIfNotUnsubscribed();
 
       _streamSubscription = _privateChannel?.bindToAll().listen((event) {
-        print(event.name.toString());
+        //
       });
 
       _streamSubscription?.onData((ChannelReadEvent event) {
         if (event.name == 'message.created') {
-          debugPrint("eventName: ${event.name}");
           setState(() {
             _messages?.add(Message.fromJson(jsonDecode(event.data)['message']));
           });
@@ -178,7 +175,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
         children: [
           _loading
               ? const Expanded(
-                  child: Center(child: CircularProgressIndicator()))
+              child: Center(child: CircularProgressIndicator()))
               : _getChatMessages(),
           if (_isTyping)
             const Padding(
@@ -214,10 +211,10 @@ class _ChatRoomViewState extends State<ChatRoomView> {
               controller: _scrollController,
               shrinkWrap: true,
               itemCount:
-                  _messages?.length, // snapshot.data?.data?.data.length ?? 0,
+              _messages?.length, // snapshot.data?.data?.data.length ?? 0,
               itemBuilder: (context, index) {
                 final message =
-                    _messages![index]; // snapshot.data?.data?.data[index];
+                _messages![index]; // snapshot.data?.data?.data[index];
 
                 return message.senderId == currentUserId
                     ? _buildRight(message)
@@ -231,8 +228,8 @@ class _ChatRoomViewState extends State<ChatRoomView> {
 
     return const Expanded(
         child: Center(
-      child: CircularProgressIndicator(),
-    ));
+          child: CircularProgressIndicator(),
+        ));
   }
 
   // sent by others
@@ -251,7 +248,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
             CircleAvatar(
               backgroundColor: Colors.white,
               backgroundImage:
-                  NetworkImage("https://robohash.org/${message.senderId}.png"),
+              NetworkImage("https://robohash.org/${message.senderId}.png"),
             ),
             const SizedBox(
               width: AppSize.sm,
@@ -326,15 +323,15 @@ class _ChatRoomViewState extends State<ChatRoomView> {
             ),
             (message.sent ?? false)
                 ? Icon(
-                    Icons.check_circle_rounded,
-                    size: AppSize.s14,
-                    color: ColorManager.gray,
-                  )
+              Icons.check_circle_rounded,
+              size: AppSize.s14,
+              color: ColorManager.gray,
+            )
                 : Icon(
-                    Icons.circle_outlined,
-                    size: AppSize.s14,
-                    color: ColorManager.gray,
-                  ),
+              Icons.circle_outlined,
+              size: AppSize.s14,
+              color: ColorManager.gray,
+            ),
           ],
         ),
       ),
@@ -347,7 +344,9 @@ class _ChatRoomViewState extends State<ChatRoomView> {
         color: Colors.white,
         border: Border(
           top: BorderSide(
-            color: Theme.of(context).dividerColor,
+            color: Theme
+                .of(context)
+                .dividerColor,
             width: 0.5,
           ),
         ),
@@ -378,7 +377,9 @@ class _ChatRoomViewState extends State<ChatRoomView> {
     }
 
     // generate a localId
-    final localId = DateTime.now().millisecondsSinceEpoch;
+    final localId = DateTime
+        .now()
+        .millisecondsSinceEpoch;
 
     final localMessage = Message(
       id: localId,
@@ -406,14 +407,14 @@ class _ChatRoomViewState extends State<ChatRoomView> {
     if (createMessageResponse.success) {
       // get index
       final index =
-          _messages?.indexWhere((element) => element.localId == localId);
+      _messages?.indexWhere((element) => element.localId == localId);
 
       if (index != null) {
         setState(() {
           // _messages?.add(createMessageResponse.data as Message);
           _messages![index] = localMessage.copyWith(sent: true);
         });
-      } else {}
+      }
     }
   }
 }

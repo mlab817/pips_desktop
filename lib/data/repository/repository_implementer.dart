@@ -396,4 +396,15 @@ class RepositoryImplementer implements Repository {
       return Result(error: e.toString());
     }
   }
+
+  @override
+  Future<bool> getIsOnboardingScreenViewed() async {
+    return _localDataSource.getIsOnboardingScreenViewed();
+  }
+
+  @override
+  Future<void> setIsOnboardingScreenViewed(bool value) async {
+    // TODO: implement setIsOnboardingScreenViewed
+    return _localDataSource.setIsOnboardingScreenViewed(value);
+  }
 }

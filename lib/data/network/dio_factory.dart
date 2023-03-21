@@ -88,6 +88,11 @@ class LogoutInterceptor extends InterceptorsWrapper {
       eventBus.fire(LogoutEvent(loggedOut: true));
     }
 
+    if (err.response?.statusCode == 422) {
+      // if validation error occurred
+      // throwError(err.response?.data?.message ?? 'Validation error');
+    }
+
     handler.next(err);
   }
 }

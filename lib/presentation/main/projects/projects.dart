@@ -45,7 +45,6 @@ class _ProjectsViewState extends State<ProjectsView>
       if (response.success) {
         setState(() {
           _lastPage = response.data?.meta.pagination.last ?? 1;
-          debugPrint(_lastPage.toString());
           _loading = false;
           _currentPage++;
           _projects.addAll(response.data?.data ?? []);

@@ -32,7 +32,7 @@ class _OfficesViewState extends State<OfficesView> {
   late ScrollController _scrollController;
 
   final TextEditingController _searchTextEditingController =
-      TextEditingController();
+  TextEditingController();
 
   final TextEditingController _searchOfficeController = TextEditingController();
 
@@ -50,11 +50,14 @@ class _OfficesViewState extends State<OfficesView> {
 
   int _lastPage = 1;
 
+  String? _error;
+
   void _filterList() {
     setState(() {
       if (_searchOfficeController.text.isNotEmpty) {
         _filteredOffices = _offices
-            .where((item) => item.acronym
+            .where((item) =>
+            item.acronym
                 .toLowerCase()
                 .contains(_searchOfficeController.text.toLowerCase()))
             .toList();
@@ -74,7 +77,7 @@ class _OfficesViewState extends State<OfficesView> {
     });
 
     final officesResponse =
-        await _officesUseCase.execute(GetOfficesRequest(page: _currentPage));
+    await _officesUseCase.execute(GetOfficesRequest(page: _currentPage));
 
     if (officesResponse.success) {
       if (mounted) {
@@ -99,11 +102,8 @@ class _OfficesViewState extends State<OfficesView> {
     // remove projects
     _projects = null;
 
-    // await office use cases
-    debugPrint("_getOffice triggered");
-
     final officeResponse =
-        await _officeUseCase.execute(_selectedOffice?.uuid ?? "");
+    await _officeUseCase.execute(_selectedOffice?.uuid ?? "");
     if (officeResponse.success) {
       if (mounted) {
         setState(() {
@@ -111,7 +111,9 @@ class _OfficesViewState extends State<OfficesView> {
         });
       }
     } else {
-      debugPrint(officeResponse.error);
+      setState(() {
+        _error = officeResponse.error;
+      });
     }
     // load selected office info
   }
@@ -179,45 +181,45 @@ class _OfficesViewState extends State<OfficesView> {
                   Expanded(
                     child: _filteredOffices.isNotEmpty
                         ? Padding(
-                            padding: const EdgeInsets.all(
-                              AppPadding.md,
-                            ),
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              itemCount: _filteredOffices.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final office = _filteredOffices[index];
+                      padding: const EdgeInsets.all(
+                        AppPadding.md,
+                      ),
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: _filteredOffices.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final office = _filteredOffices[index];
 
-                                return InkWell(
-                                  onTap: () {
-                                    if (UniversalPlatform.isDesktopOrWeb) {
-                                      setState(() {
-                                        _selectedOffice = office;
-                                      });
-                                      _getOffice();
-                                    } else {
-                                      // navigate to office view
-                                      Navigator.pushNamed(
-                                          context, Routes.officeRoute,
-                                          arguments: office.uuid);
-                                    }
-                                  },
-                                  borderRadius:
-                                      BorderRadius.circular(AppSize.s8),
-                                  child: ListTile(
-                                    dense: true,
-                                    title: Text(office.acronym),
-                                    selected: _selectedOffice == office,
-                                    // selectedTileColor: ColorManager.blue,
-                                    // selectedColor: ColorManager.white,
-                                  ),
-                                );
-                              },
+                          return InkWell(
+                            onTap: () {
+                              if (UniversalPlatform.isDesktopOrWeb) {
+                                setState(() {
+                                  _selectedOffice = office;
+                                });
+                                _getOffice();
+                              } else {
+                                // navigate to office view
+                                Navigator.pushNamed(
+                                    context, Routes.officeRoute,
+                                    arguments: office.uuid);
+                              }
+                            },
+                            borderRadius:
+                            BorderRadius.circular(AppSize.s8),
+                            child: ListTile(
+                              dense: true,
+                              title: Text(office.acronym),
+                              selected: _selectedOffice == office,
+                              // selectedTileColor: ColorManager.blue,
+                              // selectedColor: ColorManager.white,
                             ),
-                          )
+                          );
+                        },
+                      ),
+                    )
                         : const Center(
-                            child: CircularProgressIndicator(),
-                          ),
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ],
               ),
@@ -229,17 +231,17 @@ class _OfficesViewState extends State<OfficesView> {
               flex: 3,
               child: _selectedOffice != null
                   ? OfficeView(
-                      officeId: _selectedOffice!.uuid,
-                    ) //_getProjectsWidget()
+                officeId: _selectedOffice!.uuid,
+              ) //_getProjectsWidget()
                   : const Center(
-                      child: Text(
-                        'Select office from the left panel to view details here.',
-                        style: TextStyle(
-                          fontSize: FontSize.xxxl,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
+                child: Text(
+                  'Select office from the left panel to view details here.',
+                  style: TextStyle(
+                    fontSize: FontSize.xxxl,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
             )
         ],
       ),
@@ -325,7 +327,8 @@ class ProjectList extends StatelessWidget {
       onPageFinished: (url) => print('Page finished: $url'),
       onWebResourceError: (err) {
         print(
-          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
+          'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err
+              .description}',
         );
       },
     );
@@ -335,7 +338,7 @@ class ProjectList extends StatelessWidget {
       presentationStyle: PresentationStyle.sheet,
       // size: Size(400.0, 400.0),
       userAgent:
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
     );
 
     // await Future.delayed(Duration(seconds: 5));
@@ -374,7 +377,10 @@ class OfficeCard extends StatelessWidget {
               ),
               SelectableText(
                 office.name ?? "",
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .headlineSmall,
               ),
               const SizedBox(
                 height: AppSize.s20,

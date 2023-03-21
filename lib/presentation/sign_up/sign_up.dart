@@ -4,7 +4,8 @@ import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
 import 'package:pips/domain/usecase/signup_usecase.dart';
 
-import '../../resources/sizes_manager.dart';
+import '../resources/sizes_manager.dart';
+import '../resources/strings_manager.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -19,6 +20,8 @@ class _SignUpViewState extends State<SignUpView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _fileNameController = TextEditingController();
+
+  String? _error;
 
   SignUpRequest _signUpRequest = SignUpRequest(
     officeId: null,
@@ -228,7 +231,7 @@ class _SignUpViewState extends State<SignUpView> {
                           _signup();
                         }
                       },
-                      child: const Text('Sign Up')),
+                      child: const Text(AppStrings.signUp)),
                 ],
               ),
             ),
@@ -259,11 +262,17 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   void _signup() async {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Sign up!')));
+    final response = await _signUpUseCase.execute(_signUpRequest);
 
-    await _signUpUseCase
-        .execute(_signUpRequest)
-        .then((value) => debugPrint(value.toString()));
+    if (response.success) {
+      _showSnackbar('Successfully received your application!');
+    } else {
+      _showSnackbar(response.error ?? 'Unknown error!');
+    }
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 }

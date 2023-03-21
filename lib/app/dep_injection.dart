@@ -13,6 +13,7 @@ import 'package:pips/domain/usecase/allusers_usecase.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
+import 'package:pips/domain/usecase/forgot_password_usecase.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/domain/usecase/logins_usecase.dart';
 import 'package:pips/domain/usecase/messages_usecase.dart';
@@ -121,6 +122,9 @@ Future<void> initAppModule() async {
   instance.registerFactory<LoginsUseCase>(() => LoginsUseCase(instance()));
 
   instance.registerFactory<AllUsersUseCase>(() => AllUsersUseCase(instance()));
+
+  instance.registerFactory<ForgotPasswordUseCase>(
+      () => ForgotPasswordUseCase(instance()));
 }
 
 initLoginModule() {

@@ -112,4 +112,19 @@ class AppStrings {
   static const String showOnboardingScreen = 'Show onboarding screen';
   static const String showOnboardingScreenWhenAppStarts =
       'Show onboarding screen when app starts';
+  static const String usernameIsRequired = 'Username is required';
+  static const String passwordIsRequired = 'Password is required';
+  static const String pleaseCheckYourInputs = 'Please check your inputs!';
+  static const String somethingWentWrong = 'Something went wrong';
+
+  static const String success = "Success";
+  static const String noContent = "No Content";
+  static const String badRequestError = "Bad Request";
+  static const String forbiddenError = "Forbidden";
+  static const String unauthorizedError = "Unauthorized";
+  static const String notFoundError = "Not Found";
+  static const String internalServerError = "Internal Server Error";
+  static const String defaultError = "Error";
+  static const String timeoutError = "Timeout";
+  static const String noInternetError = "No internet";
 }

@@ -33,9 +33,6 @@ class _MainLayoutState extends State<MainLayout> {
     super.initState();
 
     currentTheme.addListener(() {});
-
-    debugPrint(
-        "isDesktopOrWeb: ${UniversalPlatform.isDesktopOrWeb.toString()}");
   }
 
   @override

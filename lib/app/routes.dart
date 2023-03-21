@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
-import 'package:pips/presentation/auth/sign_up/sign_up.dart';
 import 'package:pips/presentation/chat_room/chat_room.dart';
 import 'package:pips/presentation/main/dashboard/dashboard.dart';
 import 'package:pips/presentation/main/main.dart';
@@ -15,12 +14,13 @@ import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 import 'package:pips/presentation/new_project/new_project.dart';
 import 'package:pips/presentation/onboarding/onboarding.dart';
 import 'package:pips/presentation/project/project.dart';
+import 'package:pips/presentation/sign_up/sign_up.dart';
 import 'package:pips/presentation/splash/splash.dart';
 import 'package:pips/presentation/view_pdf/view_pdf.dart';
 import 'package:pips/presentation/view_project/view_project.dart';
 
-import '../presentation/auth/forgot_password/forgot_password.dart';
-import '../presentation/auth/login/login.dart';
+import '../presentation/forgot_password/forgot_password.dart';
+import '../presentation/login/login.dart';
 
 class Routes {
   static const String splashRoute = "/splash";
