@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/presentation/common/layout.dart';
+import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/notifications/notifications.dart';
-import 'package:pips/presentation/main/projects/projects.dart';
 import 'package:pips/presentation/main/settings/settings.dart';
 
 import '../../app/config.dart';
@@ -22,8 +22,6 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  final AppPreferences _appPreferences = instance<AppPreferences>();
-
   final Repository _repository = instance<Repository>();
   final PusherChannelsClient _client = instance<PusherChannelsClient>();
 
@@ -36,7 +34,7 @@ class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
 
   final List<Widget> _views = [
-    const ProjectsView(),
+    const HomeView(),
     const ChatView(),
     // const NewProjectView(),
     // const OfficesView(),
@@ -71,9 +69,25 @@ class _MainViewState extends State<MainView> {
     }
   }
 
+  Future<void> _requestFcmPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _requestFcmPermission();
 
     _subscribeToChannel();
   }
@@ -101,7 +115,7 @@ class _MainViewState extends State<MainView> {
 
   void _onDestinationSelected(int index) {
     if (index == 6) {
-      _appPreferences.clear();
+      _repository.clear();
       resetModules();
 
       Navigator.pushReplacementNamed(context, Routes.loginRoute);

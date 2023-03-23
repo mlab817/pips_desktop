@@ -5,6 +5,7 @@ import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/data/responses/all_offices/all_offices_response.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/logins/logins_response.dart';
@@ -18,10 +19,10 @@ import 'package:pips/data/responses/status/status_response.dart';
 import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
-import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 
 import '../../data/requests/sign_up/sign_up_request.dart';
 import '../../data/requests/update_password_request.dart';
+import '../../data/requests/update_profile/update_profile_request.dart';
 import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/chat_room/chat_room.dart';
 import '../../data/responses/chat_rooms/chat_rooms.dart';
@@ -77,7 +78,8 @@ abstract class Repository {
 
   Future<Result<SignUpResponse>> register(SignUpRequest input);
 
-  Future<Result<UpdateProfileResponse>> updateProfile(UserProfile input);
+  Future<Result<UpdateProfileResponse>> updateProfile(
+      UpdateProfileRequest input);
 
   Future<Result<UploadAvatarResponse>> uploadAvatar(File input);
 
@@ -101,7 +103,7 @@ abstract class Repository {
 
   Future<bool> getIsUserLoggedIn();
 
-  Future<void> setLoggedInUser(UserModel value);
+  Future<void> setLoggedInUser(User value);
 
   Future<bool> getDatabaseLoaded();
 
@@ -113,4 +115,10 @@ abstract class Repository {
 
   Future<Result<UpdatePasswordResponse>> updatePassword(
       UpdatePasswordRequest input);
+
+  Future<Result<AllOfficesResponse>> getAllOffices();
+
+  Future<void> clear();
+
+  Future<User?> getLoggedInUser();
 }

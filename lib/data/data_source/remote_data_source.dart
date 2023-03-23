@@ -22,7 +22,8 @@ import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
-import '../../presentation/main/settings/screens/update_profile.dart';
+import '../requests/update_profile/update_profile_request.dart';
+import '../responses/all_offices/all_offices_response.dart';
 import '../responses/all_users/all_users.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/forgot_password/forgot_password.dart';
@@ -68,7 +69,7 @@ abstract class RemoteDataSource {
 
   Future<SignUpResponse> register(SignUpRequest input);
 
-  Future<UpdateProfileResponse> updateProfile(UserProfile input);
+  Future<UpdateProfileResponse> updateProfile(UpdateProfileRequest input);
 
   Future<UploadAvatarResponse> uploadAvatar(File input);
 
@@ -79,17 +80,18 @@ abstract class RemoteDataSource {
   Future<AllUsersResponse> getAllUsers();
 
   Future<UpdatePasswordResponse> updatePassword(UpdatePasswordRequest input);
+
+  Future<AllOfficesResponse> getAllOffices();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
-  //
   final AppServiceClient _appServiceClient;
 
   RemoteDataSourceImplementer(this._appServiceClient);
 
   @override
   Future<LoginResponse> login(LoginRequest input) {
-    return _appServiceClient.login(input.username, input.password);
+    return _appServiceClient.login(input);
   }
 
   @override
@@ -100,8 +102,7 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
 
   @override
   Future<ProjectsResponse> getProjects(GetProjectsRequest input) async {
-    return await _appServiceClient.getProjects(
-        input.perPage, input.page, input.q);
+    return await _appServiceClient.getProjects(input);
   }
 
   @override
@@ -166,9 +167,9 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   }
 
   @override
-  Future<UpdateProfileResponse> updateProfile(UserProfile input) async {
-    return await _appServiceClient.updateProfile(
-        input.firstName, input.lastName, input.position, input.contactNumber);
+  Future<UpdateProfileResponse> updateProfile(
+      UpdateProfileRequest input) async {
+    return await _appServiceClient.updateProfile(input);
   }
 
   @override
@@ -201,5 +202,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
       UpdatePasswordRequest input) async {
     // TODO: implement updatePassword
     return await _appServiceClient.updatePassword(input);
+  }
+
+  @override
+  Future<AllOfficesResponse> getAllOffices() async {
+    return await _appServiceClient.getAllOffices();
   }
 }

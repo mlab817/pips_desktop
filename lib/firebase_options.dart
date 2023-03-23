@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCLvyZIjGYuAzbBRypA-Brxwq9vcQgsB88',
-    appId: '1:1067619185575:web:8f9064a32953093447fc82',
-    messagingSenderId: '1067619185575',
-    projectId: 'pips-firebase',
-    authDomain: 'pips-firebase.firebaseapp.com',
-    storageBucket: 'pips-firebase.appspot.com',
-    measurementId: 'G-TRPRY93328',
+    apiKey: 'AIzaSyBFHcJusZVvH6AKWFclOMa5m6OlQbzZOvM',
+    appId: '1:3358513712:web:27b7ee21212a7d3a29abf5',
+    messagingSenderId: '3358513712',
+    projectId: 'pips-mobile',
+    authDomain: 'pips-mobile.firebaseapp.com',
+    storageBucket: 'pips-mobile.appspot.com',
+    measurementId: 'G-EVCN16D45C',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCgc9sHT5bAh6V5YLUE1h8n7Y2gX4GIevU',
-    appId: '1:1067619185575:android:4281f77f0e82074447fc82',
-    messagingSenderId: '1067619185575',
-    projectId: 'pips-firebase',
-    storageBucket: 'pips-firebase.appspot.com',
+    apiKey: 'AIzaSyBzqU0baahJdTFTmudUI4dro_6NjxKfB6o',
+    appId: '1:3358513712:android:ac13325fc589d38d29abf5',
+    messagingSenderId: '3358513712',
+    projectId: 'pips-mobile',
+    storageBucket: 'pips-mobile.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAjMxXWkOljgd1DLbGM_A2mngfs-qRbaTo',
-    appId: '1:1067619185575:ios:46b0663ec3c20f6a47fc82',
-    messagingSenderId: '1067619185575',
-    projectId: 'pips-firebase',
-    storageBucket: 'pips-firebase.appspot.com',
-    iosClientId: '1067619185575-043a328mv13np311j3bkg4t1pu7mo4ul.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD_9Ei3lc703Ma_SSNPgUYkB--W632yCAk',
+    appId: '1:3358513712:ios:628cba0835104bbc29abf5',
+    messagingSenderId: '3358513712',
+    projectId: 'pips-mobile',
+    storageBucket: 'pips-mobile.appspot.com',
+    iosClientId: '3358513712-hfbp42k86rt4u27asl02ouqnci564060.apps.googleusercontent.com',
     iosBundleId: 'com.mlab817.pips',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAjMxXWkOljgd1DLbGM_A2mngfs-qRbaTo',
-    appId: '1:1067619185575:ios:46b0663ec3c20f6a47fc82',
-    messagingSenderId: '1067619185575',
-    projectId: 'pips-firebase',
-    storageBucket: 'pips-firebase.appspot.com',
-    iosClientId: '1067619185575-043a328mv13np311j3bkg4t1pu7mo4ul.apps.googleusercontent.com',
-    iosBundleId: 'com.mlab817.pips',
+    apiKey: 'AIzaSyD_9Ei3lc703Ma_SSNPgUYkB--W632yCAk',
+    appId: '1:3358513712:ios:f3eb2ccdca5cba2129abf5',
+    messagingSenderId: '3358513712',
+    projectId: 'pips-mobile',
+    storageBucket: 'pips-mobile.appspot.com',
+    iosClientId: '3358513712-esi1tcd05f0eqp0okru3os4kus7gfnvt.apps.googleusercontent.com',
+    iosBundleId: 'com.mlab817.pipsDesktop',
   );
 }

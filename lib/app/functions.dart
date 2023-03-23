@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/app/routes.dart';
+import 'package:pips/domain/repository/repository.dart';
 
 void logout(BuildContext context) {
-  final AppPreferences appPreferences = instance<AppPreferences>();
+  final Repository repository = instance<Repository>();
   //
-  appPreferences.clear();
-  
+  repository.clear();
+
   resetModules();
 
   Navigator.pushReplacementNamed(context, Routes.loginRoute);

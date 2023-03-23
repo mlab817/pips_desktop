@@ -3,12 +3,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user.g.dart';
 
 @JsonSerializable()
-class UserModel {
+class User {
   @JsonKey(name: "id")
   int id;
 
   @JsonKey(name: "uuid")
-  String uuid;
+  String? uuid;
 
   @JsonKey(name: "username")
   String username;
@@ -17,41 +17,44 @@ class UserModel {
   String email;
 
   @JsonKey(name: "first_name")
-  String firstName;
+  String? firstName;
 
   @JsonKey(name: "last_name")
-  String lastName;
+  String? lastName;
+
+  @JsonKey(name: "fullname")
+  String? fullname;
 
   @JsonKey(name: "position")
-  String position;
+  String? position;
 
   @JsonKey(name: "contact_number")
-  String contactNumber;
+  String? contactNumber;
 
   @JsonKey(name: "image_url")
   String? imageUrl;
 
   String? name;
 
-  UserModel({
+  User({
     required this.id,
-    required this.uuid,
     required this.username,
     required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.position,
-    required this.contactNumber,
+    this.position,
+    this.contactNumber,
+    this.uuid,
+    this.firstName,
+    this.lastName,
+    this.fullname,
     this.imageUrl,
   }) : name = "$firstName $lastName";
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserModelToJson(this);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   // manually defined
-  UserModel copyWith({
+  User copyWith({
     String? email,
     String? firstName,
     String? lastName,
@@ -59,7 +62,7 @@ class UserModel {
     String? contactNumber,
     String? imageUrl,
   }) =>
-      UserModel(
+      User(
         id: id,
         uuid: uuid,
         username: username,

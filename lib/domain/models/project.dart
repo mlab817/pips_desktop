@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pips/domain/models/user.dart';
 
 import 'attribute.dart';
+import 'office.dart';
 
 part 'project.g.dart';
 
@@ -30,15 +32,23 @@ class Project {
   @JsonKey(name: "spatial_coverage")
   Attribute? spatialCoverage;
 
+  @JsonKey(name: "office")
+  Office? office;
+
+  @JsonKey(name: "user")
+  User? user;
+
   Project({
     required this.uuid,
     required this.title,
-    this.totalCost,
     required this.isLocked,
     required this.updatedAt,
+    this.totalCost,
     this.pipolCode,
     this.description,
     this.spatialCoverage,
+    this.office,
+    this.user,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) =>

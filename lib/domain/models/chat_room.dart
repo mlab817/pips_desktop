@@ -20,7 +20,7 @@ class ChatRoom {
   String updatedAt;
 
   @JsonKey(name: "users")
-  List<UserModel>? users;
+  List<User>? users;
 
   @JsonKey(name: "messages")
   List<Message>? messages;

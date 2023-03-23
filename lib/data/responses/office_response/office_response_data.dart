@@ -12,7 +12,7 @@ class OfficeResponseData extends Office {
   List<Project>? projects;
 
   @JsonKey(name: "users")
-  List<UserModel>? users;
+  List<User>? users;
 
   OfficeResponseData({
     required id,

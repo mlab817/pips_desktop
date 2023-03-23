@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pips/app/app_preferences.dart';
+import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -14,14 +14,14 @@ class NotificationsView extends StatefulWidget {
 }
 
 class _NotificationsViewState extends State<NotificationsView> {
-  final AppPreferences _appPreferences = instance<AppPreferences>();
+  final Repository _repository = instance<Repository>();
 
   bool _notificationsEnabled = false;
   bool? _isOnboardingScreenViewable;
 
   Future<void> _toggleOnboardingScreen(bool value) async {
     // Update shared preferences value here
-    await _appPreferences.setIsOnboardingScreenViewed(value);
+    await _repository.setIsOnboardingScreenViewed(value);
 
     setState(() {
       _isOnboardingScreenViewable = value;
@@ -33,7 +33,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     // TODO: implement initState
     super.initState();
 
-    _appPreferences.getIsOnboardingScreenViewed().then((value) {
+    _repository.getIsOnboardingScreenViewed().then((value) {
       setState(() {
         _isOnboardingScreenViewable = value;
       });
@@ -45,7 +45,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !UniversalPlatform.isDesktopOrWeb,
-        title: const Text(AppStrings.notifications),
+        title: const Text(AppStrings.settings),
       ),
       body: ListView(
         children: [

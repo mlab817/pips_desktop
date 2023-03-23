@@ -21,17 +21,12 @@ class _AppServiceClient implements AppServiceClient {
   String? baseUrl;
 
   @override
-  Future<LoginResponse> login(
-    username,
-    password,
-  ) async {
+  Future<LoginResponse> login(input) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
-      'username': username,
-      'password': password,
-    };
+    final _data = <String, dynamic>{};
+    _data.addAll(input.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
       method: 'POST',
@@ -73,21 +68,12 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<UpdateProfileResponse> updateProfile(
-    firstName,
-    lastName,
-    position,
-    contactNumber,
-  ) async {
+  Future<UpdateProfileResponse> updateProfile(input) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
-      'first_name': firstName,
-      'last_name': lastName,
-      'position': position,
-      'contact_number': contactNumber,
-    };
+    final _data = <String, dynamic>{};
+    _data.addAll(input.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateProfileResponse>(Options(
       method: 'POST',
@@ -106,18 +92,10 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<ProjectsResponse> getProjects(
-    perPage,
-    page,
-    q,
-  ) async {
+  Future<ProjectsResponse> getProjects(input) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'per_page': perPage,
-      r'page': page,
-      r'q': q,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(input.toJson());
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
@@ -614,6 +592,29 @@ class _AppServiceClient implements AppServiceClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UpdatePasswordResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<AllOfficesResponse> getAllOffices() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AllOfficesResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/all-offices',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = AllOfficesResponse.fromJson(_result.data!);
     return value;
   }
 

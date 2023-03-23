@@ -1,7 +1,6 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pips/data/data_source/remote_data_source.dart';
 import 'package:pips/data/network/app_api.dart';
@@ -9,6 +8,7 @@ import 'package:pips/data/network/dio_factory.dart';
 import 'package:pips/data/network/ws.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
 import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/domain/usecase/alloffices_usecase.dart';
 import 'package:pips/domain/usecase/allusers_usecase.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
@@ -57,9 +57,6 @@ Future<void> initAppModule() async {
       await SharedPreferences.getInstance();
 
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-
-  instance.registerLazySingleton<AppPreferences>(
-      () => AppPreferencesImplementer(instance()));
 
   instance.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImplementer(instance()));
@@ -129,6 +126,9 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<UpdatePasswordUseCase>(
       () => UpdatePasswordUseCase(instance()));
+
+  instance
+      .registerFactory<AllOfficesUseCase>(() => AllOfficesUseCase(instance()));
 }
 
 initLoginModule() {

@@ -8,7 +8,7 @@ part 'users_response.g.dart';
 @JsonSerializable()
 class UsersResponse {
   @JsonKey(name: "data")
-  List<UserModel> data;
+  List<User> data;
 
   @JsonKey(name: "meta")
   MetaResponse meta;

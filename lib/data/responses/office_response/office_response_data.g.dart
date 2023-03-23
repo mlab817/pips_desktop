@@ -20,16 +20,16 @@ OfficeResponseData _$OfficeResponseDataFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Project.fromJson(e as Map<String, dynamic>))
           .toList(),
       users: (json['users'] as List<dynamic>?)
-          ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$OfficeResponseDataToJson(OfficeResponseData instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'uuid': instance.uuid,
       'name': instance.name,
       'acronym': instance.acronym,
+      'uuid': instance.uuid,
       'head_name': instance.headName,
       'head_position': instance.headPosition,
       'email': instance.email,

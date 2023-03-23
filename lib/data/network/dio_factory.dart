@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -73,7 +72,7 @@ class LogoutEvent {
 EventBus eventBus = EventBus(sync: true);
 
 class LogoutInterceptor extends InterceptorsWrapper {
-  final AppPreferences _appPreferences = instance<AppPreferences>();
+  final LocalDataSource _appPreferences = instance<LocalDataSource>();
 
   @override
   Future<dynamic> onError(DioError err, ErrorInterceptorHandler handler) async {

@@ -127,4 +127,6 @@ class AppStrings {
   static const String defaultError = "Error";
   static const String timeoutError = "Timeout";
   static const String noInternetError = "No internet";
+
+  static const String loading = 'Loading';
 }

@@ -9,7 +9,7 @@ part of 'update_profile.dart';
 UpdateProfileResponse _$UpdateProfileResponseFromJson(
         Map<String, dynamic> json) =>
     UpdateProfileResponse(
-      user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
       success: json['success'] as bool,
     );
 

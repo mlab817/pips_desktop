@@ -7,36 +7,36 @@ class Office {
   @JsonKey(name: "id")
   int id;
 
-  @JsonKey(name: "uuid")
-  String uuid;
-
   @JsonKey(name: "name")
   String name;
 
   @JsonKey(name: "acronym")
   String acronym;
 
+  @JsonKey(name: "uuid")
+  String? uuid;
+
   @JsonKey(name: "head_name")
-  String headName;
+  String? headName;
 
   @JsonKey(name: "head_position")
-  String headPosition;
+  String? headPosition;
 
   @JsonKey(name: "email")
-  String email;
+  String? email;
 
   @JsonKey(name: "phone_number")
-  String phoneNumber;
+  String? phoneNumber;
 
   Office({
     required this.id,
-    required this.uuid,
     required this.name,
     required this.acronym,
-    required this.headName,
-    required this.headPosition,
-    required this.email,
-    required this.phoneNumber,
+    this.uuid,
+    this.headName,
+    this.headPosition,
+    this.email,
+    this.phoneNumber,
   });
 
   factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);

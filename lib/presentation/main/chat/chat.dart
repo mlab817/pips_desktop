@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/domain/models/chat_room.dart';
+import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
@@ -23,11 +23,11 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   final ChatRoomsUseCase _chatRoomsUseCase = instance<ChatRoomsUseCase>();
-  final AppPreferences _appPreferences = instance<AppPreferences>();
+  final Repository _repository = instance<Repository>();
 
   late ScrollController _scrollController;
 
-  UserModel? _currentUser;
+  User? _currentUser;
 
   Future<Result<ChatRoomsResponse>> _getChatRooms() async {
     return _chatRoomsUseCase.execute(Void());
@@ -41,7 +41,7 @@ class _ChatViewState extends State<ChatView> {
 
     _scrollController = ScrollController();
 
-    _appPreferences.getLoggedInUser().then((value) {
+    _repository.getLoggedInUser().then((value) {
       _currentUser = value;
     });
   }
@@ -117,13 +117,13 @@ class _ChatViewState extends State<ChatView> {
 
   // get chat bar
   Widget _buildItem(ChatRoom chatRoom) {
-    final UserModel? user = chatRoom.users
+    final User? user = chatRoom.users
         ?.where((element) => element.id != _currentUser?.id)
         .first;
 
     return ListTile(
       leading: CircleAvatar(
-        child: Text(user?.firstName[0].toUpperCase() ?? 'NA'),
+        child: Text(user?.firstName?[0].toUpperCase() ?? 'NA'),
       ),
       onTap: user != null
           ? () {

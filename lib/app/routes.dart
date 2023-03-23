@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
-import 'package:pips/presentation/chat_room/chat_room.dart';
-import 'package:pips/presentation/main/dashboard/dashboard.dart';
-import 'package:pips/presentation/main/main.dart';
-import 'package:pips/presentation/main/office/office.dart';
-import 'package:pips/presentation/main/search_results/search_results.dart';
+import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/presentation/android/chat_room/chat_room.dart';
+import 'package:pips/presentation/android/new_project/new_project.dart';
+import 'package:pips/presentation/android/office/office.dart';
+import 'package:pips/presentation/android/onboarding/onboarding.dart';
+import 'package:pips/presentation/android/project/project.dart';
+import 'package:pips/presentation/android/sign_up/sign_up.dart';
+import 'package:pips/presentation/android/view_pdf/view_pdf.dart';
+import 'package:pips/presentation/android/view_project/view_project.dart';
+import 'package:pips/presentation/main/home/home.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
 import 'package:pips/presentation/main/settings/screens/logins.dart';
 import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
-import 'package:pips/presentation/new_project/new_project.dart';
-import 'package:pips/presentation/onboarding/onboarding.dart';
-import 'package:pips/presentation/project/project.dart';
-import 'package:pips/presentation/sign_up/sign_up.dart';
 import 'package:pips/presentation/splash/splash.dart';
-import 'package:pips/presentation/view_pdf/view_pdf.dart';
-import 'package:pips/presentation/view_project/view_project.dart';
+import 'package:pips/presentation/web/main/main.dart';
 
-import '../presentation/forgot_password/forgot_password.dart';
-import '../presentation/login/login.dart';
+import '../presentation/android/filter_projects/filter_projects.dart';
+import '../presentation/android/forgot_password/forgot_password.dart';
+import '../presentation/android/login/login.dart';
+import '../presentation/main/home/search_results/search_results.dart';
 
 class Routes {
   static const String splashRoute = "/splash";
   static const String homeRoute = "/home";
-  static const String dashboardRoute = "/dashboard";
   static const String loginRoute = "/login";
   static const String signUpRoute = "/sign-up";
   static const String forgotPasswordRoute = "/forgot-password";
@@ -44,6 +45,7 @@ class Routes {
   static const String searchResultsPageRoute = "/search-results";
   static const String viewPdfRoute = "/view-pdf";
   static const String chatRoomRoute = "/chat-room";
+  static const String filterProjectsRoute = "/filter-projects";
 }
 
 class RouteGenerator {
@@ -54,9 +56,7 @@ class RouteGenerator {
       case Routes.onboardingRoute:
         return MaterialPageRoute(builder: (_) => const OnboardingView());
       case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => const DashboardView());
-      case Routes.dashboardRoute:
-        return MaterialPageRoute(builder: (_) => const DashboardView());
+        return MaterialPageRoute(builder: (_) => const HomeView());
       case Routes.loginRoute:
         initLoginModule();
         return MaterialPageRoute(builder: (_) => const LoginView());
@@ -69,7 +69,7 @@ class RouteGenerator {
         initProjectsModule();
         initOfficesModule();
         initUsersModule();
-        return MaterialPageRoute(builder: (_) => const MainView());
+        return MaterialPageRoute(builder: (_) => const MainWebView());
       case Routes.officeRoute:
         initOfficesModule();
         String officeId = routeSettings.arguments as String;
@@ -91,7 +91,7 @@ class RouteGenerator {
       case Routes.activityLogRoute:
         return MaterialPageRoute(builder: (_) => const LoginsView());
       case Routes.updateProfileRoute:
-        return MaterialPageRoute(builder: (_) => const UpdateProfile());
+        return MaterialPageRoute(builder: (_) => const UpdateProfileView());
       case Routes.notificationRoute:
         return MaterialPageRoute(builder: (_) => const NotificationsView());
       case Routes.viewProjectRoute:
@@ -110,9 +110,14 @@ class RouteGenerator {
       case Routes.chatRoomRoute:
         Object user = routeSettings.arguments as Object;
         return MaterialPageRoute(builder: (_) => ChatRoomView(user: user));
+      case Routes.filterProjectsRoute:
+        GetProjectsRequest request =
+            routeSettings.arguments as GetProjectsRequest;
+        return MaterialPageRoute(
+            builder: (_) => FilterProjectsView(request: request));
       default:
         // return null
-        return MaterialPageRoute(builder: (_) => const DashboardView());
+        return MaterialPageRoute(builder: (_) => const HomeView());
     }
   }
 }

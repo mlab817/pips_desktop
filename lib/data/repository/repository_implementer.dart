@@ -9,6 +9,7 @@ import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
 import 'package:pips/data/requests/update_password_request.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
+import 'package:pips/data/responses/all_offices/all_offices_response.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_room/chat_room.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
@@ -30,11 +31,11 @@ import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/base_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
-import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
+import '../requests/update_profile/update_profile_request.dart';
 import '../responses/chat_rooms/chat_rooms.dart';
 import '../responses/options/options_response.dart';
 import '../responses/register/signup_response.dart';
@@ -165,7 +166,7 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<void> setLoggedInUser(UserModel value) async {
+  Future<void> setLoggedInUser(User value) async {
     await _localDataSource.setLoggedInUser(value);
   }
 
@@ -302,7 +303,8 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<UpdateProfileResponse>> updateProfile(UserProfile input) async {
+  Future<Result<UpdateProfileResponse>> updateProfile(
+      UpdateProfileRequest input) async {
     try {
       final UpdateProfileResponse response =
           await _remoteDataSource.updateProfile(input);
@@ -423,5 +425,30 @@ class RepositoryImplementer implements Repository {
       debugPrint("error from rep imp: ${e.toString()}");
       return Result(error: e.toString());
     }
+  }
+
+  @override
+  Future<Result<AllOfficesResponse>> getAllOffices() async {
+    try {
+      final AllOfficesResponse response =
+          await _remoteDataSource.getAllOffices();
+
+      debugPrint("from rep imp: ${response.toString()}");
+
+      return Result(data: response);
+    } catch (e) {
+      debugPrint("error from rep imp: ${e.toString()}");
+      return Result(error: e.toString());
+    }
+  }
+
+  @override
+  Future<void> clear() async {
+    _localDataSource.clear();
+  }
+
+  @override
+  Future<User?> getLoggedInUser() async {
+    return _localDataSource.getLoggedInUser();
   }
 }

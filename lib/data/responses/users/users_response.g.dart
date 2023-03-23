@@ -9,7 +9,7 @@ part of 'users_response.dart';
 UsersResponse _$UsersResponseFromJson(Map<String, dynamic> json) =>
     UsersResponse(
       data: (json['data'] as List<dynamic>)
-          .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
       meta: MetaResponse.fromJson(json['meta'] as Map<String, dynamic>),
     );

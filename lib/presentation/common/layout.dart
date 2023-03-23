@@ -37,10 +37,12 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(UniversalPlatform.isWeb.toString());
+
     return Scaffold(
       body: Row(
         children: [
-          if (UniversalPlatform.isDesktopOrWeb) _buildNavigationRail(),
+          if (UniversalPlatform.isWeb) _buildNavigationRail(),
           Expanded(child: widget.child),
         ],
       ),
@@ -83,24 +85,14 @@ class _MainLayoutState extends State<MainLayout> {
           // _getSearchField(),
           Expanded(
             child: NavigationRail(
-              // extended: true,
+              extended: false,
               destinations: [
                 NavigationRailDestination(
                   icon: Icon(
-                    selectedIndex == 0
-                        ? Icons.dashboard
-                        : Icons.dashboard_outlined,
+                    selectedIndex == 0 ? Icons.home : Icons.home_outlined,
                   ),
                   label: const Text(AppStrings.home),
                 ),
-                // NavigationRailDestination(
-                //   icon: Icon(
-                //     selectedIndex == 1
-                //         ? Icons.work
-                //         : Icons.work_outline_outlined,
-                //   ),
-                //   label: const Text(AppStrings.offices),
-                // ),
                 NavigationRailDestination(
                   icon: Icon(
                     selectedIndex == 1
@@ -111,29 +103,15 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(
-                    selectedIndex == 2 ? Icons.add : Icons.add_outlined,
-                  ),
-                  label: const Text(AppStrings.newProgramProject),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(
-                    selectedIndex == 3
+                    selectedIndex == 2
                         ? Icons.notifications
                         : Icons.notifications_outlined,
                   ),
                   label: const Text(AppStrings.notifications),
                 ),
-                // NavigationRailDestination(
-                //   icon: Icon(
-                //     selectedIndex == 4
-                //         ? Icons.download
-                //         : Icons.download_outlined,
-                //   ),
-                //   label: const Text(AppStrings.downloads),
-                // ),
                 NavigationRailDestination(
                   icon: Icon(
-                    selectedIndex == 4
+                    selectedIndex == 3
                         ? Icons.settings
                         : Icons.settings_outlined,
                   ),
@@ -143,7 +121,6 @@ class _MainLayoutState extends State<MainLayout> {
               onDestinationSelected: widget.onChange,
               selectedIndex: selectedIndex,
               labelType: NavigationRailLabelType.none,
-              extended: true,
             ),
           ),
           Consumer<CustomTheme>(builder: (context, currentTheme, child) {

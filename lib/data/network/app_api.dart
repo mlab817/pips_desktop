@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
+import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
 import 'package:pips/data/requests/update_password_request.dart';
+import 'package:pips/data/requests/update_profile/update_profile_request.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
@@ -16,6 +18,8 @@ import 'package:retrofit/http.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
+import '../requests/login/login_request.dart';
+import '../responses/all_offices/all_offices_response.dart';
 import '../responses/chat_room/chat_room.dart';
 import '../responses/logins/logins_response.dart';
 import '../responses/notifications/notifications_response.dart';
@@ -38,22 +42,17 @@ abstract class AppServiceClient {
 
 // add methods to retrieve data from api here
   @POST("/auth/login")
-  Future<LoginResponse> login(
-      @Field("username") String username, @Field("password") String password);
+  Future<LoginResponse> login(@Body() LoginRequest input);
 
   @POST("/auth/forgot-password")
   Future<ForgotPasswordResponse> forgotPassword(@Field("email") String email);
 
   @POST("/auth/update-profile")
   Future<UpdateProfileResponse> updateProfile(
-      @Field("first_name") String firstName,
-      @Field("last_name") String lastName,
-      @Field("position") String position,
-      @Field("contact_number") String contactNumber);
+      @Body() UpdateProfileRequest input);
 
   @GET("/projects")
-  Future<ProjectsResponse> getProjects(@Query('per_page') int perPage,
-      @Query('page') int page, @Query('q') String? q);
+  Future<ProjectsResponse> getProjects(@Queries() GetProjectsRequest input);
 
   @POST("/projects")
   Future<void> createProject(); // TODO: implement
@@ -120,4 +119,7 @@ abstract class AppServiceClient {
   @POST("/auth/update-password")
   Future<UpdatePasswordResponse> updatePassword(
       @Body() UpdatePasswordRequest input);
+
+  @GET("/all-offices")
+  Future<AllOfficesResponse> getAllOffices();
 }

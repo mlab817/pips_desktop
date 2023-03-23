@@ -7,7 +7,7 @@ part 'update_profile.g.dart';
 @JsonSerializable()
 class UpdateProfileResponse {
   @JsonKey(name: "user")
-  UserModel user;
+  User user;
 
   @JsonKey(name: "success")
   bool success;

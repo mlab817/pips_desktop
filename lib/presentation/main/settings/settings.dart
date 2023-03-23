@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pips/app/app_preferences.dart';
 import 'package:pips/app/functions.dart';
+import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/presentation/main/settings/screens/about.dart';
 import 'package:pips/presentation/main/settings/screens/developer_notice.dart';
 import 'package:pips/presentation/main/settings/screens/logins.dart';
@@ -21,12 +21,12 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  final AppPreferences _appPreferences = instance<AppPreferences>();
+  final Repository _repository = instance<Repository>();
 
   int? _selectedIndex;
 
   final List<Widget> _children = <Widget>[
-    const UpdateProfile(),
+    const UpdateProfileView(),
     const UpdatePassword(),
     const NotificationsView(),
     const LoginsView(),

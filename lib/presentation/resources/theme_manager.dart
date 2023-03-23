@@ -57,7 +57,8 @@ class CustomTheme with ChangeNotifier {
         cardRadius: 8.0,
         bottomSheetRadius: 8.0,
         bottomNavigationBarElevation: 2.0,
-        navigationRailUseIndicator: true,
+        navigationRailLabelType: NavigationRailLabelType.none,
+        navigationRailUseIndicator: false,
         thickBorderWidth: 4.0,
         thinBorderWidth: 0.5,
         // buttonPadding: EdgeInsets.all(AppPadding.md),
@@ -68,7 +69,9 @@ class CustomTheme with ChangeNotifier {
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
       // To use the playground font, add GoogleFonts package and uncomment
-      fontFamily: GoogleFonts.mavenPro().fontFamily,
+      fontFamily: GoogleFonts
+          .mavenPro()
+          .fontFamily,
     );
   }
 

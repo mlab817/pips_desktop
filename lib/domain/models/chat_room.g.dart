@@ -12,7 +12,7 @@ ChatRoom _$ChatRoomFromJson(Map<String, dynamic> json) => ChatRoom(
       updatedAt: json['updated_at'] as String,
       name: json['name'] as String?,
       users: (json['users'] as List<dynamic>?)
-          ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
       messages: (json['messages'] as List<dynamic>?)
           ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
