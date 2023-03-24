@@ -1,6 +1,9 @@
 class AssetsManager {
   static const String svgLogoAsset = "assets/images/logo.svg";
   static const String animEmptyJson = "assets/json/empty.json";
+  static const String animErrorJson = "assets/json/empty.json"; // TODO: replace
+  static const String animSuccessJson =
+      "assets/json/empty.json"; // TODO: replace
 
   static const String loadingJson = "assets/json/loading.json";
   static const String fingerprintJson = "assets/json/fingerprint.json";

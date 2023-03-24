@@ -17,12 +17,12 @@ import 'package:pips/presentation/main/settings/screens/notifications.dart';
 import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 import 'package:pips/presentation/splash/splash.dart';
-import 'package:pips/presentation/web/main/main.dart';
 
 import '../presentation/android/filter_projects/filter_projects.dart';
 import '../presentation/android/forgot_password/forgot_password.dart';
 import '../presentation/android/login/login.dart';
 import '../presentation/main/home/search_results/search_results.dart';
+import '../presentation/main/main.dart';
 
 class Routes {
   static const String splashRoute = "/splash";
@@ -69,7 +69,7 @@ class RouteGenerator {
         initProjectsModule();
         initOfficesModule();
         initUsersModule();
-        return MaterialPageRoute(builder: (_) => const MainWebView());
+        return MaterialPageRoute(builder: (_) => const MainView());
       case Routes.officeRoute:
         initOfficesModule();
         String officeId = routeSettings.arguments as String;

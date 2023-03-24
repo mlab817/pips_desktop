@@ -81,21 +81,66 @@ extension FlowStateExtension on FlowState {
       case LoadingState:
         {
           if (getStateRendererType() == StateRendererType.POPUP_LOADING_STATE) {
-//
+            // showing popup dialog
+            showPopUp(context, getStateRendererType(), getMessage());
+            // return the content ui of the screen
+            return contentScreenWidget;
           } else {
-            //
+            return StateRenderer(
+              stateRendererType: getStateRendererType(),
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+            );
           }
         }
       case ErrorState:
+        {
+          dismissDialog(context);
+          if (getStateRendererType() == StateRendererType.POPUP_ERROR_STATE) {
+            showPopUp(context, getStateRendererType(), getMessage());
+
+            return contentScreenWidget;
+          } else {
+            return StateRenderer(
+              stateRendererType: getStateRendererType(),
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+            );
+          }
+        }
       case ContentState:
+        {
+          dismissDialog(context);
+          return contentScreenWidget;
+        }
       case EmptyState:
+        {
+          return StateRenderer(
+            stateRendererType: getStateRendererType(),
+            message: getMessage(),
+            retryActionFunction: retryActionFunction,
+          );
+        }
       case SuccessState:
+        {
+          // i should check if we are showing loading popup to remove it before showing success popup
+          dismissDialog(context);
+
+          // show popup
+          showPopUp(
+            context,
+            StateRendererType.POPUP_SUCCESS,
+            getMessage(),
+            title: AppStrings.success,
+          );
+          // return content ui of the screen
+          return contentScreenWidget;
+        }
       default:
         {
           return contentScreenWidget;
         }
     }
-    return Container();
   }
 
   dismissDialog(BuildContext context) {
