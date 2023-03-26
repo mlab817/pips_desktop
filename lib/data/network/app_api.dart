@@ -5,7 +5,7 @@ import 'package:pips/app/config.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
-import 'package:pips/data/requests/update_password_request.dart';
+import 'package:pips/data/requests/update_password/update_password_request.dart';
 import 'package:pips/data/requests/update_profile/update_profile_request.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';

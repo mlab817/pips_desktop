@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pips/data/requests/update_password_request.dart';
+import 'package:pips/data/requests/update_password/update_password_request.dart';
 import 'package:pips/domain/usecase/updatepassword_usecase.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -17,13 +17,13 @@ class UpdatePassword extends StatefulWidget {
 class _UpdatePasswordState extends State<UpdatePassword> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _currentPasswordTextEditingController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _newPasswordTextEditingController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _confirmPasswordTextEditingController =
-  TextEditingController();
+      TextEditingController();
   final UpdatePasswordUseCase _updatePasswordUseCase =
-  instance<UpdatePasswordUseCase>();
+      instance<UpdatePasswordUseCase>();
 
   bool _passwordIsShown = false;
 
@@ -157,7 +157,8 @@ class _UpdatePasswordState extends State<UpdatePassword> {
       currentPassword: _currentPasswordTextEditingController.text,
       password: _newPasswordTextEditingController.text,
       passwordConfirmation: _confirmPasswordTextEditingController.text,
-    ))).fold((failure) {
+    )))
+        .fold((failure) {
       _showSnackbar(failure.message);
       _popContext();
     }, (response) {

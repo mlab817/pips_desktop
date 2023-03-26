@@ -23,7 +23,7 @@ import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../data/network/failure.dart';
 import '../../data/requests/sign_up/sign_up_request.dart';
-import '../../data/requests/update_password_request.dart';
+import '../../data/requests/update_password/update_password_request.dart';
 import '../../data/requests/update_profile/update_profile_request.dart';
 import '../../data/requests/users/get_users_request.dart';
 import '../../data/responses/chat_room/chat_room.dart';
