@@ -8,8 +8,8 @@ part of 'projects_response.dart';
 
 ProjectsResponse _$ProjectsResponseFromJson(Map<String, dynamic> json) =>
     ProjectsResponse(
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Project.fromJson(e as Map<String, dynamic>))
+      data: (json['data'] as List<dynamic>)
+          .map((e) => Project.fromJson(e as Map<String, dynamic>))
           .toList(),
       meta: MetaResponse.fromJson(json['meta'] as Map<String, dynamic>),
     );

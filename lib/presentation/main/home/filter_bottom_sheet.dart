@@ -27,19 +27,17 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   String? _error;
 
   Future<void> _loadOptions() async {
-    final response = await _optionsUseCase.execute(Void());
-
-    if (response.success) {
+    (await _optionsUseCase.execute(Void())).fold((failure) {
       setState(() {
-        _options = response.data?.data;
+        _error = failure.message;
         _loading = false;
       });
-    } else {
+    }, (response) {
       setState(() {
-        _error = response.error;
+        _options = response.data;
         _loading = false;
       });
-    }
+    });
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
@@ -29,12 +30,13 @@ import 'package:pips/data/responses/users/users_response.dart';
 import 'package:pips/domain/models/message.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/repository/repository.dart';
-import 'package:pips/domain/usecase/base_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../data_source/local_data_source.dart';
 import '../data_source/remote_data_source.dart';
+import '../network/error_handler.dart';
+import '../network/failure.dart';
 import '../requests/update_profile/update_profile_request.dart';
 import '../responses/chat_rooms/chat_rooms.dart';
 import '../responses/options/options_response.dart';
@@ -48,26 +50,26 @@ class RepositoryImplementer implements Repository {
   RepositoryImplementer(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<Result<LoginResponse>> login(LoginRequest input) async {
+  Future<Either<Failure, LoginResponse>> login(LoginRequest input) async {
     try {
       final LoginResponse response = await _remoteDataSource.login(input);
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<ForgotPasswordResponse>> forgotPassword(
+  Future<Either<Failure, ForgotPasswordResponse>> forgotPassword(
       ForgotPasswordRequest input) async {
     try {
       final ForgotPasswordResponse response =
           await _remoteDataSource.forgotPassword(input);
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
@@ -92,17 +94,17 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<ProjectsResponse>> getProjects(GetProjectsRequest input) async {
+  Future<Either<Failure, ProjectsResponse>> getProjects(
+      GetProjectsRequest input) async {
     try {
       final ProjectsResponse response =
           await _remoteDataSource.getProjects(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
@@ -122,46 +124,44 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<OfficesResponse>> getOffices(GetOfficesRequest input) async {
+  Future<Either<Failure, OfficesResponse>> getOffices(
+      GetOfficesRequest input) async {
     try {
       final OfficesResponse response =
           await _remoteDataSource.getOffices(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<OfficeResponse>> getOffice(String input) async {
+  Future<Either<Failure, OfficeResponse>> getOffice(String input) async {
     try {
       final OfficeResponse response = await _remoteDataSource.getOffice(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<ProjectResponse>> getProject(String input) async {
+  Future<Either<Failure, ProjectResponse>> getProject(String input) async {
     try {
       final ProjectResponse response =
           await _remoteDataSource.getProject(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
@@ -171,21 +171,20 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<UsersResponse>> getUsers(GetUsersRequest input) async {
+  Future<Either<Failure, UsersResponse>> getUsers(GetUsersRequest input) async {
     try {
       final UsersResponse response = await _remoteDataSource.getUsers(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<OptionsResponse>> getOptions() async {
+  Future<Either<Failure, OptionsResponse>> getOptions() async {
     try {
       final OptionsResponse response = await _remoteDataSource.getOptions();
 
@@ -193,87 +192,82 @@ class RepositoryImplementer implements Repository {
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<ChatRoomsResponse>> getChatRooms() async {
+  Future<Either<Failure, ChatRoomsResponse>> getChatRooms() async {
     try {
       final ChatRoomsResponse response = await _remoteDataSource.getChatRooms();
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<ChatRoomResponse>> getChatRoom(int input) async {
+  Future<Either<Failure, ChatRoomResponse>> getChatRoom(int input) async {
     try {
       final ChatRoomResponse response =
           await _remoteDataSource.getChatRoom(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<ChatRoom>> createChatRoom(int input) async {
+  Future<Either<Failure, ChatRoom>> createChatRoom(int input) async {
     try {
       final ChatRoom response = await _remoteDataSource.createChatRoom(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<Message>> createMessage(CreateMessageUseCaseInput input) async {
+  Future<Either<Failure, Message>> createMessage(
+      CreateMessageUseCaseInput input) async {
     try {
       final Message response = await _remoteDataSource.createMessage(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<MessagesResponse>> listMessages(int input) async {
+  Future<Either<Failure, MessagesResponse>> listMessages(int input) async {
     try {
       final MessagesResponse response =
           await _remoteDataSource.listMessages(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<NotificationsResponse>> listNotifications(
+  Future<Either<Failure, NotificationsResponse>> listNotifications(
       NotificationsRequest input) async {
     try {
       final NotificationsResponse response =
@@ -281,29 +275,27 @@ class RepositoryImplementer implements Repository {
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<SignUpResponse>> register(SignUpRequest input) async {
+  Future<Either<Failure, SignUpResponse>> register(SignUpRequest input) async {
     try {
       final SignUpResponse response = await _remoteDataSource.register(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<UpdateProfileResponse>> updateProfile(
+  Future<Either<Failure, UpdateProfileResponse>> updateProfile(
       UpdateProfileRequest input) async {
     try {
       final UpdateProfileResponse response =
@@ -311,40 +303,38 @@ class RepositoryImplementer implements Repository {
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<UploadAvatarResponse>> uploadAvatar(File input) async {
+  Future<Either<Failure, UploadAvatarResponse>> uploadAvatar(File input) async {
     try {
       final UploadAvatarResponse response =
           await _remoteDataSource.uploadAvatar(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<StatusResponse>> markNotificationAsRead(String input) async {
+  Future<Either<Failure, StatusResponse>> markNotificationAsRead(
+      String input) async {
     try {
       final StatusResponse response =
           await _remoteDataSource.markNotificationAsRead(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
@@ -359,45 +349,43 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<LoginsResponse>> getLogins() async {
+  Future<Either<Failure, LoginsResponse>> getLogins() async {
     try {
       final LoginsResponse response = await _remoteDataSource.getLogins();
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<ChatRoomResponse>> getChatRoomByUserId(int input) async {
+  Future<Either<Failure, ChatRoomResponse>> getChatRoomByUserId(
+      int input) async {
     try {
       final ChatRoomResponse response =
           await _remoteDataSource.getChatRoomByUserId(input);
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<AllUsersResponse>> getAllUsers() async {
+  Future<Either<Failure, AllUsersResponse>> getAllUsers() async {
     try {
       final AllUsersResponse response = await _remoteDataSource.getAllUsers();
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
@@ -412,7 +400,7 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Result<UpdatePasswordResponse>> updatePassword(
+  Future<Either<Failure, UpdatePasswordResponse>> updatePassword(
       UpdatePasswordRequest input) async {
     try {
       final UpdatePasswordResponse response =
@@ -420,25 +408,23 @@ class RepositoryImplementer implements Repository {
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Result<AllOfficesResponse>> getAllOffices() async {
+  Future<Either<Failure, AllOfficesResponse>> getAllOffices() async {
     try {
       final AllOfficesResponse response =
           await _remoteDataSource.getAllOffices();
 
       debugPrint("from rep imp: ${response.toString()}");
 
-      return Result(data: response);
+      return Right(response);
     } catch (e) {
-      debugPrint("error from rep imp: ${e.toString()}");
-      return Result(error: e.toString());
+      return Left(ErrorHandler.handle(e).failure);
     }
   }
 

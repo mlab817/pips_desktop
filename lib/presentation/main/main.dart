@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/presentation/common/layout.dart';
@@ -69,25 +68,9 @@ class _MainViewState extends State<MainView> {
     }
   }
 
-  Future<void> _requestFcmPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
-
-    _requestFcmPermission();
 
     _subscribeToChannel();
   }

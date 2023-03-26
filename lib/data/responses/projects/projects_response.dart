@@ -8,7 +8,7 @@ part 'projects_response.g.dart';
 @JsonSerializable()
 class ProjectsResponse {
   @JsonKey(name: "data")
-  List<Project>? data;
+  List<Project> data;
 
   @JsonKey(name: "meta")
   MetaResponse meta;

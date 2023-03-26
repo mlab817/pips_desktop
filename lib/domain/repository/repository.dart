@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
@@ -20,6 +21,7 @@ import 'package:pips/data/responses/upload_avatar/upload_avatar.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
+import '../../data/network/failure.dart';
 import '../../data/requests/sign_up/sign_up_request.dart';
 import '../../data/requests/update_password_request.dart';
 import '../../data/requests/update_profile/update_profile_request.dart';
@@ -34,7 +36,6 @@ import '../../data/responses/update_profile/update_profile.dart';
 import '../../data/responses/users/users_response.dart';
 import '../models/chat_room.dart';
 import '../models/message.dart';
-import '../usecase/base_usecase.dart';
 
 /// The repository is responsible for abstracting the data access logic and providing a consistent interface for the domain layer to interact with the data.
 /// This separation of concerns allows for more flexibility in terms of how the data is stored and retrieved, and makes it easier to make changes to the
@@ -44,52 +45,54 @@ import '../usecase/base_usecase.dart';
 // define methods
 // Future<Response> login();
 abstract class Repository {
-  Future<Result<LoginResponse>> login(LoginRequest input);
+  Future<Either<Failure, LoginResponse>> login(LoginRequest input);
 
-  Future<Result<ForgotPasswordResponse>> forgotPassword(
+  Future<Either<Failure, ForgotPasswordResponse>> forgotPassword(
       ForgotPasswordRequest input);
 
-  Future<Result<ProjectsResponse>> getProjects(GetProjectsRequest input);
+  Future<Either<Failure, ProjectsResponse>> getProjects(
+      GetProjectsRequest input);
 
-  Future<Result<OfficesResponse>> getOffices(GetOfficesRequest input);
+  Future<Either<Failure, OfficesResponse>> getOffices(GetOfficesRequest input);
 
-  Future<Result<OfficeResponse>> getOffice(String input); // uuid
+  Future<Either<Failure, OfficeResponse>> getOffice(String input); // uuid
 
-  Future<Result<ProjectResponse>> getProject(String input);
+  Future<Either<Failure, ProjectResponse>> getProject(String input);
 
-  Future<Result<UsersResponse>> getUsers(GetUsersRequest input);
+  Future<Either<Failure, UsersResponse>> getUsers(GetUsersRequest input);
 
-  Future<Result<OptionsResponse>> getOptions();
+  Future<Either<Failure, OptionsResponse>> getOptions();
 
-  Future<Result<ChatRoomsResponse>> getChatRooms();
+  Future<Either<Failure, ChatRoomsResponse>> getChatRooms();
 
-  Future<Result<ChatRoomResponse>> getChatRoom(int input);
+  Future<Either<Failure, ChatRoomResponse>> getChatRoom(int input);
 
-  Future<Result<ChatRoomResponse>> getChatRoomByUserId(int input);
+  Future<Either<Failure, ChatRoomResponse>> getChatRoomByUserId(int input);
 
-  Future<Result<ChatRoom>> createChatRoom(int input);
+  Future<Either<Failure, ChatRoom>> createChatRoom(int input);
 
-  Future<Result<Message>> createMessage(CreateMessageUseCaseInput input);
+  Future<Either<Failure, Message>> createMessage(
+      CreateMessageUseCaseInput input);
 
-  Future<Result<MessagesResponse>> listMessages(int input);
+  Future<Either<Failure, MessagesResponse>> listMessages(int input);
 
-  Future<Result<NotificationsResponse>> listNotifications(
+  Future<Either<Failure, NotificationsResponse>> listNotifications(
       NotificationsRequest input);
 
-  Future<Result<SignUpResponse>> register(SignUpRequest input);
+  Future<Either<Failure, SignUpResponse>> register(SignUpRequest input);
 
-  Future<Result<UpdateProfileResponse>> updateProfile(
+  Future<Either<Failure, UpdateProfileResponse>> updateProfile(
       UpdateProfileRequest input);
 
-  Future<Result<UploadAvatarResponse>> uploadAvatar(File input);
+  Future<Either<Failure, UploadAvatarResponse>> uploadAvatar(File input);
 
-  Future<Result<StatusResponse>> markNotificationAsRead(String input);
+  Future<Either<Failure, StatusResponse>> markNotificationAsRead(String input);
 
-  Future<Result<LoginsResponse>> getLogins();
+  Future<Either<Failure, LoginsResponse>> getLogins();
 
   Future<String> getBearerToken();
 
-  Future<Result<AllUsersResponse>> getAllUsers();
+  Future<Either<Failure, AllUsersResponse>> getAllUsers();
 
   Future<bool> getIsOnboardingScreenViewed();
 
@@ -113,10 +116,10 @@ abstract class Repository {
 
   Future<void> setIsOnboardingScreenViewed(bool value);
 
-  Future<Result<UpdatePasswordResponse>> updatePassword(
+  Future<Either<Failure, UpdatePasswordResponse>> updatePassword(
       UpdatePasswordRequest input);
 
-  Future<Result<AllOfficesResponse>> getAllOffices();
+  Future<Either<Failure, AllOfficesResponse>> getAllOffices();
 
   Future<void> clear();
 

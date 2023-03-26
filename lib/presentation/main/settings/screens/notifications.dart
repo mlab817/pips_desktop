@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -16,7 +17,7 @@ class NotificationsView extends StatefulWidget {
 class _NotificationsViewState extends State<NotificationsView> {
   final Repository _repository = instance<Repository>();
 
-  bool _notificationsEnabled = false;
+  bool? _notificationsEnabled;
   bool? _isOnboardingScreenViewable;
 
   Future<void> _toggleOnboardingScreen(bool value) async {
@@ -25,6 +26,16 @@ class _NotificationsViewState extends State<NotificationsView> {
 
     setState(() {
       _isOnboardingScreenViewable = value;
+    });
+  }
+
+  Future<void> _requestNotificationPermission() async {
+    print("Prompting for Permission");
+    final permitted =
+        await OneSignal.shared.promptUserForPushNotificationPermission();
+
+    setState(() {
+      _notificationsEnabled = permitted;
     });
   }
 
@@ -38,6 +49,8 @@ class _NotificationsViewState extends State<NotificationsView> {
         _isOnboardingScreenViewable = value;
       });
     });
+
+    _requestNotificationPermission();
   }
 
   @override
@@ -75,15 +88,14 @@ class _NotificationsViewState extends State<NotificationsView> {
               dense: false,
               onTap: () {
                 setState(() {
-                  _notificationsEnabled = !_notificationsEnabled;
+                  _notificationsEnabled = _notificationsEnabled ?? false;
                 });
               },
               title: const Text(AppStrings.enableNotifications),
               subtitle: const Text('Supported for Android only'),
               trailing: Switch(
-                value: _notificationsEnabled,
+                value: _notificationsEnabled ?? false,
                 onChanged: (bool? value) {
-                  // TODO: make sure that this is handled by the device
                   setState(() {
                     _notificationsEnabled = value ?? false;
                   });

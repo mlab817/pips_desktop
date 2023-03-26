@@ -31,22 +31,18 @@ class _OfficeBottomSheetState extends State<OfficeBottomSheet>
       _loading = true;
     });
 
-    final response = await _allOfficesUseCase.execute(Void());
-
-    if (!mounted) return;
-
-    if (response.success) {
-      setState(() {
-        _options = response.data?.data;
-        _filteredOffices = response.data?.data ?? [];
-        _loading = false;
-      });
-    } else {
+    (await _allOfficesUseCase.execute(Void())).fold((failure) {
       setState(() {
         _options = [];
         _loading = false;
       });
-    }
+    }, (response) {
+      setState(() {
+        _options = response.data;
+        _filteredOffices = response.data;
+        _loading = false;
+      });
+    });
   }
 
   void _filterOffices() {

@@ -8,6 +8,7 @@ import 'package:pips/domain/usecase/projects_usecase.dart';
 import '../../../app/dep_injection.dart';
 import '../../../domain/models/project.dart';
 import '../../resources/sizes_manager.dart';
+import '../../resources/strings_manager.dart';
 
 class FilterProjectsView extends StatefulWidget {
   const FilterProjectsView({Key? key, required this.request}) : super(key: key);
@@ -39,21 +40,19 @@ class _FilterProjectsViewState extends State<FilterProjectsView> {
       _page++;
     });
 
-    final response =
-        await _projectsUseCase.execute(widget.request.copyWith(page: _page));
-
-    if (response.success) {
+    (await _projectsUseCase.execute(widget.request.copyWith(page: _page))).fold(
+        (failure) {
       setState(() {
-        _projects.addAll(response.data?.data ?? []);
-        _total = response.data?.meta.pagination.total ?? 0;
+        _error = failure.message;
         _isLoading = false;
       });
-    } else {
+    }, (response) {
       setState(() {
-        _error = response.error;
+        _projects.addAll(response.data ?? []);
+        _total = response.meta.pagination.total;
         _isLoading = false;
       });
-    }
+    });
   }
 
   void _scrollListener() {
@@ -108,7 +107,7 @@ class _FilterProjectsViewState extends State<FilterProjectsView> {
           const SizedBox(height: AppSize.md),
           ElevatedButton(
             onPressed: _loadMoreData,
-            child: const Text('TRY AGAIN'),
+            child: Text(AppStrings.tryAgain.toUpperCase()),
           ),
         ],
       );

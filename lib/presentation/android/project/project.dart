@@ -20,14 +20,11 @@ class _ProjectViewState extends State<ProjectView> {
   Project? _project;
 
   Future<void> _getProject() async {
-    final projectResponse = await _projectUseCase.execute(widget.uuid);
-
-    // check if the widget is still mounted before setting state
-    if (projectResponse.success && mounted) {
+    (await _projectUseCase.execute(widget.uuid)).fold((failure) {}, (response) {
       setState(() {
-        _project = projectResponse.data?.project;
+        _project = response.project;
       });
-    }
+    });
   }
 
   @override

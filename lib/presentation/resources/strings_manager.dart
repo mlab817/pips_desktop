@@ -129,4 +129,8 @@ class AppStrings {
   static const String noInternetError = "No internet";
 
   static const String loading = 'Loading';
+
+  static const String ipdMandate =
+      'The IPD leads the conduct of the investment programming and prioritization activities for the DA. Considering the present state of the Philippine economy and the daunting task to modernize the sector, it is imperative to rationalize resource allocation and prioritize interventions with clear development strategies. The IPD finalized and institutionalized the Public Investment Programming (PIP) System and resource allocation scheme for the agriculture and fishery sector nationwide. The PIP system enables the DA to optimize the use of limited resources through a rational investment program. Further, the IPD leads the preparation of the sector’s investment plan in the medium term.';
+  static const String profile = 'Profile';
 }

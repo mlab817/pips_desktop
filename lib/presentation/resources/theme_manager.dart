@@ -1,7 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class CustomTheme with ChangeNotifier {
   static bool _isDarkTheme = false;
@@ -20,79 +18,73 @@ class CustomTheme with ChangeNotifier {
 
   static ThemeData get lightTheme {
     return FlexThemeData.light(
-      scheme: FlexScheme.damask,
-      surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-      blendLevel: 9,
-      appBarElevation: 1,
-      // appBarStyle: FlexAppBarStyle.material,
-      textTheme: const TextTheme(
-        // used for subtitle in list tile
-        titleLarge: TextStyle(
-          fontSize: FontSize.xxl,
-        ),
-        titleMedium: TextStyle(
-          fontSize: FontSize.xl,
-        ),
-        titleSmall: TextStyle(
-          fontSize: FontSize.lg,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: FontSize.xl,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: FontSize.lg,
-        ),
-        bodySmall: TextStyle(
-          fontSize: FontSize.md,
-        ),
+      colors: const FlexSchemeColor(
+        primary: Color(0xff006837),
+        primaryContainer: Color(0xffd0e4ff),
+        secondary: Color(0xfff3791e),
+        secondaryContainer: Color(0xffffdbcf),
+        tertiary: Color(0xff006875),
+        tertiaryContainer: Color(0xff95f0ff),
+        appBarColor: Color(0xffffdbcf),
+        error: Color(0xffb00020),
       ),
       subThemesData: const FlexSubThemesData(
-        blendOnLevel: 10,
-        blendOnColors: false,
-        inputDecoratorBorderType: FlexInputBorderType.outline,
+        useFlutterDefaults: true,
+        textButtonRadius: 1.0,
+        elevatedButtonRadius: 1.0,
+        outlinedButtonRadius: 1.0,
         inputDecoratorRadius: 8.0,
         inputDecoratorUnfocusedBorderIsColored: false,
         inputDecoratorBorderWidth: 0.5,
         inputDecoratorFocusedBorderWidth: 3.0,
+        fabUseShape: true,
+        fabAlwaysCircular: true,
         cardRadius: 8.0,
         bottomSheetRadius: 8.0,
-        bottomNavigationBarElevation: 2.0,
+        bottomNavigationBarElevation: 1.0,
         navigationRailLabelType: NavigationRailLabelType.none,
-        navigationRailUseIndicator: false,
-        thickBorderWidth: 4.0,
-        thinBorderWidth: 0.5,
-        // buttonPadding: EdgeInsets.all(AppPadding.md),
-        fabRadius: 50.0,
       ),
-      // visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      visualDensity: VisualDensity.compact,
+      keyColors: const FlexKeyColors(),
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
       // To use the playground font, add GoogleFonts package and uncomment
-      fontFamily: GoogleFonts
-          .mavenPro()
-          .fontFamily,
+      // fontFamily: GoogleFonts.notoSans().fontFamily,
     );
   }
 
   static ThemeData get darkTheme {
     return FlexThemeData.dark(
-      scheme: FlexScheme.damask,
+      colors: const FlexSchemeColor(
+        primary: Color(0xff006837),
+        primaryContainer: Color(0xffd0e4ff),
+        secondary: Color(0xfff3791e),
+        secondaryContainer: Color(0xffffdbcf),
+        tertiary: Color(0xff006875),
+        tertiaryContainer: Color(0xff95f0ff),
+        appBarColor: Color(0xffffdbcf),
+        error: Color(0xffb00020),
+      ),
       surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
       blendLevel: 15,
       subThemesData: const FlexSubThemesData(
-        blendOnLevel: 20,
+        useFlutterDefaults: true,
+        textButtonRadius: 1.0,
+        elevatedButtonRadius: 1.0,
+        outlinedButtonRadius: 1.0,
         inputDecoratorRadius: 8.0,
         inputDecoratorUnfocusedBorderIsColored: false,
         inputDecoratorBorderWidth: 0.5,
         inputDecoratorFocusedBorderWidth: 3.0,
+        fabUseShape: true,
+        fabAlwaysCircular: true,
         cardRadius: 8.0,
         bottomSheetRadius: 8.0,
         bottomNavigationBarElevation: 1.0,
-        navigationRailUseIndicator: false,
+        navigationRailLabelType: NavigationRailLabelType.none,
       ),
-      // visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      visualDensity: VisualDensity.compact,
+      keyColors: const FlexKeyColors(),
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
       // To use the Playground font, add GoogleFonts package and uncomment

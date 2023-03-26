@@ -27,18 +27,18 @@ class _ChatBottomSheetState extends State<ChatBottomSheet>
 
   bool _loading = false;
 
+  String? _error;
+
   Future<void> _getUsers() async {
-    final response = await _allUsersUseCase.execute(Void());
-
-    if (!mounted) return;
-
-    if (response.success) {
+    (await _allUsersUseCase.execute(Void())).fold((failure) {
+      _error = failure.message;
+    }, (response) {
       setState(() {
-        _users = response.data?.data;
+        _users = response.data;
         _filteredUsers = _users ?? [];
         _loading = false;
       });
-    }
+    });
   }
 
   void _filterUsers() {
@@ -51,8 +51,8 @@ class _ChatBottomSheetState extends State<ChatBottomSheet>
     } else {
       setState(() {
         _filteredUsers = _users?.where((element) {
-              return element.name.toLowerCase().contains(value.toLowerCase());
-            }).toList() ??
+          return element.name.toLowerCase().contains(value.toLowerCase());
+        }).toList() ??
             [];
       });
     }
@@ -69,7 +69,6 @@ class _ChatBottomSheetState extends State<ChatBottomSheet>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     _filterController.dispose();
@@ -77,6 +76,8 @@ class _ChatBottomSheetState extends State<ChatBottomSheet>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,7 +94,10 @@ class _ChatBottomSheetState extends State<ChatBottomSheet>
           ),
           title: Text(
             'New message',
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            style: TextStyle(color: Theme
+                .of(context)
+                .colorScheme
+                .primary),
           ),
           centerTitle: true,
         ),
@@ -108,28 +112,29 @@ class _ChatBottomSheetState extends State<ChatBottomSheet>
         ),
         _users != null
             ? Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.md),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _filteredUsers.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.chatRoomRoute,
-                              arguments: _users![index]);
-                        },
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          backgroundImage: NetworkImage(
-                              "https://robohash.org/${_filteredUsers[index].name}.png?set=set5"),
-                        ),
-                        title: Text(_filteredUsers[index].name),
-                      );
-                    },
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.md),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _filteredUsers.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.chatRoomRoute,
+                        arguments: _users![index]);
+                  },
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: NetworkImage(
+                        "https://robohash.org/${_filteredUsers[index]
+                            .name}.png?set=set5"),
                   ),
-                ),
-              )
+                  title: Text(_filteredUsers[index].name),
+                );
+              },
+            ),
+          ),
+        )
             : const Expanded(child: Center(child: CircularProgressIndicator())),
       ],
     );

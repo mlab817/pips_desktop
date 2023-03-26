@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
-import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/domain/usecase/notifications_usecase.dart';
 import 'package:pips/domain/usecase/read_notification_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
@@ -10,7 +9,6 @@ import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../../domain/models/notification.dart' as notificationModel;
-import '../../../domain/usecase/base_usecase.dart';
 import '../../resources/strings_manager.dart';
 
 class NotificationsView extends StatefulWidget {
@@ -37,27 +35,26 @@ class _NotificationsViewState extends State<NotificationsView>
   String? _error;
 
   Future<void> _getNotifications() async {
-    final Result<NotificationsResponse> result = await _notificationsUseCase
-        .execute(NotificationsRequest(perPage: 25, page: _currentPage));
-
-    if (result.success) {
+    (await _notificationsUseCase
+            .execute(NotificationsRequest(perPage: 25, page: _currentPage)))
+        .fold((failure) {
+      setState(() {
+        _error = failure.message;
+        _loading = false;
+      });
+    }, (response) {
       if (!mounted) return;
 
-      final data = result.data?.data;
+      final data = response.data;
 
       setState(() {
         _error = null;
         _notifications.addAll(data!);
         _currentPage++;
-        _lastPage = result.data?.meta.pagination.last ?? 1;
+        _lastPage = response.meta.pagination.last ?? 1;
         _loading = false;
       });
-    } else {
-      setState(() {
-        _error = result.error;
-        _loading = false;
-      });
-    }
+    });
   }
 
   _MySearchDelegate? _delegate;
@@ -165,7 +162,12 @@ class _NotificationsViewState extends State<NotificationsView>
       itemBuilder: (context, index) {
         if (index == _notifications.length) {
           return _loading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Padding(
+                  padding: EdgeInsets.all(AppPadding.md),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
               : (_error != null
                   ? _buildError()
                   : const Text(
@@ -212,7 +214,10 @@ class _NotificationsViewState extends State<NotificationsView>
                       AppSize.md,
                     ),
                   ),
-                  icon: const Icon(Icons.mark_email_unread),
+                  icon: const Icon(
+                    Icons.mark_email_unread,
+                    size: AppSize.s36,
+                  ),
                   content: Text(notifications[index].data.message),
                   actions: [
                     TextButton(
@@ -278,12 +283,15 @@ class _NotificationsViewState extends State<NotificationsView>
   }
 
   Future<void> _markNotificationAsRead(String id) async {
-    final response = await _readNotificationUseCase.execute(id);
-
-    debugPrint(response.toString());
-
-    //
-    if (response.success) {
+    (await _readNotificationUseCase.execute(id)).fold((failure) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(failure.message)));
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      }
+    }, (response) {
       int itemIndex = _notifications.indexWhere((item) => item.id == id);
 
       setState(() {
@@ -293,15 +301,7 @@ class _NotificationsViewState extends State<NotificationsView>
       if (mounted) {
         Navigator.pop(context);
       }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(response.error.toString())));
-        if (mounted) {
-          Navigator.pop(context);
-        }
-      }
-    }
+    });
   }
 
   @override

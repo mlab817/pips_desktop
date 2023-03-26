@@ -7,6 +7,7 @@ import 'package:pips/data/network/ws.dart';
 import 'package:pips/domain/models/chat_room.dart';
 import 'package:pips/domain/models/user.dart';
 import 'package:pips/domain/usecase/chatroom_usecase.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/dep_injection.dart';
 import '../../../domain/models/message.dart';
@@ -71,22 +72,21 @@ class _ChatRoomViewState extends State<ChatRoomView> {
   Future<void> _loadChatRoom() async {
     final chatRoomId = widget.user.id;
 
-    final response = await _chatRoomUseCase.execute(chatRoomId);
-
-    if (response.success) {
+    (await _chatRoomUseCase.execute(chatRoomId)).fold((failure) {
       setState(() {
-        _chatRoom = response.data?.data;
-        _messages = response.data?.data.messages;
+        _error = failure.message;
+        _loading = false;
+      });
+    }, (response) {
+      setState(() {
+        _chatRoom = response.data;
+        _messages = response.data.messages;
         _loading = false;
       });
 
-      await _connectToClient();
-    } else {
-      setState(() {
-        _error = response.error;
-        _loading = false;
-      });
-    }
+      //
+      _connectToClient();
+    });
   }
 
   Future<void> _connectToClient() async {
@@ -177,7 +177,9 @@ class _ChatRoomViewState extends State<ChatRoomView> {
             : Text(user.name),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _showUserProfile(user);
+            },
             icon: const Icon(Icons.info_outline),
           ),
         ],
@@ -309,7 +311,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: ColorManager.blue,
+                color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(AppSize.s20),
               ),
               // width: double.infinity,
@@ -407,12 +409,9 @@ class _ChatRoomViewState extends State<ChatRoomView> {
     _contentController.clear();
     _focusNode.requestFocus();
 
-    final createMessageResponse = await _createMessageUseCase.execute(
-        CreateMessageUseCaseInput(id: _chatRoom!.id, content: message));
-
-    // replace the local message
-    if (createMessageResponse.success) {
-      // get index
+    (await _createMessageUseCase.execute(
+            CreateMessageUseCaseInput(id: _chatRoom!.id, content: message)))
+        .fold((l) => null, (r) {
       final index =
           _messages?.indexWhere((element) => element.localId == localId);
 
@@ -422,6 +421,53 @@ class _ChatRoomViewState extends State<ChatRoomView> {
           _messages![index] = localMessage.copyWith(sent: true);
         });
       }
+    });
+  }
+
+  void _showUserProfile(User user) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          icon: const Icon(
+            Icons.account_circle,
+            size: AppSize.s36,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                user.fullname ?? '',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              Text(user.office?.acronym ?? ''),
+              Text(user.position ?? ''),
+              ListTile(
+                dense: true,
+                leading: const Icon(Icons.email),
+                title: Text(user.email),
+                onTap: () async {
+                  await _launchUrl(Uri.parse("mailto:${user.email}"));
+                },
+              ),
+              ListTile(
+                dense: true,
+                leading: const Icon(Icons.phone),
+                title: Text(user.contactNumber ?? ''),
+                onTap: () async {
+                  await _launchUrl(Uri.parse("tel:${user.contactNumber}"));
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _launchUrl(Uri _url) async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
     }
   }
 }

@@ -7,6 +7,7 @@ class Config {
 
   // static const String wsHost = 'pips.da.gov.ph';
   static const String wsHost = 'pips.da.gov.ph';
+  static const String oneSignalAppId = "248df894-4145-4507-97c9-4a279924177e";
 }
 
 CustomTheme currentTheme = CustomTheme();

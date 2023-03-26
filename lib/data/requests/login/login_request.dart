@@ -10,13 +10,13 @@ class LoginRequest {
   @JsonKey(name: "password")
   String password;
 
-  @JsonKey(name: "device_token")
-  String? deviceToken;
+  @JsonKey(name: "onesignal_player_id")
+  String? onesignalPlayerId;
 
   LoginRequest({
     required this.username,
     required this.password,
-    this.deviceToken,
+    this.onesignalPlayerId,
   });
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>
@@ -27,9 +27,11 @@ class LoginRequest {
   LoginRequest copyWith({
     String? username,
     String? password,
-    String? deviceToken,
+    String? onesignalPlayerId,
   }) =>
-      LoginRequest(username: username ?? this.username,
+      LoginRequest(
+        username: username ?? this.username,
         password: password ?? this.password,
-        deviceToken: deviceToken ?? this.deviceToken,);
+        onesignalPlayerId: onesignalPlayerId ?? this.onesignalPlayerId,
+      );
 }

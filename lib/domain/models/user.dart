@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'office.dart';
+
 part 'user.g.dart';
 
 @JsonSerializable()
@@ -36,6 +38,9 @@ class User {
 
   String? name;
 
+  @JsonKey(name: "office")
+  Office? office;
+
   User({
     required this.id,
     required this.username,
@@ -47,6 +52,7 @@ class User {
     this.lastName,
     this.fullname,
     this.imageUrl,
+    this.office,
   }) : name = "$firstName $lastName";
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

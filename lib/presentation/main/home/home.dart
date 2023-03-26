@@ -41,25 +41,20 @@ class _HomeViewState extends State<HomeView>
   }
 
   Future<void> _loadProjects() async {
-    final response = await _projectsUseCase.execute(_getProjectsRequest);
-
-    if (mounted) {
-      if (response.success) {
-        setState(() {
-          _lastPage = response.data?.meta.pagination.last ?? 1;
-          _currentPage += 1;
-          _getProjectsRequest =
-              _getProjectsRequest.copyWith(page: _currentPage);
-          _projects.addAll(response.data?.data ?? []);
-          _loading = false;
-        });
-      } else {
-        setState(() {
-          _error = response.error;
-          _loading = false;
-        });
-      }
-    }
+    (await _projectsUseCase.execute(_getProjectsRequest)).fold((failure) {
+      setState(() {
+        _error = failure.message;
+        _loading = false;
+      });
+    }, (response) {
+      setState(() {
+        _lastPage = response.meta.pagination.last ?? 1;
+        _currentPage += 1;
+        _getProjectsRequest = _getProjectsRequest.copyWith(page: _currentPage);
+        _projects.addAll(response.data ?? []);
+        _loading = false;
+      });
+    });
   }
 
   void _scrollListener() {
@@ -174,7 +169,7 @@ class _HomeViewState extends State<HomeView>
 
           return ListTile(
             title: Text(
-              project.title,
+              "${project.office?.acronym} - ${project.title}",
               maxLines: 2,
               style: TextStyle(
                 color: Theme.of(context).primaryColor,

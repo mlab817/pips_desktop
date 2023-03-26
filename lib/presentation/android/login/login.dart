@@ -1,20 +1,16 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/presentation/resources/font_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../../../app/dep_injection.dart';
 import '../../../data/requests/login/login_request.dart';
-import '../../../data/responses/login/login_response.dart';
-import '../../../domain/models/user.dart';
-import '../../../domain/usecase/base_usecase.dart';
 import '../../resources/assets_manager.dart';
 
 class LoginView extends StatefulWidget {
@@ -32,27 +28,23 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  String? _deviceToken;
-
   bool _passwordIsObscured = true;
 
-  Future<void> _loadDeviceToken() async {
-    if (!UniversalPlatform.isAndroid) return;
+  String? _playerId;
 
-    final FirebaseMessaging messaging = FirebaseMessaging.instance;
+  Future<void> _retrievePlayerId() async {
+    var deviceState = await OneSignal.shared.getDeviceState();
 
-    // If not initialized, initialize the default Firebase app
-    final fcmToken = await messaging.getToken().onError((error, stackTrace) {
-      print(error.toString());
-      return null;
-    });
+    if (deviceState == null || deviceState.userId == null) {
+      return;
+    }
 
-    debugPrint(fcmToken);
-
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
-      _deviceToken = fcmToken;
+      _playerId = deviceState.userId!;
     });
   }
 
@@ -60,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
 
-    _loadDeviceToken();
+    _retrievePlayerId();
   }
 
   @override
@@ -145,7 +137,6 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(
                     height: AppSize.s20,
                   ),
-                  // TODO: Reminder to change height of ElevatedButton to 36
                   SizedBox(
                     height: AppSize.s36,
                     width: AppSize.s100,
@@ -213,36 +204,36 @@ class _LoginViewState extends State<LoginView> {
             ),
           );
         });
-    _loginUseCase
-        .execute(
-          LoginRequest(
-            username: _usernameController.text,
-            password: _passwordController.text,
-            deviceToken: _deviceToken,
-          ),
-        )
-        .then((Result<LoginResponse> value) => {
-              if (value.success)
-                {
-                  _repository.setIsUserLoggedIn(),
-                  _repository.setLoggedInUser(value.data?.user ?? "" as User),
-                  _repository.setImageUrl(value.data?.user.imageUrl ?? ""),
-                  _repository.setBearerToken(value.data?.accessToken ?? ""),
-                  resetModules(),
-                  // request permission for fcm
-                  Navigator.of(context).pop(),
-                  _goToMainRoute(),
-                }
-              else
-                {
-                  Navigator.of(context).pop(),
-                  _showSnackbar(value.error ?? AppStrings.somethingWentWrong),
-                }
-            });
+    (await _loginUseCase.execute(
+      LoginRequest(
+        username: _usernameController.text,
+        password: _passwordController.text,
+        onesignalPlayerId: _playerId,
+      ),
+    ))
+        .fold((failure) {
+      Navigator.of(context).pop();
+      _showSnackbar(failure.message);
+    }, (response) {
+      _repository.setIsUserLoggedIn();
+      _repository.setLoggedInUser(response.user);
+      _repository.setImageUrl(response.user.imageUrl ?? "");
+      _repository.setBearerToken(response.accessToken);
+      // save to one signal then to laravel app
+      resetModules();
+      // request permission for fcm
+      Navigator.of(context).pop();
+      _goToMainRoute();
+    });
   }
 
   void _requestPermission() {
     //
+    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt.
+    // We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
   }
 
   void _goToForgotPassword() {

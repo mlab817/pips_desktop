@@ -1,13 +1,14 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
-import 'package:pips/presentation/resources/assets_manager.dart';
+import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../../../app/dep_injection.dart';
 import '../../../../app/routes.dart';
+import '../../../../data/network/failure.dart';
 import '../../../../domain/models/project.dart';
 import '../../../../domain/usecase/projects_usecase.dart';
 
@@ -18,15 +19,8 @@ class SearchResultsPage extends StatelessWidget {
 
   final ProjectsUseCase _projectsUseCase = instance<ProjectsUseCase>();
 
-  Future<List<Project>?> _searchProjects(query) async {
-    final response =
-        await _projectsUseCase.execute(GetProjectsRequest(q: query));
-
-    if (response.success) {
-      return response.data?.data;
-    }
-
-    return null;
+  Future<dartz.Either<Failure, ProjectsResponse>> _searchProjects(query) async {
+    return await _projectsUseCase.execute(GetProjectsRequest(q: query));
   }
 
   @override
@@ -38,62 +32,58 @@ class SearchResultsPage extends StatelessWidget {
       body: FutureBuilder(
           future: _searchProjects(query),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Lottie.asset(AssetsManager.animEmptyJson),
-                      const Text('Nothing found.'),
-                    ],
-                  ),
-                );
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                final data = snapshot.data;
+
+                return data?.fold((failure) {
+                      return Center(child: Text(failure.message));
+                    }, (response) {
+                      final list = response.data;
+
+                      return _buildList(list);
+                    }) ??
+                    Container();
               }
-              return _buildList(snapshot);
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              return SkeletonLoader(
-                  builder: ListView.separated(
-                      separatorBuilder: (context, index) => Divider(
-                            color: Theme.of(context).dividerColor,
-                          ),
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(AppPadding.md),
-                          child: SkeletonListTile(
-                            hasLeading: false,
-                            hasSubtitle: true,
-                          ),
-                        );
-                      }));
-              return const Center(child: CircularProgressIndicator());
             }
+            return SkeletonLoader(
+                builder: ListView.separated(
+                    separatorBuilder: (context, index) => Divider(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(AppPadding.md),
+                        child: SkeletonListTile(
+                          hasLeading: false,
+                          hasSubtitle: true,
+                        ),
+                      );
+                    }));
           }),
     );
   }
 
-  Widget _buildList(snapshot) {
+  Widget _buildList(List<Project> data) {
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
         color: Theme.of(context).dividerColor,
       ),
       itemBuilder: (context, index) => ListTile(
         title: Text(
-          snapshot.data![index].title,
+          data[index].title,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
         onTap: () {
           //
-          Navigator.of(context).pushNamed(Routes.viewProjectRoute,
-              arguments: snapshot.data![index].uuid);
+          Navigator.of(context)
+              .pushNamed(Routes.viewProjectRoute, arguments: data[index].uuid);
         },
       ),
-      itemCount: snapshot.data?.length,
+      itemCount: data.length,
     );
     ;
   }

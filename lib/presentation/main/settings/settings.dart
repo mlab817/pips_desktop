@@ -12,6 +12,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../../app/dep_injection.dart';
 import '../../../app/routes.dart';
+import '../../resources/sizes_manager.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -36,12 +37,12 @@ class _SettingsViewState extends State<SettingsView> {
 
   final _listMenu = <SettingsMenu>[
     SettingsMenu(
-      title: AppStrings.updateProfile,
+      title: AppStrings.profile,
       icon: const Icon(Icons.person),
       route: Routes.updateProfileRoute,
     ),
     SettingsMenu(
-      title: AppStrings.updatePassword,
+      title: AppStrings.changePassword,
       icon: const Icon(Icons.key),
       route: Routes.updatePasswordRoute,
     ),
@@ -91,11 +92,49 @@ class _SettingsViewState extends State<SettingsView> {
               );
             },
           ),
-          ElevatedButton(
-            onPressed: () {
-              logout(context);
-            },
-            child: const Text(AppStrings.logout),
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.md),
+            child: SizedBox(
+              height: AppSize.s36,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          icon: const Icon(
+                            Icons.exit_to_app,
+                            size: AppSize.s36,
+                          ),
+                          content:
+                              const Text('Are you sure you want to logout?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Cancel')),
+                            ElevatedButton(
+                              onPressed: () {
+                                logout(context);
+                              },
+                              child: const Text('Confirm'),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Icon(Icons.exit_to_app),
+                    SizedBox(width: AppSize.md),
+                    Text(AppStrings.logout),
+                  ],
+                ),
+              ),
+            ),
           )
         ]));
   }

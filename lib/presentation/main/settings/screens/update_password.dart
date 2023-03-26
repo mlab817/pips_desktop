@@ -153,20 +153,18 @@ class _UpdatePasswordState extends State<UpdatePassword> {
           );
         });
 
-    final response = await _updatePasswordUseCase.execute(UpdatePasswordRequest(
+    (await _updatePasswordUseCase.execute(UpdatePasswordRequest(
       currentPassword: _currentPasswordTextEditingController.text,
       password: _newPasswordTextEditingController.text,
       passwordConfirmation: _confirmPasswordTextEditingController.text,
-    ));
-
-    if (response.success) {
-      _showSnackbar(response.data?.message ?? 'Successfully changed password');
+    ))).fold((failure) {
+      _showSnackbar(failure.message);
+      _popContext();
+    }, (response) {
+      _showSnackbar(response.message);
       _popContext();
       _clearInputs();
-    } else {
-      _showSnackbar(response.error ?? AppStrings.somethingWentWrong);
-      _popContext();
-    }
+    });
   }
 
   void _showSnackbar(String message) {

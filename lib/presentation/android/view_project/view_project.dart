@@ -26,20 +26,19 @@ class _ViewProjectViewState extends State<ViewProjectView> {
 
   // load project
   Future<void> _loadProject() async {
-    final response = await _projectUseCase.execute(widget.uuid);
-
-    setState(() {
-      if (response.success) {
-        _project = response.data?.project;
-      } else {
-        _error = response.error;
-      }
+    (await _projectUseCase.execute(widget.uuid)).fold((failure) {
+      setState(() {
+        _error = failure.message;
+      });
+    }, (response) {
+      setState(() {
+        _project = response.project;
+      });
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _loadProject();
@@ -130,7 +129,10 @@ class _ViewProjectViewState extends State<ViewProjectView> {
           AppSize.md,
         ),
       ),
-      icon: const Icon(Icons.check_circle),
+      icon: const Icon(
+        Icons.check_circle,
+        size: AppSize.s36,
+      ),
       contentPadding: const EdgeInsets.all(AppSize.sm),
       content: Column(
         mainAxisSize: MainAxisSize.min,

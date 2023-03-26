@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
@@ -13,15 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 
-import 'firebase_options.dart';
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-
-  print("Handling a background message: ${message.messageId}");
-}
+import 'app/config.dart';
 
 void main(List<String> args) async {
   // debugPaintSizeEnabled = true;
@@ -40,19 +31,10 @@ void main(List<String> args) async {
   // override for bad certificate
   HttpOverrides.global = MyHttpOverrides();
 
-  // only initialize firebase if platform is android
-  if (UniversalPlatform.isAndroid) {
-    Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    ).then((value) => {
-          debugPrint(value.toString()),
-          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-            print(message.toString());
-          }),
-        });
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  }
+  OneSignal.shared.setAppId(Config.oneSignalAppId);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.landscapeRight]);

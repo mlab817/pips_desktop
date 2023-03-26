@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
@@ -9,9 +10,9 @@ import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../../app/routes.dart';
+import '../../../data/network/failure.dart';
 import '../../../data/responses/chat_rooms/chat_rooms.dart';
 import '../../../domain/models/user.dart';
-import '../../../domain/usecase/base_usecase.dart';
 import 'chat_bottom_sheet.dart';
 
 class ChatView extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ChatViewState extends State<ChatView> {
 
   User? _currentUser;
 
-  Future<Result<ChatRoomsResponse>> _getChatRooms() async {
+  Future<dartz.Either<Failure, ChatRoomsResponse>> _getChatRooms() async {
     return _chatRoomsUseCase.execute(Void());
   }
 
@@ -84,20 +85,28 @@ class _ChatViewState extends State<ChatView> {
         future: _getChatRooms(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
+            final data = snapshot.data;
+
+            return data?.fold((failure) {
+              return Center(child: Text(failure.message));
+            }, (response) {
+              final list = response.data;
+
               return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                        color: Theme.of(context).dividerColor,
+                  separatorBuilder: (context, index) =>
+                      Divider(
+                        color: Theme
+                            .of(context)
+                            .dividerColor,
                       ),
-                  itemCount: snapshot.data?.data?.data.length ?? 0,
+                  itemCount: list.length,
                   itemBuilder: (context, index) {
-                    final chatRooms = snapshot.data?.data?.data ?? [];
+                    final chatRooms = list;
                     final chatRoom = chatRooms[index];
 
                     return _buildItem(chatRoom);
                   });
-            }
-            return Container();
+            }) ?? Container();
           }
 
           return ListView.builder(
@@ -127,10 +136,10 @@ class _ChatViewState extends State<ChatView> {
       ),
       onTap: user != null
           ? () {
-              //
-              Navigator.pushNamed(context, Routes.chatRoomRoute,
-                  arguments: user);
-            }
+        //
+        Navigator.pushNamed(context, Routes.chatRoomRoute,
+            arguments: user);
+      }
           : null,
       title: Text(user?.firstName ?? 'NA'),
       subtitle: Text(
@@ -139,7 +148,7 @@ class _ChatViewState extends State<ChatView> {
       ),
       trailing: chatRoom.lastMessage != null
           ? Text(DateFormat.MMMd()
-              .format(DateTime.parse(chatRoom.lastMessage!.createdAt)))
+          .format(DateTime.parse(chatRoom.lastMessage!.createdAt)))
           : null,
     );
   }

@@ -26,6 +26,8 @@ class _OfficeViewState extends State<OfficeView> {
 
   bool _loading = false;
 
+  String? _error;
+
   // handle fetch of office data
 
   Future<void> _getOffice() async {
@@ -35,22 +37,18 @@ class _OfficeViewState extends State<OfficeView> {
       _projects = null;
     });
 
-    final officeResponse = await _officeUseCase.execute(widget.officeId);
-    if (officeResponse.success) {
-      if (mounted) {
-        setState(() {
-          _office = officeResponse.data?.data;
-          _projects = officeResponse.data?.data.projects ?? <Project>[];
-          _loading = false;
-        });
-      }
-    } else {
-      debugPrint(officeResponse.error);
+    (await _officeUseCase.execute(widget.officeId)).fold((failure) {
       setState(() {
         _loading = false;
+        _error = failure.message;
       });
-    }
-    // load selected office info
+    }, (response) {
+      setState(() {
+        _office = response.data;
+        _projects = response.data.projects ?? <Project>[];
+        _loading = false;
+      });
+    });
   }
 
   void _showSearch(context) {

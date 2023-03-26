@@ -77,15 +77,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   }
 
   Future<void> _sendPasswordResetLink() async {
-    final response = await _useCase
-        .execute(ForgotPasswordRequest(email: _emailController.text));
-
-    // 'Password reset link sent!'
-    if (response.success) {
-      _showSnackbar(response.data?.status ?? 'Success!');
-    } else {
-      _showSnackbar(response.error ?? 'Something went wrong');
-    }
+    (await _useCase
+            .execute(ForgotPasswordRequest(email: _emailController.text)))
+        .fold((failure) {
+      _showSnackbar(failure.message);
+    }, (response) {
+      _showSnackbar(response.status);
+    });
   }
 
   void _showSnackbar(String message) {
