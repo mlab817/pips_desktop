@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:pips/data/requests/filter_project/filter_project_request.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
@@ -13,6 +14,7 @@ import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/data/responses/all_offices/all_offices_response.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
 import 'package:pips/data/responses/chat_room/chat_room.dart';
+import 'package:pips/data/responses/filter_project/filter_project_response.dart';
 import 'package:pips/data/responses/forgot_password/forgot_password.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/logins/logins_response.dart';
@@ -100,8 +102,6 @@ class RepositoryImplementer implements Repository {
       final ProjectsResponse response =
           await _remoteDataSource.getProjects(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -130,8 +130,6 @@ class RepositoryImplementer implements Repository {
       final OfficesResponse response =
           await _remoteDataSource.getOffices(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -142,8 +140,6 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, OfficeResponse>> getOffice(String input) async {
     try {
       final OfficeResponse response = await _remoteDataSource.getOffice(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -156,8 +152,6 @@ class RepositoryImplementer implements Repository {
     try {
       final ProjectResponse response =
           await _remoteDataSource.getProject(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -175,8 +169,6 @@ class RepositoryImplementer implements Repository {
     try {
       final UsersResponse response = await _remoteDataSource.getUsers(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -188,10 +180,6 @@ class RepositoryImplementer implements Repository {
     try {
       final OptionsResponse response = await _remoteDataSource.getOptions();
 
-      debugPrint("response from getOptions: ${response.toString()}");
-
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -202,8 +190,6 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, ChatRoomsResponse>> getChatRooms() async {
     try {
       final ChatRoomsResponse response = await _remoteDataSource.getChatRooms();
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -217,8 +203,6 @@ class RepositoryImplementer implements Repository {
       final ChatRoomResponse response =
           await _remoteDataSource.getChatRoom(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -229,8 +213,6 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, ChatRoom>> createChatRoom(int input) async {
     try {
       final ChatRoom response = await _remoteDataSource.createChatRoom(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -244,8 +226,6 @@ class RepositoryImplementer implements Repository {
     try {
       final Message response = await _remoteDataSource.createMessage(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -257,8 +237,6 @@ class RepositoryImplementer implements Repository {
     try {
       final MessagesResponse response =
           await _remoteDataSource.listMessages(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -273,8 +251,6 @@ class RepositoryImplementer implements Repository {
       final NotificationsResponse response =
           await _remoteDataSource.listNotifications(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -285,8 +261,6 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, SignUpResponse>> register(SignUpRequest input) async {
     try {
       final SignUpResponse response = await _remoteDataSource.register(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -301,8 +275,6 @@ class RepositoryImplementer implements Repository {
       final UpdateProfileResponse response =
           await _remoteDataSource.updateProfile(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -314,8 +286,6 @@ class RepositoryImplementer implements Repository {
     try {
       final UploadAvatarResponse response =
           await _remoteDataSource.uploadAvatar(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -329,8 +299,6 @@ class RepositoryImplementer implements Repository {
     try {
       final StatusResponse response =
           await _remoteDataSource.markNotificationAsRead(input);
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -368,8 +336,6 @@ class RepositoryImplementer implements Repository {
       final ChatRoomResponse response =
           await _remoteDataSource.getChatRoomByUserId(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -380,8 +346,6 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, AllUsersResponse>> getAllUsers() async {
     try {
       final AllUsersResponse response = await _remoteDataSource.getAllUsers();
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -406,8 +370,6 @@ class RepositoryImplementer implements Repository {
       final UpdatePasswordResponse response =
           await _remoteDataSource.updatePassword(input);
 
-      debugPrint("from rep imp: ${response.toString()}");
-
       return Right(response);
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -419,8 +381,6 @@ class RepositoryImplementer implements Repository {
     try {
       final AllOfficesResponse response =
           await _remoteDataSource.getAllOffices();
-
-      debugPrint("from rep imp: ${response.toString()}");
 
       return Right(response);
     } catch (e) {
@@ -436,5 +396,18 @@ class RepositoryImplementer implements Repository {
   @override
   Future<User?> getLoggedInUser() async {
     return _localDataSource.getLoggedInUser();
+  }
+
+  @override
+  Future<Either<Failure, FilterProjectResponse>> filterProjects(
+      FilterProjectRequest input) async {
+    try {
+      final FilterProjectResponse response =
+          await _remoteDataSource.filterProjects(input);
+
+      return Right(response);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
   }
 }

@@ -40,6 +40,7 @@ class DioFactory {
     dio.options = BaseOptions(
       baseUrl: Config.baseUrl,
       headers: headers,
+      connectTimeout: const Duration(seconds: 30),
     );
 
     if (kReleaseMode) {

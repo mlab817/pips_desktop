@@ -13,6 +13,7 @@ import 'package:pips/domain/usecase/allusers_usecase.dart';
 import 'package:pips/domain/usecase/chatrooms_usecase.dart';
 import 'package:pips/domain/usecase/createchatroom_usecase.dart';
 import 'package:pips/domain/usecase/createmessage_usecase.dart';
+import 'package:pips/domain/usecase/filterproject_usecase.dart';
 import 'package:pips/domain/usecase/forgot_password_usecase.dart';
 import 'package:pips/domain/usecase/login_usecase.dart';
 import 'package:pips/domain/usecase/logins_usecase.dart';
@@ -54,18 +55,18 @@ final GetIt instance = GetIt.instance;
 
 Future<void> initAppModule() async {
   final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+  await SharedPreferences.getInstance();
 
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   instance.registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImplementer(instance()));
+          () => RemoteDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImplementer(instance()));
+          () => LocalDataSourceImplementer(instance()));
 
   instance.registerLazySingleton<Repository>(
-      () => RepositoryImplementer(instance(), instance()));
+          () => RepositoryImplementer(instance(), instance()));
 
   instance.registerLazySingleton<DioFactory>(() => DioFactory(instance()));
 
@@ -96,39 +97,42 @@ Future<void> initAppModule() async {
   instance.registerFactory<ChatRoomUseCase>(() => ChatRoomUseCase(instance()));
 
   instance.registerFactory<CreateChatRoomUseCase>(
-      () => CreateChatRoomUseCase(instance()));
+          () => CreateChatRoomUseCase(instance()));
 
   instance.registerFactory<CreateMessageUseCase>(
-      () => CreateMessageUseCase(instance()));
+          () => CreateMessageUseCase(instance()));
 
   instance.registerFactory<MessagesUseCase>(() => MessagesUseCase(instance()));
 
   instance.registerFactory<NotificationsUseCase>(
-      () => NotificationsUseCase(instance()));
+          () => NotificationsUseCase(instance()));
 
   // await FbMessaging.init();
 
   instance.registerFactory<UpdateProfileUseCase>(
-      () => UpdateProfileUseCase(instance()));
+          () => UpdateProfileUseCase(instance()));
 
   instance.registerFactory<UploadAvatarUseCase>(
-      () => UploadAvatarUseCase(instance()));
+          () => UploadAvatarUseCase(instance()));
 
   instance.registerFactory<ReadNotificationUseCase>(
-      () => ReadNotificationUseCase(instance()));
+          () => ReadNotificationUseCase(instance()));
 
   instance.registerFactory<LoginsUseCase>(() => LoginsUseCase(instance()));
 
   instance.registerFactory<AllUsersUseCase>(() => AllUsersUseCase(instance()));
 
   instance.registerFactory<ForgotPasswordUseCase>(
-      () => ForgotPasswordUseCase(instance()));
+          () => ForgotPasswordUseCase(instance()));
 
   instance.registerFactory<UpdatePasswordUseCase>(
-      () => UpdatePasswordUseCase(instance()));
+          () => UpdatePasswordUseCase(instance()));
 
   instance
       .registerFactory<AllOfficesUseCase>(() => AllOfficesUseCase(instance()));
+
+  instance.registerFactory<FilterProjectUseCase>(() =>
+      FilterProjectUseCase(instance()));
 }
 
 initLoginModule() {

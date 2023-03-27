@@ -18,6 +18,7 @@ class NotificationsView extends StatefulWidget {
   State<NotificationsView> createState() => _NotificationsViewState();
 }
 
+// TODO: enable real-time notifications
 class _NotificationsViewState extends State<NotificationsView>
     with AutomaticKeepAliveClientMixin {
   final NotificationsUseCase _notificationsUseCase =
@@ -224,14 +225,16 @@ class _NotificationsViewState extends State<NotificationsView>
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text(AppStrings.cancel)),
-                    ElevatedButton(
-                      onPressed: () async {
-                        // handle mark as read
-                        await _markNotificationAsRead(notifications[index].id);
-                      },
-                      child: const Text(AppStrings.markAsRead),
-                    ),
+                        child: const Text(AppStrings.close)),
+                    if (!_notifications[index].read)
+                      ElevatedButton(
+                        onPressed: () async {
+                          // handle mark as read
+                          await _markNotificationAsRead(
+                              notifications[index].id);
+                        },
+                        child: const Text(AppStrings.markAsRead),
+                      ),
                   ],
                 );
               },

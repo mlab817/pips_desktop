@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
+import 'package:pips/data/requests/filter_project/filter_project_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/presentation/android/chat_room/chat_room.dart';
+import 'package:pips/presentation/android/filter_by_property/filter_by_property.dart';
 import 'package:pips/presentation/android/new_project/new_project.dart';
 import 'package:pips/presentation/android/office/office.dart';
 import 'package:pips/presentation/android/onboarding/onboarding.dart';
@@ -46,6 +48,7 @@ class Routes {
   static const String viewPdfRoute = "/view-pdf";
   static const String chatRoomRoute = "/chat-room";
   static const String filterProjectsRoute = "/filter-projects";
+  static const String filterByPropertyRoute = "/filter-by-property";
 }
 
 class RouteGenerator {
@@ -115,6 +118,11 @@ class RouteGenerator {
             routeSettings.arguments as GetProjectsRequest;
         return MaterialPageRoute(
             builder: (_) => FilterProjectsView(request: request));
+      case Routes.filterByPropertyRoute:
+        FilterProjectRequest request =
+            routeSettings.arguments as FilterProjectRequest;
+        return MaterialPageRoute(
+            builder: (_) => FilterByPropertyView(request: request));
       default:
         // return null
         return MaterialPageRoute(builder: (_) => const HomeView());

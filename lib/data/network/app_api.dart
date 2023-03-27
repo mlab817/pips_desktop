@@ -18,9 +18,11 @@ import 'package:retrofit/http.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
+import '../requests/filter_project/filter_project_request.dart';
 import '../requests/login/login_request.dart';
 import '../responses/all_offices/all_offices_response.dart';
 import '../responses/chat_room/chat_room.dart';
+import '../responses/filter_project/filter_project_response.dart';
 import '../responses/logins/logins_response.dart';
 import '../responses/notifications/notifications_response.dart';
 import '../responses/office_response/office_response.dart';
@@ -122,4 +124,8 @@ abstract class AppServiceClient {
 
   @GET("/all-offices")
   Future<AllOfficesResponse> getAllOffices();
+
+  @GET("/filter-projects")
+  Future<FilterProjectResponse> filterProjects(
+      @Queries() FilterProjectRequest input);
 }

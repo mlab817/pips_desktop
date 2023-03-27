@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
+import 'package:pips/data/requests/filter_project/filter_project_request.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
@@ -64,7 +65,7 @@ class _ViewProjectViewState extends State<ViewProjectView> {
         ],
       ),
       body: _project != null
-          ? _buildProject()
+          ? SingleChildScrollView(child: _buildProject())
           : const Center(
               child: CircularProgressIndicator(),
             ),
@@ -83,6 +84,14 @@ class _ViewProjectViewState extends State<ViewProjectView> {
               ListTile(
                 title: const Text('Office'),
                 subtitle: Text(_project?.office?.acronym ?? 'no office'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  if (_project?.office?.id != null) {
+                    Navigator.pushNamed(context, Routes.filterByPropertyRoute,
+                        arguments: FilterProjectRequest(
+                            filter: 'office', value: _project!.office!.id));
+                  }
+                },
               ),
               ListTile(
                 title: const Text('Description'),
@@ -92,6 +101,15 @@ class _ViewProjectViewState extends State<ViewProjectView> {
                 title: const Text('Spatial Coverage'),
                 subtitle: Text(
                     _project?.spatialCoverage?.name ?? 'no spatial coverage'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  if (_project?.office?.id != null) {
+                    Navigator.pushNamed(context, Routes.filterByPropertyRoute,
+                        arguments: FilterProjectRequest(
+                            filter: 'spatial_coverage',
+                            value: _project!.spatialCoverage!.id));
+                  }
+                },
               ),
               ListTile(
                 title: const Text('Total Cost'),
@@ -130,7 +148,7 @@ class _ViewProjectViewState extends State<ViewProjectView> {
         ),
       ),
       icon: const Icon(
-        Icons.check_circle,
+        Icons.info_outline,
         size: AppSize.s36,
       ),
       contentPadding: const EdgeInsets.all(AppSize.sm),

@@ -22,10 +22,12 @@ import 'package:pips/domain/usecase/createmessage_usecase.dart';
 
 import '../../domain/models/chat_room.dart';
 import '../../domain/models/message.dart';
+import '../requests/filter_project/filter_project_request.dart';
 import '../requests/update_profile/update_profile_request.dart';
 import '../responses/all_offices/all_offices_response.dart';
 import '../responses/all_users/all_users.dart';
 import '../responses/chat_room/chat_room.dart';
+import '../responses/filter_project/filter_project_response.dart';
 import '../responses/forgot_password/forgot_password.dart';
 import '../responses/logins/logins_response.dart';
 import '../responses/messages/messages_response.dart';
@@ -82,6 +84,8 @@ abstract class RemoteDataSource {
   Future<UpdatePasswordResponse> updatePassword(UpdatePasswordRequest input);
 
   Future<AllOfficesResponse> getAllOffices();
+
+  Future<FilterProjectResponse> filterProjects(FilterProjectRequest input);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -207,5 +211,11 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<AllOfficesResponse> getAllOffices() async {
     return await _appServiceClient.getAllOffices();
+  }
+
+  @override
+  Future<FilterProjectResponse> filterProjects(
+      FilterProjectRequest input) async {
+    return await _appServiceClient.filterProjects(input);
   }
 }

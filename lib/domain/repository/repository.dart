@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:pips/data/requests/filter_project/filter_project_request.dart';
 import 'package:pips/data/requests/forgot_password/forgot_password_request.dart';
 import 'package:pips/data/requests/login/login_request.dart';
 import 'package:pips/data/requests/notifications/notifications_request.dart';
@@ -8,6 +9,7 @@ import 'package:pips/data/requests/offices/get_offices_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/responses/all_offices/all_offices_response.dart';
 import 'package:pips/data/responses/all_users/all_users.dart';
+import 'package:pips/data/responses/filter_project/filter_project_response.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/logins/logins_response.dart';
 import 'package:pips/data/responses/messages/messages_response.dart';
@@ -89,6 +91,9 @@ abstract class Repository {
   Future<Either<Failure, StatusResponse>> markNotificationAsRead(String input);
 
   Future<Either<Failure, LoginsResponse>> getLogins();
+
+  Future<Either<Failure, FilterProjectResponse>> filterProjects(
+      FilterProjectRequest input);
 
   Future<String> getBearerToken();
 
