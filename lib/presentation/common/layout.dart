@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/config.dart';
 import 'package:pips/app/functions.dart';
+import 'package:pips/data/requests/notifications/notifications_request.dart';
+import 'package:pips/domain/usecase/notifications_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:pips/presentation/resources/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import '../../app/dep_injection.dart';
 import '../../app/routes.dart';
 import '../resources/color_manager.dart';
 
@@ -27,12 +30,28 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
+  final NotificationsUseCase _notificationsUseCase =
+      instance<NotificationsUseCase>();
+
+  int? _notifications;
+
+  //
+  Future<void> _getNotifications() async {
+    (await _notificationsUseCase.execute(NotificationsRequest()))
+        .fold((failure) {}, (response) {
+      setState(() {
+        _notifications = response.meta.pagination.total;
+      });
+    });
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     currentTheme.addListener(() {});
+
+    _getNotifications();
   }
 
   @override
@@ -46,14 +65,6 @@ class _MainLayoutState extends State<MainLayout> {
           Expanded(child: widget.child),
         ],
       ),
-      // floatingActionButton: UniversalPlatform.isDesktopOrWeb
-      //     ? FloatingActionButton(
-      //         onPressed: () {
-      //           Navigator.pushNamed(context, Routes.newProjectRoute);
-      //         },
-      //         child: const Icon(Icons.add),
-      //       )
-      //     : null,
       floatingActionButton: UniversalPlatform.isDesktopOrWeb
           ? FloatingActionButton(
               onPressed: () {
@@ -155,22 +166,26 @@ class _MainLayoutState extends State<MainLayout> {
       elevation: AppSize.s10,
       onTap: widget.onChange,
       type: BottomNavigationBarType.fixed,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: AppStrings.home,
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble),
-          label: 'Chat',
+          label: AppStrings.chat,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          label: 'Notifications',
+          icon: Badge(
+            label:
+                _notifications != null ? Text(_notifications.toString()) : null,
+            child: const Icon(Icons.notifications),
+          ),
+          label: AppStrings.notifications,
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'Settings',
+          label: AppStrings.settings,
         ),
       ],
     );

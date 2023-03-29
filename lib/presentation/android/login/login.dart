@@ -65,6 +65,8 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    // return const EnableTouchIdView();
+
     return Scaffold(
       body: Center(
         child: Padding(

@@ -93,6 +93,7 @@ dependencies:
   onesignal_flutter: ^3.5.1
   rive: ^0.10.3
   dartz: ^0.10.1
+  local_auth: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -180,7 +181,9 @@ flutter:
 
 flutter_icons:
   android: "launcher_icon"
-  ios: true
+  ios:
+    generate: true
+  remove_alpha_ios: true
   image_path: "assets/images/logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:

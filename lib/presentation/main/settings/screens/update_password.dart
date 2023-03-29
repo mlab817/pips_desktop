@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pips/data/requests/update_password/update_password_request.dart';
 import 'package:pips/domain/usecase/updatepassword_usecase.dart';
+import 'package:pips/presentation/common/loading_overlay.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../../../../app/dep_injection.dart';
@@ -118,10 +119,12 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 ),
                 SizedBox(
                   height: AppSize.s36,
+                  width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _updatePassword();
+
                         return;
                       }
 
@@ -142,15 +145,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     showDialog(
         context: context,
         builder: (context) {
-          return const Dialog(
-            child: SizedBox(
-              height: AppSize.s100,
-              width: AppSize.s100,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
+          return const LoadingOverlay();
         });
 
     (await _updatePasswordUseCase.execute(UpdatePasswordRequest(

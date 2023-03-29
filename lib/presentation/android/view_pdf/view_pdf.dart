@@ -118,19 +118,21 @@ class _ViewPdfViewState extends State<ViewPdfView> {
           return PDFViewer(
             document: _document!,
             showPicker: false,
+            zoomSteps: 1,
+            scrollDirection: Axis.vertical,
           );
         }
 
         return Center(
           child: Column(
             children: [
-              const Text('Failed to load document'),
+              const Text(AppStrings.failedToLoadDocument),
               const SizedBox(
                 height: AppSize.md,
               ),
               ElevatedButton(
                 onPressed: _loadDocument,
-                child: const Text('TRY AGAIN'),
+                child: const Text(AppStrings.tryAgain),
               ),
             ],
           ),
@@ -146,9 +148,7 @@ class _ViewPdfViewState extends State<ViewPdfView> {
           children: [
             InAppWebView(
               key: _webViewKey,
-              initialUrlRequest: URLRequest(
-                  url: WebUri(
-                      'https://beta.pips.da.gov.ph/generate-pdf/1091a7cb-92cd-4b84-81a5-fdbbd8821f3a')),
+              initialUrlRequest: URLRequest(url: WebUri(_uri.toString())),
               // shouldOverrideUrlLoading: (controller, navigationAction) async {
               //   return NavigationActionPolicy.ALLOW;
               // },

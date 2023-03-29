@@ -4,7 +4,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/domain/repository/repository.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
@@ -75,15 +74,18 @@ class _SplashViewState extends State<SplashView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            AssetsManager.svgLogoAsset,
-            height: AppSize.s100,
+          ClipOval(
+            child: Image.asset(
+              AssetsManager.logo,
+              height: AppSize.s100,
+            ),
           ),
           const SizedBox(
             height: AppSize.s36,
           ),
           Text(
             AppStrings.publicInvestmentProgramSystem,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontFamily: FontFamily.bebasNeue,

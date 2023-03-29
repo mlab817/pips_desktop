@@ -43,7 +43,7 @@ void main(List<String> args) async {
   await initAppModule();
 
   runApp(
-    ChangeNotifierProvider(
+    ChangeNotifierProvider<CustomTheme>(
       create: (_) => CustomTheme(),
       child: const MyApp(),
     ),
