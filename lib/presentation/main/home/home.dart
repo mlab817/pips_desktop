@@ -48,10 +48,10 @@ class _HomeViewState extends State<HomeView>
       });
     }, (response) {
       setState(() {
-        _lastPage = response.meta.pagination.last ?? 1;
+        _lastPage = response.meta.pagination.last;
         _currentPage += 1;
         _getProjectsRequest = _getProjectsRequest.copyWith(page: _currentPage);
-        _projects.addAll(response.data ?? []);
+        _projects.addAll(response.data);
         _loading = false;
       });
     });

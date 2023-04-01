@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/app/routes.dart';
 import 'package:pips/domain/repository/repository.dart';
-import 'package:pips/presentation/android/login/login.dart';
+import 'package:pips/presentation/mobile/login/login.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 import 'package:pips/presentation/resources/theme_manager.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +60,9 @@ class _MyAppState extends State<MyApp> {
           theme: CustomTheme.lightTheme,
           darkTheme: CustomTheme.darkTheme,
           themeMode: Provider.of<CustomTheme>(context).currentTheme,
-          onGenerateRoute: RouteGenerator.onGenerateRoute,
+          onGenerateRoute: kIsWeb || Platform.isMacOS || Platform.isWindows
+              ? RouteGenerator.onWebGenerateRoute
+              : RouteGenerator.onGenerateRoute,
           initialRoute: Routes.splashRoute,
           home: _isUserLoggedIn ? const MainView() : const LoginView(),
         );

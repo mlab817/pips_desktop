@@ -48,7 +48,7 @@ class _FilterProjectsViewState extends State<FilterProjectsView> {
       });
     }, (response) {
       setState(() {
-        _projects.addAll(response.data ?? []);
+        _projects.addAll(response.data);
         _total = response.meta.pagination.total;
         _isLoading = false;
       });

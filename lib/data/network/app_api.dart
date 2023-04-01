@@ -28,6 +28,7 @@ import '../responses/notifications/notifications_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
 import '../responses/options/options_response.dart';
+import '../responses/pips_statuses/pips_statuses_response.dart';
 import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
 import '../responses/register/signup_response.dart';
@@ -128,4 +129,7 @@ abstract class AppServiceClient {
   @GET("/filter-projects")
   Future<FilterProjectResponse> filterProjects(
       @Queries() FilterProjectRequest input);
+
+  @GET("/pips-statuses")
+  Future<PipsStatusesResponse> pipsStatuses();
 }

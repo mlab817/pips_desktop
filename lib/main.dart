@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
@@ -11,8 +10,6 @@ import 'package:pips/presentation/resources/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
-
-import 'app/config.dart';
 
 void main(List<String> args) async {
   // debugPaintSizeEnabled = true;
@@ -30,11 +27,6 @@ void main(List<String> args) async {
 
   // override for bad certificate
   HttpOverrides.global = MyHttpOverrides();
-
-  //Remove this method to stop OneSignal Debugging
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
-  OneSignal.shared.setAppId(Config.oneSignalAppId);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.landscapeRight]);

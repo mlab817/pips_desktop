@@ -22,6 +22,7 @@ import 'package:pips/domain/usecase/notifications_usecase.dart';
 import 'package:pips/domain/usecase/office_usecase.dart';
 import 'package:pips/domain/usecase/offices_usecase.dart';
 import 'package:pips/domain/usecase/options_usecase.dart';
+import 'package:pips/domain/usecase/pipsstatuses_usecase.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:pips/domain/usecase/read_notification_usecase.dart';
@@ -133,6 +134,9 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<FilterProjectUseCase>(() =>
       FilterProjectUseCase(instance()));
+
+  instance.registerFactory<PipsStatusesUseCase>(() =>
+      PipsStatusesUseCase(instance()));
 }
 
 initLoginModule() {

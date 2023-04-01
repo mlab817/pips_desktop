@@ -41,7 +41,7 @@ dependencies:
   get_it: ^7.2.0
   retrofit: ^4.0.1
   build_runner: ^2.3.3
-  retrofit_generator: ^5.0.0
+  retrofit_generator: ^6.0.0+1
   json_annotation: ^4.7.0
   json_serializable: ^6.5.4
   freezed: ^2.3.2
@@ -72,8 +72,6 @@ dependencies:
   google_fonts: ^4.0.3
   file_picker: ^5.2.5
   adaptive_components: ^0.0.9
-  auto_route_generator: ^5.0.3
-  auto_route: ^5.0.4
   universal_platform: ^1.0.0+1
   material_color_utilities: ^0.2.0
   dynamic_color: ^1.6.2

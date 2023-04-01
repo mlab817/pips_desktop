@@ -1,6 +1,7 @@
 /// Manage strings used by the app
 class AppStrings {
-  static const String appName = "PIPS";
+  static const String pips = "PIPS";
+  static const String appName = AppStrings.pips;
   static const String publicInvestmentProgramSystem =
       "Public Investment Program System";
   static const String submit = "Submit";

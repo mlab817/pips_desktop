@@ -22,6 +22,7 @@ import 'package:pips/data/responses/messages/messages_response.dart';
 import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
+import 'package:pips/data/responses/pips_statuses/pips_statuses_response.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/status/status_response.dart';
@@ -404,6 +405,18 @@ class RepositoryImplementer implements Repository {
     try {
       final FilterProjectResponse response =
           await _remoteDataSource.filterProjects(input);
+
+      return Right(response);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PipsStatusesResponse>> pipsStatuses() async {
+    try {
+      final PipsStatusesResponse response =
+          await _remoteDataSource.pipsStatuses();
 
       return Right(response);
     } catch (e) {

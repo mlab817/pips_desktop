@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -9,6 +10,7 @@ import 'package:pips/presentation/resources/font_manager.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 import 'package:pips/presentation/resources/strings_manager.dart';
 
+import '../../../app/config.dart';
 import '../../../app/dep_injection.dart';
 import '../../../data/requests/login/login_request.dart';
 import '../../resources/assets_manager.dart';
@@ -32,6 +34,20 @@ class _LoginViewState extends State<LoginView> {
 
   String? _playerId;
 
+  void _initializeOneSignal() {
+    if (kIsWeb) {
+      return;
+    }
+
+    //Remove this method to stop OneSignal Debugging
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+    OneSignal.shared.setAppId(Config.oneSignalAppId);
+
+    // if oneSignal is supported, retrieve playerId
+    _retrievePlayerId();
+  }
+
   Future<void> _retrievePlayerId() async {
     var deviceState = await OneSignal.shared.getDeviceState();
 
@@ -52,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
 
-    _retrievePlayerId();
+    _initializeOneSignal();
   }
 
   @override
@@ -140,8 +156,8 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSize.s20,
                   ),
                   SizedBox(
-                    height: AppSize.s36,
-                    width: AppSize.s100,
+                    height: AppSize.s60,
+                    width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {

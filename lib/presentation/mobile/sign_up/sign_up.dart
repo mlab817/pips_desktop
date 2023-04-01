@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/sign_up/sign_up_request.dart';
 import 'package:pips/domain/usecase/signup_usecase.dart';
-import 'package:pips/presentation/android/sign_up/office_bottomsheet.dart';
+import 'package:pips/presentation/mobile/sign_up/office_bottomsheet.dart';
 
 import '../../../domain/models/office.dart';
 import '../../resources/sizes_manager.dart';
@@ -295,7 +295,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   void _signup() async {
     (await _signUpUseCase.execute(_signUpRequest)).fold((failure) {
-      _showSnackbar(failure.message ?? 'Unknown error!');
+      _showSnackbar(failure.message);
     }, (response) {
       _showSnackbar('Successfully received your application!');
     });

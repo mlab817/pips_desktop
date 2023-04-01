@@ -159,7 +159,7 @@ class _SearchProjectDelegate extends SearchDelegate<String> {
           final project = results[index];
 
           return ListTile(
-            title: Text(project.title ?? ''),
+            title: Text(project.title),
             onTap: () {
               //  TODO: implement onTap office
             },

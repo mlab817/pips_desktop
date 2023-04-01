@@ -61,13 +61,16 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     ),
                   ),
                   const SizedBox(height: AppSize.s20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _sendPasswordResetLink();
-                      }
-                    },
-                    child: const Text(AppStrings.sendPasswordResetLink),
+                  SizedBox(
+                    height: AppSize.s60,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _sendPasswordResetLink();
+                        }
+                      },
+                      child: const Text(AppStrings.sendPasswordResetLink),
+                    ),
                   ),
                 ],
               )),

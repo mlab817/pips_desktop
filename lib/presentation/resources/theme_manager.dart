@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:pips/presentation/resources/sizes_manager.dart';
 
 class CustomTheme with ChangeNotifier {
   static bool _isDarkTheme = false;
@@ -30,10 +31,10 @@ class CustomTheme with ChangeNotifier {
       ),
       subThemesData: const FlexSubThemesData(
         useFlutterDefaults: true,
-        textButtonRadius: 1.0,
-        elevatedButtonRadius: 1.0,
-        outlinedButtonRadius: 1.0,
-        inputDecoratorRadius: 8.0,
+        textButtonRadius: AppSize.lg,
+        elevatedButtonRadius: AppSize.lg,
+        outlinedButtonRadius: AppSize.lg,
+        inputDecoratorRadius: AppSize.lg,
         inputDecoratorUnfocusedBorderIsColored: false,
         inputDecoratorBorderWidth: 0.5,
         inputDecoratorFocusedBorderWidth: 3.0,
@@ -44,6 +45,7 @@ class CustomTheme with ChangeNotifier {
         bottomNavigationBarElevation: 1.0,
         navigationRailLabelType: NavigationRailLabelType.none,
       ),
+      // lightIsWhite: true,
       keyColors: const FlexKeyColors(),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,

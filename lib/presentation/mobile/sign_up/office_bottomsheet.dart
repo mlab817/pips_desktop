@@ -113,7 +113,7 @@ class _OfficeBottomSheetState extends State<OfficeBottomSheet>
                             onTap: () {
                               widget.onTap(_filteredOffices[index]);
                             },
-                            title: Text(_filteredOffices[index].acronym ?? ''),
+                            title: Text(_filteredOffices[index].acronym),
                           );
                         },
                       ),

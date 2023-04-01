@@ -83,13 +83,16 @@ class _SplashViewState extends State<SplashView> {
           const SizedBox(
             height: AppSize.s36,
           ),
-          Text(
-            AppStrings.publicInvestmentProgramSystem,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontFamily: FontFamily.bebasNeue,
-                ),
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.md),
+            child: Text(
+              AppStrings.publicInvestmentProgramSystem,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontFamily: FontFamily.bebasNeue,
+                  ),
+            ),
           ),
         ],
       ),

@@ -33,6 +33,7 @@ import '../responses/logins/logins_response.dart';
 import '../responses/messages/messages_response.dart';
 import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
+import '../responses/pips_statuses/pips_statuses_response.dart';
 import '../responses/status/status_response.dart';
 import '../responses/update_profile/update_profile.dart';
 import '../responses/users/users_response.dart';
@@ -86,6 +87,8 @@ abstract class RemoteDataSource {
   Future<AllOfficesResponse> getAllOffices();
 
   Future<FilterProjectResponse> filterProjects(FilterProjectRequest input);
+
+  Future<PipsStatusesResponse> pipsStatuses();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -217,5 +220,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   Future<FilterProjectResponse> filterProjects(
       FilterProjectRequest input) async {
     return await _appServiceClient.filterProjects(input);
+  }
+
+  @override
+  Future<PipsStatusesResponse> pipsStatuses() async {
+    return await _appServiceClient.pipsStatuses();
   }
 }

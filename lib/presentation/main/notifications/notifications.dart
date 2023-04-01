@@ -50,9 +50,9 @@ class _NotificationsViewState extends State<NotificationsView>
 
       setState(() {
         _error = null;
-        _notifications.addAll(data!);
+        _notifications.addAll(data);
         _currentPage++;
-        _lastPage = response.meta.pagination.last ?? 1;
+        _lastPage = response.meta.pagination.last;
         _loading = false;
       });
     });
