@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pips/app/functions.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
+import 'package:pips/domain/usecase/options_usecase.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
 import 'package:pips/presentation/resources/assets_manager.dart';
 
 import '../../../app/dep_injection.dart';
+import '../../../domain/models/options.dart';
 import '../../../domain/models/pips_status.dart';
 import '../../../domain/models/project.dart';
 import '../../../domain/usecase/chatrooms_usecase.dart';
@@ -24,6 +29,7 @@ class _MainWebViewState extends State<MainWebView> {
   final ProjectsUseCase _projectsUseCase = instance<ProjectsUseCase>();
   final PipsStatusesUseCase _pipsStatusesUseCase =
       instance<PipsStatusesUseCase>();
+  late GetProjectsRequest _getProjectsRequest;
 
   int _currentIndex = 0;
   int _total = 0;
@@ -33,20 +39,13 @@ class _MainWebViewState extends State<MainWebView> {
   String? _error;
   List<Project> _projects = [];
   int _currentPage = 1;
-  int _perPage = 50;
+  final int _perPage = 50;
   String? _search = '';
+  Options? _options;
 
   int _selectedStatus = 1;
 
   List<PipsStatus> _statuses = [];
-
-  bool _showFilters = false;
-
-  void _toggleFilters() {
-    setState(() {
-      _showFilters = !_showFilters;
-    });
-  }
 
   Future<void> _getStatuses() async {
     (await _pipsStatusesUseCase.execute(Void())).fold((failure) {
@@ -85,12 +84,7 @@ class _MainWebViewState extends State<MainWebView> {
       _loading = true;
     });
 
-    (await _projectsUseCase.execute(GetProjectsRequest(
-      page: _currentPage,
-      perPage: _perPage,
-      q: _search,
-    )))
-        .fold((failure) {
+    (await _projectsUseCase.execute(_getProjectsRequest)).fold((failure) {
       debugPrint(failure.message);
       setState(() {
         _error = failure.message;
@@ -116,6 +110,12 @@ class _MainWebViewState extends State<MainWebView> {
     _getStatuses();
 
     _scrollController = ScrollController();
+
+    _getProjectsRequest = GetProjectsRequest(
+      page: _currentPage,
+      perPage: _perPage,
+      q: _search,
+    );
 
     _loadProjects();
   }
@@ -228,7 +228,24 @@ class _MainWebViewState extends State<MainWebView> {
                             context: context,
                             builder: (context) {
                               return Dialog(
-                                child: _buildFilters(),
+                                child: FilterDialog(
+                                    getProjectsRequest: _getProjectsRequest,
+                                    onDismiss: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onSubmit: (newValue) {
+                                      setState(() {
+                                        _getProjectsRequest = newValue;
+                                      });
+
+                                      Navigator.pop(context);
+
+                                      debugPrint(
+                                          jsonEncode(_getProjectsRequest));
+
+                                      // reload projects
+                                      _loadProjects();
+                                    }),
                               );
                             });
                       },
@@ -296,30 +313,6 @@ class _MainWebViewState extends State<MainWebView> {
               },
             ),
           ),
-          // textAlignVertical: TextAlignVertical.center,
-          // decoration: InputDecoration(
-          //   hoverColor: Colors.transparent,
-          //   prefixIcon: const Icon(Icons.search),
-          //   filled: true,
-          //   fillColor: Theme.of(context).inputDecorationTheme.fillColor,
-          //   focusColor: Colors.white,
-          //   isCollapsed: true,
-          //   hintText: 'Search PAPs...',
-          //   hintStyle: const TextStyle(fontWeight: FontWeight.w300),
-          //   contentPadding: const EdgeInsets.all(AppPadding.lg),
-          //   enabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(AppSize.lg),
-          //     borderSide: BorderSide.none,
-          //   ),
-          //   focusedBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(AppSize.lg),
-          //     borderSide: BorderSide.none,
-          //   ),
-          //   border: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(AppSize.lg),
-          //     borderSide: BorderSide.none,
-          //   ),
-          // ),
         ),
       ),
       const Spacer(),
@@ -514,6 +507,8 @@ class _MainWebViewState extends State<MainWebView> {
                   : () {
                       setState(() {
                         _currentPage--;
+                        _getProjectsRequest =
+                            _getProjectsRequest.copyWith(page: _currentPage);
                       });
                       _loadProjects();
                     },
@@ -532,6 +527,8 @@ class _MainWebViewState extends State<MainWebView> {
                   : () {
                       setState(() {
                         _currentPage++;
+                        _getProjectsRequest =
+                            _getProjectsRequest.copyWith(page: _currentPage);
                       });
                       _loadProjects();
                     },
@@ -540,6 +537,24 @@ class _MainWebViewState extends State<MainWebView> {
                 Icons.chevron_right,
                 size: FontSize.xxxl,
               ),
+            ),
+            IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child: Column(
+                          children: const <Widget>[
+                            Text('Help'),
+                            Expanded(child: Center(child: Placeholder())),
+                          ],
+                        ),
+                      );
+                    });
+              },
+              icon: const Icon(Icons.help_outline),
+              tooltip: 'Help',
             ),
           ],
         ),
@@ -627,17 +642,6 @@ class _MainWebViewState extends State<MainWebView> {
       unselectedLabelTextStyle: Theme.of(context).textTheme.bodySmall,
     );
   }
-
-  List<String> fruits = ['Apple', 'Banana', 'Graps', 'Orange', 'Mango'];
-  List<String> selectedFruits = [];
-
-  Widget _buildFilters() {
-    return Column(
-      children: [
-        Placeholder(),
-      ],
-    );
-  }
 }
 
 class ProjectListTile extends StatefulWidget {
@@ -701,10 +705,20 @@ class _ProjectListTileState extends State<ProjectListTile> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(width: AppSize.s20),
+              const SizedBox(width: AppSize.s10),
+              SizedBox(
+                width: AppSize.s80,
+                child: Text(
+                  widget.project.office?.acronym ?? 'N/A',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSize.s10),
               Flexible(
                 child: RichText(
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   text: TextSpan(children: [
                     TextSpan(
@@ -735,6 +749,18 @@ class _ProjectListTileState extends State<ProjectListTile> {
                         //
                       },
                       icon: const Icon(
+                        Icons.download_outlined,
+                        size: FontSize.xxl,
+                      ),
+                      tooltip: AppStrings.download,
+                      visualDensity: VisualDensity.compact,
+                      splashRadius: 20,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        //
+                      },
+                      icon: const Icon(
                         Icons.mode_edit_outline_outlined,
                         size: FontSize.xxl,
                       ),
@@ -757,7 +783,7 @@ class _ProjectListTileState extends State<ProjectListTile> {
                   ],
                 )
               : Text(
-                  'May 30',
+                  formatDate(widget.project.updatedAt),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
           onTap: () {
@@ -767,5 +793,410 @@ class _ProjectListTileState extends State<ProjectListTile> {
         ),
       ),
     );
+  }
+}
+
+class FilterDialog extends StatefulWidget {
+  const FilterDialog(
+      {Key? key,
+      required this.onDismiss,
+      required this.getProjectsRequest,
+      required this.onSubmit})
+      : super(key: key);
+
+  final Function onDismiss;
+  final GetProjectsRequest getProjectsRequest;
+  final Function onSubmit;
+
+  @override
+  State<FilterDialog> createState() => _FilterDialogState();
+}
+
+class _FilterDialogState extends State<FilterDialog> {
+  final OptionsUseCase _optionsUseCase = instance<OptionsUseCase>();
+
+  late GetProjectsRequest _getProjectsRequest;
+
+  Options? _options;
+  String? _error;
+  bool _loading = false;
+
+  Future<void> _loadOptions() async {
+    setState(() {
+      _loading = true;
+    });
+
+    (await _optionsUseCase.execute(Void())).fold((failure) {
+      setState(() {
+        _error = failure.message;
+        _loading = false;
+      });
+    }, (response) {
+      setState(() {
+        _options = response.data;
+        _loading = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadOptions();
+
+    _getProjectsRequest = widget.getProjectsRequest;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) {
+      return const Center(
+        child: CircleAvatar(
+          radius: AppSize.s24,
+          child: Padding(
+            padding: EdgeInsets.all(AppPadding.md),
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        AppBar(
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Icon(Icons.tune),
+              SizedBox(width: AppSize.md),
+              Text('Filters'),
+            ],
+          ),
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  widget.onDismiss();
+                },
+                icon: const Icon(Icons.close)),
+          ],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(AppSize.xxxl),
+            ),
+          ),
+        ),
+        Expanded(
+          child: _options != null
+              ? SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _getFilterHeader('TYPE'),
+                      ...?_getTypes(),
+                      _getFilterHeader('SPATIAL COVERAGE'),
+                      ...?_getSpatialCoverages(),
+                      // _getFilterHeader('PDP CHAPTER'),
+                      // ...?_getPdpChapters(),
+                      _getFilterHeader('CATEGORY'),
+                      ...?_getCategories(),
+                      _getFilterHeader('PROJECT STATUS'),
+                      ...?_getProjectStatuses(),
+                      _getFilterHeader('FUNDING SOURCE'),
+                      ...?_getFundingSources(),
+                      _getFilterHeader('PIPS STATUS'),
+                      ...?_getPipsStatuses(),
+                      _getFilterHeader('PIPOL STATUS'),
+                      ...?_getPipolStatuses(),
+                    ],
+                  ),
+                )
+              : const Center(
+                  child: Text('Failed to Load Options'),
+                ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(AppPadding.md),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              const SizedBox(
+                width: AppSize.md,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  widget.onSubmit(_getProjectsRequest);
+                },
+                child: const Text('Apply'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getFilterHeader(String header) {
+    return ListTile(
+      title: Text(
+        header.toUpperCase(),
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium
+            ?.copyWith(fontWeight: FontWeight.w700),
+      ),
+    );
+  }
+
+  List<Widget>? _getTypes() {
+    return _options!.types?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.types?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedTypes = _getProjectsRequest.types?.toList();
+
+          if (value ?? false) {
+            if (selectedTypes != null) {
+              selectedTypes.add(e.value);
+            } else {
+              selectedTypes = [e.value];
+            }
+          } else {
+            selectedTypes?.remove(e.value);
+          }
+
+          debugPrint(selectedTypes.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(types: selectedTypes);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getSpatialCoverages() {
+    return _options!.spatialCoverages?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.spatialCoverages?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems =
+              _getProjectsRequest.spatialCoverages?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(spatialCoverages: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getPdpChapters() {
+    return _options!.pdpChapters?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.pdpChapters?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems = _getProjectsRequest.pdpChapters?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(pdpChapters: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getCategories() {
+    return _options!.categories?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.categories?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems = _getProjectsRequest.categories?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(categories: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getProjectStatuses() {
+    return _options!.projectStatuses?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.projectStatuses?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems =
+              _getProjectsRequest.projectStatuses?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(projectStatuses: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getFundingSources() {
+    return _options!.fundingSources?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.fundingSources?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems =
+              _getProjectsRequest.fundingSources?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(fundingSources: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getPipsStatuses() {
+    return _options!.pipsStatuses?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.pipsStatuses?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems = _getProjectsRequest.pipsStatuses?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(pipsStatuses: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
+  }
+
+  List<Widget>? _getPipolStatuses() {
+    return _options!.pipolStatuses?.map((e) {
+      return CheckboxListTile(
+        dense: true,
+        value: _getProjectsRequest.pipolStatuses?.contains(e.value) ?? false,
+        onChanged: (bool? value) {
+          List<int>? selectedItems =
+              _getProjectsRequest.pipolStatuses?.toList();
+
+          if (value ?? false) {
+            if (selectedItems != null) {
+              selectedItems.add(e.value);
+            } else {
+              selectedItems = [e.value];
+            }
+          } else {
+            selectedItems?.remove(e.value);
+          }
+
+          debugPrint(selectedItems.toString());
+
+          setState(() {
+            _getProjectsRequest =
+                _getProjectsRequest.copyWith(pipolStatuses: selectedItems);
+          });
+        },
+        title: Text(e.label),
+      );
+    }).toList();
   }
 }
