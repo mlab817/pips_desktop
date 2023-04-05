@@ -19,6 +19,7 @@ import 'package:pips/presentation/mobile/sign_up/sign_up.dart';
 import 'package:pips/presentation/mobile/view_pdf/view_pdf.dart';
 import 'package:pips/presentation/mobile/view_project/view_project.dart';
 import 'package:pips/presentation/splash/splash.dart';
+import 'package:pips/presentation/web/settings/settings.dart';
 
 import '../presentation/main/home/search_results/search_results.dart';
 import '../presentation/main/main.dart';
@@ -50,6 +51,7 @@ class Routes {
   static const String chatRoomRoute = "/chat-room";
   static const String filterProjectsRoute = "/filter-projects";
   static const String filterByPropertyRoute = "/filter-by-property";
+  static const String settingsRoute = "/settings";
 }
 
 class RouteGenerator {
@@ -73,6 +75,7 @@ class RouteGenerator {
         initProjectsModule();
         initOfficesModule();
         initUsersModule();
+        initProjectModule();
         return MaterialPageRoute(builder: (_) => const MainWebView());
       case Routes.officeRoute:
         initOfficesModule();
@@ -124,6 +127,8 @@ class RouteGenerator {
             routeSettings.arguments as FilterProjectRequest;
         return MaterialPageRoute(
             builder: (_) => FilterByPropertyView(request: request));
+      case Routes.settingsRoute:
+        return MaterialPageRoute(builder: (_) => const WebSettingsView());
       default:
         // return null
         return MaterialPageRoute(builder: (_) => const MainWebView());

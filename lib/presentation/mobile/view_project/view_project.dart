@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/data/requests/filter_project/filter_project_request.dart';
+import 'package:pips/domain/models/full_project.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
 import 'package:pips/presentation/resources/sizes_manager.dart';
 
 import '../../../app/routes.dart';
-import '../../../domain/models/project.dart';
 
 class ViewProjectView extends StatefulWidget {
   const ViewProjectView({Key? key, required this.uuid}) : super(key: key);
@@ -20,7 +20,7 @@ class ViewProjectView extends StatefulWidget {
 class _ViewProjectViewState extends State<ViewProjectView> {
   final ProjectUseCase _projectUseCase = instance<ProjectUseCase>();
 
-  Project? _project;
+  FullProject? _project;
   String? _error;
 
   final f = NumberFormat();
@@ -169,7 +169,7 @@ class _ViewProjectViewState extends State<ViewProjectView> {
             subtitle: _project != null
                 ? Text(DateFormat.yMMMd()
                     .add_jms()
-                    .format(DateTime.parse(_project!.updatedAt)))
+                    .format(DateTime.parse(_project!.updatedAt ?? '')))
                 : const Text('Unknown'),
           ),
         ],

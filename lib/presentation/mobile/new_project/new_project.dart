@@ -128,13 +128,13 @@ class _NewProjectViewState extends State<NewProjectView> {
   final TextEditingController _searchOuController = TextEditingController();
   final TextEditingController _riskController = TextEditingController();
   final TextEditingController _expectedOutputsController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _updatesController = TextEditingController();
   final TextEditingController _employmentGeneratedController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _employedMaleController = TextEditingController();
   final TextEditingController _employedFemaleController =
-  TextEditingController();
+      TextEditingController();
 
   // final List<Option> _options = [
   //   Option(value: 1, label: 'Option 1'),
@@ -155,17 +155,17 @@ class _NewProjectViewState extends State<NewProjectView> {
         image: AssetsManager.sdg2,
         value: 2,
         label:
-        'End hunger, achieve food security and improved nutrition and promote sustainable agriculture'),
+            'End hunger, achieve food security and improved nutrition and promote sustainable agriculture'),
     Sdg(
         image: AssetsManager.sdg3,
         value: 3,
         label:
-        'Ensure healthy lives and promote well-being for all at all ages'),
+            'Ensure healthy lives and promote well-being for all at all ages'),
     Sdg(
         image: AssetsManager.sdg4,
         value: 4,
         label:
-        'Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all'),
+            'Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all'),
     Sdg(
         image: AssetsManager.sdg5,
         value: 5,
@@ -174,22 +174,22 @@ class _NewProjectViewState extends State<NewProjectView> {
         image: AssetsManager.sdg6,
         value: 6,
         label:
-        'Ensure availability and sustainable management of water and sanitation for all'),
+            'Ensure availability and sustainable management of water and sanitation for all'),
     Sdg(
         image: AssetsManager.sdg7,
         value: 7,
         label:
-        'Ensure access to affordable, reliable, sustainable and modern energy for all'),
+            'Ensure access to affordable, reliable, sustainable and modern energy for all'),
     Sdg(
         image: AssetsManager.sdg8,
         value: 8,
         label:
-        'Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all'),
+            'Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all'),
     Sdg(
         image: AssetsManager.sdg9,
         value: 9,
         label:
-        'Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation'),
+            'Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation'),
     Sdg(
         image: AssetsManager.sdg10,
         value: 10,
@@ -198,7 +198,7 @@ class _NewProjectViewState extends State<NewProjectView> {
         image: AssetsManager.sdg11,
         value: 11,
         label:
-        'Make cities and human settlements inclusive, safe, resilient and sustainable'),
+            'Make cities and human settlements inclusive, safe, resilient and sustainable'),
     Sdg(
         image: AssetsManager.sdg12,
         value: 12,
@@ -211,22 +211,22 @@ class _NewProjectViewState extends State<NewProjectView> {
         image: AssetsManager.sdg14,
         value: 14,
         label:
-        'Conserve and sustainably use the oceans, seas and marine resources for sustainable development'),
+            'Conserve and sustainably use the oceans, seas and marine resources for sustainable development'),
     Sdg(
         image: AssetsManager.sdg15,
         value: 15,
         label:
-        'Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss'),
+            'Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss'),
     Sdg(
         image: AssetsManager.sdg16,
         value: 16,
         label:
-        'Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels'),
+            'Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels'),
     Sdg(
         image: AssetsManager.sdg17,
         value: 17,
         label:
-        'Strengthen the means of implementation and revitalize the global partnership for sustainable development'),
+            'Strengthen the means of implementation and revitalize the global partnership for sustainable development'),
   ];
 
   final Map<int, bool> _stepCompleted = {
@@ -263,8 +263,7 @@ class _NewProjectViewState extends State<NewProjectView> {
     });
   }
 
-  List<Step> _stepList() =>
-      [
+  List<Step> _stepList() => [
         _getOne(),
         _getTwo(),
         _getThree(),
@@ -293,8 +292,8 @@ class _NewProjectViewState extends State<NewProjectView> {
       _ouFilter = _searchOuController.text.toLowerCase();
       if (_ouFilter.isNotEmpty) {
         _filteredOus = _options?.operatingUnits
-            ?.where((item) => item.label.toLowerCase().contains(_ouFilter))
-            .toList() ??
+                ?.where((item) => item.label.toLowerCase().contains(_ouFilter))
+                .toList() ??
             [];
       } else {
         _filteredOus = _options?.operatingUnits ?? [];
@@ -331,6 +330,8 @@ class _NewProjectViewState extends State<NewProjectView> {
       covid: false,
       research: false,
       rdcEndorsementRequired: false,
+      fsNeedsAssistance: false,
+      fsTotalCost: "0",
       pdpChapterId: null,
       fundingSourceId: null,
       implementationModeId: null,
@@ -341,13 +342,16 @@ class _NewProjectViewState extends State<NewProjectView> {
       bases: [],
       operatingUnits: [],
       pdpChapters: [],
-      agendas: [],
+      agenda: [],
       fundingSources: [],
       sdgs: [],
       prerequisites: [],
       locations: [],
       infrastructureSectors: [],
       fundingInstitutions: [],
+      type: null,
+      spatialCoverage: null,
+      updatedAt: '',
     );
   }
 
@@ -413,7 +417,7 @@ class _NewProjectViewState extends State<NewProjectView> {
             decoration: const InputDecoration(
                 labelText: AppStrings.programProjectTitle,
                 helperText:
-                'The title should be identical with the program/project\'s title in the budget proposal to be submitted to the Department of Budget and Management (DBM). Please refrain from affixing unnecessary numbers, words, and other identifiers to the title, unless these are meant to distinguish one from another.',
+                    'The title should be identical with the program/project\'s title in the budget proposal to be submitted to the Department of Budget and Management (DBM). Please refrain from affixing unnecessary numbers, words, and other identifiers to the title, unless these are meant to distinguish one from another.',
                 helperMaxLines: 3),
             onChanged: (String? value) {
               setState(() {
@@ -429,22 +433,21 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.types
-                ?.map(
-                  (Option option) =>
-                  RadioListTile(
-                      value: option.value,
-                      groupValue: _project.typeId,
-                      title: Text(option.label),
-                      subtitle: (option.description != null)
-                          ? Text(option.description!)
-                          : null,
-                      onChanged: (value) {
-                        setState(() {
-                          _project = _project.copyWith(typeId: value);
-                        });
-                      }),
-            )
-                .toList() ??
+                    ?.map(
+                      (Option option) => RadioListTile(
+                          value: option.value,
+                          groupValue: _project.typeId,
+                          title: Text(option.label),
+                          subtitle: (option.description != null)
+                              ? Text(option.description!)
+                              : null,
+                          onChanged: (value) {
+                            setState(() {
+                              _project = _project.copyWith(typeId: value);
+                            });
+                          }),
+                    )
+                    .toList() ??
                 [Container()],
           ),
           const Spacer(),
@@ -501,7 +504,7 @@ class _NewProjectViewState extends State<NewProjectView> {
             decoration: const InputDecoration(
               labelText: AppStrings.description,
               helperText:
-              'Identify the components of the program/project, and explain the objective of the program/project in terms of responsiveness to the Philippine Development Plan (PDP). If a program, please identify the sub-programs/projects. If the program/project involves construction, rehabilitation, or improvement of a government facility, specify the definite purpose for the facility to be constructed, rehabilitated or improved.',
+                  'Identify the components of the program/project, and explain the objective of the program/project in terms of responsiveness to the Philippine Development Plan (PDP). If a program, please identify the sub-programs/projects. If the program/project involves construction, rehabilitation, or improvement of a government facility, specify the definite purpose for the facility to be constructed, rehabilitated or improved.',
               helperMaxLines: 5,
             ),
             onChanged: (String? value) {
@@ -518,7 +521,7 @@ class _NewProjectViewState extends State<NewProjectView> {
               labelText: AppStrings.totalCostInAbsolutePhp,
               prefixText: AppStrings.php,
               helperText:
-              'Indicate the total cost of the PAP in absolute PhP. For programs, include only the investment targets within the plan period (2023-2028) while for projects, compute the total investment targets of the PAP from the beginning to completion.',
+                  'Indicate the total cost of the PAP in absolute PhP. For programs, include only the investment targets within the plan period (2023-2028) while for projects, compute the total investment targets of the PAP from the beginning to completion.',
               helperMaxLines: 2,
             ),
             onChanged: (String? value) {
@@ -597,23 +600,22 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.spatialCoverages
-                ?.map(
-                  (Option option) =>
-                  RadioListTile(
-                      value: option.value,
-                      groupValue: _project.spatialCoverageId,
-                      title: Text(option.label),
-                      subtitle: option.description != null
-                          ? Text(option.description!)
-                          : null,
-                      onChanged: (value) {
-                        setState(() {
-                          _project =
-                              _project.copyWith(spatialCoverageId: value);
-                        });
-                      }),
-            )
-                .toList() ??
+                    ?.map(
+                      (Option option) => RadioListTile(
+                          value: option.value,
+                          groupValue: _project.spatialCoverageId,
+                          title: Text(option.label),
+                          subtitle: option.description != null
+                              ? Text(option.description!)
+                              : null,
+                          onChanged: (value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(spatialCoverageId: value);
+                            });
+                          }),
+                    )
+                    .toList() ??
                 [Container()],
           ),
           // regions and provinces
@@ -641,8 +643,8 @@ class _NewProjectViewState extends State<NewProjectView> {
                 ElevatedButton(
                     onPressed: () {
                       List<int> selectedItems = _options?.locations
-                          ?.map((Option option) => option.value)
-                          .toList() ??
+                              ?.map((Option option) => option.value)
+                              .toList() ??
                           [];
                       setState(() {
                         _project = _project.copyWith(locations: selectedItems);
@@ -655,25 +657,25 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.locations?.map((Option option) {
-              return CheckboxListTile(
-                  value: _project.locations.contains(option.value),
-                  title: Text(option.label),
-                  onChanged: (bool? value) {
-                    List<int> selectedLocations =
-                    _project.locations.toList();
+                  return CheckboxListTile(
+                      value: _project.locations.contains(option.value),
+                      title: Text(option.label),
+                      onChanged: (bool? value) {
+                        List<int> selectedLocations =
+                            _project.locations.toList();
 
-                    if (value ?? false) {
-                      selectedLocations.add(option.value);
-                    } else {
-                      selectedLocations.remove(option.value);
-                    }
+                        if (value ?? false) {
+                          selectedLocations.add(option.value);
+                        } else {
+                          selectedLocations.remove(option.value);
+                        }
 
-                    setState(() {
-                      _project =
-                          _project.copyWith(locations: selectedLocations);
-                    });
-                  });
-            }).toList() ??
+                        setState(() {
+                          _project =
+                              _project.copyWith(locations: selectedLocations);
+                        });
+                      });
+                }).toList() ??
                 [Container()],
           ),
           const Spacer(),
@@ -695,20 +697,19 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.approvalLevels
-                ?.map(
-                  (Option option) =>
-                  RadioListTile(
-                      value: option.value,
-                      groupValue: _project.approvalLevelId,
-                      title: Text(option.label),
-                      onChanged: (value) {
-                        setState(() {
-                          _project =
-                              _project.copyWith(approvalLevelId: value);
-                        });
-                      }),
-            )
-                .toList() ??
+                    ?.map(
+                      (Option option) => RadioListTile(
+                          value: option.value,
+                          groupValue: _project.approvalLevelId,
+                          title: Text(option.label),
+                          onChanged: (value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(approvalLevelId: value);
+                            });
+                          }),
+                    )
+                    .toList() ??
                 [Container()],
           ),
           const Spacer(),
@@ -734,8 +735,8 @@ class _NewProjectViewState extends State<NewProjectView> {
                     });
                   },
                   icon: const Icon(Icons.calendar_month)),
-              _project.approvalLevelDate.isNotEmpty
-                  ? Text(_project.approvalLevelDate)
+              _project.approvalLevelDate != null
+                  ? Text(_project.approvalLevelDate!)
                   : const Text('Select date'),
             ],
           ),
@@ -769,20 +770,19 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.typologies
-                ?.map((Option option) =>
-                RadioListTile(
-                    value: option.value,
-                    title: Text(option.label),
-                    subtitle: option.description != null
-                        ? Text(option.description!)
-                        : null,
-                    groupValue: _project.pipTypologyId,
-                    onChanged: (int? value) {
-                      setState(() {
-                        _project = _project.copyWith(pipTypologyId: value!);
-                      });
-                    }))
-                .toList() ??
+                    ?.map((Option option) => RadioListTile(
+                        value: option.value,
+                        title: Text(option.label),
+                        subtitle: option.description != null
+                            ? Text(option.description!)
+                            : null,
+                        groupValue: _project.pipTypologyId,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _project = _project.copyWith(pipTypologyId: value!);
+                          });
+                        }))
+                    .toList() ??
                 [Container()],
           ),
           const Divider(),
@@ -801,28 +801,27 @@ class _NewProjectViewState extends State<NewProjectView> {
           const ListTile(
               title: Text('Typology of CIP'),
               subtitle:
-              Text('Identify the CIP typology of the program/project.')),
+                  Text('Identify the CIP typology of the program/project.')),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.cipTypes
-                ?.map((Option option) =>
-                RadioListTile(
-                    value: option.value,
-                    title: Text(option.label),
-                    groupValue: _project.cipTypeId,
-                    onChanged: (int? value) {
-                      setState(() {
-                        _project = _project.copyWith(cipTypeId: value!);
-                      });
-                    }))
-                .toList() ??
+                    ?.map((Option option) => RadioListTile(
+                        value: option.value,
+                        title: Text(option.label),
+                        groupValue: _project.cipTypeId,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _project = _project.copyWith(cipTypeId: value!);
+                          });
+                        }))
+                    .toList() ??
                 [Container()],
           ),
           const Divider(),
           CheckboxListTile(
               value: _project.trip,
               title:
-              const Text(AppStrings.threeYearRollingInfrastructureProgram),
+                  const Text(AppStrings.threeYearRollingInfrastructureProgram),
               subtitle: const Text(
                   'The TRIP contains nationally-funded infrastructure projects irrespective of cost with emphasis on immediate priorities to be undertaken in three-year period.'),
               // controlAffinity: ListTileControlAffinity.leading,
@@ -836,7 +835,7 @@ class _NewProjectViewState extends State<NewProjectView> {
           CheckboxListTile(
               value: _project.rdip,
               title:
-              const Text(AppStrings.regionalDevelopmentInvestmentProgram),
+                  const Text(AppStrings.regionalDevelopmentInvestmentProgram),
               subtitle: const Text(
                   'If the PAP is included in the RDIP, please upload the RDC endorsement for verification.'),
               // controlAffinity: ListTileControlAffinity.leading,
@@ -888,16 +887,16 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.pdpChapters?.map((Option option) {
-              return RadioListTile(
-                  groupValue: _project.pdpChapterId,
-                  value: option.value,
-                  title: Text(option.label),
-                  onChanged: (value) {
-                    setState(() {
-                      _project = _project.copyWith(pdpChapterId: value);
-                    });
-                  });
-            }).toList() ??
+                  return RadioListTile(
+                      groupValue: _project.pdpChapterId,
+                      value: option.value,
+                      title: Text(option.label),
+                      onChanged: (value) {
+                        setState(() {
+                          _project = _project.copyWith(pdpChapterId: value);
+                        });
+                      });
+                }).toList() ??
                 [Container()],
           ),
           const Spacer(),
@@ -910,24 +909,24 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.pdpChapters?.map((Option option) {
-              // copy immutable state to new array
-              List<int> selectedChapters = _project.pdpChapters.toList();
+                  // copy immutable state to new array
+                  List<int> selectedChapters = _project.pdpChapters.toList();
 
-              return CheckboxListTile(
-                  value: _project.pdpChapters.contains(option.value),
-                  title: Text(option.label),
-                  onChanged: (bool? value) {
-                    if (value ?? false) {
-                      selectedChapters.add(option.value);
-                    } else {
-                      selectedChapters.remove(option.value);
-                    }
-                    setState(() {
-                      _project =
-                          _project.copyWith(pdpChapters: selectedChapters);
-                    });
-                  });
-            }).toList() ??
+                  return CheckboxListTile(
+                      value: _project.pdpChapters.contains(option.value),
+                      title: Text(option.label),
+                      onChanged: (bool? value) {
+                        if (value ?? false) {
+                          selectedChapters.add(option.value);
+                        } else {
+                          selectedChapters.remove(option.value);
+                        }
+                        setState(() {
+                          _project =
+                              _project.copyWith(pdpChapters: selectedChapters);
+                        });
+                      });
+                }).toList() ??
                 [Container()],
           ),
         ],
@@ -948,12 +947,12 @@ class _NewProjectViewState extends State<NewProjectView> {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: _options?.infrastructureSectors?.map((Option option) {
-                return CheckboxListTile(
-                    value: _project.infrastructureSectors
-                        .contains(option.value),
-                    title: Text(option.label),
-                    onChanged: (bool? value) {});
-              }).toList() ??
+                    return CheckboxListTile(
+                        value: _project.infrastructureSectors
+                            .contains(option.value),
+                        title: Text(option.label),
+                        onChanged: (bool? value) {});
+                  }).toList() ??
                   [Container()],
             ),
             const Spacer(),
@@ -966,11 +965,11 @@ class _NewProjectViewState extends State<NewProjectView> {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: _options?.prerequisites?.map((Option option) {
-                return CheckboxListTile(
-                    value: _project.prerequisites.contains(option.value),
-                    title: Text(option.label),
-                    onChanged: (bool? value) {});
-              }).toList() ??
+                    return CheckboxListTile(
+                        value: _project.prerequisites.contains(option.value),
+                        title: Text(option.label),
+                        onChanged: (bool? value) {});
+                  }).toList() ??
                   [Container()],
             ),
             const Spacer(),
@@ -981,7 +980,7 @@ class _NewProjectViewState extends State<NewProjectView> {
               decoration: const InputDecoration(
                 labelText: 'Implementation Risk and Mitigation Strategies',
                 helperText:
-                'Provide information on the potential or actual risks, if any, that may hinder the program/project from being implemented and the corresponding strategy/strategies that may be done to mitigate the risks identified.',
+                    'Provide information on the potential or actual risks, if any, that may hinder the program/project from being implemented and the corresponding strategy/strategies that may be done to mitigate the risks identified.',
                 helperMaxLines: 2,
               ),
               onChanged: (String? value) {
@@ -1004,7 +1003,7 @@ class _NewProjectViewState extends State<NewProjectView> {
         decoration: const InputDecoration(
           labelText: AppStrings.expectedOutputs,
           helperText:
-          'Enumerate the Expected Outputs or Actual Deliverables of the program/project. Please provide specific outputs and units of measure (e.g., 100 km of paved roads, 1,000 classrooms, etc.).',
+              'Enumerate the Expected Outputs or Actual Deliverables of the program/project. Please provide specific outputs and units of measure (e.g., 100 km of paved roads, 1,000 classrooms, etc.).',
           helperMaxLines: 3,
         ),
         onChanged: (String? value) {
@@ -1029,26 +1028,25 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.agenda
-                ?.map((Option option) =>
-                CheckboxListTile(
-                    value: _project.agendas.contains(option.value),
-                    title: Text(option.label),
-                    subtitle: option.description != null
-                        ? Text(option.description!)
-                        : null,
-                    onChanged: (bool? value) {
-                      List<int> agendas = _project.agendas.toList();
+                    ?.map((Option option) => CheckboxListTile(
+                        value: _project.agenda.contains(option.value),
+                        title: Text(option.label),
+                        subtitle: option.description != null
+                            ? Text(option.description!)
+                            : null,
+                        onChanged: (bool? value) {
+                          List<int> agendas = _project.agenda.toList();
 
-                      if (value ?? false) {
-                        agendas.add(option.value);
-                      } else {
-                        agendas.remove(option.value);
-                      }
-                      setState(() {
-                        _project = _project.copyWith(agendas: agendas);
-                      });
-                    }))
-                .toList() ??
+                          if (value ?? false) {
+                            agendas.add(option.value);
+                          } else {
+                            agendas.remove(option.value);
+                          }
+                          setState(() {
+                            _project = _project.copyWith(agenda: agendas);
+                          });
+                        }))
+                    .toList() ??
                 [Container()],
           ),
         ],
@@ -1330,19 +1328,19 @@ class _NewProjectViewState extends State<NewProjectView> {
         ),
         Column(
           children: _options?.fundingSources?.map((Option option) {
-            return RadioListTile(
-                value: option.value,
-                title: Text(option.label),
-                subtitle: option.description != null
-                    ? Text(option.description!)
-                    : null,
-                groupValue: _project.fundingSourceId,
-                onChanged: (value) {
-                  setState(() {
-                    _project = _project.copyWith(fundingSourceId: value);
-                  });
-                });
-          }).toList() ??
+                return RadioListTile(
+                    value: option.value,
+                    title: Text(option.label),
+                    subtitle: option.description != null
+                        ? Text(option.description!)
+                        : null,
+                    groupValue: _project.fundingSourceId,
+                    onChanged: (value) {
+                      setState(() {
+                        _project = _project.copyWith(fundingSourceId: value);
+                      });
+                    });
+              }).toList() ??
               [Container()],
         ),
         const Spacer(),
@@ -1354,24 +1352,24 @@ class _NewProjectViewState extends State<NewProjectView> {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: _options?.fundingSources?.map((Option option) {
-            return CheckboxListTile(
-                value: _project.fundingSources.contains(option.value),
-                title: Text(option.label),
-                onChanged: (bool? value) {
-                  List<int> selectedFs = _project.fundingSources.toList();
+                return CheckboxListTile(
+                    value: _project.fundingSources.contains(option.value),
+                    title: Text(option.label),
+                    onChanged: (bool? value) {
+                      List<int> selectedFs = _project.fundingSources.toList();
 
-                  if (value ?? false) {
-                    selectedFs.add(option.value);
-                  } else {
-                    selectedFs.remove(option.value);
-                  }
+                      if (value ?? false) {
+                        selectedFs.add(option.value);
+                      } else {
+                        selectedFs.remove(option.value);
+                      }
 
-                  setState(() {
-                    _project =
-                        _project.copyWith(fundingSources: selectedFs);
-                  });
-                });
-          }).toList() ??
+                      setState(() {
+                        _project =
+                            _project.copyWith(fundingSources: selectedFs);
+                      });
+                    });
+              }).toList() ??
               [Container()],
         ),
         const Spacer(),
@@ -1391,43 +1389,37 @@ class _NewProjectViewState extends State<NewProjectView> {
           height: AppSize.s250,
           margin: const EdgeInsets.all(AppPadding.md),
           decoration: BoxDecoration(
-            color: Theme
-                .of(context)
-                .colorScheme
-                .background,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(AppSize.s12),
             border: Border.all(
               width: AppSize.s0_5,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .outline,
+              color: Theme.of(context).colorScheme.outline,
             ),
           ),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: _options?.fundingInstitutions?.map((Option option) {
-                return CheckboxListTile(
-                    value:
-                    _project.fundingInstitutions.contains(option.value),
-                    title: Text(option.label),
-                    onChanged: (bool? value) {
-                      final fundingInstitutions =
-                      _project.fundingInstitutions.toList();
+                    return CheckboxListTile(
+                        value:
+                            _project.fundingInstitutions.contains(option.value),
+                        title: Text(option.label),
+                        onChanged: (bool? value) {
+                          final fundingInstitutions =
+                              _project.fundingInstitutions.toList();
 
-                      if (value ?? false) {
-                        fundingInstitutions.add(option.value);
-                      } else {
-                        fundingInstitutions.remove(option.value);
-                      }
+                          if (value ?? false) {
+                            fundingInstitutions.add(option.value);
+                          } else {
+                            fundingInstitutions.remove(option.value);
+                          }
 
-                      setState(() {
-                        _project = _project.copyWith(
-                            fundingInstitutions: fundingInstitutions);
-                      });
-                    });
-              }).toList() ??
+                          setState(() {
+                            _project = _project.copyWith(
+                                fundingInstitutions: fundingInstitutions);
+                          });
+                        });
+                  }).toList() ??
                   [Container()],
             ),
           ),
@@ -1443,17 +1435,17 @@ class _NewProjectViewState extends State<NewProjectView> {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: _options?.implementationModes?.map((Option option) {
-            return RadioListTile(
-                value: option.value,
-                title: Text(option.label),
-                groupValue: _project.implementationModeId,
-                onChanged: (value) {
-                  setState(() {
-                    _project =
-                        _project.copyWith(implementationModeId: value);
-                  });
-                });
-          }).toList() ??
+                return RadioListTile(
+                    value: option.value,
+                    title: Text(option.label),
+                    groupValue: _project.implementationModeId,
+                    onChanged: (value) {
+                      setState(() {
+                        _project =
+                            _project.copyWith(implementationModeId: value);
+                      });
+                    });
+              }).toList() ??
               [Container()],
         ),
         const Spacer(),
@@ -1474,19 +1466,18 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.projectStatuses
-                ?.map((Option option) =>
-                RadioListTile(
-                  value: option.value,
-                  title: Text(option.label),
-                  onChanged: (int? value) {
-                    setState(() {
-                      _project =
-                          _project.copyWith(projectStatusId: value);
-                    });
-                  },
-                  groupValue: _project.projectStatusId,
-                ))
-                .toList() ??
+                    ?.map((Option option) => RadioListTile(
+                          value: option.value,
+                          title: Text(option.label),
+                          onChanged: (int? value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(projectStatusId: value);
+                            });
+                          },
+                          groupValue: _project.projectStatusId,
+                        ))
+                    .toList() ??
                 [Container()],
           ),
           const Spacer(),
@@ -1498,19 +1489,18 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.readinessLevels
-                ?.map((Option option) =>
-                RadioListTile(
-                  value: option.value,
-                  title: Text(option.label),
-                  onChanged: (int? value) {
-                    setState(() {
-                      _project =
-                          _project.copyWith(readinessLevelId: value);
-                    });
-                  },
-                  groupValue: _project.readinessLevelId,
-                ))
-                .toList() ??
+                    ?.map((Option option) => RadioListTile(
+                          value: option.value,
+                          title: Text(option.label),
+                          onChanged: (int? value) {
+                            setState(() {
+                              _project =
+                                  _project.copyWith(readinessLevelId: value);
+                            });
+                          },
+                          groupValue: _project.readinessLevelId,
+                        ))
+                    .toList() ??
                 [const Text('Failed to load options')],
           ),
           const Spacer(),
@@ -1523,18 +1513,17 @@ class _NewProjectViewState extends State<NewProjectView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _options?.categories
-                ?.map((Option option) =>
-                RadioListTile(
-                  value: option.value,
-                  title: Text(option.label),
-                  onChanged: (int? value) {
-                    setState(() {
-                      _project = _project.copyWith(categoryId: value);
-                    });
-                  },
-                  groupValue: _project.categoryId,
-                ))
-                .toList() ??
+                    ?.map((Option option) => RadioListTile(
+                          value: option.value,
+                          title: Text(option.label),
+                          onChanged: (int? value) {
+                            setState(() {
+                              _project = _project.copyWith(categoryId: value);
+                            });
+                          },
+                          groupValue: _project.categoryId,
+                        ))
+                    .toList() ??
                 [const Text('Failed to load options')],
           ),
           const Spacer(),
@@ -1620,7 +1609,7 @@ class _NewProjectViewState extends State<NewProjectView> {
             decoration: const InputDecoration(
               labelText: AppStrings.updates,
               helperText:
-              'For proposed program/project, please indicate the physical status of the program/project in terms of project preparation, approval, funding, etc. If ongoing, please provide information on the delivery of outputs, percentage of completion and financial status/ accomplishment in terms of utilization rate.',
+                  'For proposed program/project, please indicate the physical status of the program/project in terms of project preparation, approval, funding, etc. If ongoing, please provide information on the delivery of outputs, percentage of completion and financial status/ accomplishment in terms of utilization rate.',
               helperMaxLines: 3,
             ),
             onChanged: (String? value) {
@@ -1658,7 +1647,7 @@ class _NewProjectViewState extends State<NewProjectView> {
               Expanded(
                   child: Text(_project.asOf != null
                       ? DateFormat.yMMMd()
-                      .format(DateTime.parse(_project.asOf!))
+                          .format(DateTime.parse(_project.asOf!))
                       : AppStrings.selectDate)),
             ],
           ),

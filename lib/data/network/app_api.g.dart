@@ -13,7 +13,7 @@ class _AppServiceClient implements AppServiceClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://beta.pips.da.gov.ph/api';
+    baseUrl ??= 'http://172.17.210.48:8080/pipsv2/api';
   }
 
   final Dio _dio;

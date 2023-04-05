@@ -8,7 +8,7 @@ part of 'project_response.dart';
 
 ProjectResponse _$ProjectResponseFromJson(Map<String, dynamic> json) =>
     ProjectResponse(
-      project: Project.fromJson(json['project'] as Map<String, dynamic>),
+      project: FullProject.fromJson(json['project'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProjectResponseToJson(ProjectResponse instance) =>

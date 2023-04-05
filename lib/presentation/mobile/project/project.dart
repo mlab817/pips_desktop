@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
+import 'package:pips/domain/models/full_project.dart';
 import 'package:pips/domain/usecase/project_usecase.dart';
-
-import '../../../domain/models/project.dart';
 
 class ProjectView extends StatefulWidget {
   const ProjectView({super.key, required this.uuid});
@@ -17,7 +16,7 @@ class _ProjectViewState extends State<ProjectView> {
   final ProjectUseCase _projectUseCase = instance<ProjectUseCase>();
 
   // load data
-  Project? _project;
+  FullProject? _project;
 
   Future<void> _getProject() async {
     (await _projectUseCase.execute(widget.uuid)).fold((failure) {}, (response) {

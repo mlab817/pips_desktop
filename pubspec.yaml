@@ -93,6 +93,7 @@ dependencies:
   dartz: ^0.10.1
   local_auth: ^2.1.6
   multiselect: ^0.0.4
+  mobile_web_view: ^0.1.2
 
 dev_dependencies:
   flutter_test:

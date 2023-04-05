@@ -1,12 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pips/domain/models/project.dart';
 
+import '../../../domain/models/full_project.dart';
+
 part 'project_response.g.dart';
 
 @JsonSerializable()
 class ProjectResponse {
   @JsonKey(name: "project")
-  Project project;
+  FullProject project;
 
   ProjectResponse({
     required this.project,

@@ -136,4 +136,6 @@ class AppStrings {
   static const String profile = 'Profile';
   static const String close = 'Close';
   static const String failedToLoadDocument = 'Failed to load document';
+
+  static const String filters = 'Filters';
 }
