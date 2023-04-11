@@ -45,6 +45,7 @@ class AppStrings {
   static const String implementationPeriod = 'Implementation Period';
   static const String levelOfReadiness = 'Level of Readiness';
   static const String updates = 'Updates';
+  static const String update = 'Update';
   static const String asOf = 'As of';
   static const String selectDate = 'Select date';
   static const String attachments = 'Attachments';
@@ -138,4 +139,8 @@ class AppStrings {
   static const String failedToLoadDocument = 'Failed to load document';
 
   static const String filters = 'Filters';
+
+  static const String selectOne = 'Select one';
+  static const String selectAsManyAsApplicable = 'Select as many as applicable';
+  static const String accountRecovery = 'Account Recovery';
 }

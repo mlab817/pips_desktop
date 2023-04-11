@@ -27,6 +27,7 @@ import '../presentation/mobile/filter_projects/filter_projects.dart';
 import '../presentation/mobile/forgot_password/forgot_password.dart';
 import '../presentation/mobile/login/login.dart';
 import '../presentation/web/main/main.dart';
+import '../presentation/web/main/new_pap.dart';
 
 class Routes {
   static const String splashRoute = "/splash";
@@ -52,6 +53,7 @@ class Routes {
   static const String filterProjectsRoute = "/filter-projects";
   static const String filterByPropertyRoute = "/filter-by-property";
   static const String settingsRoute = "/settings";
+  static const String newPapRoute = "/new-pap";
 }
 
 class RouteGenerator {
@@ -89,6 +91,8 @@ class RouteGenerator {
             builder: (_) => ProjectView(
                   uuid: uuid,
                 ));
+      case Routes.newPapRoute:
+        return MaterialPageRoute(builder: (_) => const NewPapView());
       case Routes.aboutRoute:
         return MaterialPageRoute(builder: (_) => const AboutView());
       case Routes.updatePasswordRoute:

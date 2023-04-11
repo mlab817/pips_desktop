@@ -6,6 +6,7 @@ import 'package:pips/presentation/web/common/web_layout.dart';
 import 'package:pips/presentation/web/main/project_listtile.dart';
 
 import '../../../app/dep_injection.dart';
+import '../../../app/routes.dart';
 import '../../../domain/models/pips_status.dart';
 import '../../../domain/models/project.dart';
 import '../../../domain/usecase/chatrooms_usecase.dart';
@@ -22,12 +23,12 @@ class MainWebView extends StatefulWidget {
 
 class _MainWebViewState extends State<MainWebView> {
   final GlobalKey<PopupMenuButtonState> _popupMenuButtonState =
-      GlobalKey<PopupMenuButtonState>();
+  GlobalKey<PopupMenuButtonState>();
 
   late ScrollController _scrollController;
   final ProjectsUseCase _projectsUseCase = instance<ProjectsUseCase>();
   final PipsStatusesUseCase _pipsStatusesUseCase =
-      instance<PipsStatusesUseCase>();
+  instance<PipsStatusesUseCase>();
   late GetProjectsRequest _getProjectsRequest;
 
   int _total = 0;
@@ -81,6 +82,80 @@ class _MainWebViewState extends State<MainWebView> {
         _loading = false;
       });
     });
+  }
+
+  void _showNewProjectDialog() {
+    Navigator.pushNamed(context, Routes.newPapRoute);
+
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return Dialog(
+    //         shape: RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.circular(AppSize.lg)),
+    //         child: Padding(
+    //           padding: const EdgeInsets.all(AppPadding.lg),
+    //           child: Column(
+    //             children: [
+    //               Row(
+    //                 crossAxisAlignment: CrossAxisAlignment.center,
+    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                 children: [
+    //                   const Text(
+    //                     'New PAP',
+    //                     style: TextStyle(
+    //                       fontWeight: FontWeight.bold,
+    //                     ),
+    //                   ),
+    //                   const Spacer(),
+    //                   IconButton(
+    //                     onPressed: () {
+    //                       Navigator.pushNamed(context, Routes.newPapRoute);
+    //                     },
+    //                     icon: const Icon(
+    //                       Icons.open_in_full,
+    //                       size: AppSize.xxl,
+    //                     ),
+    //                     tooltip: 'Enter Full Screen',
+    //                   ),
+    //                   IconButton(
+    //                     onPressed: () {
+    //                       Navigator.pop(context);
+    //                     },
+    //                     icon: const Icon(
+    //                       Icons.close,
+    //                       size: AppSize.xxl,
+    //                     ),
+    //                     tooltip: 'Close and Discard',
+    //                   ),
+    //                 ],
+    //               ),
+    //               const Divider(),
+    //               const Expanded(child: NewPap()),
+    //               Padding(
+    //                 padding:
+    //                     const EdgeInsets.symmetric(vertical: AppPadding.lg),
+    //                 child: Row(
+    //                   children: [
+    //                     ElevatedButton(
+    //                       onPressed: () {},
+    //                       child: const Text(AppStrings.submit),
+    //                     ),
+    //                     const Spacer(),
+    //                     IconButton(
+    //                       onPressed: () {
+    //                         Navigator.pop(context);
+    //                       },
+    //                       icon: const Icon(Icons.delete_outline),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               )
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     });
   }
 
   @override
@@ -151,7 +226,8 @@ class _MainWebViewState extends State<MainWebView> {
               height: AppSize.s48,
               child: ElevatedButton(
                   onPressed: () {
-                    //
+                    // showNewProjectDialog()
+                    _showNewProjectDialog();
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -173,7 +249,9 @@ class _MainWebViewState extends State<MainWebView> {
               itemCount: _statuses.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  selectedTileColor: Theme.of(context).focusColor,
+                  selectedTileColor: Theme
+                      .of(context)
+                      .focusColor,
                   selected: _selectedStatus == _statuses[index].id,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
@@ -191,15 +269,15 @@ class _MainWebViewState extends State<MainWebView> {
                         _statuses[index].name,
                         style: _selectedStatus == _statuses[index].id
                             ? const TextStyle(
-                                // fontSize: AppSize.s10,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
-                              )
+                          // fontSize: AppSize.s10,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        )
                             : const TextStyle(
-                                // fontSize: AppSize.s10,
-                                fontWeight: FontWeight.normal,
-                                letterSpacing: 0.5,
-                              ),
+                          // fontSize: AppSize.s10,
+                          fontWeight: FontWeight.normal,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ],
                   ),
@@ -233,7 +311,10 @@ class _MainWebViewState extends State<MainWebView> {
               padding: const EdgeInsets.all(AppPadding.md),
               child: Text(
                 'PIPOL Status',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyLarge,
               ),
             ),
             ListView(
@@ -279,7 +360,10 @@ class _MainWebViewState extends State<MainWebView> {
         children: [
           Text(
             '$_start-$_end of $_total',
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodySmall,
           ),
         ],
       ),
@@ -288,13 +372,13 @@ class _MainWebViewState extends State<MainWebView> {
           onPressed: _loading || _currentPage == 1
               ? null
               : () {
-                  setState(() {
-                    _currentPage--;
-                    _getProjectsRequest =
-                        _getProjectsRequest.copyWith(page: _currentPage);
-                  });
-                  _loadProjects();
-                },
+            setState(() {
+              _currentPage--;
+              _getProjectsRequest =
+                  _getProjectsRequest.copyWith(page: _currentPage);
+            });
+            _loadProjects();
+          },
           splashRadius: AppSize.s22,
           icon: const Icon(
             Icons.chevron_left,
@@ -305,13 +389,13 @@ class _MainWebViewState extends State<MainWebView> {
           onPressed: _loading
               ? null
               : () {
-                  setState(() {
-                    _currentPage++;
-                    _getProjectsRequest =
-                        _getProjectsRequest.copyWith(page: _currentPage);
-                  });
-                  _loadProjects();
-                },
+            setState(() {
+              _currentPage++;
+              _getProjectsRequest =
+                  _getProjectsRequest.copyWith(page: _currentPage);
+            });
+            _loadProjects();
+          },
           splashRadius: AppSize.s22,
           icon: const Icon(
             Icons.chevron_right,
@@ -359,7 +443,7 @@ class _MainWebViewState extends State<MainWebView> {
               if (!ResponsiveWidget.isLargeScreen(context))
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: AppPadding.xs),
+                  const EdgeInsets.symmetric(horizontal: AppPadding.xs),
                   child: PopupMenuButton(
                     key: _popupMenuButtonState,
                     offset: const Offset(0, 40),
@@ -408,7 +492,10 @@ class _MainWebViewState extends State<MainWebView> {
               const Spacer(),
               Text(
                 '$_start-$_end of $_total',
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodySmall,
               ),
               const SizedBox(
                 width: AppSize.s4,
@@ -417,13 +504,13 @@ class _MainWebViewState extends State<MainWebView> {
                 onPressed: _loading || _currentPage == 1
                     ? null
                     : () {
-                        setState(() {
-                          _currentPage--;
-                          _getProjectsRequest =
-                              _getProjectsRequest.copyWith(page: _currentPage);
-                        });
-                        _loadProjects();
-                      },
+                  setState(() {
+                    _currentPage--;
+                    _getProjectsRequest =
+                        _getProjectsRequest.copyWith(page: _currentPage);
+                  });
+                  _loadProjects();
+                },
                 splashRadius: AppSize.s22,
                 icon: const Icon(
                   Icons.chevron_left,
@@ -434,13 +521,13 @@ class _MainWebViewState extends State<MainWebView> {
                 onPressed: _loading
                     ? null
                     : () {
-                        setState(() {
-                          _currentPage++;
-                          _getProjectsRequest =
-                              _getProjectsRequest.copyWith(page: _currentPage);
-                        });
-                        _loadProjects();
-                      },
+                  setState(() {
+                    _currentPage++;
+                    _getProjectsRequest =
+                        _getProjectsRequest.copyWith(page: _currentPage);
+                  });
+                  _loadProjects();
+                },
                 splashRadius: AppSize.s22,
                 icon: const Icon(
                   Icons.chevron_right,
@@ -482,7 +569,10 @@ class _MainWebViewState extends State<MainWebView> {
 
   // can be replaced with project content when a project is selected
   Widget _buildList() {
-    var windowHeight = MediaQuery.of(context).size.height;
+    var windowHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     if (_selectedProject != null) {
       return ProjectContentView(
@@ -498,60 +588,62 @@ class _MainWebViewState extends State<MainWebView> {
     return _error != null
         ? Center(child: Text(_error!))
         : Card(
-            color: Colors.white,
-            borderOnForeground: true,
-            elevation: AppSize.s2,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(AppSize.lg),
-                topRight: Radius.circular(AppSize.lg),
-                bottomLeft: Radius.circular(AppSize.lg),
-              ),
-            ),
-            child: Column(
-              children: [
-                _buildListNavigator(),
-                if (_loading) const LinearProgressIndicator(),
-                SizedBox(
-                  height: windowHeight - AppSize.s140,
-                  child: Scrollbar(
-                      radius: Radius.zero,
-                      thickness: AppSize.s12,
+      color: Colors.white,
+      borderOnForeground: true,
+      elevation: AppSize.s2,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppSize.lg),
+          topRight: Radius.circular(AppSize.lg),
+          bottomLeft: Radius.circular(AppSize.lg),
+        ),
+      ),
+      child: Column(
+        children: [
+          _buildListNavigator(),
+          if (_loading) const LinearProgressIndicator(),
+          SizedBox(
+            height: windowHeight - AppSize.s140,
+            child: Scrollbar(
+                radius: Radius.zero,
+                thickness: AppSize.s12,
+                controller: _scrollController,
+                thumbVisibility: true,
+                child: ScrollConfiguration(
+                  // hide the default listview separated scrollbar
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: AppSize.s20),
+                    child: ListView.separated(
                       controller: _scrollController,
-                      thumbVisibility: true,
-                      child: ScrollConfiguration(
-                        // hide the default listview separated scrollbar
-                        behavior: ScrollConfiguration.of(context)
-                            .copyWith(scrollbars: false),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: AppSize.s20),
-                          child: ListView.separated(
-                            controller: _scrollController,
-                            physics: const ClampingScrollPhysics(),
-                            // no bounce scroll
-                            shrinkWrap: true,
-                            itemCount: _projects.length,
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                color: Theme.of(context).dividerColor,
-                                height: AppSize.s0,
-                              );
-                            },
-                            itemBuilder: (context, index) {
-                              return ProjectListTile(
-                                  project: _projects[index],
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedProject = _projects[index];
-                                    });
-                                  });
-                            },
-                          ),
-                        ),
-                      )),
-                ),
-              ],
-            ),
-          );
+                      physics: const ClampingScrollPhysics(),
+                      // no bounce scroll
+                      shrinkWrap: true,
+                      itemCount: _projects.length,
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          color: Theme
+                              .of(context)
+                              .dividerColor,
+                          height: AppSize.s0,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return ProjectListTile(
+                            project: _projects[index],
+                            onTap: () {
+                              setState(() {
+                                _selectedProject = _projects[index];
+                              });
+                            });
+                      },
+                    ),
+                  ),
+                )),
+          ),
+        ],
+      ),
+    );
   }
 }

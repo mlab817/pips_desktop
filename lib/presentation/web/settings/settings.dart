@@ -15,11 +15,18 @@ class WebSettingsView extends StatefulWidget {
 }
 
 class _WebSettingsViewState extends State<WebSettingsView> {
+  int _selectedListMenu = 0;
+
   final _listMenu = <SettingsMenu>[
     SettingsMenu(
       title: AppStrings.profile,
       icon: const Icon(Icons.person),
       route: Routes.updateProfileRoute,
+    ),
+    SettingsMenu(
+      title: AppStrings.accountRecovery,
+      icon: const Icon(Icons.lock_reset),
+      route: Routes.updatePasswordRoute,
     ),
     SettingsMenu(
       title: AppStrings.changePassword,
@@ -45,7 +52,7 @@ class _WebSettingsViewState extends State<WebSettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    return const WebLayout(child: Placeholder());
+    return WebLayout(child: _buildMainBody());
   }
 
   Widget _buildMainBody() {
@@ -57,7 +64,10 @@ class _WebSettingsViewState extends State<WebSettingsView> {
             children: [
               if (ResponsiveWidget.isLargeScreen(context)) _buildSidePanel(),
               // Main Body
+              const Divider(),
+              // main content, PageView builder
               const Expanded(child: Placeholder()),
+              // extra space at the right side
               const SizedBox(
                 width: AppSize.md,
               ),
@@ -69,16 +79,41 @@ class _WebSettingsViewState extends State<WebSettingsView> {
   }
 
   Widget _buildSidePanel() {
-    return Padding(
-      padding: const EdgeInsets.all(AppPadding.md),
-      child: ListView.builder(
-          itemCount: _listMenu.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: _listMenu[index].icon,
-              title: Text(_listMenu[index].title),
-            );
-          }),
+    return SizedBox(
+      width: AppSize.s240,
+      child: Padding(
+        padding: const EdgeInsets.all(AppPadding.md),
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: _listMenu.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                selected: _selectedListMenu == index,
+                leading: _listMenu[index].icon,
+                title: Text(
+                  _listMenu[index].title,
+                  style: _selectedListMenu == index
+                      ? const TextStyle(
+                          fontSize: AppSize.s14,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        )
+                      : const TextStyle(
+                          fontSize: AppSize.s14,
+                          fontWeight: FontWeight.normal,
+                          letterSpacing: 0.5,
+                        ),
+                ),
+                dense: true,
+                visualDensity: VisualDensity.compact,
+                onTap: () {
+                  setState(() {
+                    _selectedListMenu = index;
+                  });
+                },
+              );
+            }),
+      ),
     );
   }
 }

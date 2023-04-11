@@ -85,6 +85,13 @@ class _WebLayoutState extends State<WebLayout> {
           IconButton(
             onPressed: () {
               // TODO: open settings
+              Navigator.pushNamed(context, Routes.notificationRoute);
+            },
+            icon: const Icon(Icons.notifications),
+          ),
+          IconButton(
+            onPressed: () {
+              // TODO: open settings
               Navigator.pushNamed(context, Routes.settingsRoute);
             },
             icon: const Icon(Icons.settings_outlined),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
@@ -12,7 +13,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 
 void main(List<String> args) async {
-  // debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = true;
 
   WidgetsFlutterBinding.ensureInitialized();
 
