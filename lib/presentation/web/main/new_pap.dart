@@ -122,6 +122,8 @@ class _NewPapState extends State<NewPap> {
 
   String? _uacsCode;
 
+  String? _remarks;
+
   // monitor scroll position
   double _scrollPercentage = 0;
 
@@ -647,7 +649,6 @@ class _NewPapState extends State<NewPap> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _loadOptions();
@@ -671,6 +672,7 @@ class _NewPapState extends State<NewPap> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // TODO: Update to form progress
         LinearProgressIndicator(
           value: _scrollPercentage,
         ),
@@ -679,88 +681,104 @@ class _NewPapState extends State<NewPap> {
           // update if linear progress indicator resizes
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
+            child: Scrollbar(
               controller: _scrollController,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('General Information'),
-                  _buildTitle(),
-                  _buildPap(),
-                  _buildRegularProgram(),
-                  _buildBases(),
-                  _buildDescription(),
-                  _buildTotalProjectCost(),
-                  const Divider(),
-                  // office
-                  const Text('Implementers'),
-                  _buildOffice(),
-                  _buildOus(),
-                  const Divider(),
-                  _buildSpatialCoverage(),
-                  _buildLocations(),
-                  const Divider(),
-                  _buildPip(),
-                  _buildTypology(),
-                  _buildCip(),
-                  _buildCipType(),
-                  _buildTrip(),
-                  _buildRdip(),
-                  const Divider(),
-                  _buildIccable(),
-                  _buildApprovalLevel(),
-                  _buildApprovalLevelDate(),
-                  const Divider(),
-                  _buildPdpChapter(),
-                  _buildPdpChapters(),
-                  _buildExpectedOutputs(),
-                  const Divider(),
-                  _buildInfraSectors(),
-                  _buildPrerequisites(),
-                  _buildRisk(),
-                  const Divider(),
-                  _buildAgenda(),
-                  const Divider(),
-                  _buildSdgs(),
-                  const Divider(),
-                  _buildGad(),
-                  const Divider(),
-                  _buildPreparationDocument(),
-                  _buildFsStatus(),
-                  _buildNeedFsAssistance(),
-                  _buildFsCost(),
-                  const Divider(),
-                  _buildRow(),
-                  _buildRowCost(),
-                  const Divider(),
-                  _buildRap(),
-                  _buildRapCost(),
-                  const Divider(),
-                  _buildEmployment(),
-                  _buildEmploymentMale(),
-                  _buildEmploymentFemale(),
-                  const Divider(),
-                  const Text('Funding Source and Mode of Implementation'),
-                  _buildFundingSource(),
-                  _buildFundingSources(),
-                  _buildFundingInstitutions(),
-                  _buildImplementationMode(),
-                  const Divider(),
-                  _buildRegionalCost(),
-                  const Divider(),
-                  _buildProjectCost(),
-                  const Divider(),
-                  _buildCategory(),
-                  _buildReadiness(),
-                  // implementation period
-                  _buildStart(),
-                  _buildEnd(),
-                  _buildUpdates(),
-                  _buildUpdatesAsOf(),
-                  const Divider(),
-                  _buildPapCode(),
-                  _buildFinancialAccomplishments(),
-                ],
+              thumbVisibility: true,
+              radius: Radius.zero,
+              thickness: AppSize.s12,
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const ClampingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: AppSize.s20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('General Information'),
+                        _buildTitle(),
+                        _buildPap(),
+                        _buildRegularProgram(),
+                        _buildBases(),
+                        _buildDescription(),
+                        _buildTotalProjectCost(),
+                        const Divider(),
+                        // office
+                        const Text('Implementers'),
+                        _buildOffice(),
+                        _buildOus(),
+                        const Divider(),
+                        _buildSpatialCoverage(),
+                        _buildLocations(),
+                        const Divider(),
+                        _buildPip(),
+                        _buildTypology(),
+                        _buildCip(),
+                        _buildCipType(),
+                        _buildTrip(),
+                        _buildRdip(),
+                        const Divider(),
+                        _buildIccable(),
+                        _buildApprovalLevel(),
+                        _buildApprovalLevelDate(),
+                        const Divider(),
+                        _buildPdpChapter(),
+                        _buildPdpChapters(),
+                        _buildExpectedOutputs(),
+                        const Divider(),
+                        _buildInfraSectors(),
+                        _buildPrerequisites(),
+                        _buildRisk(),
+                        const Divider(),
+                        _buildAgenda(),
+                        const Divider(),
+                        _buildSdgs(),
+                        const Divider(),
+                        _buildGad(),
+                        const Divider(),
+                        _buildPreparationDocument(),
+                        _buildFsStatus(),
+                        _buildNeedFsAssistance(),
+                        _buildFsCost(),
+                        const Divider(),
+                        _buildRow(),
+                        _buildRowCost(),
+                        const Divider(),
+                        _buildRap(),
+                        _buildRapCost(),
+                        const Divider(),
+                        _buildEmployment(),
+                        _buildEmploymentMale(),
+                        _buildEmploymentFemale(),
+                        const Divider(),
+                        const Text('Funding Source and Mode of Implementation'),
+                        _buildFundingSource(),
+                        _buildFundingSources(),
+                        _buildFundingInstitutions(),
+                        _buildImplementationMode(),
+                        const Divider(),
+                        _buildRegionalCost(),
+                        const Divider(),
+                        _buildProjectCost(),
+                        const Divider(),
+                        _buildCategory(),
+                        _buildReadiness(),
+                        // implementation period
+                        _buildStart(),
+                        _buildEnd(),
+                        _buildUpdates(),
+                        _buildUpdatesAsOf(),
+                        const Divider(),
+                        _buildPapCode(),
+                        _buildFinancialAccomplishments(),
+                        const Divider(),
+                        _buildRemarks(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -1606,8 +1624,9 @@ class _NewPapState extends State<NewPap> {
       subtitle: _sdgs?.isNotEmpty != null
           ? Text(_sdgs!.map((e) => e.label).join(', '))
           : const Text(AppStrings.selectAsManyAsApplicable),
-      trailing:
-          _sdgs != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
+      trailing: _sdgs != null && _sdgs!.isNotEmpty
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
       onTap: () {
         _selectSdgs(); // TODO: update
       },
@@ -1694,6 +1713,8 @@ class _NewPapState extends State<NewPap> {
       subtitle:
           _gad != null ? Text(_gad!.label) : const Text(AppStrings.selectOne),
       // TODO: trailing
+      trailing:
+          _gad != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
       onTap: () async {
         final response = await showDialog(
           context: context,
@@ -1715,7 +1736,7 @@ class _NewPapState extends State<NewPap> {
                       children: [
                         Expanded(
                             child: ListView.builder(
-                                itemCount: options.length ?? 0,
+                                itemCount: options.length,
                                 itemBuilder: (context, index) {
                                   return RadioListTile(
                                       value: options[index],
@@ -1780,7 +1801,7 @@ class _NewPapState extends State<NewPap> {
                       children: [
                         Expanded(
                             child: ListView.builder(
-                                itemCount: options.length ?? 0,
+                                itemCount: options.length,
                                 itemBuilder: (context, index) {
                                   return RadioListTile(
                                       value: options[index],
@@ -1863,43 +1884,21 @@ class _NewPapState extends State<NewPap> {
     return SwitchListTile(
       title: const Text('With Right of Way Component?'),
       value: _hasRow,
-      onChanged: (bool value) {
-        setState(() {
-          _hasRow = value;
-        });
-      },
+      onChanged: _cip
+          ? (bool value) {
+              setState(() {
+                _hasRow = value;
+              });
+            }
+          : null,
     );
   }
 
   // CIP only
   Widget _buildRowCost() {
-    return Table(
-      children: const [
-        TableRow(
-          children: [
-            Text('Right of Way'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Right of Way'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('Total'),
-          ],
-        ),
-      ],
+    return DataTable(
+      columns: [],
+      rows: [],
     );
   }
 
@@ -1908,11 +1907,13 @@ class _NewPapState extends State<NewPap> {
     return SwitchListTile(
       title: const Text('With Resettlement Component?'),
       value: _hasRap,
-      onChanged: (bool value) {
-        setState(() {
-          _hasRap = value;
-        });
-      },
+      onChanged: _cip
+          ? (bool value) {
+              setState(() {
+                _hasRap = value;
+              });
+            }
+          : null,
     );
   }
 
@@ -1953,7 +1954,17 @@ class _NewPapState extends State<NewPap> {
 
   // CIP only
   Widget _buildRowRap() {
-    return Container();
+    return SwitchListTile(
+      title: const Text('With Right and Way and Resettlement Component?'),
+      value: _hasRap,
+      onChanged: _cip
+          ? (bool value) {
+              setState(() {
+                _hasRap = value;
+              });
+            }
+          : null,
+    );
   }
 
   Widget _buildEmployment() {
@@ -1971,17 +1982,7 @@ class _NewPapState extends State<NewPap> {
       enabled: _trip,
       title: const Text('No. of Males'),
       subtitle: TextField(
-        decoration: const InputDecoration(
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          hintText: 'No. of Males',
-          // isDense: true,
-        ),
+        decoration: _getTextInputDecoration(hintText: 'No. of Males'),
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: (String? value) {
           setState(() {
@@ -1997,17 +1998,7 @@ class _NewPapState extends State<NewPap> {
       enabled: _trip,
       title: const Text('No. of Females'),
       subtitle: TextField(
-        decoration: const InputDecoration(
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          hintText: 'No. of Females',
-          // isDense: true,
-        ),
+        decoration: _getTextInputDecoration(hintText: 'No. of Females'),
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: (String? value) {
           setState(() {
@@ -2051,20 +2042,22 @@ class _NewPapState extends State<NewPap> {
                           child: Column(
                             children: [
                               Expanded(
-                                  child: ListView.builder(
-                                      itemCount:
-                                          _options?.fundingSources?.length ?? 0,
-                                      itemBuilder: (context, index) {
-                                        return RadioListTile(
-                                            value: options[index],
-                                            groupValue: selected,
-                                            title: Text(options[index].label),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                selected = value;
-                                              });
-                                            });
-                                      })),
+                                child: ListView.builder(
+                                  itemCount:
+                                      _options?.fundingSources?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    return RadioListTile(
+                                        value: options[index],
+                                        groupValue: selected,
+                                        title: Text(options[index].label),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selected = value;
+                                          });
+                                        });
+                                  },
+                                ),
+                              ),
                             ],
                           ),
                         );
@@ -2193,21 +2186,23 @@ class _NewPapState extends State<NewPap> {
                           child: Column(
                             children: [
                               Expanded(
-                                  child: ListView.builder(
-                                      itemCount: _options
-                                              ?.implementationModes?.length ??
+                                child: ListView.builder(
+                                  itemCount:
+                                      _options?.implementationModes?.length ??
                                           0,
-                                      itemBuilder: (context, index) {
-                                        return RadioListTile(
-                                            value: options[index],
-                                            groupValue: selected,
-                                            title: Text(options[index].label),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                selected = value;
-                                              });
-                                            });
-                                      })),
+                                  itemBuilder: (context, index) {
+                                    return RadioListTile(
+                                        value: options[index],
+                                        groupValue: selected,
+                                        title: Text(options[index].label),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selected = value;
+                                          });
+                                        });
+                                  },
+                                ),
+                              ),
                             ],
                           ),
                         );
@@ -2246,6 +2241,11 @@ class _NewPapState extends State<NewPap> {
         child: DataTable(
           dataRowHeight: AppSize.s40,
           columnSpacing: AppSize.s1,
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: AppSize.s0_5,
+            borderRadius: BorderRadius.circular(AppSize.lg),
+          ),
           columns: <DataColumn>[
             DataColumn(
               label: SizedBox(
@@ -2290,11 +2290,7 @@ class _NewPapState extends State<NewPap> {
               ),
             ),
           ],
-          border: TableBorder.all(
-            color: Colors.grey,
-            width: AppSize.s0_5,
-            borderRadius: BorderRadius.circular(AppSize.lg),
-          ),
+
           rows: _options?.regions
                   ?.map(
                     (e) => DataRow(
@@ -2311,14 +2307,8 @@ class _NewPapState extends State<NewPap> {
                           (index) => DataCell(
                             SizedBox(
                               width: windowWidth / 10,
-                              child: const TextField(
-                                decoration: InputDecoration(
-                                  isCollapsed: true,
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  fillColor: Colors.transparent,
-                                ),
+                              child: TextField(
+                                decoration: _getTextInputDecoration(),
                                 textAlign: TextAlign.right,
                                 textAlignVertical: TextAlignVertical.center,
                                 expands: false,
@@ -2420,6 +2410,7 @@ class _NewPapState extends State<NewPap> {
                                   focusedBorder: InputBorder.none,
                                   enabledBorder: InputBorder.none,
                                   fillColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
                                 ),
                                 textAlign: TextAlign.right,
                                 textAlignVertical: TextAlignVertical.center,
@@ -2446,7 +2437,7 @@ class _NewPapState extends State<NewPap> {
         title: const Text(AppStrings.category),
         subtitle: _category != null
             ? Text(_category!.label)
-            : const Text('Select one'),
+            : const Text(AppStrings.selectOne),
         trailing: _category != null
             ? _buildSuccessfulIndicator()
             : _buildEmptyIndicator(),
@@ -2470,19 +2461,21 @@ class _NewPapState extends State<NewPap> {
                       child: Column(
                         children: [
                           Expanded(
-                              child: ListView.builder(
-                                  itemCount: _options?.categories?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return RadioListTile(
-                                        value: categories[index],
-                                        groupValue: selected,
-                                        title: Text(categories[index].label),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selected = value;
-                                          });
-                                        });
-                                  })),
+                            child: ListView.builder(
+                              itemCount: _options?.categories?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return RadioListTile(
+                                    value: categories[index],
+                                    groupValue: selected,
+                                    title: Text(categories[index].label),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selected = value;
+                                      });
+                                    });
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     );
@@ -2506,6 +2499,7 @@ class _NewPapState extends State<NewPap> {
 
   Widget _buildReadiness() {
     return ListTile(
+        enabled: _trip,
         title: const Text('Status of Implementation Readiness'),
         subtitle: _projectStatus != null
             ? Text(_projectStatus!.label)
@@ -2533,20 +2527,21 @@ class _NewPapState extends State<NewPap> {
                       child: Column(
                         children: [
                           Expanded(
-                              child: ListView.builder(
-                                  itemCount:
-                                      _options?.projectStatuses?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return RadioListTile(
-                                        value: options[index],
-                                        groupValue: selected,
-                                        title: Text(options[index].label),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selected = value;
-                                          });
-                                        });
-                                  })),
+                            child: ListView.builder(
+                              itemCount: _options?.projectStatuses?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return RadioListTile(
+                                    value: options[index],
+                                    groupValue: selected,
+                                    title: Text(options[index].label),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selected = value;
+                                      });
+                                    });
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     );
@@ -2573,17 +2568,7 @@ class _NewPapState extends State<NewPap> {
     return ListTile(
       title: const Text(AppStrings.updates),
       subtitle: TextFormField(
-          decoration: const InputDecoration(
-            filled: false,
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            hintText: AppStrings.updates,
-            // isDense: true,
-          ),
+          decoration: _getTextInputDecoration(hintText: AppStrings.updates),
           initialValue: _updates,
           minLines: 3,
           maxLines: 4,
@@ -2625,6 +2610,7 @@ class _NewPapState extends State<NewPap> {
 
   Widget _buildStart() {
     return ListTile(
+        enabled: _type?.value != 1, // disable when type is program
         title: const Text('Start of Project Implementation'),
         subtitle: _startYear != null
             ? Text(_startYear!.toString())
@@ -2645,12 +2631,13 @@ class _NewPapState extends State<NewPap> {
                   content: StatefulBuilder(
                     builder: (context, setState) {
                       return SizedBox(
-                          width: double.maxFinite,
-                          child: Column(children: [
+                        width: double.maxFinite,
+                        child: Column(
+                          children: [
                             Expanded(
                                 child: ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: 29,
+                                    itemCount: 29, // generate from 2000 to 2028
                                     itemBuilder: (context, index) {
                                       return RadioListTile(
                                           value: 2000 + index,
@@ -2663,7 +2650,9 @@ class _NewPapState extends State<NewPap> {
                                             });
                                           });
                                     }))
-                          ]));
+                          ],
+                        ),
+                      );
                     },
                   ),
                   actions: [
@@ -2725,8 +2714,8 @@ class _NewPapState extends State<NewPap> {
                                 shrinkWrap: true,
                                 itemCount: 18,
                                 itemBuilder: (BuildContext context, int index) {
-                                  // the end year starts at 2023 because if starts at 2022,
-                                  // then, it will not be within allowed implementation period
+                                  // the end year starts at 2023 because if it starts at 2022,
+                                  // then, it will not be within allowed implementation period 2023-2028
                                   var year = 2023 + index;
 
                                   return RadioListTile(
@@ -2774,16 +2763,7 @@ class _NewPapState extends State<NewPap> {
           : _buildEmptyIndicator(),
       subtitle: TextFormField(
         initialValue: _uacsCode,
-        decoration: const InputDecoration(
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          hintText: 'PREXC_FPAP_ID',
-        ),
+        decoration: _getTextInputDecoration(hintText: 'PREXC_FPAP_ID'),
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: (String? value) {
           setState(() {
@@ -2795,59 +2775,78 @@ class _NewPapState extends State<NewPap> {
   }
 
   Widget _buildFinancialAccomplishments() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Table(
-        children: const [
-          TableRow(
-            children: [
-              Text(''),
-              Text('2023'),
-              Text('2024'),
-              Text('2025'),
-              Text('2026'),
-              Text('2027'),
-              Text('2028'),
-              Text('Total'),
-            ],
+    var windowWidth = MediaQuery.of(context).size.width - 128;
+
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DataTable(
+          dataRowHeight: AppSize.s40,
+          columnSpacing: AppSize.s1,
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: AppSize.s0_5,
+            borderRadius: BorderRadius.circular(AppSize.lg),
           ),
-          TableRow(
-            children: [
-              Text('NEP'),
-              Text('2023'),
-              Text('2024'),
-              Text('2025'),
-              Text('2026'),
-              Text('2027'),
-              Text('2028'),
-              Text('Total'),
-            ],
+          columns: <DataColumn>[
+            DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 4,
+                    child: const Center(child: Text('Year')))),
+            DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 4,
+                    child: const Center(child: Text('NEP')))),
+            DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 4,
+                    child: const Center(child: Text('GAA')))),
+            DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 4,
+                    child: const Center(child: Text('Disbursement')))),
+          ],
+          rows: List.generate(6, (index) {
+            return DataRow(
+              cells: <DataCell>[
+                DataCell(
+                  Text("FY ${index + 2023}"),
+                ),
+                const DataCell(Text("")),
+                const DataCell(Text("")),
+                const DataCell(Text("")),
+              ],
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRemarks() {
+    return ListTile(
+      title: const Text('Remarks (optional)'),
+      subtitle: TextFormField(
+        initialValue: _remarks,
+        decoration: const InputDecoration(
+          filled: false,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black12),
           ),
-          TableRow(
-            children: [
-              Text('GAA'),
-              Text('2023'),
-              Text('2024'),
-              Text('2025'),
-              Text('2026'),
-              Text('2027'),
-              Text('2028'),
-              Text('Total'),
-            ],
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black12),
           ),
-          TableRow(
-            children: [
-              Text('Disbursement'),
-              Text('2023'),
-              Text('2024'),
-              Text('2025'),
-              Text('2026'),
-              Text('2027'),
-              Text('2028'),
-              Text('Total'),
-            ],
-          ),
-        ],
+          hintText: 'Remarks',
+        ),
+        style: Theme.of(context).textTheme.bodyMedium,
+        minLines: 3,
+        maxLines: 5,
+        onChanged: (String? value) {
+          setState(() {
+            _remarks = value;
+          });
+        },
       ),
     );
   }
@@ -2871,11 +2870,28 @@ class _NewPapState extends State<NewPap> {
   }
 
   Widget _buildSuccessfulIndicator() {
-    return const Icon(Icons.done_outline, color: Colors.green);
+    return const Icon(
+      Icons.done_outline,
+      color: Colors.green,
+    );
   }
 
   Widget _buildEmptyIndicator() {
-    return const Icon(Icons.done_outline);
+    return const Icon(
+      Icons.done_outline,
+    );
+  }
+
+  InputDecoration _getTextInputDecoration({String? hintText}) {
+    return InputDecoration(
+      isCollapsed: true,
+      border: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      fillColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      hintText: hintText ?? '',
+    );
   }
 
   // show a snackbar for the given message

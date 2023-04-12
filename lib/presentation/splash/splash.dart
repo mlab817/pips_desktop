@@ -76,8 +76,11 @@ class _SplashViewState extends State<SplashView> {
         children: [
           const ClipOval(
             child: Image(
-              image: ResizeImage(AssetImage(AssetsManager.logo),
-                  height: 100, width: 100),
+              image: ResizeImage(
+                AssetImage(AssetsManager.logo),
+                height: 100,
+                width: 100,
+              ),
             ),
           ),
           const SizedBox(

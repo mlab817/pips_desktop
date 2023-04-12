@@ -202,7 +202,7 @@ flutter_icons:
 msix_config:
   display_name: PIPS
   publisher_display_name: DA-IPD
-  identity_name: com.mlab817.pipsDesktop
+  identity_name: com.mlab817.pips
   msix_version: 1.0.0.0
   logo_path: "assets/images/logo.png"
   icons_background_color: "#FFFFFF"
