@@ -182,6 +182,18 @@ class _NewPapState extends State<NewPap> {
         _type = response;
       });
     }
+
+    // if program, set funding source to ng-local
+    if (response == _options?.types?.first) {
+      setState(() {
+        _fundingSource = _options?.fundingSources?.first; // ng-local
+        _implementationMode =
+            _options?.implementationModes?.first; // local procurement
+        // implementation period for programs is 2023 to 2028
+        _startYear = 2023;
+        _endYear = 2028;
+      });
+    }
   }
 
   Future<void> _selectBases() async {
@@ -734,6 +746,8 @@ class _NewPapState extends State<NewPap> {
                   _buildFundingInstitutions(),
                   _buildImplementationMode(),
                   const Divider(),
+                  _buildRegionalCost(),
+                  const Divider(),
                   _buildProjectCost(),
                   const Divider(),
                   _buildCategory(),
@@ -1093,6 +1107,7 @@ class _NewPapState extends State<NewPap> {
                   title: const Text('Confirm PIP'),
                   content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      // TODO: Add descriptipn
                       children: const <Widget>[
                         Text(
                             'For the PAP to pass the PIP classification, it should meet the following criteria:'),
@@ -1195,15 +1210,52 @@ class _NewPapState extends State<NewPap> {
         subtitle:
             const Text('// TODO: Explain the requirements to be part of CIP'),
         onChanged: (bool? value) {
+          // if user is trying to change config
+          if (value != _cip) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Confirm'),
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text('What the f*** are you trying to do?'),
+                        Text('For CIPs, make sure you provide the following: '),
+                        Text(
+                            '- Status of NEDA-ICC processing and the as of date'),
+                        Text(
+                            '- The preparation document and details of Feasibility Study (if applicable)'),
+                        Text(
+                            '- Preinvestment costs such as Right of Way and Resettlement Action Plan (if applicable)'),
+                        Text('- The level of GAD Responsivess'),
+                        Text(
+                            '- The number of male and female individuals to be employed'),
+                      ],
+                    ),
+                    actions: [
+                      _buildCancel(),
+                      _buildUpdate(onUpdate: () {
+                        // push change
+                        Navigator.pop(context, value);
+                      }),
+                    ],
+                  );
+                });
+          }
+
           setState(() {
             _cip = value ?? false;
+
             // automatically set iccable to true because all CIPs required NEDA board approval
             _iccable = true;
+          });
 
+          if (value ?? false) {
             _showSnackbar(
                 message:
                     'PAPs tagged as CIP require ICC/NEDA Board approval. Make sure to provide the type and processing status below.');
-          });
+          }
         });
   }
 
@@ -1517,6 +1569,8 @@ class _NewPapState extends State<NewPap> {
       enabled: _trip,
       title: const Text('Implementation Risks and Mitigation Strategies'),
       // TODO: trailing
+      trailing:
+          _risk != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
       subtitle: TextFormField(
           enabled: _trip,
           initialValue: _risk,
@@ -1762,14 +1816,17 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // CIP only
   Widget _buildNeedFsAssistance() {
     return Container();
   }
 
+  // CIP only
   Widget _buildFsStatus() {
     return Container();
   }
 
+  // CIP only
   Widget _buildFsCost() {
     return Table(
       children: const [
@@ -1801,6 +1858,7 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // CIP only
   Widget _buildRow() {
     return SwitchListTile(
       title: const Text('With Right of Way Component?'),
@@ -1813,6 +1871,7 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // CIP only
   Widget _buildRowCost() {
     return Table(
       children: const [
@@ -1844,6 +1903,7 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // CIP only
   Widget _buildRap() {
     return SwitchListTile(
       title: const Text('With Resettlement Component?'),
@@ -1856,6 +1916,7 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // CIP only
   Widget _buildRapCost() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -1890,6 +1951,7 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // CIP only
   Widget _buildRowRap() {
     return Container();
   }
@@ -1920,8 +1982,6 @@ class _NewPapState extends State<NewPap> {
           hintText: 'No. of Males',
           // isDense: true,
         ),
-        minLines: 3,
-        maxLines: 4,
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: (String? value) {
           setState(() {
@@ -1948,8 +2008,6 @@ class _NewPapState extends State<NewPap> {
           hintText: 'No. of Females',
           // isDense: true,
         ),
-        minLines: 3,
-        maxLines: 4,
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: (String? value) {
           setState(() {
@@ -1972,66 +2030,70 @@ class _NewPapState extends State<NewPap> {
               color: Colors.green,
             )
           : const Icon(Icons.done_outline),
-      onTap: () async {
-        final response = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            Option? selected = _fundingSource;
+      onTap: _type?.value != 1
+          ? () async {
+              final response = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  Option? selected = _fundingSource;
 
-            //
-            return AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: AppPadding.lg),
-              title: const Text('Main Funding Source'),
-              content: StatefulBuilder(
-                builder: (context, setState) {
-                  var options = _options?.fundingSources ?? [];
+                  //
+                  return AlertDialog(
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: AppPadding.lg),
+                    title: const Text('Main Funding Source'),
+                    content: StatefulBuilder(
+                      builder: (context, setState) {
+                        var options = _options?.fundingSources ?? [];
 
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount:
-                                    _options?.fundingSources?.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                      value: options[index],
-                                      groupValue: selected,
-                                      title: Text(options[index].label),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selected = value;
-                                        });
-                                      });
-                                })),
-                      ],
+                        return SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: ListView.builder(
+                                      itemCount:
+                                          _options?.fundingSources?.length ?? 0,
+                                      itemBuilder: (context, index) {
+                                        return RadioListTile(
+                                            value: options[index],
+                                            groupValue: selected,
+                                            title: Text(options[index].label),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selected = value;
+                                              });
+                                            });
+                                      })),
+                            ],
+                          ),
+                        );
+                      },
                     ),
+                    actions: [
+                      _buildCancel(),
+                      _buildUpdate(
+                        onUpdate: () {
+                          Navigator.pop(context, selected);
+                        },
+                      ),
+                    ],
                   );
                 },
-              ),
-              actions: [
-                _buildCancel(),
-                _buildUpdate(
-                  onUpdate: () {
-                    Navigator.pop(context, selected);
-                  },
-                ),
-              ],
-            );
-          },
-        );
+              );
 
-        setState(() {
-          _fundingSource = response;
-        });
-      },
+              setState(() {
+                _fundingSource = response;
+              });
+            }
+          : null,
     );
   }
 
   Widget _buildFundingSources() {
     return ListTile(
+      enabled: _type?.value != 1,
+      // enable only if pap type if not a program
       title: const Text(AppStrings.otherFundingSources),
       subtitle: _fundingSources?.isNotEmpty != null
           ? Text(_fundingSources!.map((e) => e.label).join(', '))
@@ -2110,59 +2172,62 @@ class _NewPapState extends State<NewPap> {
       trailing: _implementationMode != null
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(),
-      onTap: () async {
-        final response = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            Option? selected = _implementationMode;
+      onTap: _type?.value != 1
+          ? () async {
+              final response = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  Option? selected = _implementationMode;
 
-            //
-            return AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: AppPadding.lg),
-              title: const Text('Mode of Implementation'),
-              content: StatefulBuilder(
-                builder: (context, setState) {
-                  final options = _options?.implementationModes ?? [];
+                  //
+                  return AlertDialog(
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: AppPadding.lg),
+                    title: const Text('Mode of Implementation'),
+                    content: StatefulBuilder(
+                      builder: (context, setState) {
+                        final options = _options?.implementationModes ?? [];
 
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount:
-                                    _options?.implementationModes?.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                      value: options[index],
-                                      groupValue: selected,
-                                      title: Text(options[index].label),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selected = value;
-                                        });
-                                      });
-                                })),
-                      ],
+                        return SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: ListView.builder(
+                                      itemCount: _options
+                                              ?.implementationModes?.length ??
+                                          0,
+                                      itemBuilder: (context, index) {
+                                        return RadioListTile(
+                                            value: options[index],
+                                            groupValue: selected,
+                                            title: Text(options[index].label),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selected = value;
+                                              });
+                                            });
+                                      })),
+                            ],
+                          ),
+                        );
+                      },
                     ),
+                    actions: [
+                      _buildCancel(),
+                      _buildUpdate(onUpdate: () {
+                        Navigator.pop(context, selected);
+                      }),
+                    ],
                   );
                 },
-              ),
-              actions: [
-                _buildCancel(),
-                _buildUpdate(onUpdate: () {
-                  Navigator.pop(context, selected);
-                }),
-              ],
-            );
-          },
-        );
+              );
 
-        setState(() {
-          _implementationMode = response;
-        });
-      },
+              setState(() {
+                _implementationMode = response;
+              });
+            }
+          : null,
     );
   }
 
@@ -2171,275 +2236,104 @@ class _NewPapState extends State<NewPap> {
   }
 
   Widget _buildRegionalCost() {
-    return Table(
-      children: const [
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
+    var windowWidth =
+        MediaQuery.of(context).size.width - 128; // remove horizontal margins
+
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DataTable(
+          dataRowHeight: AppSize.s40,
+          columnSpacing: AppSize.s1,
+          columns: <DataColumn>[
+            DataColumn(
+              label: SizedBox(
+                width: windowWidth / 10,
+                child: const Text(
+                  'REGION',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            ...List.generate(
+                8,
+                (index) => DataColumn(
+                      label: SizedBox(
+                        width: windowWidth / 10,
+                        child: Center(
+                          child: Text(
+                            "${2022 + index}",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+            DataColumn(
+              label: SizedBox(
+                width: windowWidth / 10,
+                child: const Center(
+                  child: Text(
+                    'TOTAL',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: AppSize.s0_5,
+            borderRadius: BorderRadius.circular(AppSize.lg),
+          ),
+          rows: _options?.regions
+                  ?.map(
+                    (e) => DataRow(
+                      key: UniqueKey(),
+                      cells: [
+                        DataCell(
+                          SizedBox(
+                            width: windowWidth / 10,
+                            child: Text(e.label),
+                          ),
+                        ),
+                        ...List.generate(
+                          9,
+                          (index) => DataCell(
+                            SizedBox(
+                              width: windowWidth / 10,
+                              child: const TextField(
+                                decoration: InputDecoration(
+                                  isCollapsed: true,
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  fillColor: Colors.transparent,
+                                ),
+                                textAlign: TextAlign.right,
+                                textAlignVertical: TextAlignVertical.center,
+                                expands: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                  .toList() ??
+              <DataRow>[],
+          // total ROW
         ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text('Region'),
-            Text('2022'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('2029'),
-            Text('Total'),
-          ],
-        ),
-      ],
+      ),
     );
   }
 
@@ -2452,7 +2346,7 @@ class _NewPapState extends State<NewPap> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DataTable(
-          dataRowHeight: AppSize.s60,
+          dataRowHeight: AppSize.s40,
           columnSpacing: AppSize.s1,
           columns: <DataColumn>[
             DataColumn(
@@ -2511,10 +2405,7 @@ class _NewPapState extends State<NewPap> {
                         DataCell(
                           SizedBox(
                             width: windowWidth / 10,
-                            child: Padding(
-                              padding: const EdgeInsets.all(AppPadding.sm),
-                              child: Text(e.label),
-                            ),
+                            child: Text(e.label),
                           ),
                         ),
                         ...List.generate(
@@ -2548,8 +2439,10 @@ class _NewPapState extends State<NewPap> {
     );
   }
 
+  // TRIP only
   Widget _buildCategory() {
     return ListTile(
+        enabled: _trip,
         title: const Text(AppStrings.category),
         subtitle: _category != null
             ? Text(_category!.label)
@@ -2989,5 +2882,16 @@ class _NewPapState extends State<NewPap> {
   void _showSnackbar({required String message}) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  // clear CIP related fields
+  void _clearCipFields() {
+    setState(() {
+      _iccable = false;
+      _cipType = null;
+      _approvalLevel = null;
+      _approvalLevelDate = null;
+      _gad = null;
+    });
   }
 }

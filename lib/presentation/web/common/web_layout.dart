@@ -182,9 +182,14 @@ class _WebLayoutState extends State<WebLayout> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(AppSize.md),
-              child: Image.asset(
-                AssetsManager.logo,
-                height: AppSize.s40,
+              child: const Image(
+                image: ResizeImage(
+                  AssetImage(
+                    AssetsManager.logo,
+                  ),
+                  height: 40,
+                  width: 40,
+                ),
               ),
             ),
             const SizedBox(
