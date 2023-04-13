@@ -563,68 +563,6 @@ class _NewPapState extends State<NewPap> {
     }
   }
 
-  Future<void> _selectAgenda() async {
-    //
-    final response = await showDialog(
-        context: context,
-        builder: (context) {
-          List<Option> selected = _sdgs ?? [];
-
-          return AlertDialog(
-            contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
-            title: const Text('Socioeconomic Agenda'),
-            content: StatefulBuilder(
-              builder: (context, setState) {
-                final options = _options?.agenda ?? [];
-
-                return SizedBox(
-                  width: double.maxFinite,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: options.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return CheckboxListTile(
-                                title: Text(options[index].label),
-                                value: selected.contains(options[index]),
-                                onChanged: (bool? value) {
-                                  if (value ?? false) {
-                                    setState(() {
-                                      selected.add(options[index]);
-                                    });
-                                  } else {
-                                    setState(() {
-                                      selected.remove(options[index]);
-                                    });
-                                  }
-                                });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            actions: [
-              _buildCancel(),
-              _buildUpdate(onUpdate: () {
-                Navigator.pop(context, selected);
-              }),
-            ],
-          );
-        });
-
-    if (response != null) {
-      setState(() {
-        _agenda = response;
-      });
-    }
-  }
-
   Future<void> _loadOptions() async {
     (await _optionsUseCase.execute(Void())).fold((failure) {
       setState(() {
@@ -669,6 +607,87 @@ class _NewPapState extends State<NewPap> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
 
+    List<Widget> children = [
+      const Text('General Information'),
+      _buildTitle(),
+      _buildPap(),
+      _buildRegularProgram(),
+      _buildBases(),
+      _buildDescription(),
+      _buildTotalProjectCost(),
+      const Divider(),
+      // office
+      const Text('Implementers'),
+      _buildOffice(),
+      _buildOus(),
+      const Divider(),
+      _buildSpatialCoverage(),
+      _buildLocations(),
+      const Divider(),
+      _buildPip(),
+      _buildTypology(),
+      _buildCip(),
+      _buildCipType(),
+      _buildTrip(),
+      _buildRdip(),
+      const Divider(),
+      _buildIccable(),
+      _buildApprovalLevel(),
+      _buildApprovalLevelDate(),
+      const Divider(),
+      _buildPdpChapter(),
+      _buildPdpChapters(),
+      _buildExpectedOutputs(),
+      const Divider(),
+      _buildInfraSectors(),
+      _buildPrerequisites(),
+      _buildRisk(),
+      const Divider(),
+      _buildAgenda(),
+      const Divider(),
+      _buildSdgs(),
+      const Divider(),
+      _buildGad(),
+      const Divider(),
+      _buildPreparationDocument(),
+      _buildFsStatus(),
+      _buildNeedFsAssistance(),
+      _buildFsCost(),
+      const Divider(),
+      _buildRow(),
+      _buildRowCost(),
+      const Divider(),
+      _buildRap(),
+      _buildRapCost(),
+      const Divider(),
+      _buildEmployment(),
+      _buildEmploymentMale(),
+      _buildEmploymentFemale(),
+      const Divider(),
+      const Text('Funding Source and Mode of Implementation'),
+      _buildFundingSource(),
+      _buildFundingSources(),
+      _buildFundingInstitutions(),
+      _buildImplementationMode(),
+      const Divider(),
+      _buildRegionalCost(),
+      const Divider(),
+      _buildProjectCost(),
+      const Divider(),
+      _buildCategory(),
+      _buildReadiness(),
+      // implementation period
+      _buildStart(),
+      _buildEnd(),
+      _buildUpdates(),
+      _buildUpdatesAsOf(),
+      const Divider(),
+      _buildPapCode(),
+      _buildFinancialAccomplishments(),
+      const Divider(),
+      _buildRemarks(),
+    ];
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -681,103 +700,18 @@ class _NewPapState extends State<NewPap> {
           // update if linear progress indicator resizes
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Scrollbar(
+            child: SingleChildScrollView(
               controller: _scrollController,
-              thumbVisibility: true,
-              radius: Radius.zero,
-              thickness: AppSize.s12,
-              child: ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  physics: const ClampingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: AppSize.s20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('General Information'),
-                        _buildTitle(),
-                        _buildPap(),
-                        _buildRegularProgram(),
-                        _buildBases(),
-                        _buildDescription(),
-                        _buildTotalProjectCost(),
-                        const Divider(),
-                        // office
-                        const Text('Implementers'),
-                        _buildOffice(),
-                        _buildOus(),
-                        const Divider(),
-                        _buildSpatialCoverage(),
-                        _buildLocations(),
-                        const Divider(),
-                        _buildPip(),
-                        _buildTypology(),
-                        _buildCip(),
-                        _buildCipType(),
-                        _buildTrip(),
-                        _buildRdip(),
-                        const Divider(),
-                        _buildIccable(),
-                        _buildApprovalLevel(),
-                        _buildApprovalLevelDate(),
-                        const Divider(),
-                        _buildPdpChapter(),
-                        _buildPdpChapters(),
-                        _buildExpectedOutputs(),
-                        const Divider(),
-                        _buildInfraSectors(),
-                        _buildPrerequisites(),
-                        _buildRisk(),
-                        const Divider(),
-                        _buildAgenda(),
-                        const Divider(),
-                        _buildSdgs(),
-                        const Divider(),
-                        _buildGad(),
-                        const Divider(),
-                        _buildPreparationDocument(),
-                        _buildFsStatus(),
-                        _buildNeedFsAssistance(),
-                        _buildFsCost(),
-                        const Divider(),
-                        _buildRow(),
-                        _buildRowCost(),
-                        const Divider(),
-                        _buildRap(),
-                        _buildRapCost(),
-                        const Divider(),
-                        _buildEmployment(),
-                        _buildEmploymentMale(),
-                        _buildEmploymentFemale(),
-                        const Divider(),
-                        const Text('Funding Source and Mode of Implementation'),
-                        _buildFundingSource(),
-                        _buildFundingSources(),
-                        _buildFundingInstitutions(),
-                        _buildImplementationMode(),
-                        const Divider(),
-                        _buildRegionalCost(),
-                        const Divider(),
-                        _buildProjectCost(),
-                        const Divider(),
-                        _buildCategory(),
-                        _buildReadiness(),
-                        // implementation period
-                        _buildStart(),
-                        _buildEnd(),
-                        _buildUpdates(),
-                        _buildUpdatesAsOf(),
-                        const Divider(),
-                        _buildPapCode(),
-                        _buildFinancialAccomplishments(),
-                        const Divider(),
-                        _buildRemarks(),
-                      ],
-                    ),
-                  ),
+              // physics: const NeverScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(right: AppSize.s20),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  addAutomaticKeepAlives: false,
+                  itemCount: children.length,
+                  itemBuilder: (context, index) {
+                    return children[index];
+                  },
                 ),
               ),
             ),
@@ -792,16 +726,8 @@ class _NewPapState extends State<NewPap> {
       title: const Text('Title'),
       subtitle: TextFormField(
         autofocus: true,
-        decoration: const InputDecoration(
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
+        decoration: _getTextInputDecoration(
           hintText: 'Title',
-          // isDense: true,
         ),
         minLines: 1,
         maxLines: 2,
@@ -812,14 +738,8 @@ class _NewPapState extends State<NewPap> {
           });
         },
       ),
-      trailing: _title != null
-          ? const Icon(
-              Icons.done_outline,
-              color: Colors.green,
-            )
-          : const Icon(
-              Icons.done_outline,
-            ),
+      trailing:
+          _title != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
     );
   }
 
@@ -827,14 +747,8 @@ class _NewPapState extends State<NewPap> {
     return ListTile(
       title: const Text('Program or Project'),
       subtitle: _type != null ? Text(_type!.label) : const Text('Select one'),
-      trailing: _type != null
-          ? const Icon(
-              Icons.done_outline,
-              color: Colors.green,
-            )
-          : const Icon(
-              Icons.done_outline,
-            ),
+      trailing:
+          _type != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
       onTap: () {
         _selectPap();
       },
@@ -852,6 +766,8 @@ class _NewPapState extends State<NewPap> {
             }
           : null,
       title: const Text('Regular Program'),
+      subtitle: const Text(
+          'A regular program refers to a program being implemented by the agencies on a continuing basis.'),
     );
   }
 
@@ -860,18 +776,13 @@ class _NewPapState extends State<NewPap> {
       title: const Text('Basis for Implementation'),
       subtitle: Text(
         _bases?.map((e) => e.label).join(', ') ??
-            'Select as many as applicable',
+            AppStrings.selectAsManyAsApplicable,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: _bases?.isNotEmpty != null
-          ? const Icon(
-              Icons.done_outline,
-              color: Colors.green,
-            )
-          : const Icon(
-              Icons.done_outline,
-            ),
+      trailing: _bases != null && _bases!.isNotEmpty
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
       onTap: () {
         _selectBases();
       },
@@ -879,20 +790,13 @@ class _NewPapState extends State<NewPap> {
   }
 
   Widget _buildDescription() {
+    String hintText =
+        'Identify the Components of the Program/Project. If a Program, please identify the sub-programs/projects and explain the objective of the program/project in terms of responding to the PDP / RM. If the PAP will involve construction of a government facility, specify the definite purpose for the facility to be constructed.';
+
     return ListTile(
       title: const Text('Description'),
       subtitle: TextField(
-        decoration: const InputDecoration(
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          hintText: 'Description',
-          // isDense: true,
-        ),
+        decoration: _getTextInputDecoration(hintText: hintText),
         minLines: 3,
         maxLines: 4,
         style: Theme.of(context).textTheme.bodyMedium,
@@ -903,13 +807,8 @@ class _NewPapState extends State<NewPap> {
         },
       ),
       trailing: _description != null && _description!.isNotEmpty
-          ? const Icon(
-              Icons.done_outline,
-              color: Colors.green,
-            )
-          : const Icon(
-              Icons.done_outline,
-            ),
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
     );
   }
 
@@ -917,22 +816,13 @@ class _NewPapState extends State<NewPap> {
     return ListTile(
       title: const Text('Total Project Cost in absolute Php'),
       trailing: _totalProjectCost != null && _totalProjectCost! > 0
-          ? const Icon(Icons.done_outline, color: Colors.green)
-          : const Icon(Icons.done_outline),
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
       subtitle: TextField(
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
         ],
-        decoration: const InputDecoration(
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12),
-          ),
-          hintText: 'Total Project Cost',
-        ),
+        decoration: _getTextInputDecoration(hintText: 'Total Project Cost'),
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: (String value) {
           setState(() {
@@ -946,10 +836,10 @@ class _NewPapState extends State<NewPap> {
   Widget _buildOffice() {
     return ListTile(
         title: const Text('Office'),
-        subtitle: Text(_office != null ? _office!.label : 'Select one'),
+        subtitle: Text(_office != null ? _office!.label : AppStrings.selectOne),
         trailing: _office != null
-            ? const Icon(Icons.done_outline, color: Colors.green)
-            : const Icon(Icons.done_outline),
+            ? _buildSuccessfulIndicator()
+            : _buildEmptyIndicator(),
         onTap: () {
           _selectOffice();
         });
@@ -959,7 +849,10 @@ class _NewPapState extends State<NewPap> {
     return ListTile(
         title: const Text('Operating Units'),
         subtitle: Text(_operatingUnits?.map((e) => e.label).join(', ') ??
-            'Select as many as applicable'),
+            AppStrings.selectAsManyAsApplicable),
+        trailing: _operatingUnits != null && _operatingUnits!.isNotEmpty
+            ? _buildSuccessfulIndicator()
+            : _buildEmptyIndicator(),
         onTap: () {
           _selectOus();
         });
@@ -971,54 +864,58 @@ class _NewPapState extends State<NewPap> {
       subtitle: _spatialCoverage != null
           ? Text(_spatialCoverage!.label)
           : const Text('Select one'),
-      onTap: () async {
-        final response = await showDialog(
-            context: context,
-            builder: (context) {
-              Option? selected = _spatialCoverage;
-
-              return AlertDialog(
-                title: const Text('Spatial Coverage'),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: AppPadding.lg),
-                content: StatefulBuilder(builder: (context, setState) {
-                  final options = _options?.spatialCoverages ?? [];
-
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(children: [
-                      Expanded(
-                          child: ListView.builder(
-                        itemCount: options.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return RadioListTile(
-                              value: options[index],
-                              groupValue: selected,
-                              title: Text(options[index].label),
-                              onChanged: (Option? value) {
-                                setState(() {
-                                  selected = value;
-                                });
-                              });
-                        },
-                      )),
-                    ]),
-                  );
-                }),
-                actions: [
-                  _buildCancel(),
-                  _buildUpdate(onUpdate: () {
-                    Navigator.pop(context, selected);
-                  }),
-                ],
-              );
-            });
-
-        setState(() {
-          _spatialCoverage = response;
-        });
-      },
+      trailing: _spatialCoverage != null
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
+      onTap: _selectSpatialCoverage,
     );
+  }
+
+  Future<void> _selectSpatialCoverage() async {
+    final response = await showDialog(
+        context: context,
+        builder: (context) {
+          Option? selected = _spatialCoverage;
+
+          return AlertDialog(
+            title: const Text('Spatial Coverage'),
+            contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+            content: StatefulBuilder(builder: (context, setState) {
+              final options = _options?.spatialCoverages ?? [];
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: Column(children: [
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return RadioListTile(
+                          value: options[index],
+                          groupValue: selected,
+                          title: Text(options[index].label),
+                          onChanged: (Option? value) {
+                            setState(() {
+                              selected = value;
+                            });
+                          });
+                    },
+                  )),
+                ]),
+              );
+            }),
+            actions: [
+              _buildCancel(),
+              _buildUpdate(onUpdate: () {
+                Navigator.pop(context, selected);
+              }),
+            ],
+          );
+        });
+
+    setState(() {
+      _spatialCoverage = response;
+    });
   }
 
   Widget _buildLocations() {
@@ -1054,60 +951,58 @@ class _NewPapState extends State<NewPap> {
           ? Text(_approvalLevel!.label)
           : const Text(AppStrings.selectOne),
       trailing: _approvalLevel != null
-          ? const Icon(
-              Icons.done_outline,
-              color: Colors.green,
-            )
-          : const Icon(Icons.done_outline),
-      onTap: () async {
-        final response = await showDialog(
-            context: context,
-            builder: (context) {
-              Option? selected = _approvalLevel;
-
-              return AlertDialog(
-                title: const Text('Level (Status) of Approval'),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: AppPadding.lg),
-                content: StatefulBuilder(builder: (context, setState) {
-                  final options = _options?.approvalLevels ?? [];
-
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(children: [
-                      Expanded(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: options.length,
-                            itemBuilder: (context, index) {
-                              return RadioListTile(
-                                  value: options[index],
-                                  groupValue: selected,
-                                  title: Text(options[index].label),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selected = value;
-                                    });
-                                  });
-                            }),
-                      ),
-                    ]),
-                  );
-                }),
-                actions: [
-                  _buildCancel(),
-                  _buildUpdate(onUpdate: () {
-                    Navigator.pop(context, selected);
-                  }),
-                ],
-              );
-            });
-
-        setState(() {
-          _approvalLevel = response;
-        });
-      },
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
+      onTap: _selectApprovalLevel,
     );
+  }
+
+  Future<void> _selectApprovalLevel() async {
+    final response = await showDialog(
+        context: context,
+        builder: (context) {
+          Option? selected = _approvalLevel;
+
+          return AlertDialog(
+            title: const Text('Level (Status) of Approval'),
+            contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+            content: StatefulBuilder(builder: (context, setState) {
+              final options = _options?.approvalLevels ?? [];
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: Column(children: [
+                  Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: options.length,
+                        itemBuilder: (context, index) {
+                          return RadioListTile(
+                              value: options[index],
+                              groupValue: selected,
+                              title: Text(options[index].label),
+                              onChanged: (value) {
+                                setState(() {
+                                  selected = value;
+                                });
+                              });
+                        }),
+                  ),
+                ]),
+              );
+            }),
+            actions: [
+              _buildCancel(),
+              _buildUpdate(onUpdate: () {
+                Navigator.pop(context, selected);
+              }),
+            ],
+          );
+        });
+
+    setState(() {
+      _approvalLevel = response;
+    });
   }
 
   Widget _buildPip() {
@@ -1117,45 +1012,49 @@ class _NewPapState extends State<NewPap> {
         subtitle:
             const Text('// TODO: Explain the requirements to be part of PIP'),
         onChanged: (bool? value) {
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Confirm PIP'),
-                  content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // TODO: Add descriptipn
-                      children: const <Widget>[
-                        Text(
-                            'For the PAP to pass the PIP classification, it should meet the following criteria:'),
-                        Text('Responsiveness'),
-                        Text('- responsiveness details'),
-                        Text('Readiness'),
-                        Text('- readiness details'),
-                        Text('Typology'),
-                        Text('- typology details'),
-                        Text('Read more link'),
-                      ]),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                        child: const Text('No')),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: const Text('Yes')),
-                  ],
-                );
-              }).then((value) {
-            setState(() {
-              _pip = value ?? false;
-            });
-          });
+          _togglePip(value);
         });
+  }
+
+  void _togglePip(bool? value) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Confirm PIP'),
+            content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // TODO: Add descriptipn
+                children: const <Widget>[
+                  Text(
+                      'For the PAP to pass the PIP classification, it should meet the following criteria:'),
+                  Text('Responsiveness'),
+                  Text('- responsiveness details'),
+                  Text('Readiness'),
+                  Text('- readiness details'),
+                  Text('Typology'),
+                  Text('- typology details'),
+                  Text('Read more link'),
+                ]),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text('No')),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text('Yes')),
+            ],
+          );
+        }).then((value) {
+      setState(() {
+        _pip = value ?? false;
+      });
+    });
   }
 
   Widget _buildTypology() {
@@ -1166,57 +1065,58 @@ class _NewPapState extends State<NewPap> {
           ? Text(_pipTypology!.label)
           : const Text('Select one'),
       trailing: _pipTypology != null
-          ? const Icon(Icons.done_outline, color: Colors.green)
-          : const Icon(Icons.done_outline),
-      onTap: () async {
-        final response = await showDialog(
-            context: context,
-            builder: (context) {
-              Option? selected = _pipTypology;
-
-              return AlertDialog(
-                title: const Text('Typology of PIP'),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: AppPadding.lg),
-                content: StatefulBuilder(
-                  builder: (context, setState) {
-                    final options = _options?.typologies ?? [];
-
-                    return SizedBox(
-                        width: double.maxFinite,
-                        child: Column(children: [
-                          Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: options.length,
-                                  itemBuilder: (context, index) {
-                                    return RadioListTile(
-                                        value: options[index],
-                                        title: Text(options[index].label),
-                                        groupValue: selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selected = value;
-                                          });
-                                        });
-                                  }))
-                        ]));
-                  },
-                ),
-                actions: [
-                  _buildCancel(),
-                  _buildUpdate(onUpdate: () {
-                    Navigator.pop(context, selected);
-                  }),
-                ],
-              );
-            });
-
-        setState(() {
-          _pipTypology = response;
-        });
-      },
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
+      onTap: _selectTypology,
     );
+  }
+
+  Future<void> _selectTypology() async {
+    final response = await showDialog(
+        context: context,
+        builder: (context) {
+          Option? selected = _pipTypology;
+
+          return AlertDialog(
+            title: const Text('Typology of PIP'),
+            contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+            content: StatefulBuilder(
+              builder: (context, setState) {
+                final options = _options?.typologies ?? [];
+
+                return SizedBox(
+                    width: double.maxFinite,
+                    child: Column(children: [
+                      Expanded(
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: options.length,
+                              itemBuilder: (context, index) {
+                                return RadioListTile(
+                                    value: options[index],
+                                    title: Text(options[index].label),
+                                    groupValue: selected,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selected = value;
+                                      });
+                                    });
+                              }))
+                    ]));
+              },
+            ),
+            actions: [
+              _buildCancel(),
+              _buildUpdate(onUpdate: () {
+                Navigator.pop(context, selected);
+              }),
+            ],
+          );
+        });
+
+    setState(() {
+      _pipTypology = response;
+    });
   }
 
   Widget _buildCip() {
@@ -1229,52 +1129,55 @@ class _NewPapState extends State<NewPap> {
             const Text('// TODO: Explain the requirements to be part of CIP'),
         onChanged: (bool? value) {
           // if user is trying to change config
-          if (value != _cip) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text('Confirm'),
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('What the f*** are you trying to do?'),
-                        Text('For CIPs, make sure you provide the following: '),
-                        Text(
-                            '- Status of NEDA-ICC processing and the as of date'),
-                        Text(
-                            '- The preparation document and details of Feasibility Study (if applicable)'),
-                        Text(
-                            '- Preinvestment costs such as Right of Way and Resettlement Action Plan (if applicable)'),
-                        Text('- The level of GAD Responsivess'),
-                        Text(
-                            '- The number of male and female individuals to be employed'),
-                      ],
-                    ),
-                    actions: [
-                      _buildCancel(),
-                      _buildUpdate(onUpdate: () {
-                        // push change
-                        Navigator.pop(context, value);
-                      }),
-                    ],
-                  );
-                });
-          }
-
-          setState(() {
-            _cip = value ?? false;
-
-            // automatically set iccable to true because all CIPs required NEDA board approval
-            _iccable = true;
-          });
-
-          if (value ?? false) {
-            _showSnackbar(
-                message:
-                    'PAPs tagged as CIP require ICC/NEDA Board approval. Make sure to provide the type and processing status below.');
-          }
+          _toggleCip(value);
         });
+  }
+
+  void _toggleCip(bool? value) {
+    if (value != _cip) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Confirm'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text('What the f*** are you trying to do?'),
+                  Text('For CIPs, make sure you provide the following: '),
+                  Text('- Status of NEDA-ICC processing and the as of date'),
+                  Text(
+                      '- The preparation document and details of Feasibility Study (if applicable)'),
+                  Text(
+                      '- Preinvestment costs such as Right of Way and Resettlement Action Plan (if applicable)'),
+                  Text('- The level of GAD Responsivess'),
+                  Text(
+                      '- The number of male and female individuals to be employed'),
+                ],
+              ),
+              actions: [
+                _buildCancel(),
+                _buildUpdate(onUpdate: () {
+                  // push change
+                  Navigator.pop(context, value);
+                }),
+              ],
+            );
+          });
+    }
+
+    setState(() {
+      _cip = value ?? false;
+
+      // automatically set iccable to true because all CIPs required NEDA board approval
+      _iccable = true;
+    });
+
+    if (value ?? false) {
+      _showSnackbar(
+          message:
+              'PAPs tagged as CIP require ICC/NEDA Board approval. Make sure to provide the type and processing status below.');
+    }
   }
 
   Widget _buildCipType() {
@@ -1284,57 +1187,58 @@ class _NewPapState extends State<NewPap> {
       subtitle:
           _cipType != null ? Text(_cipType!.label) : const Text('Select one'),
       trailing: _cipType != null
-          ? const Icon(Icons.done_outline, color: Colors.green)
-          : const Icon(Icons.done_outline),
-      onTap: () async {
-        final response = await showDialog(
-            context: context,
-            builder: (context) {
-              Option? selected = _cipType;
-
-              return AlertDialog(
-                title: const Text('Type of CIP'),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: AppPadding.lg),
-                content: StatefulBuilder(
-                  builder: (context, setState) {
-                    final options = _options?.cipTypes ?? [];
-
-                    return SizedBox(
-                        width: double.maxFinite,
-                        child: Column(children: [
-                          Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: options.length,
-                                  itemBuilder: (context, index) {
-                                    return RadioListTile(
-                                        value: options[index],
-                                        title: Text(options[index].label),
-                                        groupValue: selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selected = value;
-                                          });
-                                        });
-                                  }))
-                        ]));
-                  },
-                ),
-                actions: [
-                  _buildCancel(),
-                  _buildUpdate(onUpdate: () {
-                    Navigator.pop(context, selected);
-                  }),
-                ],
-              );
-            });
-
-        setState(() {
-          _cipType = response;
-        });
-      },
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
+      onTap: _selectCipType,
     );
+  }
+
+  Future<void> _selectCipType() async {
+    final response = await showDialog(
+        context: context,
+        builder: (context) {
+          Option? selected = _cipType;
+
+          return AlertDialog(
+            title: const Text('Type of CIP'),
+            contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+            content: StatefulBuilder(
+              builder: (context, setState) {
+                final options = _options?.cipTypes ?? [];
+
+                return SizedBox(
+                    width: double.maxFinite,
+                    child: Column(children: [
+                      Expanded(
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: options.length,
+                              itemBuilder: (context, index) {
+                                return RadioListTile(
+                                    value: options[index],
+                                    title: Text(options[index].label),
+                                    groupValue: selected,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selected = value;
+                                      });
+                                    });
+                              }))
+                    ]));
+              },
+            ),
+            actions: [
+              _buildCancel(),
+              _buildUpdate(onUpdate: () {
+                Navigator.pop(context, selected);
+              }),
+            ],
+          );
+        });
+
+    setState(() {
+      _cipType = response;
+    });
   }
 
   Widget _buildTrip() {
@@ -1377,19 +1281,21 @@ class _NewPapState extends State<NewPap> {
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(),
       // TODO: update color on success
-      onTap: () async {
-        final DateTime? response = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime.utc(2020),
-          lastDate: DateTime.now(),
-        );
-
-        setState(() {
-          _approvalLevelDate = response;
-        });
-      },
+      onTap: _selectApprovalLevelDate,
     );
+  }
+
+  Future<void> _selectApprovalLevelDate() async {
+    final DateTime? response = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.utc(2010),
+      lastDate: DateTime.now(),
+    );
+
+    setState(() {
+      _approvalLevelDate = response;
+    });
   }
 
   Widget _buildPdpChapter() {
@@ -1400,9 +1306,7 @@ class _NewPapState extends State<NewPap> {
       trailing: _pdpChapter != null
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(), // TODO: update color on success
-      onTap: () {
-        _selectPdpChapter();
-      },
+      onTap: _selectPdpChapter,
     );
   }
 
@@ -1416,63 +1320,7 @@ class _NewPapState extends State<NewPap> {
       trailing: _pdpChapters != null && _pdpChapters!.isNotEmpty
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(), // TODO: update color on success
-      onTap: () async {
-        final response = await showDialog(
-            context: context,
-            builder: (context) {
-              List<Option> selected = _pdpChapters ?? [];
-
-              return AlertDialog(
-                title: const Text('Other PDP Chapters'),
-                content: StatefulBuilder(
-                  builder: (context, setState) {
-                    var options = _options?.pdpChapters ?? [];
-                    //
-                    return SizedBox(
-                      width: double.maxFinite,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: options.length,
-                                itemBuilder: (context, index) {
-                                  return CheckboxListTile(
-                                    value: selected.contains(options[index]),
-                                    title: Text(options[index].label),
-                                    onChanged: (bool? value) {
-                                      if (value ?? false) {
-                                        setState(() {
-                                          selected.add(options[index]);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selected.remove(options[index]);
-                                        });
-                                      }
-                                    },
-                                  );
-                                }),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                actions: [
-                  _buildCancel(),
-                  _buildUpdate(onUpdate: () {
-                    Navigator.pop(context, selected);
-                  })
-                ],
-              );
-            });
-
-        setState(() {
-          _pdpChapters = response;
-        });
-      },
+      onTap: _selectPdpChapters,
     );
   }
 
@@ -1481,8 +1329,37 @@ class _NewPapState extends State<NewPap> {
         enabled: _trip,
         title: const Text('Main Infrastructure Sector/Subsector'),
         subtitle: const Text(AppStrings.selectAsManyAsApplicable),
-        onTap: () {
-          throw UnimplementedError();
+        onTap: () async {
+          final response = await showDialog(
+              context: context,
+              builder: (context) {
+                final infraSectors = _options?.infrastructureSectors ?? [];
+
+                return AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: infraSectors.length,
+                              itemBuilder: (context, index) {
+                                return CheckboxListTile(
+                                  value: false,
+                                  title: Text(infraSectors[index].label),
+                                  onChanged: (bool? value) {
+                                    //
+                                  },
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              });
         });
   }
 
@@ -1490,17 +1367,8 @@ class _NewPapState extends State<NewPap> {
     return ListTile(
       title: const Text('Expected Outputs/Deliverables'),
       subtitle: TextField(
-          decoration: const InputDecoration(
-            filled: false,
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            hintText: 'Expected Outputs/Deliverables',
-            // isDense: true,
-          ),
+          decoration: _getTextInputDecoration(
+              hintText: 'Expected Outputs/Deliverables'),
           style: Theme.of(context).textTheme.bodyMedium,
           minLines: 3,
           maxLines: 4,
@@ -1517,95 +1385,88 @@ class _NewPapState extends State<NewPap> {
 
   Widget _buildPrerequisites() {
     return ListTile(
-        enabled: _trip,
-        title: const Text('Status of Implementation Readiness'),
-        // TODO: trailing
-        subtitle: _prerequisites?.isNotEmpty != null
-            ? Text(_prerequisites!.map((e) => e.label).join(', '))
-            : const Text(AppStrings.selectAsManyAsApplicable),
-        onTap: () async {
-          final response = await showDialog(
-              context: context,
-              builder: (context) {
-                List<Option> selected = _prerequisites ?? [];
+      enabled: _trip,
+      title: const Text('Status of Implementation Readiness'),
+      subtitle: _prerequisites?.isNotEmpty != null
+          ? Text(_prerequisites!.map((e) => e.label).join(', '))
+          : const Text(AppStrings.selectAsManyAsApplicable),
+      trailing: _prerequisites != null && _prerequisites!.isNotEmpty
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
+      onTap: _selectPrerequisites,
+    );
+  }
 
-                return AlertDialog(
-                  title: const Text('Status of Implementation Readiness'),
-                  content: StatefulBuilder(
-                    builder: (context, setState) {
-                      final options = _options?.prerequisites ?? [];
-                      //
-                      return SizedBox(
-                        width: double.maxFinite,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: options.length,
-                                  itemBuilder: (context, index) {
-                                    return CheckboxListTile(
-                                      value: selected.contains(options[index]),
-                                      title: Text(options[index].label),
-                                      onChanged: (bool? value) {
-                                        if (value ?? false) {
-                                          setState(() {
-                                            selected.add(options[index]);
-                                          });
-                                        } else {
-                                          setState(() {
-                                            selected.remove(options[index]);
-                                          });
-                                        }
-                                      },
-                                    );
-                                  }),
-                            )
-                          ],
-                        ),
-                      );
-                    },
+  Future<void> _selectPrerequisites() async {
+    final response = await showDialog(
+        context: context,
+        builder: (context) {
+          List<Option> selected = _prerequisites ?? [];
+
+          return AlertDialog(
+            title: const Text('Status of Implementation Readiness'),
+            content: StatefulBuilder(
+              builder: (context, setState) {
+                final options = _options?.prerequisites ?? [];
+                //
+                return SizedBox(
+                  width: double.maxFinite,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: options.length,
+                            itemBuilder: (context, index) {
+                              return CheckboxListTile(
+                                value: selected.contains(options[index]),
+                                title: Text(options[index].label),
+                                onChanged: (bool? value) {
+                                  if (value ?? false) {
+                                    setState(() {
+                                      selected.add(options[index]);
+                                    });
+                                  } else {
+                                    setState(() {
+                                      selected.remove(options[index]);
+                                    });
+                                  }
+                                },
+                              );
+                            }),
+                      )
+                    ],
                   ),
-                  actions: [
-                    _buildCancel(),
-                    _buildUpdate(onUpdate: () {
-                      Navigator.pop(context, selected);
-                    })
-                  ],
                 );
-              });
-
-          setState(() {
-            _prerequisites = response;
-          });
+              },
+            ),
+            actions: [
+              _buildCancel(),
+              _buildUpdate(onUpdate: () {
+                Navigator.pop(context, selected);
+              })
+            ],
+          );
         });
+
+    setState(() {
+      _prerequisites = response;
+    });
   }
 
   Widget _buildRisk() {
     return ListTile(
       enabled: _trip,
       title: const Text('Implementation Risks and Mitigation Strategies'),
-      // TODO: trailing
       trailing:
           _risk != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
       subtitle: TextFormField(
           enabled: _trip,
           initialValue: _risk,
-          decoration: const InputDecoration(
-            filled: false,
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black12),
-            ),
-            hintText: 'Implementation Risks and Mitigation Strategies',
-            // isDense: true,
-          ),
+          decoration: _getTextInputDecoration(
+              hintText: 'Implementation Risks and Mitigation Strategies'),
+          // isDense: true,
           style: Theme.of(context).textTheme.bodyMedium,
           minLines: 3,
           maxLines: 4,
@@ -1628,7 +1489,7 @@ class _NewPapState extends State<NewPap> {
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(),
       onTap: () {
-        _selectSdgs(); // TODO: update
+        _selectSdgs();
       },
     );
   }
@@ -1643,67 +1504,68 @@ class _NewPapState extends State<NewPap> {
       trailing: _agenda?.isNotEmpty != null
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(),
-      onTap: () async {
-        final response = await showDialog(
-            context: context,
-            builder: (context) {
-              List<Option> selected = _agenda ?? [];
-              //
-              return AlertDialog(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: AppPadding.lg),
-                title: const Text('Socioeconomic Agenda'),
-                content: StatefulBuilder(
-                  builder: (context, setState) {
-                    final agenda = _options?.agenda ?? [];
-
-                    return SizedBox(
-                      width: double.maxFinite,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: agenda.length,
-                              itemBuilder: (context, index) {
-                                return CheckboxListTile(
-                                    value: selected.contains(agenda[index]),
-                                    title: Text(agenda[index].label),
-                                    onChanged: (bool? value) {
-                                      if (value ?? false) {
-                                        setState(() {
-                                          selected.add(agenda[index]);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selected.remove(agenda[index]);
-                                        });
-                                      }
-                                    });
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                actions: [
-                  _buildCancel(),
-                  _buildUpdate(
-                    onUpdate: () {
-                      Navigator.pop(context, selected);
-                    },
-                  ),
-                ],
-              );
-            });
-
-        setState(() {
-          _agenda = response;
-        });
-      },
+      onTap: _selectAgenda,
     );
+  }
+
+  Future<void> _selectAgenda() async {
+    final response = await showDialog(
+        context: context,
+        builder: (context) {
+          List<Option> selected = _agenda ?? [];
+          //
+          return AlertDialog(
+            contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+            title: const Text('Socioeconomic Agenda'),
+            content: StatefulBuilder(
+              builder: (context, setState) {
+                final agenda = _options?.agenda ?? [];
+
+                return SizedBox(
+                  width: double.maxFinite,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: agenda.length,
+                          itemBuilder: (context, index) {
+                            return CheckboxListTile(
+                                value: selected.contains(agenda[index]),
+                                title: Text(agenda[index].label),
+                                onChanged: (bool? value) {
+                                  if (value ?? false) {
+                                    setState(() {
+                                      selected.add(agenda[index]);
+                                    });
+                                  } else {
+                                    setState(() {
+                                      selected.remove(agenda[index]);
+                                    });
+                                  }
+                                });
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+            actions: [
+              _buildCancel(),
+              _buildUpdate(
+                onUpdate: () {
+                  Navigator.pop(context, selected);
+                },
+              ),
+            ],
+          );
+        });
+
+    setState(() {
+      _agenda = response;
+    });
   }
 
   Widget _buildGad() {
@@ -1715,61 +1577,62 @@ class _NewPapState extends State<NewPap> {
       // TODO: trailing
       trailing:
           _gad != null ? _buildSuccessfulIndicator() : _buildEmptyIndicator(),
-      onTap: () async {
-        final response = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            Option? selected = _gad;
+      onTap: _selectGad,
+    );
+  }
 
-            //
-            return AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: AppPadding.lg),
-              title: const Text('Level of Gender Responsiveness'),
-              content: StatefulBuilder(
-                builder: (context, setState) {
-                  var options = _options?.gads ?? [];
+  Future<void> _selectGad() async {
+    final response = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Option? selected = _gad;
 
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: options.length,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                      value: options[index],
-                                      groupValue: selected,
-                                      title: Text(options[index].label),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selected = value;
-                                        });
-                                      });
-                                })),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              actions: [
-                _buildCancel(),
-                _buildUpdate(
-                  onUpdate: () {
-                    Navigator.pop(context, selected);
-                  },
+        //
+        return AlertDialog(
+          contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+          title: const Text('Level of Gender Responsiveness'),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              var options = _options?.gads ?? [];
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: ListView.builder(
+                            itemCount: options.length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                  value: options[index],
+                                  groupValue: selected,
+                                  title: Text(options[index].label),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selected = value;
+                                    });
+                                  });
+                            })),
+                  ],
                 ),
-              ],
-            );
-          },
+              );
+            },
+          ),
+          actions: [
+            _buildCancel(),
+            _buildUpdate(
+              onUpdate: () {
+                Navigator.pop(context, selected);
+              },
+            ),
+          ],
         );
-
-        setState(() {
-          _gad = response;
-        });
       },
     );
+
+    setState(() {
+      _gad = response;
+    });
   }
 
   Widget _buildPreparationDocument() {
@@ -1779,62 +1642,67 @@ class _NewPapState extends State<NewPap> {
       subtitle: _preparationDocument != null
           ? Text(_preparationDocument!.label)
           : const Text(AppStrings.selectOne),
-      // TODO: trailing
-      onTap: () async {
-        final response = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            Option? selected = _preparationDocument;
+      trailing: _preparationDocument != null
+          ? _buildSuccessfulIndicator()
+          : _buildEmptyIndicator(),
+      onTap: _selectPreparationDocument,
+    );
+  }
 
-            //
-            return AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: AppPadding.lg),
-              title: const Text('Project Preparation Document'),
-              content: StatefulBuilder(
-                builder: (context, setState) {
-                  var options = _options?.preparationDocuments ?? [];
+  Future<void> _selectPreparationDocument() async {
+    final response = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Option? selected = _preparationDocument;
 
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: options.length,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                      value: options[index],
-                                      groupValue: selected,
-                                      title: Text(options[index].label),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selected = value;
-                                        });
-                                      });
-                                })),
-                      ],
+        //
+        return AlertDialog(
+          contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+          title: const Text('Project Preparation Document'),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              var options = _options?.preparationDocuments ?? [];
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: options.length,
+                        itemBuilder: (context, index) {
+                          return RadioListTile(
+                              value: options[index],
+                              groupValue: selected,
+                              title: Text(options[index].label),
+                              onChanged: (value) {
+                                setState(() {
+                                  selected = value;
+                                });
+                              });
+                        },
+                      ),
                     ),
-                  );
-                },
-              ),
-              actions: [
-                _buildCancel(),
-                _buildUpdate(
-                  onUpdate: () {
-                    Navigator.pop(context, selected);
-                  },
+                  ],
                 ),
-              ],
-            );
-          },
+              );
+            },
+          ),
+          actions: [
+            _buildCancel(),
+            _buildUpdate(
+              onUpdate: () {
+                Navigator.pop(context, selected);
+              },
+            ),
+          ],
         );
-
-        setState(() {
-          _preparationDocument = response;
-        });
       },
     );
+
+    setState(() {
+      _preparationDocument = response;
+    });
   }
 
   // CIP only
@@ -1849,33 +1717,46 @@ class _NewPapState extends State<NewPap> {
 
   // CIP only
   Widget _buildFsCost() {
-    return Table(
-      children: const [
-        TableRow(
-          children: [
-            Text('Schedule of Feasibility Study'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('Total'),
+    var windowWidth = MediaQuery.of(context).size.width - 128;
+
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DataTable(
+          dataRowHeight: AppSize.s40,
+          columnSpacing: AppSize.s1,
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: AppSize.s0_5,
+            borderRadius: BorderRadius.circular(AppSize.lg),
+          ),
+          columns: List.generate(6, (index) {
+            return DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 6,
+                    child: Center(child: Text("FY ${2023 + index}"))));
+          }),
+          rows: [
+            DataRow(
+              cells: List.generate(
+                6,
+                (index) {
+                  return DataCell(SizedBox(
+                    width: windowWidth / 6,
+                    child: TextField(
+                      decoration: _getTextInputDecoration(),
+                      textAlign: TextAlign.right,
+                      textAlignVertical: TextAlignVertical.center,
+                      expands: false,
+                    ),
+                  ));
+                },
+              ),
+            ),
           ],
         ),
-        TableRow(
-          children: [
-            Text('Schedule of Feasibility Study'),
-            Text('2023'),
-            Text('2024'),
-            Text('2025'),
-            Text('2026'),
-            Text('2027'),
-            Text('2028'),
-            Text('Total'),
-          ],
-        ),
-      ],
+      ),
     );
   }
 
@@ -1896,9 +1777,46 @@ class _NewPapState extends State<NewPap> {
 
   // CIP only
   Widget _buildRowCost() {
-    return DataTable(
-      columns: [],
-      rows: [],
+    var windowWidth = MediaQuery.of(context).size.width - 128;
+
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DataTable(
+          dataRowHeight: AppSize.s40,
+          columnSpacing: AppSize.s1,
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: AppSize.s0_5,
+            borderRadius: BorderRadius.circular(AppSize.lg),
+          ),
+          columns: List.generate(6, (index) {
+            return DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 6,
+                    child: Center(child: Text("FY ${2023 + index}"))));
+          }),
+          rows: [
+            DataRow(
+              cells: List.generate(
+                6,
+                (index) {
+                  return DataCell(SizedBox(
+                    width: windowWidth / 6,
+                    child: TextField(
+                      decoration: _getTextInputDecoration(),
+                      textAlign: TextAlign.right,
+                      textAlignVertical: TextAlignVertical.center,
+                      expands: false,
+                    ),
+                  ));
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -1919,35 +1837,45 @@ class _NewPapState extends State<NewPap> {
 
   // CIP only
   Widget _buildRapCost() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Table(
-        children: const [
-          TableRow(
-            children: [
-              Text('Resettlement Action Plan'),
-              Text('2023'),
-              Text('2024'),
-              Text('2025'),
-              Text('2026'),
-              Text('2027'),
-              Text('2028'),
-              Text('Total'),
-            ],
+    var windowWidth = MediaQuery.of(context).size.width - 128;
+
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DataTable(
+          dataRowHeight: AppSize.s40,
+          columnSpacing: AppSize.s1,
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: AppSize.s0_5,
+            borderRadius: BorderRadius.circular(AppSize.lg),
           ),
-          TableRow(
-            children: [
-              Text('Resettlement Action Plan'),
-              Text('2023'),
-              Text('2024'),
-              Text('2025'),
-              Text('2026'),
-              Text('2027'),
-              Text('2028'),
-              Text('Total'),
-            ],
-          ),
-        ],
+          columns: List.generate(6, (index) {
+            return DataColumn(
+                label: SizedBox(
+                    width: windowWidth / 6,
+                    child: Center(child: Text("FY ${2023 + index}"))));
+          }),
+          rows: [
+            DataRow(
+              cells: List.generate(
+                6,
+                (index) {
+                  return DataCell(SizedBox(
+                    width: windowWidth / 6,
+                    child: TextField(
+                      decoration: _getTextInputDecoration(),
+                      textAlign: TextAlign.right,
+                      textAlignVertical: TextAlignVertical.center,
+                      expands: false,
+                    ),
+                  ));
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -2021,66 +1949,64 @@ class _NewPapState extends State<NewPap> {
               color: Colors.green,
             )
           : const Icon(Icons.done_outline),
-      onTap: _type?.value != 1
-          ? () async {
-              final response = await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  Option? selected = _fundingSource;
+      onTap: _type?.value != 1 ? _selectFundingSource : null,
+    );
+  }
 
-                  //
-                  return AlertDialog(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: AppPadding.lg),
-                    title: const Text('Main Funding Source'),
-                    content: StatefulBuilder(
-                      builder: (context, setState) {
-                        var options = _options?.fundingSources ?? [];
+  Future<void> _selectFundingSource() async {
+    final response = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Option? selected = _fundingSource;
 
-                        return SizedBox(
-                          width: double.maxFinite,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: ListView.builder(
-                                  itemCount:
-                                      _options?.fundingSources?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return RadioListTile(
-                                        value: options[index],
-                                        groupValue: selected,
-                                        title: Text(options[index].label),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selected = value;
-                                          });
-                                        });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    actions: [
-                      _buildCancel(),
-                      _buildUpdate(
-                        onUpdate: () {
-                          Navigator.pop(context, selected);
+        //
+        return AlertDialog(
+          contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+          title: const Text('Main Funding Source'),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              var options = _options?.fundingSources ?? [];
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _options?.fundingSources?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return RadioListTile(
+                              value: options[index],
+                              groupValue: selected,
+                              title: Text(options[index].label),
+                              onChanged: (value) {
+                                setState(() {
+                                  selected = value;
+                                });
+                              });
                         },
                       ),
-                    ],
-                  );
-                },
+                    ),
+                  ],
+                ),
               );
-
-              setState(() {
-                _fundingSource = response;
-              });
-            }
-          : null,
+            },
+          ),
+          actions: [
+            _buildCancel(),
+            _buildUpdate(
+              onUpdate: () {
+                Navigator.pop(context, selected);
+              },
+            ),
+          ],
+        );
+      },
     );
+
+    setState(() {
+      _fundingSource = response;
+    });
   }
 
   Widget _buildFundingSources() {
@@ -2094,66 +2020,69 @@ class _NewPapState extends State<NewPap> {
       trailing: _fundingSources != null
           ? _buildSuccessfulIndicator()
           : _buildEmptyIndicator(),
-      onTap: () async {
-        final response = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            List<Option> selected = _fundingSources ?? [];
+      onTap: _selectFundingSources,
+    );
+  }
 
-            //
-            return AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: AppPadding.lg),
-              title: const Text(AppStrings.otherFundingSources),
-              content: StatefulBuilder(
-                builder: (context, setState) {
-                  final options = _options?.fundingSources ?? [];
+  Future<void> _selectFundingSources() async {
+    final response = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        List<Option> selected = _fundingSources ?? [];
 
-                  return SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: options.length,
-                                itemBuilder: (context, index) {
-                                  return CheckboxListTile(
-                                      value: selected.contains(options[index]),
-                                      title: Text(options[index].label),
-                                      onChanged: (bool? value) {
-                                        if (value ?? false) {
-                                          setState(() {
-                                            selected.add(options[index]);
-                                          });
-                                        } else {
-                                          setState(() {
-                                            selected.remove(options[index]);
-                                          });
-                                        }
-                                      });
-                                })),
-                      ],
+        //
+        return AlertDialog(
+          contentPadding: const EdgeInsets.symmetric(vertical: AppPadding.lg),
+          title: const Text(AppStrings.otherFundingSources),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              final options = _options?.fundingSources ?? [];
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: options.length,
+                        itemBuilder: (context, index) {
+                          return CheckboxListTile(
+                              value: selected.contains(options[index]),
+                              title: Text(options[index].label),
+                              onChanged: (bool? value) {
+                                if (value ?? false) {
+                                  setState(() {
+                                    selected.add(options[index]);
+                                  });
+                                } else {
+                                  setState(() {
+                                    selected.remove(options[index]);
+                                  });
+                                }
+                              });
+                        },
+                      ),
                     ),
-                  );
-                },
-              ),
-              actions: [
-                _buildCancel(),
-                _buildUpdate(
-                  onUpdate: () {
-                    Navigator.pop(context, selected);
-                  },
+                  ],
                 ),
-              ],
-            );
-          },
+              );
+            },
+          ),
+          actions: [
+            _buildCancel(),
+            _buildUpdate(
+              onUpdate: () {
+                Navigator.pop(context, selected);
+              },
+            ),
+          ],
         );
-
-        setState(() {
-          _fundingSources = response;
-        });
       },
     );
+
+    setState(() {
+      _fundingSources = response;
+    });
   }
 
   Widget _buildImplementationMode() {
@@ -2403,15 +2332,8 @@ class _NewPapState extends State<NewPap> {
                           (index) => DataCell(
                             SizedBox(
                               width: windowWidth / 10,
-                              child: const TextField(
-                                decoration: InputDecoration(
-                                  isCollapsed: true,
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  fillColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                ),
+                              child: TextField(
+                                decoration: _getTextInputDecoration(),
                                 textAlign: TextAlign.right,
                                 textAlignVertical: TextAlignVertical.center,
                                 expands: false,
@@ -2610,7 +2532,8 @@ class _NewPapState extends State<NewPap> {
 
   Widget _buildStart() {
     return ListTile(
-        enabled: _type?.value != 1, // disable when type is program
+        enabled: _type?.value != 1,
+        // disable when type is program
         title: const Text('Start of Project Implementation'),
         subtitle: _startYear != null
             ? Text(_startYear!.toString())
@@ -2635,21 +2558,22 @@ class _NewPapState extends State<NewPap> {
                         child: Column(
                           children: [
                             Expanded(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: 29, // generate from 2000 to 2028
-                                    itemBuilder: (context, index) {
-                                      return RadioListTile(
-                                          value: 2000 + index,
-                                          title:
-                                              Text((2000 + index).toString()),
-                                          groupValue: selected,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selected = value;
-                                            });
-                                          });
-                                    }))
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: 29, // generate from 2000 to 2028
+                                itemBuilder: (context, index) {
+                                  return RadioListTile(
+                                      value: 2000 + index,
+                                      title: Text((2000 + index).toString()),
+                                      groupValue: selected,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selected = value;
+                                        });
+                                      });
+                                },
+                              ),
+                            )
                           ],
                         ),
                       );
@@ -2811,11 +2735,37 @@ class _NewPapState extends State<NewPap> {
             return DataRow(
               cells: <DataCell>[
                 DataCell(
-                  Text("FY ${index + 2023}"),
+                  SizedBox(
+                      width: windowWidth / 4,
+                      child: Text("FY ${index + 2023}")),
                 ),
-                const DataCell(Text("")),
-                const DataCell(Text("")),
-                const DataCell(Text("")),
+                DataCell(SizedBox(
+                  width: windowWidth / 4,
+                  child: TextField(
+                    decoration: _getTextInputDecoration(),
+                    textAlign: TextAlign.right,
+                    textAlignVertical: TextAlignVertical.center,
+                    expands: false,
+                  ),
+                )),
+                DataCell(SizedBox(
+                  width: windowWidth / 4,
+                  child: TextField(
+                    decoration: _getTextInputDecoration(),
+                    textAlign: TextAlign.right,
+                    textAlignVertical: TextAlignVertical.center,
+                    expands: false,
+                  ),
+                )),
+                DataCell(SizedBox(
+                  width: windowWidth / 4,
+                  child: TextField(
+                    decoration: _getTextInputDecoration(),
+                    textAlign: TextAlign.right,
+                    textAlignVertical: TextAlignVertical.center,
+                    expands: false,
+                  ),
+                )),
               ],
             );
           }),
