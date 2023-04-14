@@ -53,54 +53,7 @@ class _ProjectListTileState extends State<ProjectListTile> {
           hoverColor: Colors.transparent,
           // tileColor: Theme.of(context).colorScheme.secondaryContainer,
           title: _buildTitle(),
-          trailing: ResponsiveWidget.isLargeScreen(context)
-              ? (_hovered
-                  ? Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            //
-                          },
-                          icon: const Icon(
-                            Icons.download_outlined,
-                            size: FontSize.xxl,
-                          ),
-                          tooltip: AppStrings.download,
-                          visualDensity: VisualDensity.compact,
-                          splashRadius: 20,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            //
-                          },
-                          icon: const Icon(
-                            Icons.mode_edit_outline_outlined,
-                            size: FontSize.xxl,
-                          ),
-                          tooltip: AppStrings.edit,
-                          visualDensity: VisualDensity.compact,
-                          splashRadius: 20,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            //
-                          },
-                          icon: const Icon(
-                            Icons.delete_outline,
-                            size: FontSize.xxl,
-                          ),
-                          tooltip: AppStrings.delete,
-                          visualDensity: VisualDensity.compact,
-                          splashRadius: 20,
-                        ),
-                      ],
-                    )
-                  : Text(
-                      formatDate(widget.project.updatedAt),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ))
-              : null,
+          trailing: _buildTrailing(),
           onTap: () {
             // TODO: implement view project
             widget.onTap();
@@ -137,29 +90,11 @@ class _ProjectListTileState extends State<ProjectListTile> {
           ),
           const SizedBox(width: AppSize.s10),
           Flexible(
-            child: RichText(
+            child: Text(
+              widget.project.title,
+              style: Theme.of(context).textTheme.titleSmall,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              text: TextSpan(children: [
-                TextSpan(
-                  text: widget.project.title,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const TextSpan(
-                  text: ' - ',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                TextSpan(
-                  text: widget.project.description ?? 'No description',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    color: Colors.grey,
-                    fontSize: FontSize.md,
-                  ),
-                ),
-              ]),
             ),
           ),
           const SizedBox(width: AppSize.s20),
@@ -202,5 +137,56 @@ class _ProjectListTileState extends State<ProjectListTile> {
         ),
       ],
     );
+  }
+
+  Widget? _buildTrailing() {
+    return ResponsiveWidget.isLargeScreen(context)
+        ? (_hovered
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      //
+                    },
+                    icon: const Icon(
+                      Icons.download_outlined,
+                      size: FontSize.xxl,
+                    ),
+                    tooltip: AppStrings.download,
+                    visualDensity: VisualDensity.compact,
+                    splashRadius: 20,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      //
+                    },
+                    icon: const Icon(
+                      Icons.mode_edit_outline_outlined,
+                      size: FontSize.xxl,
+                    ),
+                    tooltip: AppStrings.edit,
+                    visualDensity: VisualDensity.compact,
+                    splashRadius: 20,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      //
+                    },
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      size: FontSize.xxl,
+                    ),
+                    tooltip: AppStrings.delete,
+                    visualDensity: VisualDensity.compact,
+                    splashRadius: 20,
+                  ),
+                ],
+              )
+            : Text(
+                formatDate(widget.project.updatedAt),
+                style: Theme.of(context).textTheme.bodySmall,
+              ))
+        : null;
   }
 }

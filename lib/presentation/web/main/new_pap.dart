@@ -1901,7 +1901,7 @@ class _NewPapState extends State<NewPap> {
     return ListTile(
       enabled: _trip,
       title: const Text('No. of persons to be employed'),
-      subtitle: Text(totalEmployment.toString()),
+      // subtitle: Text(totalEmployment.toString()),
     );
   }
 
