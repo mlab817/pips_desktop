@@ -13,6 +13,7 @@ import 'package:pips/data/responses/chat_rooms/chat_rooms.dart';
 import 'package:pips/data/responses/login/login_response.dart';
 import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/options/options_response.dart';
+import 'package:pips/data/responses/presets/presets.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/register/signup_response.dart';
@@ -89,6 +90,8 @@ abstract class RemoteDataSource {
   Future<FilterProjectResponse> filterProjects(FilterProjectRequest input);
 
   Future<PipsStatusesResponse> pipsStatuses();
+
+  Future<PresetsResponse> presets();
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -225,5 +228,10 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   @override
   Future<PipsStatusesResponse> pipsStatuses() async {
     return await _appServiceClient.pipsStatuses();
+  }
+
+  @override
+  Future<PresetsResponse> presets() async {
+    return await _appServiceClient.presets();
   }
 }

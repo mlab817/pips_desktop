@@ -1,3 +1,4 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/domain/usecase/projects_usecase.dart';
@@ -7,10 +8,12 @@ import 'package:pips/presentation/web/main/project_listtile.dart';
 
 import '../../../app/dep_injection.dart';
 import '../../../app/routes.dart';
+import '../../../data/responses/presets/presets.dart';
 import '../../../domain/models/pips_status.dart';
 import '../../../domain/models/project.dart';
 import '../../../domain/usecase/chatrooms_usecase.dart';
 import '../../../domain/usecase/pipsstatuses_usecase.dart';
+import '../../../domain/usecase/presets_usecase.dart';
 import '../../resources/sizes_manager.dart';
 import 'project_content.dart';
 
@@ -21,7 +24,8 @@ class MainWebView extends StatefulWidget {
   State<MainWebView> createState() => _MainWebViewState();
 }
 
-class _MainWebViewState extends State<MainWebView> {
+class _MainWebViewState extends State<MainWebView>
+    with AutomaticKeepAliveClientMixin {
   final GlobalKey<PopupMenuButtonState> _popupMenuButtonState =
       GlobalKey<PopupMenuButtonState>();
 
@@ -29,6 +33,7 @@ class _MainWebViewState extends State<MainWebView> {
   final ProjectsUseCase _projectsUseCase = instance<ProjectsUseCase>();
   final PipsStatusesUseCase _pipsStatusesUseCase =
       instance<PipsStatusesUseCase>();
+  final PresetsUseCase _presetsUseCase = instance<PresetsUseCase>();
   late GetProjectsRequest _getProjectsRequest;
 
   int _total = 0;
@@ -43,6 +48,7 @@ class _MainWebViewState extends State<MainWebView> {
   int _selectedStatus = 1;
   String _selectedStatusName = 'Draft';
   List<PipsStatus> _statuses = [];
+  List<Preset> _presets = [];
   Project? _selectedProject;
 
   Future<void> _getStatuses() async {
@@ -82,80 +88,6 @@ class _MainWebViewState extends State<MainWebView> {
         _loading = false;
       });
     });
-  }
-
-  void _showNewProjectDialog() {
-    Navigator.pushNamed(context, Routes.newPapRoute);
-
-    // showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return Dialog(
-    //         shape: RoundedRectangleBorder(
-    //             borderRadius: BorderRadius.circular(AppSize.lg)),
-    //         child: Padding(
-    //           padding: const EdgeInsets.all(AppPadding.lg),
-    //           child: Column(
-    //             children: [
-    //               Row(
-    //                 crossAxisAlignment: CrossAxisAlignment.center,
-    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                 children: [
-    //                   const Text(
-    //                     'New PAP',
-    //                     style: TextStyle(
-    //                       fontWeight: FontWeight.bold,
-    //                     ),
-    //                   ),
-    //                   const Spacer(),
-    //                   IconButton(
-    //                     onPressed: () {
-    //                       Navigator.pushNamed(context, Routes.newPapRoute);
-    //                     },
-    //                     icon: const Icon(
-    //                       Icons.open_in_full,
-    //                       size: AppSize.xxl,
-    //                     ),
-    //                     tooltip: 'Enter Full Screen',
-    //                   ),
-    //                   IconButton(
-    //                     onPressed: () {
-    //                       Navigator.pop(context);
-    //                     },
-    //                     icon: const Icon(
-    //                       Icons.close,
-    //                       size: AppSize.xxl,
-    //                     ),
-    //                     tooltip: 'Close and Discard',
-    //                   ),
-    //                 ],
-    //               ),
-    //               const Divider(),
-    //               const Expanded(child: NewPap()),
-    //               Padding(
-    //                 padding:
-    //                     const EdgeInsets.symmetric(vertical: AppPadding.lg),
-    //                 child: Row(
-    //                   children: [
-    //                     ElevatedButton(
-    //                       onPressed: () {},
-    //                       child: const Text(AppStrings.submit),
-    //                     ),
-    //                     const Spacer(),
-    //                     IconButton(
-    //                       onPressed: () {
-    //                         Navigator.pop(context);
-    //                       },
-    //                       icon: const Icon(Icons.delete_outline),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    //     });
   }
 
   @override
@@ -212,7 +144,7 @@ class _MainWebViewState extends State<MainWebView> {
   }
 
   Widget _buildSidePanel() {
-    var windowHeight = MediaQuery.of(context).size.height - 86;
+    final windowHeight = MediaQuery.of(context).size.height - 86;
 
     return SizedBox(
       height: windowHeight,
@@ -229,21 +161,7 @@ class _MainWebViewState extends State<MainWebView> {
               SizedBox(
                 width: double.infinity,
                 height: AppSize.s48,
-                child: ElevatedButton(
-                    onPressed: () {
-                      // showNewProjectDialog()
-                      _showNewProjectDialog();
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.mode_edit_outline_outlined),
-                        SizedBox(
-                          width: AppSize.s10,
-                        ),
-                        Text('New'),
-                      ],
-                    )),
+                child: const NewPapButton(),
               ),
               const SizedBox(
                 height: AppSize.md,
@@ -564,7 +482,7 @@ class _MainWebViewState extends State<MainWebView> {
 
   // can be replaced with project content when a project is selected
   Widget _buildList() {
-    var windowHeight = MediaQuery.of(context).size.height;
+    final windowHeight = MediaQuery.of(context).size.height;
 
     if (_selectedProject != null) {
       return ProjectContentView(
@@ -635,5 +553,151 @@ class _MainWebViewState extends State<MainWebView> {
               ],
             ),
           );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class NewPapButton extends StatefulWidget {
+  const NewPapButton({Key? key}) : super(key: key);
+
+  @override
+  State<NewPapButton> createState() => _NewPapButtonState();
+}
+
+class _NewPapButtonState extends State<NewPapButton> {
+  final PresetsUseCase _presetsUseCase = instance<PresetsUseCase>();
+
+  String? _error;
+  List<Preset> _presets = [];
+
+  Future<void> _loadPresets() async {
+    (await _presetsUseCase.execute(Void())).fold((failure) {
+      setState(() {
+        _error = failure.message;
+      });
+    }, (response) {
+      setState(() {
+        _presets = response.data;
+      });
+    });
+  }
+
+  Future<void> _showNewProjectDialog() async {
+    // show preset dialog
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          List<Widget> children = [
+            ..._presets.map((preset) {
+              return Expanded(
+                child: Card(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: InkWell(
+                    onTap: () {
+                      // TODO: handle tap
+                      Navigator.of(context).pop();
+                      // TODO: handle tap
+                      Future.delayed(Duration.zero, () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.newPapRoute,
+                          arguments: preset,
+                        );
+                      });
+                    },
+                    child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              BootstrapIcons.file_earmark_medical_fill,
+                              color: Colors.black54,
+                              size: 54,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(preset.name),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+            Expanded(
+              child: Card(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    // TODO: handle tap
+                    Future.delayed(Duration.zero, () {
+                      Navigator.pushNamed(context, Routes.newPapRoute);
+                    });
+                  },
+                  child: SizedBox(
+                    height: 150,
+                    width: 150,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            BootstrapIcons.pencil_square,
+                            color: Colors.black54,
+                            size: 54,
+                          ),
+                          SizedBox(height: 20),
+                          Text('Do not use a template'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ];
+
+          return AlertDialog(
+            title: const Text("Select a Template"),
+            content: Row(
+              children: children,
+            ),
+          );
+        });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _loadPresets();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: () {
+          // showNewProjectDialog()
+          _showNewProjectDialog();
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.mode_edit_outline_outlined),
+            const SizedBox(
+              width: AppSize.s10,
+            ),
+            Text(_error != null ? _error! : 'New'),
+          ],
+        ));
   }
 }

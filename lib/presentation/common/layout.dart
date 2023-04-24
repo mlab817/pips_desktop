@@ -56,8 +56,6 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(UniversalPlatform.isWeb.toString());
-
     return Scaffold(
       body: Row(
         children: [

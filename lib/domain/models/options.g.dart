@@ -106,6 +106,12 @@ Options _$OptionsFromJson(Map<String, dynamic> json) => Options(
       vcSegments: (json['vc_segments'] as List<dynamic>?)
           ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
           .toList(),
+      years: (json['years'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ouTypes: (json['ou_types'] as List<dynamic>?)
+          ?.map((e) => Option.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$OptionsToJson(Options instance) => <String, dynamic>{
@@ -142,6 +148,8 @@ Map<String, dynamic> _$OptionsToJson(Options instance) => <String, dynamic>{
       'types': instance.types,
       'typologies': instance.typologies,
       'vc_segments': instance.vcSegments,
+      'years': instance.years,
+      'ou_types': instance.ouTypes,
     };
 
 Option _$OptionFromJson(Map<String, dynamic> json) => Option(

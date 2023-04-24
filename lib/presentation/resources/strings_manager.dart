@@ -15,6 +15,7 @@ class AppStrings {
 
   static const String dashboard = "Dashboard";
   static const String offices = "Offices";
+  static const String office = "Office";
   static const String chat = "Chat";
   static const String notifications = "Notifications";
   static const String settings = "Settings";
@@ -143,4 +144,40 @@ class AppStrings {
   static const String selectOne = 'Select one';
   static const String selectAsManyAsApplicable = 'Select as many as applicable';
   static const String accountRecovery = 'Account Recovery';
+
+  static const String remarks = 'Remarks';
+
+  static const String thisIsPureGrant = 'This PAP is pure grant.';
+
+  static const String year = 'Year';
+  static const String disbursement = 'Disbursement';
+  static const String nep = 'NEP';
+  static const String gaa = 'GAA';
+
+  static const String papUacsCode = 'PAP/UACS Code';
+
+  static const String yearOfProjectCompletion = 'Year of Project Completion';
+  static const String startOfProjectImplementation =
+      'Start of Project Implementation';
+
+  static const String selectYear = 'Select year';
+
+  static const String statusOfImplementationReadiness =
+      'Status of Implementation Readiness';
+
+  static const String fundingSource = 'Funding Source';
+
+  static const String operatingUnits = 'Operating Units';
+
+  static const String basisForImplementation = 'Basis for Implementation';
+
+  static const String programOrProject = 'Program or Project';
+
+  static const String title = 'Title';
+
+  static const String totalProjectCost = 'Total Project Cost';
+
+  static const String regionsProvinces = 'Regions/Provinces';
+
+  static const String save = 'Save';
 }

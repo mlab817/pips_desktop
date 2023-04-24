@@ -95,7 +95,7 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                 widget.onBack();
               },
             ),
-            title: Text(_error != null ? _error! : _project!.title),
+            title: Text(_error != null ? _error! : _project!.title ?? ''),
             actions: [
               IconButton(
                 onPressed: () {},
@@ -135,13 +135,13 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                               title: Text(_project!.user?.fullname ?? 'User'),
                               subtitle:
                                   Text(_project!.user?.position ?? 'Position'),
-                              trailing:
-                                  Text(formatDate(_project!.updatedAt ?? '')),
+                              trailing: Text(
+                                  formatDate(_project!.updatedAt.toString())),
                             ),
                             const Divider(),
                             ListTile(
                               leading: const Text('Title'),
-                              title: Text(_project!.title),
+                              title: Text(_project!.title ?? ''),
                               trailing: IconButton(
                                 icon: const Icon(Icons.copy),
                                 onPressed: () {},
@@ -149,23 +149,24 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ),
                             ListTile(
                               leading: const Text('Type'),
-                              title: Text(_project!.type?.name ?? ''),
+                              title: Text(_project!.type?.label ?? ''),
                             ),
                             ListTile(
                               leading: const Text('Regular Program'),
-                              title:
-                                  Text(_project!.regularProgram ? 'Yes' : 'No'),
+                              title: Text(_project!.regularProgram ?? false
+                                  ? 'Yes'
+                                  : 'No'),
                             ),
                             ListTile(
                               leading: const Text('Basis for Implementation'),
-                              title: Text(_project!.basisDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.bases
+                                      .map((e) => e.label)
                                       .join(', ') ??
                                   'No basis'),
                             ),
                             ListTile(
                               leading: const Text('Description'),
-                              title: Text(_project!.description),
+                              title: Text(_project!.description ?? ''),
                               trailing: IconButton(
                                 icon: const Icon(Icons.copy),
                                 onPressed: () {},
@@ -173,8 +174,9 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ),
                             ListTile(
                               leading: const Text('Total Cost'),
-                              title:
-                                  Text(_project!.totalCost.toStringAsFixed(0)),
+                              title: Text(
+                                  _project!.totalCost?.toStringAsFixed(0) ??
+                                      '0'),
                               trailing: IconButton(
                                 icon: const Icon(Icons.copy),
                                 onPressed: () {},
@@ -188,21 +190,21 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ),
                             ListTile(
                               leading: const Text('Implementing Units'),
-                              title: Text(_project!.operatingUnitDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.operatingUnits
+                                      .map((e) => e.label)
                                       .join(', ') ??
                                   'No Office'),
                             ),
                             const Divider(),
                             ListTile(
                               leading: const Text('Spatial Coverage'),
-                              title: Text(_project!.spatialCoverage?.name ??
+                              title: Text(_project!.spatialCoverage?.label ??
                                   'No spatial coverage'),
                             ),
                             ListTile(
                               leading: const Text('Locations'),
-                              title: Text(_project!.locationDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.locations
+                                      ?.map((e) => e.label)
                                       .join(', ') ??
                                   'No location'),
                             ),
@@ -210,56 +212,56 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ListTile(
                               leading: const Text('Level of Approval'),
                               title:
-                                  Text(_project!.approvalLevel?.name ?? 'N/A'),
+                                  Text(_project!.approvalLevel?.label ?? 'N/A'),
                             ),
                             ListTile(
                               leading: const Text('As of'),
-                              title: Text(
-                                  _project!.approvalLevelDate ?? 'No date'),
+                              title: Text(formatDate(
+                                  _project!.approvalLevelDate.toString())),
                             ),
                             const Divider(),
                             ListTile(
                               leading: const Text('PIP'),
-                              title: _project!.pip
+                              title: _project!.pip ?? false
                                   ? const Icon(Icons.check_box)
                                   : const Icon(Icons.close),
                             ),
                             ListTile(
                               leading: const Text('Typology'),
                               title: Text(
-                                  _project!.pipTypology?.name ?? 'No typology'),
+                                  _project!.typology?.label ?? 'No typology'),
                             ),
                             ListTile(
                               leading: const Text('TRIP'),
-                              title: _project!.trip
+                              title: _project!.trip ?? false
                                   ? const Icon(Icons.check_box)
                                   : const Icon(Icons.close),
                             ),
                             ListTile(
                               leading: const Text('CIP'),
-                              title: _project!.cip
+                              title: _project!.cip ?? false
                                   ? const Icon(Icons.check_box)
                                   : const Icon(Icons.close),
                             ),
                             ListTile(
                               leading: const Text('Type of CIP'),
-                              title: Text(_project!.cipType?.name ?? 'N/A'),
+                              title: Text(_project!.cipType?.label ?? 'N/A'),
                             ),
                             ListTile(
                               leading: const Text('COVID'),
-                              title: _project!.covid
+                              title: _project!.covid ?? false
                                   ? const Icon(Icons.check_box)
                                   : const Icon(Icons.close),
                             ),
                             ListTile(
                               leading: const Text('Research'),
-                              title: _project!.research
+                              title: _project!.research ?? false
                                   ? const Icon(Icons.check_box)
                                   : const Icon(Icons.close),
                             ),
                             ListTile(
                               leading: const Text('RDIP'),
-                              title: _project!.rdip
+                              title: _project!.rdip ?? false
                                   ? const Icon(Icons.check_box)
                                   : const Icon(Icons.close),
                             ),
@@ -267,26 +269,26 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ListTile(
                                 leading: const Text('Main PDP Chapter'),
                                 title:
-                                    Text(_project!.pdpChapter?.name ?? 'N/A')),
+                                    Text(_project!.pdpChapter?.label ?? 'N/A')),
                             ListTile(
                                 leading: const Text('Other PDP Chapters'),
-                                title: Text(_project!.pdpChapterDetails
-                                        ?.map((e) => e.name)
+                                title: Text(_project!.pdpChapters
+                                        .map((e) => e.label)
                                         .join(', ') ??
                                     'N/A')),
                             const Divider(),
                             ListTile(
                               leading: const Text(
                                   'Main Infrastructure Sector/Subsector'),
-                              title: Text(_project!.infrastructureSectorDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.infrastructureSectors
+                                      .map((e) => e.label)
                                       .join(', ') ??
                                   'N/A'),
                             ),
                             ListTile(
                               leading: const Text('Prerequisites'),
-                              title: Text(_project!.prerequisiteDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.prerequisites
+                                      .map((e) => e.label)
                                       .join(', ') ??
                                   'N/A'),
                             ),
@@ -299,14 +301,14 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ListTile(
                               leading:
                                   const Text('Expected Outputs/Deliverables'),
-                              title: Text(_project!.expectedOutputs),
+                              title: Text(_project!.expectedOutputs ?? ''),
                             ),
                             const Divider(),
                             ListTile(
                               leading:
                                   const Text('8-Point Socioeconomic Agenda'),
-                              title: Text(_project!.agendaDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.agenda
+                                      ?.map((e) => e.label)
                                       .join(', ') ??
                                   'N/A'),
                             ),
@@ -314,8 +316,8 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ListTile(
                               leading: const Text(
                                   'Sustainable Development Goals (SDGs)'),
-                              title: Text(_project!.sdgDetails
-                                      ?.map((e) => e.name)
+                              title: Text(_project!.sdgs
+                                      ?.map((e) => e.label)
                                       .join(', ') ??
                                   'N/A'),
                             ),
@@ -323,19 +325,20 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ListTile(
                               leading:
                                   const Text('Level of GAD Responsiveness'),
-                              title: Text(_project!.gad?.name ?? 'N/A'),
+                              title: Text(_project!.gad?.label ?? 'N/A'),
                             ),
                             const Divider(),
                             ListTile(
                               leading:
                                   const Text('Project Preparation Details'),
                               title: Text(
-                                  _project!.preparationDocument?.name ?? 'N/A'),
+                                  _project!.preparationDocument?.label ??
+                                      'N/A'),
                             ),
                             ListTile(
                               leading:
                                   const Text('Status of Feasibility Study'),
-                              title: Text(_project!.fsStatus?.name ?? 'N/A'),
+                              title: Text(_project!.fsStatus?.label ?? 'N/A'),
                             ),
                             ListTile(
                               leading: const Text(
@@ -348,7 +351,8 @@ class _ProjectContentViewState extends State<ProjectContentView> {
                             ListTile(
                               leading: const Text(
                                   'Target/Actual date of completion'),
-                              title: Text(_project!.fsCompletionDate ?? 'N/A'),
+                              title: Text(formatDate(
+                                  _project!.fsCompletionDate.toString())),
                             ),
                             ListTile(
                               leading:

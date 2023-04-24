@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'options.dart';
+
 part 'office.g.dart';
 
 @JsonSerializable()
@@ -42,4 +44,12 @@ class Office {
   factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);
 
   Map<String, dynamic> toJson() => _$OfficeToJson(this);
+
+  // convert this class to Option
+  Option toOption() {
+    return Option(
+      value: id,
+      label: acronym,
+    );
+  }
 }

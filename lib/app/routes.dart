@@ -11,7 +11,6 @@ import 'package:pips/presentation/main/settings/screens/update_password.dart';
 import 'package:pips/presentation/main/settings/screens/update_profile.dart';
 import 'package:pips/presentation/mobile/chat_room/chat_room.dart';
 import 'package:pips/presentation/mobile/filter_by_property/filter_by_property.dart';
-import 'package:pips/presentation/mobile/new_project/new_project.dart';
 import 'package:pips/presentation/mobile/office/office.dart';
 import 'package:pips/presentation/mobile/onboarding/onboarding.dart';
 import 'package:pips/presentation/mobile/project/project.dart';
@@ -21,6 +20,7 @@ import 'package:pips/presentation/mobile/view_project/view_project.dart';
 import 'package:pips/presentation/splash/splash.dart';
 import 'package:pips/presentation/web/settings/settings.dart';
 
+import '../data/responses/presets/presets.dart';
 import '../presentation/main/home/search_results/search_results.dart';
 import '../presentation/main/main.dart';
 import '../presentation/mobile/filter_projects/filter_projects.dart';
@@ -92,7 +92,8 @@ class RouteGenerator {
                   uuid: uuid,
                 ));
       case Routes.newPapRoute:
-        return MaterialPageRoute(builder: (_) => const NewPapView());
+        Preset? preset = routeSettings.arguments as Preset?;
+        return MaterialPageRoute(builder: (_) => NewPapView(preset: preset));
       case Routes.aboutRoute:
         return MaterialPageRoute(builder: (_) => const AboutView());
       case Routes.updatePasswordRoute:
@@ -110,7 +111,7 @@ class RouteGenerator {
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
       case Routes.newProjectRoute:
-        return MaterialPageRoute(builder: (_) => const NewProjectView());
+        return MaterialPageRoute(builder: (_) => const NewPapView());
       case Routes.searchResultsPageRoute:
         String query = routeSettings.arguments as String;
         return MaterialPageRoute(
@@ -189,7 +190,7 @@ class RouteGenerator {
         String uuid = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => ViewProjectView(uuid: uuid));
       case Routes.newProjectRoute:
-        return MaterialPageRoute(builder: (_) => const NewProjectView());
+        return MaterialPageRoute(builder: (_) => const NewPapView());
       case Routes.searchResultsPageRoute:
         String query = routeSettings.arguments as String;
         return MaterialPageRoute(

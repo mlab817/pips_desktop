@@ -29,6 +29,7 @@ import '../responses/office_response/office_response.dart';
 import '../responses/offices_response/offices_response.dart';
 import '../responses/options/options_response.dart';
 import '../responses/pips_statuses/pips_statuses_response.dart';
+import '../responses/presets/presets.dart';
 import '../responses/project/project_response.dart';
 import '../responses/projects/projects_response.dart';
 import '../responses/register/signup_response.dart';
@@ -44,13 +45,13 @@ abstract class AppServiceClient {
   factory AppServiceClient(Dio dio, {String baseUrl}) = _AppServiceClient;
 
 // add methods to retrieve data from api here
-  @POST("/auth/login")
+  @POST("/login")
   Future<LoginResponse> login(@Body() LoginRequest input);
 
-  @POST("/auth/forgot-password")
+  @POST("/forgot-password")
   Future<ForgotPasswordResponse> forgotPassword(@Field("email") String email);
 
-  @POST("/auth/update-profile")
+  @POST("/update-profile")
   Future<UpdateProfileResponse> updateProfile(
       @Body() UpdateProfileRequest input);
 
@@ -96,21 +97,21 @@ abstract class AppServiceClient {
   @GET("/chat-rooms/{id}/messages")
   Future<MessagesResponse> listMessages(@Path('id') int id);
 
-  @GET("/auth/notifications")
+  @GET("/notifications")
   Future<NotificationsResponse> listNotifications(
       @Body() NotificationsRequest input);
 
   @POST("/signup")
   Future<SignUpResponse> register(@Body() SignUpRequest formData);
 
-  @POST("/auth/upload-avatar")
+  @POST("/upload-avatar")
   @MultiPart()
   Future<UploadAvatarResponse> uploadAvatar(@Part(name: "avatar") File file);
 
-  @POST("/auth/mark-notification-as-read")
+  @POST("/mark-notification-as-read")
   Future<StatusResponse> markNotificationAsRead(@Field("id") String id);
 
-  @GET("/auth/logins")
+  @GET("/logins")
   Future<LoginsResponse> getLogins();
 
   @GET("/chat-room")
@@ -119,7 +120,7 @@ abstract class AppServiceClient {
   @GET("/all-users")
   Future<AllUsersResponse> getAllUsers();
 
-  @POST("/auth/update-password")
+  @POST("/update-password")
   Future<UpdatePasswordResponse> updatePassword(
       @Body() UpdatePasswordRequest input);
 
@@ -132,4 +133,7 @@ abstract class AppServiceClient {
 
   @GET("/pips-statuses")
   Future<PipsStatusesResponse> pipsStatuses();
+
+  @GET("/presets")
+  Future<PresetsResponse> presets();
 }

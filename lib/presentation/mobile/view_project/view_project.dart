@@ -100,14 +100,14 @@ class _ViewProjectViewState extends State<ViewProjectView> {
               ListTile(
                 title: const Text('Spatial Coverage'),
                 subtitle: Text(
-                    _project?.spatialCoverage?.name ?? 'no spatial coverage'),
+                    _project?.spatialCoverage?.label ?? 'no spatial coverage'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
                   if (_project?.office?.id != null) {
                     Navigator.pushNamed(context, Routes.filterByPropertyRoute,
                         arguments: FilterProjectRequest(
                             filter: 'spatial_coverage',
-                            value: _project!.spatialCoverage!.id));
+                            value: _project!.spatialCoverage!.value));
                   }
                 },
               ),
@@ -166,10 +166,9 @@ class _ViewProjectViewState extends State<ViewProjectView> {
           ),
           ListTile(
             title: const Text('Last updated on'),
-            subtitle: _project != null
-                ? Text(DateFormat.yMMMd()
-                    .add_jms()
-                    .format(DateTime.parse(_project!.updatedAt ?? '')))
+            subtitle: _project?.updatedAt != null
+                ? Text(
+                    DateFormat.yMMMd().add_jms().format(_project!.updatedAt!))
                 : const Text('Unknown'),
           ),
         ],

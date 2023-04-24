@@ -13,6 +13,7 @@ class LoadingOverlay extends StatelessWidget {
         height: AppSize.s100,
         width: AppSize.s100,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
             CircleAvatar(
               child: Padding(

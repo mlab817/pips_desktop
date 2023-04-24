@@ -35,9 +35,9 @@ class PusherWebsocketClient implements WebsocketClient {
     PusherChannelsPackageLogger.enableLogs();
 
     const hostOptions = PusherChannelsOptions.fromHost(
-      scheme: 'ws',
+      scheme: 'wss',
       host: Config.wsHost,
-      port: 443,
+      // port: 443,
       key: '1b421e8d437e47b9eee3',
     );
 

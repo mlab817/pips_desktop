@@ -23,6 +23,7 @@ import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/pips_statuses/pips_statuses_response.dart';
+import 'package:pips/data/responses/presets/presets.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/status/status_response.dart';
@@ -59,7 +60,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -68,11 +71,13 @@ class RepositoryImplementer implements Repository {
       ForgotPasswordRequest input) async {
     try {
       final ForgotPasswordResponse response =
-          await _remoteDataSource.forgotPassword(input);
+      await _remoteDataSource.forgotPassword(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -101,11 +106,13 @@ class RepositoryImplementer implements Repository {
       GetProjectsRequest input) async {
     try {
       final ProjectsResponse response =
-          await _remoteDataSource.getProjects(input);
+      await _remoteDataSource.getProjects(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -129,11 +136,13 @@ class RepositoryImplementer implements Repository {
       GetOfficesRequest input) async {
     try {
       final OfficesResponse response =
-          await _remoteDataSource.getOffices(input);
+      await _remoteDataSource.getOffices(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -144,7 +153,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -152,11 +163,15 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, ProjectResponse>> getProject(String input) async {
     try {
       final ProjectResponse response =
-          await _remoteDataSource.getProject(input);
+      await _remoteDataSource.getProject(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      debugPrint(e.toString());
+
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -172,7 +187,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -183,7 +200,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -194,7 +213,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -202,11 +223,13 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, ChatRoomResponse>> getChatRoom(int input) async {
     try {
       final ChatRoomResponse response =
-          await _remoteDataSource.getChatRoom(input);
+      await _remoteDataSource.getChatRoom(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -217,7 +240,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -229,7 +254,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -237,11 +264,13 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, MessagesResponse>> listMessages(int input) async {
     try {
       final MessagesResponse response =
-          await _remoteDataSource.listMessages(input);
+      await _remoteDataSource.listMessages(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -250,11 +279,13 @@ class RepositoryImplementer implements Repository {
       NotificationsRequest input) async {
     try {
       final NotificationsResponse response =
-          await _remoteDataSource.listNotifications(input);
+      await _remoteDataSource.listNotifications(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -265,7 +296,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -274,11 +307,13 @@ class RepositoryImplementer implements Repository {
       UpdateProfileRequest input) async {
     try {
       final UpdateProfileResponse response =
-          await _remoteDataSource.updateProfile(input);
+      await _remoteDataSource.updateProfile(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -286,11 +321,13 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, UploadAvatarResponse>> uploadAvatar(File input) async {
     try {
       final UploadAvatarResponse response =
-          await _remoteDataSource.uploadAvatar(input);
+      await _remoteDataSource.uploadAvatar(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -299,11 +336,13 @@ class RepositoryImplementer implements Repository {
       String input) async {
     try {
       final StatusResponse response =
-          await _remoteDataSource.markNotificationAsRead(input);
+      await _remoteDataSource.markNotificationAsRead(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -326,7 +365,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -335,11 +376,13 @@ class RepositoryImplementer implements Repository {
       int input) async {
     try {
       final ChatRoomResponse response =
-          await _remoteDataSource.getChatRoomByUserId(input);
+      await _remoteDataSource.getChatRoomByUserId(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -350,7 +393,9 @@ class RepositoryImplementer implements Repository {
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -369,11 +414,13 @@ class RepositoryImplementer implements Repository {
       UpdatePasswordRequest input) async {
     try {
       final UpdatePasswordResponse response =
-          await _remoteDataSource.updatePassword(input);
+      await _remoteDataSource.updatePassword(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -381,11 +428,13 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, AllOfficesResponse>> getAllOffices() async {
     try {
       final AllOfficesResponse response =
-          await _remoteDataSource.getAllOffices();
+      await _remoteDataSource.getAllOffices();
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -404,11 +453,13 @@ class RepositoryImplementer implements Repository {
       FilterProjectRequest input) async {
     try {
       final FilterProjectResponse response =
-          await _remoteDataSource.filterProjects(input);
+      await _remoteDataSource.filterProjects(input);
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 
@@ -416,11 +467,28 @@ class RepositoryImplementer implements Repository {
   Future<Either<Failure, PipsStatusesResponse>> pipsStatuses() async {
     try {
       final PipsStatusesResponse response =
-          await _remoteDataSource.pipsStatuses();
+      await _remoteDataSource.pipsStatuses();
 
       return Right(response);
     } catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PresetsResponse>> presets() async {
+    try {
+      final PresetsResponse response = await _remoteDataSource.presets();
+
+      return Right(response);
+    } catch (e) {
+      debugPrint(e.toString());
+
+      return Left(ErrorHandler
+          .handle(e)
+          .failure);
     }
   }
 }

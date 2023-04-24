@@ -17,6 +17,7 @@ import 'package:pips/data/responses/notifications/notifications_response.dart';
 import 'package:pips/data/responses/office_response/office_response.dart';
 import 'package:pips/data/responses/offices_response/offices_response.dart';
 import 'package:pips/data/responses/pips_statuses/pips_statuses_response.dart';
+import 'package:pips/data/responses/presets/presets.dart';
 import 'package:pips/data/responses/project/project_response.dart';
 import 'package:pips/data/responses/projects/projects_response.dart';
 import 'package:pips/data/responses/status/status_response.dart';
@@ -128,6 +129,8 @@ abstract class Repository {
       UpdatePasswordRequest input);
 
   Future<Either<Failure, AllOfficesResponse>> getAllOffices();
+
+  Future<Either<Failure, PresetsResponse>> presets();
 
   Future<void> clear();
 

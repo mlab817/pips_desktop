@@ -35,7 +35,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/login',
+              '/login',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -58,7 +58,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/forgot-password',
+              '/forgot-password',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -82,7 +82,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/update-profile',
+              '/update-profile',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -415,7 +415,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/notifications',
+              '/notifications',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -470,7 +470,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/upload-avatar',
+              '/upload-avatar',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -493,7 +493,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/mark-notification-as-read',
+              '/mark-notification-as-read',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -516,7 +516,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/logins',
+              '/logins',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -586,7 +586,7 @@ class _AppServiceClient implements AppServiceClient {
     )
             .compose(
               _dio.options,
-              '/auth/update-password',
+              '/update-password',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -662,6 +662,29 @@ class _AppServiceClient implements AppServiceClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PipsStatusesResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<PresetsResponse> presets() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PresetsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/presets',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PresetsResponse.fromJson(_result.data!);
     return value;
   }
 

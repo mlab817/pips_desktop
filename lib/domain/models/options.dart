@@ -103,6 +103,12 @@ class Options {
   @JsonKey(name: "vc_segments")
   List<Option>? vcSegments;
 
+  @JsonKey(name: "years")
+  List<Option>? years;
+
+  @JsonKey(name: "ou_types")
+  List<Option>? ouTypes;
+
   Options({
     this.agenda,
     this.approvalLevels,
@@ -137,6 +143,8 @@ class Options {
     this.types,
     this.typologies,
     this.vcSegments,
+    this.years,
+    this.ouTypes,
   });
 
   factory Options.fromJson(Map<String, dynamic> json) =>
