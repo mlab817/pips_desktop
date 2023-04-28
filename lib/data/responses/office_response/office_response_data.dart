@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../domain/models/office.dart';
-import '../../../domain/models/project.dart';
-import '../../../domain/models/user.dart';
+import '../../../features/project/domain/models/office.dart';
+import '../../../features/dashboard/domain/models/project.dart';
+import '../../../features/authentication/domain/models/user/user.dart';
 
 part 'office_response_data.g.dart';
 

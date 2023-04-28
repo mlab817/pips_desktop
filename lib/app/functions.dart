@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
-import 'package:pips/app/routes.dart';
-import 'package:pips/domain/repository/repository.dart';
+import 'package:pips/routing/routing.dart';
+import 'package:pips/common/domain/repository/repository.dart';
 
 void logout(BuildContext context) {
   final Repository repository = instance<Repository>();

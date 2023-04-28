@@ -1,40 +1,41 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pips/common/data/dio/dio_factory.dart';
+import 'package:pips/common/data/network/app_api.dart';
+import 'package:pips/common/data/network/ws.dart';
+import 'package:pips/common/domain/repository/repository.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pips/data/data_source/remote_data_source.dart';
-import 'package:pips/data/network/app_api.dart';
-import 'package:pips/data/network/dio_factory.dart';
-import 'package:pips/data/network/ws.dart';
 import 'package:pips/data/repository/repository_implementer.dart';
-import 'package:pips/domain/repository/repository.dart';
-import 'package:pips/domain/usecase/alloffices_usecase.dart';
-import 'package:pips/domain/usecase/allusers_usecase.dart';
-import 'package:pips/domain/usecase/chatrooms_usecase.dart';
-import 'package:pips/domain/usecase/createchatroom_usecase.dart';
-import 'package:pips/domain/usecase/createmessage_usecase.dart';
-import 'package:pips/domain/usecase/filterproject_usecase.dart';
-import 'package:pips/domain/usecase/forgot_password_usecase.dart';
-import 'package:pips/domain/usecase/login_usecase.dart';
-import 'package:pips/domain/usecase/logins_usecase.dart';
-import 'package:pips/domain/usecase/messages_usecase.dart';
-import 'package:pips/domain/usecase/notifications_usecase.dart';
-import 'package:pips/domain/usecase/office_usecase.dart';
-import 'package:pips/domain/usecase/offices_usecase.dart';
-import 'package:pips/domain/usecase/options_usecase.dart';
-import 'package:pips/domain/usecase/pipsstatuses_usecase.dart';
-import 'package:pips/domain/usecase/presets_usecase.dart';
-import 'package:pips/domain/usecase/project_usecase.dart';
-import 'package:pips/domain/usecase/projects_usecase.dart';
-import 'package:pips/domain/usecase/read_notification_usecase.dart';
-import 'package:pips/domain/usecase/signup_usecase.dart';
-import 'package:pips/domain/usecase/updatepassword_usecase.dart';
-import 'package:pips/domain/usecase/updateprofile_usecase.dart';
-import 'package:pips/domain/usecase/upload_avatar_usecase.dart';
-import 'package:pips/domain/usecase/users_usecase.dart';
+import 'package:pips/features/authentication/domain/usecase/forgotpassword_usecase.dart';
+import 'package:pips/features/authentication/domain/usecase/login_usecase.dart';
+import 'package:pips/features/authentication/domain/usecase/signup_usecase.dart';
+import 'package:pips/features/dashboard/domain/usecase/filterproject_usecase.dart';
+import 'package:pips/features/dashboard/domain/usecase/pipsstatuses_usecase.dart';
+import 'package:pips/features/dashboard/domain/usecase/projects_usecase.dart';
+import 'package:pips/features/notifications/domain/usecase/notifications_usecase.dart';
+import 'package:pips/features/notifications/domain/usecase/readnotification_usecase.dart';
+import 'package:pips/features/office/domain/usecase/office_usecase.dart';
+import 'package:pips/features/project/domain/usecase/alloffices_usecase.dart';
+import 'package:pips/features/project/domain/usecase/createproject_usecase.dart';
+import 'package:pips/features/project/domain/usecase/offices_usecase.dart';
+import 'package:pips/features/project/domain/usecase/options_usecase.dart';
+import 'package:pips/features/project/domain/usecase/presets_usecase.dart';
+import 'package:pips/features/project/domain/usecase/project_usecase.dart';
+import 'package:pips/features/settings/domain/usecase/logins_usecase.dart';
+import 'package:pips/features/settings/domain/usecase/updatepassword_usecase.dart';
+import 'package:pips/features/settings/domain/usecase/updateprofile_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../domain/usecase/chatroom_usecase.dart';
+import '../features/chats/domain/usecase/allusers_usecase.dart';
+import '../features/chats/domain/usecase/chatroom_usecase.dart';
+import '../features/chats/domain/usecase/chatrooms_usecase.dart';
+import '../features/chats/domain/usecase/createchatroom_usecase.dart';
+import '../features/chats/domain/usecase/createmessage_usecase.dart';
+import '../features/chats/domain/usecase/messages_usecase.dart';
+import '../features/chats/domain/usecase/users_usecase.dart';
+import '../features/settings/domain/usecase/uploadavatar_usecase.dart';
 
 const hostOptions = PusherChannelsOptions.fromHost(
   scheme: 'ws',
@@ -100,6 +101,9 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<CreateChatRoomUseCase>(
       () => CreateChatRoomUseCase(instance()));
+
+  instance.registerFactory<CreateProjectUseCase>(
+      () => CreateProjectUseCase(instance()));
 
   instance.registerFactory<CreateMessageUseCase>(
       () => CreateMessageUseCase(instance()));

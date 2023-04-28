@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pips/app/app.dart';
 import 'package:pips/app/dep_injection.dart';
-import 'package:pips/presentation/resources/strings_manager.dart';
-import 'package:pips/presentation/resources/theme_manager.dart';
-import 'package:provider/provider.dart';
+import 'package:pips/common/shared_prefs.dart';
+import 'package:pips/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
+
+import 'common/resources/strings_manager.dart';
 
 void main(List<String> args) async {
   // debugPaintSizeEnabled = true;
@@ -35,9 +38,16 @@ void main(List<String> args) async {
   // initialize dependency injection
   await initAppModule();
 
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+
   runApp(
-    ChangeNotifierProvider<CustomTheme>(
-      create: (_) => CustomTheme(),
+    ProviderScope(
+      observers: [Logger()],
+      overrides: [
+        // override the previous value
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences)
+      ],
       child: const MyApp(),
     ),
   );

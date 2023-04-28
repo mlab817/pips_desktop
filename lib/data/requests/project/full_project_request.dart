@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pips/domain/models/options.dart';
+import 'package:pips/features/project/domain/models/options.dart';
 
-import '../../../domain/models/full_project.dart';
+import '../../../features/project/domain/models/full_project.dart';
 
 part 'full_project_request.g.dart';
 

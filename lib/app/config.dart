@@ -1,4 +1,4 @@
-import 'package:pips/presentation/resources/theme_manager.dart';
+import 'package:pips/common/resources/theme_manager.dart';
 
 class Config {
   static const String host = 'pips.da.gov.ph';

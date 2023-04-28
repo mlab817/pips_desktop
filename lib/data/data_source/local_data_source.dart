@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:pips/domain/models/user.dart';
+import 'package:pips/features/authentication/domain/models/user/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String sharedPrefsBearerToken = "SHARED_PREFS_BEARER_TOKEN";
