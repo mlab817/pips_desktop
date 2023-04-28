@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:pips/features/authentication/data/repository/login_repository.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
 import '../../data/requests/login_request/login_request.dart';
 import '../../data/responses/login_response/login_response.dart';
 

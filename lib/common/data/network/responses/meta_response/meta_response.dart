@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../pagination/pagination_response.dart';
+import '../pagination_response/pagination_response.dart';
 
 part 'meta_response.g.dart';
 

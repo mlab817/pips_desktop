@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:pips/features/authentication/data/repository/forgotpassword_repository.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
 import '../../data/requests/forgotpassword_request/forgotpassword_request.dart';
 import '../../data/responses/forgotpassword_response/forgotpassword_response.dart';
 

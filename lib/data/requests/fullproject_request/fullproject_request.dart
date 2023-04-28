@@ -3,7 +3,7 @@ import 'package:pips/features/project/domain/models/options.dart';
 
 import '../../../features/project/domain/models/full_project.dart';
 
-part 'full_project_request.g.dart';
+part 'fullproject_request.g.dart';
 
 @JsonSerializable()
 class FullProjectRequest {

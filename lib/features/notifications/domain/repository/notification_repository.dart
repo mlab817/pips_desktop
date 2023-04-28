@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:pips/features/notifications/data/api/notification_api.dart';
 
-import '../../../../common/exceptions/error_handler.dart';
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/error_handler.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../data/responses/status/status_response.dart';
 import '../../data/requests/notifications_request/notifications_request.dart';
 import '../../data/responses/notifications_response/notifications_response.dart';

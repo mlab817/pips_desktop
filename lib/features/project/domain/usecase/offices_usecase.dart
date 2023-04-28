@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:pips/data/requests/offices/get_offices_request.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
 import '../../../office/domain/repository/office_repository.dart';
 import '../../data/network/responses/offices_response/offices_response.dart';
 

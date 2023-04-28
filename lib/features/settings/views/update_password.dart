@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pips/data/requests/update_password/update_password_request.dart';
 import 'package:pips/features/settings/domain/usecase/updatepassword_usecase.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -7,6 +6,7 @@ import '../../../app/dep_injection.dart';
 import '../../../common/resources/sizes_manager.dart';
 import '../../../common/resources/strings_manager.dart';
 import '../../../common/widgets/loading_overlay.dart';
+import '../data/requests/updatepassword_request/updatepassword_request.dart';
 
 class UpdatePassword extends StatefulWidget {
   const UpdatePassword({Key? key}) : super(key: key);

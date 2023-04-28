@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../project/domain/models/options.dart';
 import '../../../../domain/models/project.dart';
 
-part 'filter_project_response.g.dart';
+part 'filterproject_response.g.dart';
 
 @JsonSerializable()
 class FilterProjectResponse {

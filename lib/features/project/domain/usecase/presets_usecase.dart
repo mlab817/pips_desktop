@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:pips/features/project/data/repository/project_repository.dart';
+import 'package:pips/features/project/domain/repository/project_repository.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
 import '../../../../constants/constants.dart';
 import '../models/presets.dart';
 

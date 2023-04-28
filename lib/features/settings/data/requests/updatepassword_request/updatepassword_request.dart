@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'update_password_request.g.dart';
+part 'updatepassword_request.g.dart';
 
 @JsonSerializable()
 class UpdatePasswordRequest {

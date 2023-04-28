@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:retrofit/http.dart';
 
-import '../../../../../data/requests/update_password/update_password_request.dart';
-import '../../../../../data/requests/update_profile/update_profile_request.dart';
+import '../../requests/updatepassword_request/updatepassword_request.dart';
+import '../../requests/updateprofile_request/updateprofile_request.dart';
 import '../../responses/logins_response/logins_response.dart';
 import '../../responses/updatepassword_response/update_password_response.dart';
 import '../../responses/updateprofile_response/update_profile.dart';

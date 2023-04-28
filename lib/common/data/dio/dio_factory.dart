@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pips/common/shared_prefs.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/config.dart';
 import '../../../app/dep_injection.dart';
@@ -19,16 +22,16 @@ const String bearer = 'Bearer';
 
 class DioFactory {
   // final AppPreferences _appPreferences;
-  final LocalDataSource _localDataSource;
+  final SharedPreferences _sharedPreferences;
 
   // initialize with sharedPrefs, sharedPrefs is inserted in di
-  DioFactory(this._localDataSource);
+  DioFactory(this._sharedPreferences);
 
-  Future<Dio> getDio() async {
+  Dio getDio() {
     Dio dio = Dio();
 
     // retrieve token from shared prefs
-    String token = await _localDataSource.getBearerToken();
+    String? token = _sharedPreferences.getString(sharedPrefsBearerToken);
 
     //
     Map<String, String> headers = {
@@ -96,3 +99,11 @@ class LogoutInterceptor extends InterceptorsWrapper {
     handler.next(err);
   }
 }
+
+final dioProvider = Provider<Dio>((ref) {
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+
+  final dioFactory = DioFactory(sharedPreferences);
+
+  return dioFactory.getDio();
+});

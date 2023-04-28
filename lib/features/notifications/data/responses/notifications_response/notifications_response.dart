@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pips/features/notifications/domain/models/notification.dart';
 
-import '../../../../../common/data/models/meta/meta_response.dart';
+import '../../../../../common/data/network/responses/meta_response/meta_response.dart';
 
 part 'notifications_response.g.dart';
 

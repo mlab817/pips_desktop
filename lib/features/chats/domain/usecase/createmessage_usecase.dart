@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:pips/common/domain/usecase/base_usecase.dart';
 
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../models/message/message.dart';
 import '../repository/chat_repository.dart';
 

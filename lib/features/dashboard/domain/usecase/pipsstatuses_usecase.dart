@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:pips/common/domain/repository/repository.dart';
 import 'package:pips/features/dashboard/pips_statuses/pips_statuses_response.dart';
 
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
 import '../../../../constants/constants.dart';
 

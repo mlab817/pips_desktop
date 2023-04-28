@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'update_profile_request.g.dart';
+part 'updateprofile_request.g.dart';
 
 @JsonSerializable()
 class UpdateProfileRequest {

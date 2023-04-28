@@ -1,5 +1,6 @@
 import 'package:dart_pusher_channels/dart_pusher_channels.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pips/app/config.dart';
 
 enum ChannelType { presenceChannel, publicChannel, privateChannel }
@@ -67,3 +68,6 @@ class PusherWebsocketClient implements WebsocketClient {
     _client.disconnect();
   }
 }
+
+final websocketsProvider =
+    Provider<PusherWebsocketClient>((ref) => PusherWebsocketClient());

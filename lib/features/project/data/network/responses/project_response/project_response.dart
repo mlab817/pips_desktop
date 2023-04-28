@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pips/features/dashboard/domain/models/project.dart';
 
-import '../domain/models/full_project.dart';
+import '../../../../domain/models/full_project.dart';
 
 part 'project_response.g.dart';
 

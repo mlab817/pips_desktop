@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
-import 'package:pips/common/exceptions/error_handler.dart';
-import 'package:pips/data/requests/project/full_project_request.dart';
+import 'package:pips/common/data/exceptions/error_handler.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/data/responses/status/status_response.dart';
 import 'package:pips/features/project/data/network/api/project_api.dart';
 
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
+import '../../../../data/requests/fullproject_request/fullproject_request.dart';
 import '../../../dashboard/data/network/responses/projects/projects_response.dart';
-import '../../create_project/create_project_response.dart';
-import '../../domain/models/presets.dart';
-import '../../options/options_response.dart';
-import '../../project/project_response.dart';
+import '../../data/network/responses/createproject_response/createproject_response.dart';
+import '../../data/network/responses/options_response/options_response.dart';
+import '../../data/network/responses/project_response/project_response.dart';
+import '../models/presets.dart';
 
 /// CRUD
 abstract class ProjectRepository {

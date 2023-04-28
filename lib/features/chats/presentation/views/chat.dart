@@ -5,7 +5,7 @@ import 'package:pips/app/dep_injection.dart';
 import 'package:pips/common/domain/repository/repository.dart';
 import 'package:skeletons/skeletons.dart';
 
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/resources/sizes_manager.dart';
 import '../../../../common/resources/strings_manager.dart';
 import '../../../../constants/constants.dart';

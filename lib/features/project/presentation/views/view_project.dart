@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pips/app/dep_injection.dart';
 import 'package:pips/common/resources/sizes_manager.dart';
-import 'package:pips/data/requests/filter_project/filter_project_request.dart';
+import 'package:pips/features/dashboard/data/network/requests/filter_project/filterproject_request.dart';
 import 'package:pips/features/project/domain/models/full_project.dart';
 import 'package:pips/features/project/domain/usecase/project_usecase.dart';
 

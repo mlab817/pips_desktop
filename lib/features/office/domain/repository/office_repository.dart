@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../common/data/exceptions/error_handler.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/data/network/app_api.dart';
-import '../../../../common/exceptions/error_handler.dart';
-import '../../../../common/exceptions/failure.dart';
 import '../../../../data/requests/offices/get_offices_request.dart';
 import '../../../../data/responses/all_offices/all_offices_response.dart';
 import '../../../../data/responses/office_response/office_response.dart';

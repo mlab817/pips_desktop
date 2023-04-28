@@ -10,8 +10,8 @@ import '../../../app/dep_injection.dart';
 import '../../../common/resources/sizes_manager.dart';
 import '../../../common/resources/strings_manager.dart';
 import '../../../common/widgets/loading_overlay.dart';
-import '../../../data/requests/update_profile/update_profile_request.dart';
 import '../../authentication/domain/models/user/user.dart';
+import '../data/requests/updateprofile_request/updateprofile_request.dart';
 import '../domain/usecase/uploadavatar_usecase.dart';
 
 class UpdateProfileView extends StatefulWidget {

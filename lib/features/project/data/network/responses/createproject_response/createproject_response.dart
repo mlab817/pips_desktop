@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pips/features/project/domain/models/full_project.dart';
 
-part '../../../features/project/create_project/create_project_response.g.dart';
+part 'createproject_response.g.dart';
 
 @JsonSerializable()
 class CreateProjectResponse {

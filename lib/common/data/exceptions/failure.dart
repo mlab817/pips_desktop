@@ -1,4 +1,4 @@
-import '../../common/exceptions/error_handler.dart';
+import 'error_handler.dart';
 
 class Failure {
   int code;

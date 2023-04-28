@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../common/exceptions/error_handler.dart';
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/error_handler.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../data/requests/users/get_users_request.dart';
 import '../../data/network/chat_api.dart';
 import '../../data/responses/chat_room_response/chatroom_response.dart';

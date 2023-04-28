@@ -3,7 +3,7 @@ import 'package:pips/common/domain/usecase/base_usecase.dart';
 import 'package:pips/data/requests/users/get_users_request.dart';
 import 'package:pips/features/chats/domain/repository/chat_repository.dart';
 
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../data/responses/users_response/users_response.dart';
 
 /// Fetch a list of all users to show in the chat bottom sheet

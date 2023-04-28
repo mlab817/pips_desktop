@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pips/app/app.dart';
-import 'package:pips/app/dep_injection.dart';
-import 'package:pips/common/shared_prefs.dart';
 import 'package:pips/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 
 import 'common/resources/strings_manager.dart';
+import 'common/shared_prefs.dart';
 
 void main(List<String> args) async {
   // debugPaintSizeEnabled = true;
@@ -36,7 +35,7 @@ void main(List<String> args) async {
       [DeviceOrientation.portraitUp, DeviceOrientation.landscapeRight]);
 
   // initialize dependency injection
-  await initAppModule();
+  // await initAppModule();
 
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
@@ -46,7 +45,7 @@ void main(List<String> args) async {
       observers: [Logger()],
       overrides: [
         // override the previous value
-        sharedPreferencesProvider.overrideWithValue(sharedPreferences)
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],
       child: const MyApp(),
     ),

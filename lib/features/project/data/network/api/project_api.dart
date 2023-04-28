@@ -1,16 +1,21 @@
+import 'package:dio/dio.dart';
 import 'package:pips/app/config.dart';
 import 'package:retrofit/http.dart';
 
-import '../../../../../data/requests/project/full_project_request.dart';
+import '../../../../../data/requests/fullproject_request/fullproject_request.dart';
 import '../../../../../data/requests/projects/get_projects_request.dart';
 import '../../../../dashboard/data/network/responses/projects/projects_response.dart';
-import '../../../create_project/create_project_response.dart';
 import '../../../domain/models/presets.dart';
-import '../../../options/options_response.dart';
-import '../../../project/project_response.dart';
+import '../responses/createproject_response/createproject_response.dart';
+import '../responses/options_response/options_response.dart';
+import '../responses/project_response/project_response.dart';
+
+part 'project_api.g.dart';
 
 @RestApi(baseUrl: Config.baseApiUrl)
 abstract class ProjectApi {
+  factory ProjectApi(Dio dio, {String baseUrl}) = _ProjectApi;
+
   @GET("/projects")
   Future<ProjectsResponse> getProjects(@Queries() GetProjectsRequest input);
 

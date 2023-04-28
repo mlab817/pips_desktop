@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../resources/strings_manager.dart';
+import '../../resources/strings_manager.dart';
 import 'failure.dart';
 
 enum DataSource {

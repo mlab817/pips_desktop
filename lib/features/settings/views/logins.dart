@@ -8,8 +8,8 @@ import 'package:skeletons/skeletons.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../../../../../app/dep_injection.dart';
-import '../../../common/exceptions/failure.dart';
-import '../data/responses/logins/logins_response.dart';
+import '../../../common/data/exceptions/failure.dart';
+import '../data/responses/logins_response/logins_response.dart';
 
 class LoginsView extends StatefulWidget {
   const LoginsView({Key? key}) : super(key: key);

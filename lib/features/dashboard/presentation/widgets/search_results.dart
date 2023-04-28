@@ -6,7 +6,7 @@ import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../../../app/dep_injection.dart';
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/resources/sizes_manager.dart';
 import '../../../../routing/routing.dart';
 import '../../domain/models/project.dart';

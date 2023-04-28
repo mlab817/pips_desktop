@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'update_profile_request.dart';
+part of 'updateprofile_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:pips/constants/constants.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
 import '../models/chat_rooms/chat_rooms.dart';
 import '../repository/chat_repository.dart';
 

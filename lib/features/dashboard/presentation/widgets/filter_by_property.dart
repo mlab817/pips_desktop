@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pips/common/resources/sizes_manager.dart';
 import 'package:pips/common/resources/strings_manager.dart';
-import 'package:pips/data/requests/filter_project/filter_project_request.dart';
+import 'package:pips/features/dashboard/data/network/requests/filter_project/filterproject_request.dart';
 import 'package:pips/features/dashboard/domain/models/project.dart';
 
 import '../../../../app/dep_injection.dart';

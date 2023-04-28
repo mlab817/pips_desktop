@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../common/exceptions/error_handler.dart';
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/error_handler.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../network/auth_api.dart';
 import '../requests/login_request/login_request.dart';
 import '../responses/login_response/login_response.dart';

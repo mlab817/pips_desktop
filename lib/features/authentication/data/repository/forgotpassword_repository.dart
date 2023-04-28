@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:pips/common/exceptions/error_handler.dart';
+import 'package:pips/common/data/exceptions/error_handler.dart';
 import 'package:pips/features/authentication/data/network/auth_api.dart';
 
-import '../../../../common/exceptions/failure.dart';
+import '../../../../common/data/exceptions/failure.dart';
 import '../requests/forgotpassword_request/forgotpassword_request.dart';
 import '../responses/forgotpassword_response/forgotpassword_response.dart';
 

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'filter_project_request.g.dart';
+part 'filterproject_request.g.dart';
 
 @JsonSerializable()
 class FilterProjectRequest {

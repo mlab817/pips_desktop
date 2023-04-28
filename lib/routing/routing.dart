@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pips/app/dep_injection.dart';
-import 'package:pips/data/requests/filter_project/filter_project_request.dart';
 import 'package:pips/data/requests/projects/get_projects_request.dart';
 import 'package:pips/features/authentication/presentation/register/sign_up.dart';
+import 'package:pips/features/dashboard/data/network/requests/filter_project/filterproject_request.dart';
 import 'package:pips/features/dashboard/presentation/views/home.dart';
 import 'package:pips/features/office/presentation/views/office.dart';
 import 'package:pips/features/onboarding/onboarding.dart';

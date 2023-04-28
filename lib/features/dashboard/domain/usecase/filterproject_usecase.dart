@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:pips/data/requests/filter_project/filter_project_request.dart';
+import 'package:pips/features/dashboard/data/network/requests/filter_project/filterproject_request.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/repository/repository.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
-import '../../data/network/responses/filter_project/filter_project_response.dart';
+import '../../data/network/responses/filter_project/filterproject_response.dart';
 
 class FilterProjectUseCase
     implements

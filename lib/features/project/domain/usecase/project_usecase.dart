@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:pips/features/project/data/repository/project_repository.dart';
-import 'package:pips/features/project/project/project_response.dart';
+import 'package:pips/features/project/domain/repository/project_repository.dart';
 
+import '../../../../common/data/exceptions/failure.dart';
 import '../../../../common/domain/usecase/base_usecase.dart';
-import '../../../../common/exceptions/failure.dart';
+import '../../data/network/responses/project_response/project_response.dart';
 
 class ProjectUseCase
     extends BaseUseCase<String, Either<Failure, ProjectResponse>> {
