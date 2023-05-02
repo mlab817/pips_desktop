@@ -4,14 +4,15 @@ import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pips/app/app.dart';
+// import 'package:pips/app/app.dart';
 import 'package:pips/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 
+import 'app/app.dart';
+import 'common/data/providers/sharedprefs_provider.dart';
 import 'common/resources/strings_manager.dart';
-import 'common/shared_prefs.dart';
 
 void main(List<String> args) async {
   // debugPaintSizeEnabled = true;

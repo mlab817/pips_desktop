@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pips/common/shared_prefs.dart';
+import 'package:pips/common/data/providers/sharedprefs_provider.dart';
 import 'package:pips/data/data_source/local_data_source.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';

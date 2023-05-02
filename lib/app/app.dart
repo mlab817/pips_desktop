@@ -1,19 +1,14 @@
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pips/common/resources/theme_manager.dart';
-import 'package:pips/features/authentication/data/providers/auth_provider.dart';
-import 'package:pips/features/authentication/presentation/login/login.dart';
-import 'package:pips/features/settings/data/providers/theme_provider.dart';
-import 'package:pips/routing/routing.dart';
+import 'package:pips/features/main/main.dart';
 
 // import 'package:provider/provider.dart';
 
 import '../common/resources/strings_manager.dart';
-import '../features/main/main.dart';
+import '../features/authentication/data/providers/auth_provider.dart';
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -25,10 +20,8 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final customTheme = ref.watch(customThemeProvider);
-    final auth = ref.watch(authState);
-
-    debugPrint(auth.isLoggedIn.toString());
+    // final customTheme = ref.watch(customThemeProvider);
+    final auth = ref.watch(authStateProvider);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -44,13 +37,14 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
-      themeMode: customTheme.currentTheme,
+      // themeMode: customTheme.currentTheme,
       //Provider.of<CustomTheme>(context).currentTheme,
-      onGenerateRoute: kIsWeb || Platform.isMacOS || Platform.isWindows
-          ? RouteGenerator.onWebGenerateRoute
-          : RouteGenerator.onGenerateRoute,
-      initialRoute: Routes.splashRoute,
-      home: auth.isLoggedIn ? const MainView() : const LoginView(),
+      // onGenerateRoute: kIsWeb || Platform.isMacOS || Platform.isWindows
+      //     ? RouteGenerator.onWebGenerateRoute
+      //     : RouteGenerator.onGenerateRoute,
+      // initialRoute: Routes.splashRoute,
+      // home: auth.isLoggedIn ? const MainView() : const LoginView(),
+      home: const MainView(),
     );
   }
 }

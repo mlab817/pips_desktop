@@ -40,7 +40,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
           if (loggedInUser != null)
             {
               // if user is logged in, set it as current user
-              ref.read(authState.notifier).setCurrentUser(loggedInUser),
+              ref.read(authStateProvider.notifier).setCurrentUser(loggedInUser),
               // navigate to main screen
               Navigator.pushReplacementNamed(context, Routes.mainRoute)
             }

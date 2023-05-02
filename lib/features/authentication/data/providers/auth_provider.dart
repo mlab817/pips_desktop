@@ -25,5 +25,5 @@ class AuthState extends StateNotifier<AuthModel> {
   }
 }
 
-final authState =
+final authStateProvider =
     StateNotifierProvider<AuthState, AuthModel>((ref) => AuthState());

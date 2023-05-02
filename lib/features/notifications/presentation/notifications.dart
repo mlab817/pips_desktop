@@ -21,10 +21,10 @@ class NotificationsView extends StatefulWidget {
 // TODO: enable real-time notifications
 class _NotificationsViewState extends State<NotificationsView>
     with AutomaticKeepAliveClientMixin {
-  final NotificationsUseCase _notificationsUseCase =
-      instance<NotificationsUseCase>();
-  final ReadNotificationUseCase _readNotificationUseCase =
-      instance<ReadNotificationUseCase>();
+  // final NotificationsUseCase _notificationsUseCase =
+  //     instance<NotificationsUseCase>();
+  // final ReadNotificationUseCase _readNotificationUseCase =
+  //     instance<ReadNotificationUseCase>();
 
   late ScrollController _scrollController;
 
@@ -35,28 +35,28 @@ class _NotificationsViewState extends State<NotificationsView>
   int _lastPage = 1;
   String? _error;
 
-  Future<void> _getNotifications() async {
-    (await _notificationsUseCase
-            .execute(NotificationsRequest(perPage: 25, page: _currentPage)))
-        .fold((failure) {
-      setState(() {
-        _error = failure.message;
-        _loading = false;
-      });
-    }, (response) {
-      if (!mounted) return;
-
-      final data = response.data;
-
-      setState(() {
-        _error = null;
-        _notifications.addAll(data);
-        _currentPage++;
-        _lastPage = response.meta.pagination.last;
-        _loading = false;
-      });
-    });
-  }
+  // Future<void> _getNotifications() async {
+  //   (await _notificationsUseCase
+  //           .execute(NotificationsRequest(perPage: 25, page: _currentPage)))
+  //       .fold((failure) {
+  //     setState(() {
+  //       _error = failure.message;
+  //       _loading = false;
+  //     });
+  //   }, (response) {
+  //     if (!mounted) return;
+  //
+  //     final data = response.data;
+  //
+  //     setState(() {
+  //       _error = null;
+  //       _notifications.addAll(data);
+  //       _currentPage++;
+  //       _lastPage = response.meta.pagination.last;
+  //       _loading = false;
+  //     });
+  //   });
+  // }
 
   _MySearchDelegate? _delegate;
 
